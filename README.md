@@ -1,8 +1,19 @@
 # Puppet modules for managing Foreman
 
 Installs Foreman as a standalone application or using apache passenger.
+
 Installs Foreman Proxy
+
 May install an example puppet master setup using passenger as well, including the tweaks required for foreman.
+
+
+# Installation
+
+## Using GIT
+
+git clone --recursive git://github.com/theforeman/puppet-puppet.git
+
+## Direct download
 
 Since we are no longer using one repository for all sources, a single tarball is no longer provided.
 Download the source code for each module on its own:
@@ -14,6 +25,7 @@ Download the source code for each module on its own:
   * http://github.com/theforeman/puppet-puppet/tarball/master
   * http://github.com/theforeman/puppet-tftp/tarball/master
   * http://github.com/theforeman/puppet-xinetd/tarball/master
+
 
 # Requirements
 
@@ -56,9 +68,9 @@ if you want to install it all on one box
 
 # More info
 
-See http://theforeman.org or at #theforeman irc channel
+See http://theforeman.org or at #theforeman irc channel on freenode
 
-Copyright (c) 2010-2011 Ohad Levy
+Copyright (c) 2010-2012 Ohad Levy
 
 This program and entire repository is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
