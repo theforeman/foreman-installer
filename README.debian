@@ -1,0 +1,49 @@
+# Puppet modules for managing Foreman
+# Specific notes for installing on the Debian
+
+The support for Debian in this module is quite new, and may break unexpectedly. Below
+is a list of gotchas that will be needed to work with this module
+
+# Limitations
+
+At present, this will install foreman with sqlite3 support. Using a different database
+is left as a post-install task exercise for the reader.
+
+# Setup
+
+In addition to reviewing the variables, make sure your puppet certificate exists. If
+you have ever run puppet before, this will be fine, but if this is a fresh install,
+run (as root)
+
+    puppet master -v --no-daemonize
+
+and then Ctrl-C to kill it once the cert has been generated.
+
+# Post install
+
+Presently there is a bug in which Foreman will use the development database, not the
+production one. This is being looked into, however, for now, configure the correct credentials
+in the 'development' section of the database settings
+
+# Contributing
+
+* Fork the project
+* Commit and push until you are happy with your contribution
+
+# More info
+
+See http://theforeman.org or at #theforeman irc channel
+
+Copyright (c) 2010-2011 Ohad Levy
+
+This program and entire repository is free software: you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation, either version 3 of the License, or
+any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+You should have received a copy of the GNU General Public License
+along with this program.  If not, see <http://www.gnu.org/licenses/>.
