@@ -4,7 +4,16 @@ Installs Foreman as a standalone application or using apache passenger.
 Installs Foreman Proxy
 May install an example puppet master setup using passenger as well, including the tweaks required for foreman.
 
-download the source code from <http://github.com/ohadlevy/puppet-foreman/tarball/master>
+Since we are no longer using one repository for all sources, a single tarball is no longer provided.
+Download the source code for each module on its own:
+
+  * http://github.com/theforeman/puppet-apache/tarball/master
+  * http://github.com/theforeman/puppet-foreman/tarball/master
+  * http://github.com/theforeman/puppet-foreman_proxy/tarball/master
+  * http://github.com/theforeman/puppet-passenger/tarball/master
+  * http://github.com/theforeman/puppet-puppet/tarball/master
+  * http://github.com/theforeman/puppet-tftp/tarball/master
+  * http://github.com/theforeman/puppet-xinetd/tarball/master
 
 # Requirements
 
@@ -34,7 +43,10 @@ if you want to install it all on one box
 
     export MODULE_PATH="/etc/puppet/modules/common"
     mkdir -p $MODULE_PATH
-    wget http://github.com/ohadlevy/puppet-foreman/tarball/master -O - |tar xzvf - -C $MODULE_PATH --strip-components=1
+    for mod in apache foreman foreman_proxy passenger puppet tftp xinetd; do
+      mkdir -p $MODULE_PATH/$mod
+      wget http://github.com/theforeman/puppet-$mod/tarball/master -O - | tar xzvf - -C $MODULE_PATH/$mod --strip-components=1
+    done;
     echo include puppet, puppet::server, foreman, foreman_proxy | puppet --modulepath $MODULE_PATH
 
 # Contributing
