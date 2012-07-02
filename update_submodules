@@ -1,0 +1,8 @@
+#! /bin/bash
+#
+#  Simple script which updates all git submodules
+
+MODULES=`ls -d */`
+for dir in $MODULES; do
+    cd $dir && git pull origin master ; cd ..
+done;
