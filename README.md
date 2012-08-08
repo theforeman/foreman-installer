@@ -41,11 +41,11 @@ Standalone installation:
 
 to install foreman:
 
-    echo include foreman | puppet --modulepath /path_to/extracted_tarball
+    echo include foreman | puppet apply --modulepath /path_to/extracted_tarball
 
 to install both foreman and its proxy:
 
-    echo include foreman, foreman_proxy | puppet --modulepath /path_to/extracted_tarball
+    echo include foreman, foreman_proxy | puppet apply --modulepath /path_to/extracted_tarball
 
 if you just want to include the relavant bits to run on your puppet master you may
 
@@ -59,7 +59,7 @@ if you want to install it all on one box
       mkdir -p $MODULE_PATH/$mod
       wget http://github.com/theforeman/puppet-$mod/tarball/master -O - | tar xzvf - -C $MODULE_PATH/$mod --strip-components=1
     done;
-    echo include puppet, puppet::server, foreman, foreman_proxy | puppet --modulepath $MODULE_PATH
+    echo include puppet, puppet::server, foreman, foreman_proxy | puppet apply --modulepath $MODULE_PATH
 
 # Contributing
 
