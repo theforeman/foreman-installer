@@ -22,3 +22,12 @@
 [submodule "git"]
 	path = git
 	url = git://github.com/theforeman/puppet-git.git
+[submodule "dhcp"]
+	path = dhcp
+	url = git://github.com/theforeman/puppet-dhcp
+[submodule "dns"]
+	path = dns
+	url = git://github.com/theforeman/puppet-dns
+[submodule "concat"]
+	path = concat
+	url = git://github.com/theforeman/puppet-concat
