@@ -1,33 +1,33 @@
 [submodule "tftp"]
 	path = tftp
-	url = git://github.com/theforeman/puppet-tftp.git
+	url = https://github.com/theforeman/puppet-tftp.git
 [submodule "apache"]
 	path = apache
-	url = git://github.com/theforeman/puppet-apache.git
+	url = https://github.com/theforeman/puppet-apache.git
 [submodule "foreman"]
 	path = foreman
-	url = git://github.com/theforeman/puppet-foreman.git
+	url = https://github.com/theforeman/puppet-foreman.git
 [submodule "foreman_proxy"]
 	path = foreman_proxy
-	url = git://github.com/theforeman/puppet-foreman_proxy.git
+	url = https://github.com/theforeman/puppet-foreman_proxy.git
 [submodule "passenger"]
 	path = passenger
-	url = git://github.com/theforeman/puppet-passenger.git
+	url = https://github.com/theforeman/puppet-passenger.git
 [submodule "puppet"]
 	path = puppet
-	url = git://github.com/theforeman/puppet-puppet.git
+	url = https://github.com/theforeman/puppet-puppet.git
 [submodule "xinetd"]
 	path = xinetd
-	url = git://github.com/theforeman/puppet-xinetd.git
+	url = https://github.com/theforeman/puppet-xinetd.git
 [submodule "git"]
 	path = git
-	url = git://github.com/theforeman/puppet-git.git
+	url = https://github.com/theforeman/puppet-git.git
 [submodule "dhcp"]
 	path = dhcp
-	url = git://github.com/theforeman/puppet-dhcp
+	url = https://github.com/theforeman/puppet-dhcp
 [submodule "dns"]
 	path = dns
-	url = git://github.com/theforeman/puppet-dns
+	url = https://github.com/theforeman/puppet-dns
 [submodule "concat"]
 	path = concat
-	url = git://github.com/theforeman/puppet-concat
+	url = https://github.com/theforeman/puppet-concat
