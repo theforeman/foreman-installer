@@ -7,7 +7,8 @@ is a list of gotchas that will be needed to work with this module
 # Limitations
 
 At present, this will install foreman with sqlite3 support. Using a different database
-is left as a post-install task exercise for the reader.
+is left as a post-install task exercise for the reader. This is normally simply installing
+foreman-<dbtype> as a package and altering database.yml
 
 # Setup
 
@@ -18,12 +19,6 @@ run (as root)
     puppet master -v --no-daemonize
 
 and then Ctrl-C to kill it once the cert has been generated.
-
-# Post install
-
-Presently there is a bug in which Foreman will use the development database, not the
-production one. This is being looked into, however, for now, configure the correct credentials
-in the 'development' section of the database settings
 
 # Contributing
 
