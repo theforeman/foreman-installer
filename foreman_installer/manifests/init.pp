@@ -1,11 +1,16 @@
 # This class is called from the foreman install script (or Vagrantfile)
-# and expects a yaml file to exist in either $modulepath/foreman-installer.yaml
-# or /etc/foreman-installer.yaml
+# and expects a yaml file to exist at either:
+#   optional $answers class parameter
+#   $modulepath/foreman_installer/answers.yaml
+#   /etc/foreman_installer/answers.yaml
 #
-class foreman_installer {
+class foreman_installer(
+  $answers = undef
+) {
 
-  $params=loadyaml('/etc/foreman_installer/answers.yaml',
-                  "${settings::modulepath}/foreman_installer/answers.yaml")
+  $params=loadyaml($answers,
+                   "/etc/foreman-installer/answers.yaml",
+                   "${settings::modulepath}/${module_name}/answers.yaml")
 
   foreman_installer::yaml_to_class { ['foreman', 'foreman_proxy', 'puppet']: }
 
