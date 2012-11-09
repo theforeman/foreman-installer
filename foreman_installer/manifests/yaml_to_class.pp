@@ -1,7 +1,8 @@
 # Takes a key to lookup in the installation answers file
 # - If it's a hash, declare a class with those parameters
 # - If it's true or "true" declare the default parameters for that class
-# - Otherwise ignore it
+# - If it's false or "false" ignore it
+# - Otherwise fail with error
 #
 define foreman_installer::yaml_to_class (
   $classname = ''
@@ -18,6 +19,10 @@ define foreman_installer::yaml_to_class (
     create_resources( 'class', { "${realname}" => $foreman_installer::params[$name] } )
   } elsif $foreman_installer::params[$name] == true {
     create_resources( 'class', { "${realname}" => {} } )
+  } elsif ! $foreman_installer::params[$name] or $foreman_installer::params[$name] == "false" {
+    debug("${::hostname}: not including $name")
+  } else {
+    fail("${::hostname}: unknown type of answers data for $name")
   }
 
 }
