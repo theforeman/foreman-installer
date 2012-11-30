@@ -8,9 +8,9 @@ class foreman_installer(
   $answers = undef
 ) {
 
-  $params=loadyaml($answers,
-                   "/etc/foreman-installer/answers.yaml",
-                   "${settings::modulepath}/${module_name}/answers.yaml")
+  $params=loadanyyaml($answers,
+                      "/etc/foreman-installer/answers.yaml",
+                      "${settings::modulepath}/${module_name}/answers.yaml")
 
   foreman_installer::yaml_to_class { ['foreman', 'foreman_proxy', 'puppet']: }
 
