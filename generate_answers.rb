@@ -1,7 +1,10 @@
 #!/usr/bin/ruby
 
+require 'rubygems'
 require 'yaml'
-require "highline/import"
+require 'highline/import'
+
+$terminal = $terminal || Highline.new
 
 # Bonus, per-module, questions defined up top where they're easy to find :)
 
