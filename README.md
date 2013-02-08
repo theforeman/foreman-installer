@@ -11,7 +11,7 @@ May install an example puppet master setup using passenger as well, including th
 
 ## Using GIT
 
-git clone --recursive git://github.com/theforeman/foreman-installer.git -b develop
+git clone --recursive git://github.com/theforeman/foreman-installer.git
 
 ## Direct download
 
