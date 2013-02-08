@@ -1,0 +1,12 @@
+# Format:
+# <classname>: false - don't include this class
+# <classname>: true - include and use the defaults
+# <classname>:
+#   <param>: <value> - include and override the default(s)
+#
+# See params.pp in each class for what options are available
+---
+foreman: true
+puppet: true
+puppetmaster: true
+foreman_proxy: true
