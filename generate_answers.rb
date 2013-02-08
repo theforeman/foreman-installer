@@ -78,10 +78,19 @@ $output = {
 
 # helper methods
 
-def save_and_exit
+def save_or_run_and_exit
+  if agree("\n<%= color('Do you want to run Puppet now with these settings?', :question) %> (y/n)", false)
+    system("echo include foreman_installer | sudo puppet apply --modulepath . -v")
+    parting_message
+  else
+    parting_message
+  end
+end
+
+def parting_message
   File.open($outfile, 'w') {|f| f.write(YAML.dump($output)) }
-  say("\nOkay, you're all set! Check <%= color('#{$outfile}', :cyan) %> for your config")
-  say("If you're happy, you can apply it with:")
+  say("\n Okay, you're all set! Check <%= color('#{$outfile}', :cyan) %> for your config.")
+  say("\n You can apply it in the future with:")
   say("  echo include foreman_installer | puppet apply --modulepath . -v")
   exit 0
 end
@@ -152,7 +161,7 @@ exit 0 unless agree("\n<%= color('Ready to start?', :question) %> (y/n)",false)
 # Start with the basics
 
 if agree("\n<%= color('Do you want to use the default all-in-one setup?', :question) %>\nThis will configure Foreman, Foreman-Proxy, Puppet (including a puppetmaster), several puppet environments, TFTP (for provisioning) and sudo (for puppet certificate management) (y/n)",false)
-  save_and_exit
+  save_or_run_and_exit
 end
 
 while true do
@@ -164,7 +173,7 @@ while true do
       menu.choice "Configure #{name.capitalize} settings" do configure_module name end
     end
     menu.choice "Display current config" do display_hash end
-    menu.choice "Save and Exit" do save_and_exit end
+    menu.choice "Save and Exit" do save_or_run_and_exit end
     menu.choice "Exit without Saving" do say("Bye!") ; exit 0 end
   end
 end
