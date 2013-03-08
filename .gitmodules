@@ -30,4 +30,4 @@
 	url = https://github.com/theforeman/puppet-dns
 [submodule "concat"]
 	path = concat
-	url = https://github.com/theforeman/puppet-concat
+	url = https://github.com/onyxpoint/pupmod-concat.git
