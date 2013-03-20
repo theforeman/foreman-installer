@@ -118,9 +118,10 @@ If you just want to include the relavant bits to run on your puppet master you m
 
 See http://theforeman.org or at #theforeman irc channel on freenode
 
-Copyright (c) 2010-2012 Ohad Levy
+Copyright (c) 2010-2012 Ohad Levy and their respective owners
 
-This program and entire repository is free software: you can redistribute it and/or modify
+Except where specified in provided modules, this program and entire
+repository is free software: you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
 the Free Software Foundation, either version 3 of the License, or
 any later version.

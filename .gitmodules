@@ -28,6 +28,18 @@
 [submodule "dns"]
 	path = dns
 	url = https://github.com/theforeman/puppet-dns
+[submodule "concat_native"]
+	path = concat_native
+	url = https://github.com/onyxpoint/pupmod-concat.git
+[submodule "mysql"]
+	path = mysql
+	url = https://github.com/puppetlabs/puppetlabs-mysql.git
+[submodule "postgresql"]
+	path = postgresql
+	url = https://github.com/puppetlabs/puppet-postgresql.git
+[submodule "stdlib"]
+	path = stdlib
+	url = https://github.com/puppetlabs/puppetlabs-stdlib.git
 [submodule "concat"]
 	path = concat
-	url = https://github.com/onyxpoint/pupmod-concat.git
+	url = https://github.com/ripienaar/puppet-concat.git
