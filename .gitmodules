@@ -18,7 +18,7 @@
 	url = https://github.com/theforeman/puppet-puppet.git
 [submodule "xinetd"]
 	path = xinetd
-	url = https://github.com/theforeman/puppet-xinetd.git
+	url = https://github.com/puppetlabs/puppetlabs-xinetd.git
 [submodule "git"]
 	path = git
 	url = https://github.com/theforeman/puppet-git.git
