@@ -16,7 +16,11 @@ def foreman_questions
     => 'menu_helper("agree", "foreman", "passenger")',
     # This is a non-boolean example. Note we can't do validations easily here...
     "Should Foreman be installed from the stable,rc, or nightly repo? (default: stable) " \
-    => 'menu_helper("string", "foreman_proxy", "repo")',
+    => 'menu_helper("string", "foreman", "repo")',
+    "Should the database be installed and configured for Foreman? (default: true) " \
+    => 'menu_helper("agree", "foreman", "db_manage")',
+    "Which database should be used for Foreman: postgresql (default), mysql or sqlite? " \
+    => 'menu_helper("string", "foreman_proxy", "db_type")',
   }
 end
 
