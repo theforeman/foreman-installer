@@ -79,6 +79,7 @@ $output = {
 # helper methods
 
 def save_or_run_and_exit
+  File.open($outfile, 'w') {|f| f.write(YAML.dump($output)) }
   # If the foreman_installer module exists then just use it. Otherwise, ask.
   $modulepath = File.exists?("#{File.dirname(__FILE__)}/foreman_installer") ? File.dirname(__FILE__) : ask("<%= color('Where are the installer Puppet modules?', :question) %>")
   if Process::UID.eid == 0 && agree("\n<%= color('Do you want to run Puppet now with these settings?', :question) %> (y/n)", false)
@@ -90,7 +91,6 @@ def save_or_run_and_exit
 end
 
 def parting_message
-  File.open($outfile, 'w') {|f| f.write(YAML.dump($output)) }
   say("\n Okay, you're all set! Check <%= color('#{$outfile}', :cyan) %> for your config.")
   say("\n You can apply it in the future as root with:")
   say("  echo include foreman_installer | puppet apply --modulepath #{$modulepath} -v")
