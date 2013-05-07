@@ -17,10 +17,10 @@ define foreman_installer::yaml_to_class (
   if is_hash($foreman_installer::params[$name]) {
     # The quotes around $realname seem to matter to puppet's parser...
     $params = { "${realname}" => $foreman_installer::params[$name] }
-    foreman_create_resources( 'class', $params )
+    create_resources( 'class', $params )
   } elsif $foreman_installer::params[$name] == true {
     $params = { "${realname}" => {} }
-    foreman_create_resources( 'class', $params )
+    create_resources( 'class', $params )
   } elsif ! $foreman_installer::params[$name] or $foreman_installer::params[$name] == "false" {
     debug("${::hostname}: not including $name")
   } else {
