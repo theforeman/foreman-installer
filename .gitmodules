@@ -43,3 +43,6 @@
 [submodule "concat"]
 	path = concat
 	url = https://github.com/ripienaar/puppet-concat.git
+[submodule "create_resources"]
+	path = create_resources
+	url = https://github.com/puppetlabs/puppetlabs-create_resources.git
