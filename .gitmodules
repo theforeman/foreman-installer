@@ -30,7 +30,7 @@
 	url = https://github.com/theforeman/puppet-dns
 [submodule "concat_native"]
 	path = concat_native
-	url = https://github.com/onyxpoint/pupmod-concat.git
+	url = https://github.com/theforeman/puppet-concat.git
 [submodule "mysql"]
 	path = mysql
 	url = https://github.com/puppetlabs/puppetlabs-mysql.git
