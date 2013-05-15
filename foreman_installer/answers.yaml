@@ -10,3 +10,5 @@ foreman: true
 puppet: true
 puppetmaster: true
 foreman_proxy: true
+puppetdb: false
+puppetdb::master::config: false

@@ -12,7 +12,7 @@ class foreman_installer(
                       "/etc/foreman-installer/answers.yaml",
                       "${settings::modulepath}/${module_name}/answers.yaml")
 
-  foreman_installer::yaml_to_class { ['foreman', 'foreman_proxy', 'puppet']: }
+  foreman_installer::yaml_to_class { ['foreman', 'foreman_proxy', 'puppet', 'puppetdb', 'puppetdb::master::config']: }
 
   # Keep a more user-friendly name in the answers file
   foreman_installer::yaml_to_class { 'puppetmaster': classname => 'puppet::server' }

@@ -46,3 +46,9 @@
 [submodule "create_resources"]
 	path = create_resources
 	url = https://github.com/puppetlabs/puppetlabs-create_resources.git
+[submodule "puppetdb"]
+	path = puppetdb
+	url = git://github.com/puppetlabs/puppetlabs-puppetdb.git
+[submodule "inifile"]
+	path = inifile
+	url = git://github.com/cprice-puppet/puppetlabs-inifile.git
