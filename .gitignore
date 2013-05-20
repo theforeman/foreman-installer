@@ -1,0 +1,21 @@
+## MAC OS
+.DS_Store
+
+## TEXTMATE
+*.tmproj
+tmtags
+
+## EMACS
+*~
+\#*
+.\#*
+
+## VIM
+*.swp
+tags
+
+pkg/
+foreman_installer/pkg/
+foreman_installer/generate_answers.rb
+foreman_installer/LICENSE
+foreman_installer/README.md
