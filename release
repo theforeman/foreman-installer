@@ -1,0 +1,23 @@
+#!/bin/bash
+#
+# simple script to create a release without tito
+# it works in-place, so take care!
+#
+
+[ -z "$1" ] && echo "Usage: release version_tag" && exit 42
+
+PROJECT=foreman-installer
+VERSION=$1
+
+git describe $VERSION >/dev/null || echo "WARNING! There is no such tag: $VERSION!"
+
+TEMPDIR=$(mktemp -d)
+trap "rm -rf $TEMPDIR" EXIT
+mkdir $TEMPDIR/$PROJECT-$VERSION
+cp -Rad . $TEMPDIR/$PROJECT-$VERSION
+pushd $TEMPDIR
+rm -rf `find -name ".git*"`
+tar c $PROJECT-$VERSION | gzip -9 > ~/rpmbuild/SOURCES/$PROJECT-$VERSION.tar.gz
+cd $PROJECT-$VERSION
+rpmbuild -bs $PROJECT.spec
+popd
