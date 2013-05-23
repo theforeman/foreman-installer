@@ -4,6 +4,7 @@ require 'rubygems'
 require 'yaml'
 require 'highline/import'
 
+$workdir = File.dirname( File.symlink?(__FILE__) ? File.readlink(__FILE__) : __FILE__ )
 $terminal = $terminal || Highline.new
 
 # Bonus, per-module, questions defined up top where they're easy to find :)
@@ -72,7 +73,7 @@ $terminal.page_at = data.last
 
 # default output
 
-$outfile = "#{File.dirname(__FILE__)}/foreman_installer/answers.yaml"
+$outfile = "#{$workdir}/foreman_installer/answers.yaml"
 $output = {
   "foreman" => true,
   "foreman_proxy" => true,
@@ -85,7 +86,7 @@ $output = {
 def save_or_run_and_exit
   File.open($outfile, 'w') {|f| f.write(YAML.dump($output)) }
   # If the foreman_installer module exists then just use it. Otherwise, ask.
-  $modulepath = File.exists?("#{File.dirname(__FILE__)}/foreman_installer") ? File.dirname(__FILE__) : ask("<%= color('Where are the installer Puppet modules?', :question) %>")
+  $modulepath = File.exists?("#{$workdir}/foreman_installer") ? $workdir : ask("<%= color('Where are the installer Puppet modules?', :question) %>")
   if Process::UID.eid == 0 && agree("\n<%= color('Do you want to run Puppet now with these settings?', :question) %> (y/n)", false)
     system("echo include foreman_installer | puppet apply --modulepath #{$modulepath} -v")
     parting_message
