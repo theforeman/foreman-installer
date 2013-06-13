@@ -21,7 +21,7 @@ def foreman_questions
     "Should the database be installed and configured for Foreman? (default: true) " \
     => 'menu_helper("agree", "foreman", "db_manage")',
     "Which database should be used for Foreman: postgresql (default), mysql or sqlite? " \
-    => 'menu_helper("string", "foreman_proxy", "db_type")',
+    => 'menu_helper("string", "foreman", "db_type")',
   }
 end
 
