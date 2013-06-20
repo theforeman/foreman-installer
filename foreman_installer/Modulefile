@@ -1,5 +1,5 @@
 name    'theforeman-foreman_installer'
-version '1.2.0-rc2'
+version '1.2.0-rc3'
 source 'git://github.com/theforeman/foreman-installer'
 author 'theforeman'
 license 'GPLv3+'
@@ -7,8 +7,8 @@ summary 'Complete Foreman server configuration'
 description 'Module for configuring Foreman and related services'
 project_page 'http://github.com/theforeman/foreman-installer'
 
-dependency 'theforeman/foreman', '>= 1.2.0-rc2'
-dependency 'theforeman/foreman_proxy', '>= 1.2.0-rc2'
+dependency 'theforeman/foreman', '>= 1.2.0-rc3'
+dependency 'theforeman/foreman_proxy', '>= 1.2.0-rc3'
 
 # Doesn't exist on the Forge
 #dependency 'puppetlabs/create_resources'
