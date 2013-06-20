@@ -10,14 +10,14 @@
 %endif
 
 # set and uncomment all three to set alpha tag
-%global alphatag RC2
+%global alphatag RC3
 %global dotalphatag .%{alphatag}
 %global dashalphatag -%{alphatag}
 
 Name:       foreman-installer
 Epoch:      1
 Version:    1.2.0
-Release:    0.2%{?dotalphatag}%{?dist}
+Release:    0.3%{?dotalphatag}%{?dist}
 Summary:    Puppet-based installer for The Foreman
 Group:      Applications/System
 License:    GPLv3+ and ASL 2.0
@@ -73,5 +73,9 @@ cp -dpR * %{buildroot}/%{_datadir}/%{name}
 %endif
 
 %changelog
+* Thu Jun 20 2013 Dominic Cleal <dcleal@redhat.com> - 1:1.2.0-0.3.RC3
+- Release 1.2.0-RC3
+
 * Fri Jun 07 2013 Dominic Cleal <dcleal@redhat.com> - 1:1.2.0-0.2.RC2
+- Release 1.2.0-RC2
 - initial version (Lukas Zapletal)
