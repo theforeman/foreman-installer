@@ -88,8 +88,12 @@ def save_or_run_and_exit
   # If the foreman_installer module exists then just use it. Otherwise, ask.
   $modulepath = File.exists?("#{$workdir}/foreman_installer") ? $workdir : ask("<%= color('Where are the installer Puppet modules?', :question) %>")
   if Process::UID.eid == 0 && agree("\n<%= color('Do you want to run Puppet now with these settings?', :question) %> (y/n)", false)
-    system("echo include foreman_installer | puppet apply --modulepath #{$modulepath} -v")
-    parting_message
+    system("echo include foreman_installer | puppet apply --detailed-exitcodes --modulepath #{$modulepath} -v")
+    if [1,4,6].include? $?.exitstatus
+      parting_error
+    else
+      parting_message
+    end
   else
     parting_message
   end
@@ -100,6 +104,14 @@ def parting_message
   say("\n You can apply it in the future as root with:")
   say("  echo include foreman_installer | puppet apply --modulepath #{$modulepath} -v")
   exit 0
+end
+
+def parting_error
+  say("\n <%= color('There was an error!', :red) %>")
+  say("\n Check the puppet error messages above, and <%= color('#{$outfile}', :cyan) %> for your config.")
+  say("\n Once you have fixed the problem, you can re-run it in the future as root with:")
+  say("  echo include foreman_installer | puppet apply --modulepath #{$modulepath} -v")
+  exit 1
 end
 
 def display_hash modulename = nil
