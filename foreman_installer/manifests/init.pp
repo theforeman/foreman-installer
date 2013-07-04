@@ -8,6 +8,10 @@ class foreman_installer(
   $answers = undef
 ) {
 
+  if empty($::fqdn) {
+    fail ("An FQDN is required for Foreman to install cleanly. Please ensure 'facter fqdn' returns the correct value before running this installer")
+  }
+
   $params=loadanyyaml($answers,
                       "/etc/foreman-installer/answers.yaml",
                       "${settings::modulepath}/${module_name}/answers.yaml")
