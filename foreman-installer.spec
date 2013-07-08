@@ -17,7 +17,7 @@
 Name:       foreman-installer
 Epoch:      1
 Version:    1.2.9999
-Release:    1%{?dotalphatag}%{?dist}
+Release:    2%{?dotalphatag}%{?dist}
 Summary:    Puppet-based installer for The Foreman
 Group:      Applications/System
 License:    GPLv3+ and ASL 2.0
@@ -31,6 +31,7 @@ BuildRoot:  %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 BuildArch:  noarch
 
 Requires:   %{?scl_prefix}puppet >= 0.24.4
+Requires:   %{?scl_prefix}rubygem-foreman_api
 
 %if %{?skip_generator:0}%{!?skip_generator:1}
 Requires:   %{?scl_prefix}ruby(abi)
@@ -73,5 +74,8 @@ cp -dpR * %{buildroot}/%{_datadir}/%{name}
 %endif
 
 %changelog
+* Mon Jul 22 2013 Lukas Zapletal <lzap+rpm[@]redhat.com> - 1.2.9999-2
+- adding foreman_api as a dependency
+
 * Wed May 23 2013 Lukas Zapletal <lzap+rpm[@]redhat.com> - 1.2.9999-1
 - initial version
