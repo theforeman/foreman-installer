@@ -33,7 +33,11 @@ BuildArch:  noarch
 Requires:   %{?scl_prefix}puppet >= 0.24.4
 
 %if %{?skip_generator:0}%{!?skip_generator:1}
+%if 0%{?fedora} > 18
+Requires:   %{?scl_prefix}ruby(release)
+%else
 Requires:   %{?scl_prefix}ruby(abi)
+%endif
 Requires:   %{?scl_prefix}rubygem-highline
 %endif
 
