@@ -16,7 +16,7 @@
 
 Name:       foreman-installer
 Epoch:      1
-Version:    1.2.0
+Version:    1.2.1
 Release:    1%{?dotalphatag}%{?dist}
 Summary:    Puppet-based installer for The Foreman
 Group:      Applications/System
@@ -73,6 +73,9 @@ cp -dpR * %{buildroot}/%{_datadir}/%{name}
 %endif
 
 %changelog
+* Mon Jul 29 2013 Dominic Cleal <dcleal@redhat.com> - 1:1.2.1-1
+- Release 1.2.1
+
 * Mon Jul 01 2013 Dominic Cleal <dcleal@redhat.com> - 1:1.2.0-1
 - Release 1.2.0
 
