@@ -31,7 +31,7 @@ BuildRoot:  %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 BuildArch:  noarch
 
 Requires:   %{?scl_prefix}puppet >= 0.24.4
-Requires:   %{?scl_prefix}rubygem-foreman_api
+Requires:   %{?scl_prefix}rubygem-foreman_api >= 0.1.4
 
 %if %{?skip_generator:0}%{!?skip_generator:1}
 %if 0%{?fedora} > 18
