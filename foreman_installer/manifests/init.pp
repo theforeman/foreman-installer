@@ -18,7 +18,4 @@ class foreman_installer(
 
   foreman_installer::yaml_to_class { ['foreman', 'foreman_proxy', 'puppet']: }
 
-  # Keep a more user-friendly name in the answers file
-  foreman_installer::yaml_to_class { 'puppetmaster': classname => 'puppet::server' }
-
 }
