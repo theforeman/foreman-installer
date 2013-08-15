@@ -44,15 +44,12 @@ end
 
 def puppet_questions
   {
-  }
-end
-
-def puppetmaster_questions
-  {
+    "Should a Puppetmaster be installed on this host? (default: true) " \
+    => 'menu_helper("agree", "puppet", "server")',
     "Should Puppetmaster use Git for dynamic environments? (default: false) " \
-    => 'menu_helper("agree", "puppetmaster", "git_repo")',
+    => 'menu_helper("agree", "puppet", "server_git_repo")',
     "Should Puppetmaster run under apache & passenger? (default: true) " \
-    => 'menu_helper("agree", "puppetmaster", "passenger")',
+    => 'menu_helper("agree", "puppet", "server_passenger")',
   }
 end
 
@@ -77,8 +74,7 @@ $outfile = "#{$workdir}/foreman_installer/answers.yaml"
 $output = {
   "foreman" => true,
   "foreman_proxy" => true,
-  "puppet" => true,
-  "puppetmaster" => true,
+  "puppet" => { "server" => true },
 }
 
 # helper methods
@@ -143,7 +139,13 @@ def configure_module modulename
       say("\n<%= color('#{modulename.capitalize} Config Menu', :headline) %>")
       menu.prompt = "Choose an option from the menu... "
 
-      menu.choice "Enable #{modulename} with all defaults" do $output[modulename] = true end
+      menu.choice "Enable #{modulename} with all defaults" do
+        if modulename == 'puppet'
+          $output[modulename] = { 'server' => true }
+        else
+          $output[modulename] = true
+        end
+      end
       menu.choice "Disable #{modulename} completely" do $output[modulename] = false end
       eval("#{modulename}_questions").each do |question, code|
         menu.choice question do eval(code) end
@@ -188,7 +190,7 @@ while true do
   choose do |menu|
     menu.prompt = 'Choose an option from the menu... '
 
-    ["foreman","foreman_proxy","puppet","puppetmaster"].each do |name|
+    ["foreman","foreman_proxy","puppet"].each do |name|
       menu.choice "Configure #{name.capitalize} settings" do configure_module name end
     end
     menu.choice "Display current config" do display_hash end

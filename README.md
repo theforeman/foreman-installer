@@ -32,7 +32,7 @@ than are available in base OS repos.
 # Setup
 
 Please review the "answers" or setup file: foreman_installer/answers.yaml. This file allows
-you to override any of the default parameters (as specified in <module>/manifests/params.pp
+you to override any of the default parameters (as specified in <module>/manifests/params.pp)
 
 Once you have created your answer file, install it with this command:
 
@@ -49,8 +49,8 @@ All-in-one installation:
 
     ---
     foreman: true
-    puppet: true
-    puppetmaster: true
+    puppet:
+      server: true
     foreman_proxy: true
 
 Just Foreman on it's own:
@@ -58,7 +58,6 @@ Just Foreman on it's own:
     ---
     foreman: true
     puppet: false
-    puppetmaster: false
     foreman_proxy: false
 
 Foreman and Foreman-Proxy:
@@ -66,16 +65,15 @@ Foreman and Foreman-Proxy:
     ---
     foreman: true
     puppet: false
-    puppetmaster: false
     foreman_proxy: true
 
 Puppetmaster with Git and Proxy:
 
     ---
     foreman: false
-    puppet: true
-    puppetmaster:
-      git_repo: true
+    puppet:
+      server: true
+      server_git_repo: true
     foreman_proxy: true
 
 Foreman & proxy with a different username:
@@ -84,7 +82,6 @@ Foreman & proxy with a different username:
     foreman:
       user: 'myforeman'
     puppet: false
-    puppetmaster: false
     foreman_proxy:
       user: 'myproxy'
 
