@@ -1,0 +1,6 @@
+#!/usr/bin/env ruby
+require 'rubygems'
+require 'kafo'
+
+CONFIG_FILE = "config/foreman-installer.yaml"
+KafoConfigure.run

@@ -14,6 +14,9 @@ tmtags
 *.swp
 tags
 
+## RUBYMINE
+.idea
+
 pkg/
 foreman_installer/pkg/
 foreman_installer/generate_answers.rb

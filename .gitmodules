@@ -1,48 +1,48 @@
 [submodule "tftp"]
-	path = tftp
+	path = modules/tftp
 	url = https://github.com/theforeman/puppet-tftp.git
 [submodule "apache"]
-	path = apache
+	path = modules/apache
 	url = https://github.com/theforeman/puppet-apache.git
 [submodule "foreman"]
-	path = foreman
+	path = modules/foreman
 	url = https://github.com/theforeman/puppet-foreman.git
 [submodule "foreman_proxy"]
-	path = foreman_proxy
+	path = modules/foreman_proxy
 	url = https://github.com/theforeman/puppet-foreman_proxy.git
 [submodule "passenger"]
-	path = passenger
+	path = modules/passenger
 	url = https://github.com/theforeman/puppet-passenger.git
 [submodule "puppet"]
-	path = puppet
+	path = modules/puppet
 	url = https://github.com/theforeman/puppet-puppet.git
 [submodule "xinetd"]
-	path = xinetd
+	path = modules/xinetd
 	url = https://github.com/puppetlabs/puppetlabs-xinetd.git
 [submodule "git"]
-	path = git
+	path = modules/git
 	url = https://github.com/theforeman/puppet-git.git
 [submodule "dhcp"]
-	path = dhcp
+	path = modules/dhcp
 	url = https://github.com/theforeman/puppet-dhcp
 [submodule "dns"]
-	path = dns
+	path = modules/dns
 	url = https://github.com/theforeman/puppet-dns
 [submodule "concat_native"]
-	path = concat_native
+	path = modules/concat_native
 	url = https://github.com/theforeman/puppet-concat.git
 [submodule "mysql"]
-	path = mysql
+	path = modules/mysql
 	url = https://github.com/puppetlabs/puppetlabs-mysql.git
 [submodule "postgresql"]
-	path = postgresql
+	path = modules/postgresql
 	url = https://github.com/puppetlabs/puppet-postgresql.git
 [submodule "stdlib"]
-	path = stdlib
+	path = modules/stdlib
 	url = https://github.com/puppetlabs/puppetlabs-stdlib.git
 [submodule "concat"]
-	path = concat
+	path = modules/concat
 	url = https://github.com/ripienaar/puppet-concat.git
 [submodule "create_resources"]
-	path = create_resources
+	path = modules/create_resources
 	url = https://github.com/puppetlabs/puppetlabs-create_resources.git
