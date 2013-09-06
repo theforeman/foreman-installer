@@ -31,12 +31,17 @@ than are available in base OS repos.
 
 # Setup
 
-Please review the "answers" or setup file: foreman_installer/answers.yaml. This file allows
+Please review the "answers" or setup file: /etc/foreman/foreman-installer-answers.yaml. This file allows
 you to override any of the default parameters (as specified in <module>/manifests/params.pp)
 
-Once you have created your answer file, install it with this command:
+Once you are fine with your answer file, install it with this command:
 
-    echo include foreman_installer | puppet apply --modulepath /path_to/extracted_tarball
+    foreman-install
+
+or if you prefer interactive mode
+
+    foreman-install -i
+
 
 The answer file is a yaml format. For a module just using the defaults, simply put
 "modulename: true" to include, or false to exclude. For a module which you wish to

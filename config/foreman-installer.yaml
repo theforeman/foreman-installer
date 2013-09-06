@@ -1,0 +1,31 @@
+# foreman-installer main configuration file
+# note current configuration is written to foreman-installer.yaml every time foreman-install is run
+
+## Installer configuration
+# Path to answer file
+:answer_file: ./config/answers.yaml
+:installer_dir: .
+# Uncomment if you want to load puppet modules from a specific path, $pwd/modules is used by default
+:modules_dir: .
+
+## Kafo tuning, customization of core functionality
+# :no_prefix: false
+# :mapping:
+:order: 
+  - foreman
+  - foreman_proxy
+  - puppet
+
+## Useful for development, e.g. when you want to move log files to local directory
+:log_dir: '/var/log/foreman-installer'
+:log_level: :debug
+
+# Change if you want to debug default answers for you modules, this directory holds default answers
+# :default_values_dir: /tmp
+
+## Advanced configuration - if not set it's ignored
+# :log_owner: root
+# :log_group: root
+# :config_header_file:
+# :dont_save_answers:
+
