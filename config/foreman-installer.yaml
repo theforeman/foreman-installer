@@ -18,6 +18,7 @@
 
 ## Useful for development, e.g. when you want to move log files to local directory
 :log_dir: '/var/log/foreman-installer'
+:log_name: 'foreman-installer.log'
 :log_level: :debug
 
 # Change if you want to debug default answers for you modules, this directory holds default answers
