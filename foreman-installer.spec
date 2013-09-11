@@ -16,7 +16,7 @@
 
 Name:       foreman-installer
 Epoch:      1
-Version:    1.2.9999
+Version:    1.3.9999
 Release:    3%{?dotalphatag}%{?dist}
 Summary:    Puppet-based installer for The Foreman
 Group:      Applications/System
@@ -90,11 +90,14 @@ cp %{buildroot}/%{_datadir}/%{name}/config/answers.yaml %{buildroot}/%{_sysconfd
 %{_datadir}/%{name}
  
 %changelog
+* Wed Sep 11 2013 Lukas Zapletal <lzap+rpm[@]redhat.com> - 1.3.9999-1
+- bump to version 1.3-develop
+
 * Mon Jul 22 2013 Marek Hulan <mhulan[@]redhat.com> - 1.2.9999-3
 - new files structure for a installer based on kafo
 
 * Mon Jul 22 2013 Lukas Zapletal <lzap+rpm[@]redhat.com> - 1.2.9999-2
 - adding foreman_api as a dependency
 
-* Wed May 23 2013 Lukas Zapletal <lzap+rpm[@]redhat.com> - 1.2.9999-1
+* Thu May 23 2013 Lukas Zapletal <lzap+rpm[@]redhat.com> - 1.2.9999-1
 - initial version
