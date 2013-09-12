@@ -10,14 +10,14 @@
 %endif
 
 # set and uncomment all three to set alpha tag
-#global alphatag RC1
-#global dotalphatag .%{alphatag}
-#global dashalphatag -%{alphatag}
+%global alphatag RC1
+%global dotalphatag .%{alphatag}
+%global dashalphatag -%{alphatag}
 
 Name:       foreman-installer
 Epoch:      1
-Version:    1.3.9999
-Release:    3%{?dotalphatag}%{?dist}
+Version:    1.3.0
+Release:    1%{?dotalphatag}%{?dist}
 Summary:    Puppet-based installer for The Foreman
 Group:      Applications/System
 License:    GPLv3+ and ASL 2.0
@@ -90,6 +90,9 @@ cp %{buildroot}/%{_datadir}/%{name}/config/answers.yaml %{buildroot}/%{_sysconfd
 %{_datadir}/%{name}
  
 %changelog
+* Thu Sep 12 2013 Lukas Zapletal <lzap+rpm[@]redhat.com> - 1.3.9999-0.1.RC1
+- release 1.3.0-RC1
+
 * Thu Sep 12 2013 Marek Hulan <mhulan[@]redhat.com> - 1.3.9999-3
 - set config flag on configuration files
 
