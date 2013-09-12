@@ -17,7 +17,7 @@
 Name:       foreman-installer
 Epoch:      1
 Version:    1.3.9999
-Release:    1%{?dotalphatag}%{?dist}
+Release:    2%{?dotalphatag}%{?dist}
 Summary:    Puppet-based installer for The Foreman
 Group:      Applications/System
 License:    GPLv3+ and ASL 2.0
@@ -84,12 +84,15 @@ cp %{buildroot}/%{_datadir}/%{name}/config/answers.yaml %{buildroot}/%{_sysconfd
 %exclude %{_datadir}/%{name}/release
 %exclude %{_datadir}/%{name}/update_submodules
 %exclude %{_datadir}/%{name}/foreman-installer.spec
-%attr(600, root, root) %{_sysconfdir}/foreman/%{name}.yaml
-%attr(600, root, root) %{_sysconfdir}/foreman/%{name}-answers.yaml
+%config %attr(600, root, root) %{_sysconfdir}/foreman/%{name}.yaml
+%config(noreplace) %attr(600, root, root) %{_sysconfdir}/foreman/%{name}-answers.yaml
 %{_sbindir}/foreman-install
 %{_datadir}/%{name}
  
 %changelog
+* Thu Sep 12 2013 Marek Hulan <mhulan[@]redhat.com> - 1.3.9999-2
+- set config flag on configuration files
+
 * Wed Sep 11 2013 Lukas Zapletal <lzap+rpm[@]redhat.com> - 1.3.9999-1
 - bump to version 1.3-develop
 
