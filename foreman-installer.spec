@@ -53,19 +53,19 @@ script to generate answers for puppet manifests.
 echo "%{version}" > VERSION
 #replace shebangs for SCL
 %if %{?scl:1}%{!?scl:0}
-  sed -ri '1sX(/usr/bin/ruby|/usr/bin/env ruby)X%{scl_ruby}X' bin/foreman-install
+  sed -ri '1sX(/usr/bin/ruby|/usr/bin/env ruby)X%{scl_ruby}X' bin/foreman-installer
 %endif
 #modify foreman-installer.yaml paths according to platform
 sed -i 's#\(.*answer_file:\).*#\1 %{_sysconfdir}/foreman/%{name}-answers.yaml#' config/%{name}.yaml
 sed -i 's#\(.*installer_dir:\).*#\1 %{_datadir}/%{name}#' config/%{name}.yaml
-sed -i 's#\(.*CONFIG_FILE\).*#\1 = "%{_sysconfdir}/foreman/%{name}.yaml"#' bin/foreman-install
+sed -i 's#\(.*CONFIG_FILE\).*#\1 = "%{_sysconfdir}/foreman/%{name}.yaml"#' bin/foreman-installer
 
 %install
 mkdir -p %{buildroot}/%{_datadir}/%{name}
 cp -dpR * %{buildroot}/%{_datadir}/%{name}
 %if %{?skip_generator:0}%{!?skip_generator:1}
   mkdir -p %{buildroot}/%{_sbindir}
-  ln -svf %{_datadir}/%{name}/bin/foreman-install %{buildroot}/%{_sbindir}/foreman-install
+  ln -svf %{_datadir}/%{name}/bin/foreman-installer %{buildroot}/%{_sbindir}/foreman-installer
 %endif
 
 install -d -m0755 %{buildroot}%{_sysconfdir}/foreman
@@ -86,7 +86,7 @@ cp %{buildroot}/%{_datadir}/%{name}/config/answers.yaml %{buildroot}/%{_sysconfd
 %exclude %{_datadir}/%{name}/foreman-installer.spec
 %attr(600, root, root) %{_sysconfdir}/foreman/%{name}.yaml
 %attr(600, root, root) %{_sysconfdir}/foreman/%{name}-answers.yaml
-%{_sbindir}/foreman-install
+%{_sbindir}/foreman-installer
 %{_datadir}/%{name}
  
 %changelog
