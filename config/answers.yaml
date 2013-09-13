@@ -6,7 +6,9 @@
 #
 # See params.pp in each class for what options are available
 ---
-foreman: true
-foreman_proxy: true
+foreman:
+  custom_repo: true
+foreman_proxy:
+  custom_repo: true
 puppet:
   server: true
