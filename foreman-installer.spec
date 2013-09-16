@@ -17,7 +17,7 @@
 Name:       foreman-installer
 Epoch:      1
 Version:    1.3.0
-Release:    0.1%{?dotalphatag}%{?dist}
+Release:    0.2%{?dotalphatag}%{?dist}
 Summary:    Puppet-based installer for The Foreman
 Group:      Applications/System
 License:    GPLv3+ and ASL 2.0
@@ -90,6 +90,9 @@ cp %{buildroot}/%{_datadir}/%{name}/config/answers.yaml %{buildroot}/%{_sysconfd
 %{_datadir}/%{name}
  
 %changelog
+* Mon Sep 16 2013 Lukas Zapletal <lzap+rpm[@]redhat.com> - 1.3.9999-0.2.RC1
+- backported 'Disable repo management by default, rely on -release'
+
 * Thu Sep 12 2013 Lukas Zapletal <lzap+rpm[@]redhat.com> - 1.3.9999-0.1.RC1
 - release 1.3.0-RC1
 
