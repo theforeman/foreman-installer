@@ -10,14 +10,14 @@
 %endif
 
 # set and uncomment all three to set alpha tag
-%global alphatag RC1
+%global alphatag RC2
 %global dotalphatag .%{alphatag}
 %global dashalphatag -%{alphatag}
 
 Name:       foreman-installer
 Epoch:      1
 Version:    1.3.0
-Release:    0.2%{?dotalphatag}%{?dist}
+Release:    0.3%{?dotalphatag}%{?dist}
 Summary:    Puppet-based installer for The Foreman
 Group:      Applications/System
 License:    GPLv3+ and ASL 2.0
@@ -88,21 +88,20 @@ cp %{buildroot}/%{_datadir}/%{name}/config/answers.yaml %{buildroot}/%{_sysconfd
 %config(noreplace) %attr(600, root, root) %{_sysconfdir}/foreman/%{name}-answers.yaml
 %{_sbindir}/foreman-installer
 %{_datadir}/%{name}
- 
+
 %changelog
-* Mon Sep 16 2013 Lukas Zapletal <lzap+rpm[@]redhat.com> - 1.3.9999-0.2.RC1
+* Mon Sep 23 2013 Lukas Zapletal <lzap+rpm[@]redhat.com> - 1.3.0-0.3.RC2
+- released 1.3.0-RC2
+
+* Mon Sep 16 2013 Lukas Zapletal <lzap+rpm[@]redhat.com> - 1.3.0-0.2.RC1
 - backported 'Disable repo management by default, rely on -release'
 
-* Thu Sep 12 2013 Lukas Zapletal <lzap+rpm[@]redhat.com> - 1.3.9999-0.1.RC1
-- release 1.3.0-RC1
-
-* Thu Sep 12 2013 Marek Hulan <mhulan[@]redhat.com> - 1.3.9999-3
+* Thu Sep 12 2013 Lukas Zapletal <lzap+rpm[@]redhat.com> - 1.3.0-0.1.RC1
+- released 1.3.0-RC1
 - set config flag on configuration files
-
-* Thu Sep 12 2013 Marek Hulan <mhulan[@]redhat.com> - 1.3.9999-2
 - config files packaging fix
 
-* Wed Sep 11 2013 Lukas Zapletal <lzap+rpm[@]redhat.com> - 1.3.9999-1
+* Wed Sep 11 2013 Lukas Zapletal <lzap+rpm[@]redhat.com> - 1.3.0-1
 - bump to version 1.3-develop
 
 * Mon Jul 22 2013 Marek Hulan <mhulan[@]redhat.com> - 1.2.9999-3
