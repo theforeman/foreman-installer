@@ -1,6 +1,56 @@
 #!/usr/bin/env ruby
 require 'rubygems'
+require 'highline/import'
+require 'yaml'
 require 'kafo'
 
-CONFIG_FILE = "config/foreman-installer.yaml"
-KafoConfigure.run
+# Run the install
+CONFIG_FILE = "/usr/share/foreman-installer/config/foreman-installer.yaml"
+@result = KafoConfigure.run
+exit 0 if @result.nil? # --help invocation
+
+# Parse the results
+HighLine.color_scheme = HighLine::ColorScheme.new do |cs|
+  cs[:info] = [:bold, :cyan, :on_black]
+  cs[:bad]  = [:bold, :red, :on_black]
+  cs[:good] = [:bold, :green, :on_black]
+end
+
+def module_enabled? name
+  mod = @result.module(name)
+  return false if mod.nil?
+  mod.enabled?
+end
+
+def get_param mod, name
+  @result.param(mod,name).value
+end
+
+# Puppet status codes say 0 for unchanged, 2 for changed succesfully
+if [0,2].include? @result.exit_code
+  say "  <%= color('Success!', :good) %>"
+
+  # Foreman UI?
+  if module_enabled? 'foreman'
+    say "  * <%= color('Foreman', :info) %> is running at <%= color('#{get_param('foreman','foreman_url')}', :info) %>"
+    say "      Default credentials are '<%= color('admin:changeme', :info) %>'" if get_param('foreman','authentication') == true
+  end
+
+  # Proxy?
+  if module_enabled? 'foreman_proxy'
+    say "  * <%= color('Foreman Proxy', :info) %> is running at <%= color('#{get_param('foreman_proxy','registered_proxy_url')}', :info) %>"
+  end
+
+  # Puppetmaster?
+  if ( module_enabled?('puppet') && ( get_param('puppet','server') != false ) )
+    say "  * <%= color('Puppetmaster', :info) %> is running at <%= color('port #{get_param('puppet','server_port')}', :info) %>"
+  end
+else
+  say "  <%= color('Something went wrong!', :bad) %> Check the log for ERROR-level output"
+end
+
+# This is always useful, success or fail
+log = @result.config.app[:log_dir] + '/' + @result.config.app[:log_name]
+say "  The full log is at <%= color('#{log}', :info) %>"
+
+exit @result.exit_code
