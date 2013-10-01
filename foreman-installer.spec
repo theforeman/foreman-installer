@@ -10,14 +10,14 @@
 %endif
 
 # set and uncomment all three to set alpha tag
-%global alphatag RC2
+%global alphatag RC3
 %global dotalphatag .%{alphatag}
 %global dashalphatag -%{alphatag}
 
 Name:       foreman-installer
 Epoch:      1
 Version:    1.3.0
-Release:    0.3%{?dotalphatag}%{?dist}
+Release:    0.4%{?dotalphatag}%{?dist}
 Summary:    Puppet-based installer for The Foreman
 Group:      Applications/System
 License:    GPLv3+ and ASL 2.0
@@ -90,6 +90,9 @@ cp %{buildroot}/%{_datadir}/%{name}/config/answers.yaml %{buildroot}/%{_sysconfd
 %{_datadir}/%{name}
 
 %changelog
+* Tue Oct 01 2013 Lukas Zapletal <lzap+rpm[@]redhat.com> - 1.3.0-0.4.RC3
+- released 1.3.0-RC3
+
 * Mon Sep 23 2013 Lukas Zapletal <lzap+rpm[@]redhat.com> - 1.3.0-0.3.RC2
 - released 1.3.0-RC2
 
