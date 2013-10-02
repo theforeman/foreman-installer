@@ -5,7 +5,7 @@ require 'yaml'
 require 'kafo'
 
 # Run the install
-CONFIG_FILE = "/usr/share/foreman-installer/config/foreman-installer.yaml"
+CONFIG_FILE = "config/foreman-installer.yaml"
 @result = KafoConfigure.run
 exit 0 if @result.nil? # --help invocation
 
