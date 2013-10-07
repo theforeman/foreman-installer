@@ -45,12 +45,14 @@ if [0,2].include? @result.exit_code
   if ( module_enabled?('puppet') && ( get_param('puppet','server') != false ) )
     say "  * <%= color('Puppetmaster', :info) %> is running at <%= color('port #{get_param('puppet','server_port')}', :info) %>"
   end
+  exit_code = 0
 else
   say "  <%= color('Something went wrong!', :bad) %> Check the log for ERROR-level output"
+  exit_code = @result.exit_code
 end
 
 # This is always useful, success or fail
 log = @result.config.app[:log_dir] + '/' + @result.config.app[:log_name]
 say "  The full log is at <%= color('#{log}', :info) %>"
 
-exit @result.exit_code
+exit exit_code
