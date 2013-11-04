@@ -1,26 +1,18 @@
 #!/bin/bash
 
-for d in *; do
+for d in modules/*; do
   [ -d $d ] || continue
   [ -e $d/Modulefile ] || continue
   egrep -q "^name.*theforeman" $d/Modulefile || continue
-  [ "foreman_installer" = $d ] && continue
-  cd $d
+  pushd $d
   if ! puppet module build .; then
     echo "ERROR: failed to build $d" >&2
     exit 1
   fi
-  cd ..
+  popd
 done
 
-# Handle foreman_installer separately
-cd foreman_installer/
-cp ../generate_answers.rb ../LICENSE ../README.md .
-puppet module build .
-rm -f generate_answers.rb LICENSE README.md
-cd ..
-
 [ -d pkg ] || mkdir pkg
-mv */pkg/theforeman* pkg/
+mv modules/*/pkg/theforeman*gz pkg/
 
 exit 0
