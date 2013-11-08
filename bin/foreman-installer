@@ -4,12 +4,44 @@ require 'highline/import'
 require 'yaml'
 require 'kafo'
 
-# Run the install
+# where to find answer file
 CONFIG_FILE = "config/foreman-installer.yaml"
+
+# helpers
+def module_enabled?(name)
+  mod = @result.module(name)
+  return false if mod.nil?
+  mod.enabled?
+end
+
+def get_param(mod, name)
+  @result.param(mod, name).value
+end
+
+# functions specific to foreman installer
+Kafo::KafoConfigure.app_option '--reset-foreman-db', :flag, 'Drop foreman database first? You will lose all data!', :default => false
+
+Kafo::KafoConfigure.hooking.register_pre(:reset_db) do |kafo|
+  if kafo.config.app[:reset_foreman_db] && !kafo.config.app[:noop]
+    `which foreman-rake > /dev/null 2>&1`
+    if $?.success?
+      Kafo::KafoConfigure.logger.info 'Dropping database!'
+      output = `foreman-rake db:drop 2>&1`
+      Kafo::KafoConfigure.logger.debug output.to_s
+      unless $?.success?
+        Kafo::KafoConfigure.logger.warn "Unable to drop DB, ignoring since it's not fatal, output was: '#{output}''"
+      end
+    else
+      Kafo::KafoConfigure.logger.warn 'Foreman not installed yet, can not drop database!'
+    end
+  end
+end
+
+# Run the install
 @result = Kafo::KafoConfigure.run
 exit 0 if @result.nil? # --help invocation
 
-# Parse the results
+# Setup colors
 colors = HighLine::ColorScheme.new do |cs|
   cs[:info] = [:bold, :cyan, :on_black]
   cs[:bad]  = [:bold, :red, :on_black]
@@ -21,16 +53,6 @@ nocolors = HighLine::ColorScheme.new do |cs|
 end
 
 HighLine.color_scheme = Kafo::KafoConfigure.config.app[:colors] ? colors : nocolors
-
-def module_enabled? name
-  mod = @result.module(name)
-  return false if mod.nil?
-  mod.enabled?
-end
-
-def get_param mod, name
-  @result.param(mod,name).value
-end
 
 # Puppet status codes say 0 for unchanged, 2 for changed succesfully
 if [0,2].include? @result.exit_code
