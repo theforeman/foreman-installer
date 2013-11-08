@@ -6,7 +6,7 @@ require 'kafo'
 
 # Run the install
 CONFIG_FILE = "config/foreman-installer.yaml"
-@result = KafoConfigure.run
+@result = Kafo::KafoConfigure.run
 exit 0 if @result.nil? # --help invocation
 
 # Parse the results
