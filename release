@@ -22,5 +22,5 @@ pushd $TEMPDIR
 rm -rf `find -name ".git*"`
 tar c $PROJECT-$VERSION | gzip -9 > ~/rpmbuild/SOURCES/$PROJECT-$VERSION.tar.gz
 cd $PROJECT-$VERSION
-rpmbuild -bs $PROJECT.spec --define "dist $DIST"
+rpmbuild -bs $PROJECT.spec --define "dist $DIST" --define "_source_filedigest_algorithm md5" --define "_binary_filedigest_algorithm md5"
 popd
