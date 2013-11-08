@@ -9,6 +9,7 @@
 :modules_dir: .
 
 ## Kafo tuning, customization of core functionality
+:name: Foreman
 # :no_prefix: false
 # :mapping:
 :order: 

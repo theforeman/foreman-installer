@@ -10,11 +10,17 @@ CONFIG_FILE = "config/foreman-installer.yaml"
 exit 0 if @result.nil? # --help invocation
 
 # Parse the results
-HighLine.color_scheme = HighLine::ColorScheme.new do |cs|
+colors = HighLine::ColorScheme.new do |cs|
   cs[:info] = [:bold, :cyan, :on_black]
   cs[:bad]  = [:bold, :red, :on_black]
   cs[:good] = [:bold, :green, :on_black]
 end
+
+nocolors = HighLine::ColorScheme.new do |cs|
+  colors.keys.each { |k| cs[k.to_sym] = [] }
+end
+
+HighLine.color_scheme = Kafo::KafoConfigure.config.app[:colors] ? colors : nocolors
 
 def module_enabled? name
   mod = @result.module(name)
