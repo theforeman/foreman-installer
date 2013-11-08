@@ -16,7 +16,7 @@
 
 Name:       foreman-installer
 Epoch:      1
-Version:    1.3.0
+Version:    1.3.1
 Release:    1%{?dotalphatag}%{?dist}
 Summary:    Puppet-based installer for The Foreman
 Group:      Applications/System
@@ -90,6 +90,9 @@ cp %{buildroot}/%{_datadir}/%{name}/config/answers.yaml %{buildroot}/%{_sysconfd
 %{_datadir}/%{name}
 
 %changelog
+* Fri Nov 08 2013 Dominic Cleal <dcleal@redhat.com> - 1.3.1-1
+- released 1.3.1
+
 * Mon Oct 14 2013 Lukas Zapletal <lzap+rpm[@]redhat.com> - 1.3.0-1
 - released 1.3.0
 
