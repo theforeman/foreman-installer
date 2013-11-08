@@ -17,7 +17,7 @@
 Name:       foreman-installer
 Epoch:      1
 Version:    1.3.9999
-Release:    3%{?dotalphatag}%{?dist}
+Release:    4%{?dotalphatag}%{?dist}
 Summary:    Puppet-based installer for The Foreman
 Group:      Applications/System
 License:    GPLv3+ and ASL 2.0
@@ -30,7 +30,7 @@ BuildRoot:  %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
 BuildArch:  noarch
 
-Requires:   %{?scl_prefix}rubygem-kafo
+Requires:   %{?scl_prefix}rubygem-kafo >= 0.3.0
 Requires:   %{?scl_prefix}rubygem-foreman_api >= 0.1.4
 
 %if %{?skip_generator:0}%{!?skip_generator:1}
@@ -90,6 +90,9 @@ cp %{buildroot}/%{_datadir}/%{name}/config/answers.yaml %{buildroot}/%{_sysconfd
 %{_datadir}/%{name}
  
 %changelog
+* Fri Sep 08 2013 Marek Hulan <mhulan[@]redhat.com> - 1.3.9999-4
+- upgrade to kafo 0.3.0 
+
 * Thu Sep 12 2013 Marek Hulan <mhulan[@]redhat.com> - 1.3.9999-3
 - set config flag on configuration files
 
