@@ -22,3 +22,5 @@ foreman_installer/pkg/
 foreman_installer/generate_answers.rb
 foreman_installer/LICENSE
 foreman_installer/README.md
+VERSION
+_build
