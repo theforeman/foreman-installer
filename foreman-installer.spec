@@ -42,6 +42,10 @@ Requires:   %{?scl_prefix}ruby(abi)
 Requires:   %{?scl_prefix}rubygem-highline
 %endif
 
+BuildRequires: asciidoc
+BuildRequires: rubygem(rake)
+BuildRequires: %{?scl_prefix}rubygem-kafo
+
 %description
 Complete installer for The Foreman life-cycle management system based on puppet and
 script to generate answers for puppet manifests.
@@ -50,27 +54,23 @@ script to generate answers for puppet manifests.
 %setup -q -n %{name}-%{version}%{?dashalphatag}
 
 %build
-echo "%{version}" > VERSION
 #replace shebangs for SCL
 %if %{?scl:1}%{!?scl:0}
   sed -ri '1sX(/usr/bin/ruby|/usr/bin/env ruby)X%{scl_ruby}X' bin/foreman-installer
 %endif
-#modify foreman-installer.yaml paths according to platform
-sed -i 's#\(.*answer_file:\).*#\1 %{_sysconfdir}/foreman/%{name}-answers.yaml#' config/%{name}.yaml
-sed -i 's#\(.*installer_dir:\).*#\1 %{_datadir}/%{name}#' config/%{name}.yaml
-sed -i 's#\(.*CONFIG_FILE\).*#\1 = "%{_sysconfdir}/foreman/%{name}.yaml"#' bin/foreman-installer
+rake build \
+  VERSION=%{version} \
+  PREFIX=%{_prefix} \
+  SBINDIR=%{_sbindir} \
+  SYSCONFDIR=%{_sysconfdir} \
+  --trace
 
 %install
-mkdir -p %{buildroot}/%{_datadir}/%{name}
-cp -dpR * %{buildroot}/%{_datadir}/%{name}
-%if %{?skip_generator:0}%{!?skip_generator:1}
-  mkdir -p %{buildroot}/%{_sbindir}
-  ln -svf %{_datadir}/%{name}/bin/foreman-installer %{buildroot}/%{_sbindir}/foreman-installer
-%endif
-
-install -d -m0755 %{buildroot}%{_sysconfdir}/foreman
-cp %{buildroot}/%{_datadir}/%{name}/config/%{name}.yaml %{buildroot}/%{_sysconfdir}/foreman/%{name}.yaml
-cp %{buildroot}/%{_datadir}/%{name}/config/answers.yaml %{buildroot}/%{_sysconfdir}/foreman/%{name}-answers.yaml
+rake install \
+  PREFIX=%{buildroot}%{_prefix} \
+  SBINDIR=%{buildroot}%{_sbindir} \
+  SYSCONFDIR=%{buildroot}%{_sysconfdir} \
+  --trace
 
 %if 0%{?rhel} && 0%{?rhel} == 5
 %clean
@@ -79,22 +79,19 @@ cp %{buildroot}/%{_datadir}/%{name}/config/answers.yaml %{buildroot}/%{_sysconfd
 
 %files
 %defattr(-,root,root,-)
-%doc README.*
-%exclude %{_datadir}/%{name}/build_modules
-%exclude %{_datadir}/%{name}/release
-%exclude %{_datadir}/%{name}/update_submodules
-%exclude %{_datadir}/%{name}/foreman-installer.spec
+%doc README.* LICENSE
 %config %attr(600, root, root) %{_sysconfdir}/foreman/%{name}.yaml
 %config(noreplace) %attr(600, root, root) %{_sysconfdir}/foreman/%{name}-answers.yaml
 %{_sbindir}/foreman-installer
 %{_datadir}/%{name}
- 
+%{_mandir}/man8
+
 %changelog
 * Thu Nov 21 2013 Dominic Cleal <dcleal@redhat.com> - 1.4.0-0.develop
 - Bump and change versioning scheme (#3712)
 
 * Fri Nov 08 2013 Marek Hulan <mhulan[@]redhat.com> - 1.3.9999-4
-- upgrade to kafo 0.3.0 
+- upgrade to kafo 0.3.0
 
 * Thu Sep 12 2013 Marek Hulan <mhulan[@]redhat.com> - 1.3.9999-3
 - set config flag on configuration files

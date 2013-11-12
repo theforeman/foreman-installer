@@ -1,0 +1,179 @@
+foreman\-installer(8)
+=====================
+:man source:  foreman-installer
+:man manual:  Foreman Installer Manual
+
+NAME
+----
+foreman-installer - installation tool for Foreman
+
+
+SYNOPSIS
+--------
+foreman-installer
+
+foreman-installer --parameter=value
+
+foreman-installer --parameter=value -v
+
+foreman-installer --help
+
+
+
+DESCRIPTION
+-----------
+
+The Foreman installer is a collection of Puppet modules that installs
+everything required for a full working Foreman setup. It uses native OS
+packaging (e.g. RPM and .deb packages) and adds necessary configuration for the
+complete installation.
+
+Components include the Foreman web UI, Smart Proxy, Passenger (for the puppet
+master and Foreman itself), and optionally TFTP, DNS and DHCP servers. It is
+configurable and the Puppet modules can be read or run in "no-op" mode to see
+what changes it will make.
+
+It's strongly recommended to use the installer instead of only installing
+packages, as the installer uses OS packages and it saves a lot of time
+otherwise spent replicating configuration by hand.
+
+By default it will configure:
+
+. Apache HTTP with SSL (using a Puppet-signed certificate)
+. Foreman running under mod_passenger
+. Smart Proxy configured for Puppet, TFTP and SSL
+. Puppet master running under mod_passenger
+. Puppet agent configured
+. TFTP server (under xinetd on Red Hat platforms)
+
+Other modules can be enabled, which will also configure:
+
+. ISC DHCP server
+. BIND DNS server
+
+
+
+OPTIONS
+-------
+
+The installer is a collection of Puppet modules, which have a large number of
+parameters available to customize the configuration. Parameters can be set by
+running foreman-installer with arguments, e.g. `--foreman-db-type`, changing
+settings in interactive mode or by setting up an answers file.
+
+The precedence for settings is for those set by arguments to foreman-installer
+or interactive mode, then the answers file, then the Puppet manifest defaults.
+
+Every parameter available in the installer can be set using command line
+arguments to foreman-installer. Run `foreman-installer --help` for a list of
+every available option.
+
+When running the installer, all arguments passed on the command line will be
+persisted by default to `/etc/foreman/foreman-installer.yaml` and used
+automatically on subsequent runs, without needing to specify those arguments
+again. This persistence can be disabled with the -b option.
+
+`Interactive mode`
+~~~~~~~~~~~~~~~~~~
+
+The installer also provides a text driven interface to customize configuration
+parameters, and can be run by executing:
+
+  foreman-installer -i
+
+`Answers file`
+~~~~~~~~~~~~~~
+
+The answers file describes the classes that will be applied to the host to
+install Foreman, along with their parameters. The foreman-installer package
+stores it at `/etc/foreman/foreman-installer.yaml`. By default, the all-in-one
+setup will include Foreman, a puppetmaster, Puppet agent, and the Smart Proxy:
+
+  ---
+  foreman:
+    custom_repo: true
+  foreman_proxy:
+    custom_repo: true
+  puppet:
+    server: true
+
+
+`Generic options`
+~~~~~~~~~~~~~~~~~
+
+Foreman-installer provides the following generic options:
+
+-i, --interactive::
+Run in interactive mode
+
+-d, --dont-save-answers::
+Skip saving answers to answers.yaml? (default: false)
+
+-n, --noop::
+Run puppet in noop mode? (default: false)
+
+-v, --verbose::
+Display log on STDOUT instead of progressbar
+
+-l, --verbose-log-level 'LEVEL'::
+Log level for verbose mode output (default: "info")
+
+--ignore-undocumented::
+Ignore inconsistent parameter documentation (default: false)
+
+--log-level 'LEVEL'::
+Log level for log file output (default: :debug)
+
+--[no-]colors::
+Use color output on STDOUT (default: true)
+
+-h, --help::
+Print help
+
+--[no-]enable-foreman::
+Enable 'foreman' puppet module (default: true)
+
+--[no-]enable-foreman-proxy::
+Enable 'foreman_proxy' puppet module (default: true)
+
+--[no-]enable-puppet::
+Enable 'puppet' puppet module (default: true)
+
+
+`Parameters for modules`
+~~~~~~~~~~~~~~~~~~~~~~~~
+
+The following parameters are available as installer arguments:
+
+@@PARAMETERS@@
+
+
+EXAMPLES
+--------
+
+Install with default options
+
+  foreman-installer
+
+Install with default options in verbose mode
+
+  foreman-installer -v
+
+Install TFTP, DHCP, DNS with provided options
+
+  foreman-installer \
+        --foreman-proxy-tftp=true \
+        --foreman-proxy-dhcp=true \
+        --foreman-proxy-dhcp-range="192.168.100.10 192.168.100.200" \
+        --foreman-proxy-dns=true \
+        --foreman-proxy-dns-forwarders=192.168.100.1
+
+FILES
+-----
+
+`/etc/foreman/foreman-installer.yaml`::
+Foreman-installer is based on the 'kafo' project. Contains configuration for
+foreman-installer itself.
+
+`/etc/foreman/foreman-installer-answers.yaml`::
+Contains answers taken from user input.
