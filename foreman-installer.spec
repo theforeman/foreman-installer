@@ -16,8 +16,8 @@
 
 Name:       foreman-installer
 Epoch:      1
-Version:    1.3.9999
-Release:    4%{?dotalphatag}%{?dist}
+Version:    1.4.0
+Release:    0.develop%{?dotalphatag}%{?dist}
 Summary:    Puppet-based installer for The Foreman
 Group:      Applications/System
 License:    GPLv3+ and ASL 2.0
@@ -90,6 +90,9 @@ cp %{buildroot}/%{_datadir}/%{name}/config/answers.yaml %{buildroot}/%{_sysconfd
 %{_datadir}/%{name}
  
 %changelog
+* Thu Nov 21 2013 Dominic Cleal <dcleal@redhat.com> - 1.4.0-0.develop
+- Bump and change versioning scheme (#3712)
+
 * Fri Nov 08 2013 Marek Hulan <mhulan[@]redhat.com> - 1.3.9999-4
 - upgrade to kafo 0.3.0 
 
