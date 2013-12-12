@@ -26,7 +26,7 @@ file "#{BUILDDIR}/foreman-installer.yaml" => 'config/foreman-installer.yaml' do 
   sh 'sed -i "s#\(.*answer_file:\).*#\1 %s#" %s' % ["#{SYSCONFDIR}/foreman/foreman-installer-answers.yaml", t.name]
   sh 'sed -i "s#\(.*installer_dir:\).*#\1 %s#" %s' % ["#{DATADIR}/foreman-installer", t.name]
   if ENV['KAFO_MODULES_DIR']
-    sh 'sed -i "s#\.*(:kafo_modules_dir:\).*#\1 %s#" %s' % [ENV['KAFO_MODULES_DIR'], t.name]
+    sh 'sed -i "s#.*\(:kafo_modules_dir:\).*#\1 %s#" %s' % [ENV['KAFO_MODULES_DIR'], t.name]
   end
 end
 
