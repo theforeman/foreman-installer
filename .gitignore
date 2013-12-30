@@ -24,3 +24,7 @@ foreman_installer/LICENSE
 foreman_installer/README.md
 VERSION
 _build
+
+# Bundler
+.bundle
+Gemfile.lock
