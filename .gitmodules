@@ -3,19 +3,16 @@
 	url = https://github.com/theforeman/puppet-tftp.git
 [submodule "apache"]
 	path = modules/apache
-	url = https://github.com/theforeman/puppet-apache.git
+	url = https://github.com/stbenjam/puppetlabs-apache.git
 [submodule "foreman"]
 	path = modules/foreman
-	url = https://github.com/theforeman/puppet-foreman.git
+	url = https://github.com/ekohl/puppet-foreman.git
 [submodule "foreman_proxy"]
 	path = modules/foreman_proxy
 	url = https://github.com/theforeman/puppet-foreman_proxy.git
-[submodule "passenger"]
-	path = modules/passenger
-	url = https://github.com/theforeman/puppet-passenger.git
 [submodule "puppet"]
 	path = modules/puppet
-	url = https://github.com/theforeman/puppet-puppet.git
+	url = https://github.com/ekohl/puppet-puppet.git
 [submodule "xinetd"]
 	path = modules/xinetd
 	url = https://github.com/puppetlabs/puppetlabs-xinetd.git
