@@ -139,6 +139,10 @@ Enable 'foreman_proxy' puppet module (default: true)
 --[no-]enable-puppet::
 Enable 'puppet' puppet module (default: true)
 
+--reset-foreman-db::
+Drops the Foreman database, then runs the installer to recreate and reset it.
+This is a PERMANENT action and will destroy all data stored in Foreman.
+
 
 `Parameters for modules`
 ~~~~~~~~~~~~~~~~~~~~~~~~
