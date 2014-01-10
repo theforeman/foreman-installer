@@ -3,7 +3,7 @@
 	url = https://github.com/theforeman/puppet-tftp.git
 [submodule "apache"]
 	path = modules/apache
-	url = https://github.com/theforeman/puppet-apache.git
+	url = https://github.com/stbenjam/puppetlabs-apache.git
 [submodule "foreman"]
 	path = modules/foreman
 	url = https://github.com/theforeman/puppet-foreman.git
