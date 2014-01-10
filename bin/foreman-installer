@@ -46,14 +46,18 @@ end
 exit 0 if @result.nil? # --help invocation
 
 # Setup colors
+color_hash = {
+  :info => [:bold, :cyan, :on_black],
+  :bad  => [:bold, :red, :on_black],
+  :good => [:bold, :green, :on_black]
+}
+
 colors = HighLine::ColorScheme.new do |cs|
-  cs[:info] = [:bold, :cyan, :on_black]
-  cs[:bad]  = [:bold, :red, :on_black]
-  cs[:good] = [:bold, :green, :on_black]
+  color_hash.each { |c,arr| cs[c] = arr }
 end
 
 nocolors = HighLine::ColorScheme.new do |cs|
-  colors.keys.each { |k| cs[k.to_sym] = [] }
+  color_hash.each { |c,arr| cs[c] = [] }
 end
 
 HighLine.color_scheme = Kafo::KafoConfigure.config.app[:colors] ? colors : nocolors
