@@ -10,14 +10,14 @@
 %endif
 
 # set and uncomment all three to set alpha tag
-#global alphatag RC1
-#global dotalphatag .%{alphatag}
-#global dashalphatag -%{alphatag}
+%global alphatag RC1
+%global dotalphatag .%{alphatag}
+%global dashalphatag -%{alphatag}
 
 Name:       foreman-installer
 Epoch:      1
 Version:    1.4.0
-Release:    0.develop%{?dotalphatag}%{?dist}
+Release:    0.1%{?dotalphatag}%{?dist}
 Summary:    Puppet-based installer for The Foreman
 Group:      Applications/System
 License:    GPLv3+ and ASL 2.0
@@ -87,7 +87,8 @@ rake install \
 %{_mandir}/man8
 
 %changelog
-* Thu Nov 21 2013 Dominic Cleal <dcleal@redhat.com> - 1.4.0-0.develop
+* Thu Jan 16 2014 Dominic Cleal <dcleal@redhat.com> - 1.4.0-0.1.RC1
+- Release 1.4.0-RC1
 - Bump and change versioning scheme (#3712)
 
 * Fri Nov 08 2013 Marek Hulan <mhulan[@]redhat.com> - 1.3.9999-4
