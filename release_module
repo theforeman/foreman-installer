@@ -1,0 +1,53 @@
+#!/bin/bash -e
+
+die() {
+  echo $* >&2
+  exit 1
+}
+
+if [ $# -ne 2 -o x$1 = "x-h" -o x$1 = "x--help" ]; then
+  echo "usage: $0 <module name> <version>"
+  echo
+  echo "  update CHANGELOG.md before running this script and git add or commit it"
+  echo "  only local changes will be made, no git pushes"
+  echo
+  die "incorrect arguments supplied"
+fi
+
+MODULE=$1
+VERSION=$2
+
+test -d modules/$MODULE || die "no such module $MODULE"
+test -e modules/$MODULE/CHANGELOG.md || die "no CHANGELOG.md found in $MODULE"
+test -e modules/$MODULE/Modulefile || die "no Modulefile found in $MODULE"
+grep -q '^version' modules/$MODULE/Modulefile || die "no version found in Modulefile"
+grep -xq "## ${VERSION}" modules/$MODULE/CHANGELOG.md || die "no '## ${VERSION}' found in CHANGELOG.  Do this first, and add to your index or commit it."
+(cd modules/$MODULE && git rev-parse $VERSION >/dev/null 2>&1) && die "tag for ${VERSION} already exists"
+(cd modules/$MODULE && [ x$(git rev-parse --abbrev-ref HEAD) = xmaster ] ) || die "$MODULE isn't on master branch"
+(cd modules/$MODULE && [ x$(git diff --shortstat -- CHANGELOG.md | wc -l) = x0 ] ) || die "CHANGELOG.md isn't in the git index or committed"
+[[ "$VERSION" =~ ^[0-9\.]+$ ]] || die "invalid version number"
+type puppet >/dev/null 2>&1 || die "puppet not installed"
+
+TMPDIR=$(mktemp -d)
+trap "rm -rf $TMPDIR" EXIT ERR
+
+pushd modules/$MODULE >/dev/null
+sed -i "/^version/ s/ .*/ '${VERSION}'/" Modulefile
+git add Modulefile
+git ci -m "Release ${VERSION}"
+git tag -m "Release ${VERSION}" $VERSION
+git archive $VERSION | (cd $TMPDIR && tar -xf -)
+popd >/dev/null
+
+# Use a clean copy, as p-m-build isn't good at ignoring files
+puppet module build $TMPDIR
+PKGS=$(cd $TMPDIR/pkg && echo *.tar.gz)
+cp -a $TMPDIR/pkg/* pkg/
+
+echo
+echo Built pkgs/$PKGS
+echo
+echo 'Next steps:'
+echo "  1. cd modules/${MODULE} && git push origin master && git push origin ${VERSION}"
+echo "  2. visit http://forge.puppetlabs.com/theforeman/${MODULE} and log in"
+echo "  3. click Upload a New Release, and upload $(pwd)/pkgs/$PKGS"
