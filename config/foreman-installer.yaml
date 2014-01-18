@@ -6,13 +6,13 @@
 :answer_file: ./config/answers.yaml
 :installer_dir: .
 # Uncomment if you want to load puppet modules from a specific path, $pwd/modules is used by default
-:modules_dir: ./modules
+:modules_dir: ./_build/modules
 
 ## Kafo tuning, customization of core functionality
 :name: Foreman
 # :no_prefix: false
 # :mapping:
-:order: 
+:order:
   - foreman
   - foreman_proxy
   - puppet

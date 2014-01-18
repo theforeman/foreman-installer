@@ -36,15 +36,16 @@ file "#{BUILDDIR}/foreman-installer" => 'bin/foreman-installer' do |t|
   sh 'sed -i "s#\(.*CONFIG_FILE\).*#\1 = \"%s\"#" %s' % ["#{SYSCONFDIR}/foreman/foreman-installer.yaml", t.name]
 end
 
-file "#{BUILDDIR}/options.asciidoc" do |t|
-  ['/usr/share/gems/bin/kafo-export-params',
-   '/usr/lib/ruby/gems/1.8/bin/kafo-export-params',
-   '/usr/bin/kafo-export-params',
-   ENV['KAFO_EXPORTER'] || 'kafo-export-params'].each do |exporter|
-     if File.executable? exporter
-       sh "#{exporter} -c config/foreman-installer.yaml -f asciidoc > #{BUILDDIR}/options.asciidoc"
-     end
-   end
+file "#{BUILDDIR}/options.asciidoc" => "#{BUILDDIR}/modules" do |t|
+  ENV['PATH'].split(':').push(
+    '/usr/share/gems/bin',
+    '/usr/lib/ruby/gems/1.8/bin',
+    '/usr/bin',
+    ENV['KAFO_EXPORTER']).each do |exporter|
+    if File.executable? "#{exporter}/kafo-export-params"
+      sh "#{exporter}/kafo-export-params -c config/foreman-installer.yaml -f asciidoc > #{BUILDDIR}/options.asciidoc"
+    end
+  end
 end
 
 file "#{BUILDDIR}/foreman-installer.8.asciidoc" =>
@@ -73,17 +74,27 @@ file "#{BUILDDIR}/foreman-installer.8" => "#{BUILDDIR}/foreman-installer.8.ascii
   end
 end
 
+file "#{BUILDDIR}/modules" do |t|
+  if Dir["modules/*"].empty?
+    sh "librarian-puppet install --verbose --path #{BUILDDIR}/modules"
+  else
+    cp_r "modules/", BUILDDIR
+  end
+end
+
 task :build => [
   BUILDDIR,
   'VERSION',
   "#{BUILDDIR}/foreman-installer.yaml",
   "#{BUILDDIR}/foreman-installer",
   "#{BUILDDIR}/foreman-installer.8",
+  "#{BUILDDIR}/modules",
 ]
 
 task :install => :build do |t|
   mkdir_p "#{DATADIR}/foreman-installer"
-  cp_r Dir.glob('{checks,config,modules,VERSION,README.md,LICENSE}'), "#{DATADIR}/foreman-installer"
+  cp_r Dir.glob('{checks,config,VERSION,README.md,LICENSE}'), "#{DATADIR}/foreman-installer"
+  cp_r "#{BUILDDIR}/modules", "#{DATADIR}/foreman-installer"
 
   mkdir_p "#{SYSCONFDIR}/foreman"
   cp "#{BUILDDIR}/foreman-installer.yaml", "#{SYSCONFDIR}/foreman/"
