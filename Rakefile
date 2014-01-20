@@ -66,7 +66,7 @@ file "#{BUILDDIR}/foreman-installer.8.asciidoc" =>
 end
 
 file "#{BUILDDIR}/foreman-installer.8" => "#{BUILDDIR}/foreman-installer.8.asciidoc" do |t|
-  sh "a2x -d manpage -f manpage #{BUILDDIR}/foreman-installer.8.asciidoc"
+  sh "a2x -d manpage -f manpage #{BUILDDIR}/foreman-installer.8.asciidoc -L"
 end
 
 task :build => [
