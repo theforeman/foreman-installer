@@ -45,9 +45,9 @@ PKGS=$(cd $TMPDIR/pkg && echo *.tar.gz)
 cp -a $TMPDIR/pkg/* pkg/
 
 echo
-echo Built pkgs/$PKGS
+echo Built pkg/$PKGS
 echo
 echo 'Next steps:'
-echo "  1. cd modules/${MODULE} && git push origin master && git push origin ${VERSION}"
+echo "  1. (cd modules/${MODULE} && git push origin master && git push origin ${VERSION})"
 echo "  2. visit http://forge.puppetlabs.com/theforeman/${MODULE} and log in"
-echo "  3. click Upload a New Release, and upload $(pwd)/pkgs/$PKGS"
+echo "  3. click Upload a New Release, and upload $(pwd)/pkg/$PKGS"
