@@ -1,94 +1,9 @@
 #!/usr/bin/env ruby
 require 'rubygems'
-require 'highline/import'
-require 'yaml'
-require 'kafo'
+require 'foreman_installer'
 
 # where to find answer file
 CONFIG_FILE = "config/foreman-installer.yaml"
 
-# helpers
-def module_enabled?(name)
-  mod = @result.module(name)
-  return false if mod.nil?
-  mod.enabled?
-end
-
-def get_param(mod, name)
-  @result.param(mod, name).value
-end
-
-# functions specific to foreman installer
-Kafo::KafoConfigure.app_option '--reset-foreman-db', :flag,
-                               "Drop foreman database first? You will lose all data! Unfortunately we\n" +
-                               "can't detect a failure at the moment so you should verify the success\n" +
-                               'manually. e.g. dropping can fail when DB is currently in use.',
-    :default => false
-
-Kafo::KafoConfigure.hooking.register_pre(:reset_db) do |kafo|
-  if kafo.config.app[:reset_foreman_db] && !kafo.config.app[:noop]
-    `which foreman-rake > /dev/null 2>&1`
-    if $?.success?
-      Kafo::KafoConfigure.logger.info 'Dropping database!'
-      output = `foreman-rake db:drop 2>&1`
-      Kafo::KafoConfigure.logger.debug output.to_s
-      unless $?.success?
-        Kafo::KafoConfigure.logger.warn "Unable to drop DB, ignoring since it's not fatal, output was: '#{output}''"
-      end
-    else
-      Kafo::KafoConfigure.logger.warn 'Foreman not installed yet, can not drop database!'
-    end
-  end
-end
-
-# Run the install
-@result = Kafo::KafoConfigure.run
-exit 0 if @result.nil? # --help invocation
-
-# Setup colors
-color_hash = {
-  :info => [:bold, :cyan, :on_black],
-  :bad  => [:bold, :red, :on_black],
-  :good => [:bold, :green, :on_black]
-}
-
-colors = HighLine::ColorScheme.new do |cs|
-  color_hash.each { |c,arr| cs[c] = arr }
-end
-
-nocolors = HighLine::ColorScheme.new do |cs|
-  color_hash.each { |c,arr| cs[c] = [] }
-end
-
-HighLine.color_scheme = Kafo::KafoConfigure.config.app[:colors] ? colors : nocolors
-
-# Puppet status codes say 0 for unchanged, 2 for changed succesfully
-if [0,2].include? @result.exit_code
-  say "  <%= color('Success!', :good) %>"
-
-  # Foreman UI?
-  if module_enabled? 'foreman'
-    say "  * <%= color('Foreman', :info) %> is running at <%= color('#{get_param('foreman','foreman_url')}', :info) %>"
-    say "      Default credentials are '<%= color('admin:changeme', :info) %>'" if get_param('foreman','authentication') == true
-  end
-
-  # Proxy?
-  if module_enabled? 'foreman_proxy'
-    say "  * <%= color('Foreman Proxy', :info) %> is running at <%= color('#{get_param('foreman_proxy','registered_proxy_url')}', :info) %>"
-  end
-
-  # Puppetmaster?
-  if ( module_enabled?('puppet') && ( get_param('puppet','server') != false ) )
-    say "  * <%= color('Puppetmaster', :info) %> is running at <%= color('port #{get_param('puppet','server_port')}', :info) %>"
-  end
-  exit_code = 0
-else
-  say "  <%= color('Something went wrong!', :bad) %> Check the log for ERROR-level output"
-  exit_code = @result.exit_code
-end
-
-# This is always useful, success or fail
-log = @result.config.app[:log_dir] + '/' + @result.config.app[:log_name]
-say "  The full log is at <%= color('#{log}', :info) %>"
-
-exit exit_code
+k = ForemanInstaller::ForemanKafoLauncher.new('Foreman')
+k.run()
