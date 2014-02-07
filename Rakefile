@@ -33,7 +33,7 @@ end
 
 file "#{BUILDDIR}/foreman-installer" => 'bin/foreman-installer' do |t|
   cp t.prerequisites[0], t.name
-  sh 'sed -i "s#\(.*CONFIG_FILE\).*#\1 = \"%s\"#" %s' % ["#{SYSCONFDIR}/foreman/foreman-installer.yaml", t.name]
+  sh 'sed -i "s#\(^.*CONFIG_FILE = \'/etc/foreman\'*.\).*#  CONFIG_FILE = %s#" %s' % ["'#{SYSCONFDIR}/foreman/' + config_filename", t.name]
 end
 
 file "#{BUILDDIR}/options.asciidoc" => "#{BUILDDIR}/modules" do |t|

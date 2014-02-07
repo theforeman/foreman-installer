@@ -4,8 +4,17 @@ require 'highline/import'
 require 'yaml'
 require 'kafo'
 
+# base the answer file name on the file calling the
+# script.  This allows other programs to use their own
+# files if named based on their executable
+config_filename = File.basename($0) + ".yaml"
+
 # where to find answer file
-CONFIG_FILE = "config/foreman-installer.yaml"
+if File.exist?('config/' + config_filename)
+  CONFIG_FILE = 'config/' + config_filename   
+else
+  CONFIG_FILE = '/etc/foreman/' + config_filename
+end
 
 # helpers
 def module_enabled?(name)
