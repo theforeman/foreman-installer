@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/bash -e
 #
 # simple script to create a release without tito
 # it works in-place, so take care!
@@ -14,6 +14,9 @@ DIST=$2
 
 git describe $VERSION >/dev/null || echo "WARNING! There is no such tag: $VERSION!"
 
+type librarian-puppet >/dev/null 2>&1 || gem install librarian-puppet --no-ri --no-rdoc
+ruby -rpuppet -etrue >/dev/null 2>&1 || gem install puppet --no-ri --no-rdoc
+
 RPMBUILD=$(pwd)/pkg/rpmbuild
 TEMPDIR=$(mktemp -d)
 trap "rm -rf $TEMPDIR" EXIT
@@ -22,6 +25,9 @@ cp -Rad . $TEMPDIR/$PROJECT-$VERSION
 
 pushd $TEMPDIR
 rm -rf `find -name ".git*"`
+pushd $PROJECT-$VERSION
+librarian-puppet install --verbose
+popd
 tar c $PROJECT-$VERSION | gzip -9 > $RPMBUILD/SOURCES/$PROJECT-$VERSION.tar.gz
 cd $PROJECT-$VERSION
 rpmbuild -bs $PROJECT.spec --define "dist $DIST" --define "_topdir $RPMBUILD"
