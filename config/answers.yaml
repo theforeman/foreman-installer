@@ -4,6 +4,9 @@
 # <classname>:
 #   <param>: <value> - include and override the default(s)
 #
+# Every support plugin/compute class is listed, so that it
+# shows up in the interactive menu
+#
 # See params.pp in each class for what options are available
 ---
 foreman:
@@ -12,3 +15,18 @@ foreman_proxy:
   custom_repo: true
 puppet:
   server: true
+foreman::plugin::bootdisk: true
+foreman::plugin::chef: false
+foreman::plugin::default_hostgroup: false
+foreman::plugin::discovery: false
+foreman::plugin::hooks: false
+foreman::plugin::puppetdb: false
+foreman::plugin::setup: true
+foreman::plugin::templates: false
+foreman::compute::ec2: false
+foreman::compute::gce: false
+foreman::compute::libvirt: false
+foreman::compute::openstack: false
+foreman::compute::ovirt: false
+foreman::compute::rackspace: false
+foreman::compute::vmware: false
