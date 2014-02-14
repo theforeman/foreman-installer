@@ -34,6 +34,6 @@ end
 
 # Check that facter actually has a value that matches the hostname.
 # This should always be true for facter >= 1.7
-error_exit(DIFFERENT + BASE, 1) if Facter.fqdn != `hostname -f`.chomp
+error_exit(DIFFERENT + BASE, 1) if Facter.value(:fqdn) != `hostname -f`.chomp
 # Every FQDN should have at least one dot
-error_exit(INVALID + BASE, 2) unless Facter.fqdn.include?('.')
+error_exit(INVALID + BASE, 2) unless Facter.value(:fqdn).include?('.')
