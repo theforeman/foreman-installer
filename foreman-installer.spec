@@ -30,6 +30,7 @@ BuildRoot:  %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 
 BuildArch:  noarch
 
+Requires:   %{?scl_prefix}puppet >= 2.7.0
 Requires:   %{?scl_prefix}rubygem-kafo >= 0.3.0
 Requires:   %{?scl_prefix}rubygem-foreman_api >= 0.1.4
 
@@ -44,6 +45,7 @@ Requires:   %{?scl_prefix}rubygem-highline
 
 BuildRequires: asciidoc
 BuildRequires: rubygem(rake)
+BuildRequires: %{?scl_prefix}puppet >= 2.7.0
 BuildRequires: %{?scl_prefix}rubygem-kafo
 
 %description
