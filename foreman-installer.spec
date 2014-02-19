@@ -16,7 +16,7 @@
 
 Name:       foreman-installer
 Epoch:      1
-Version:    1.4.0
+Version:    1.4.1
 Release:    1%{?dotalphatag}%{?dist}
 Summary:    Puppet-based installer for The Foreman
 Group:      Applications/System
@@ -87,6 +87,9 @@ rake install \
 %{_mandir}/man8
 
 %changelog
+* Wed Feb 19 2014 Dominic Cleal <dcleal@redhat.com> - 1.4.1-1
+- Release 1.4.1
+
 * Wed Jan 29 2014 Dominic Cleal <dcleal@redhat.com> - 1.4.0-1
 - Release 1.4.0
 
