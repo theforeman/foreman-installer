@@ -58,7 +58,7 @@ All-in-one installation:
       server: true
     foreman_proxy: true
 
-Just Foreman on it's own:
+Just Foreman on its own:
 
     ---
     foreman: true
