@@ -31,7 +31,7 @@ BuildRoot:  %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 BuildArch:  noarch
 
 Requires:   %{?scl_prefix}puppet >= 2.7.0
-Requires:   %{?scl_prefix}rubygem-kafo >= 0.3.0
+Requires:   %{?scl_prefix}rubygem-kafo >= 0.4.0
 Requires:   %{?scl_prefix}rubygem-foreman_api >= 0.1.4
 
 %if %{?skip_generator:0}%{!?skip_generator:1}
