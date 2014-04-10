@@ -50,6 +50,9 @@
   :foreman::plugin::chef:
     :dir_name: foreman
     :manifest_name: plugin/chef
+  :foreman::plugin::tasks:
+    :dir_name: foreman
+    :manifest_name: plugin/tasks
   :foreman::plugin::templates:
     :dir_name: foreman
     :manifest_name: plugin/templates
