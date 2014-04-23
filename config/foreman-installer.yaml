@@ -47,6 +47,7 @@
   :foreman::plugin::discovery:
     :dir_name: foreman
     :manifest_name: plugin/discovery
+    :params_name: plugin/discovery/params
   :foreman::plugin::chef:
     :dir_name: foreman
     :manifest_name: plugin/chef
