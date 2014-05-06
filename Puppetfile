@@ -4,7 +4,8 @@ forge 'http://forge.puppetlabs.com'
 mod 'puppetlabs/xinetd',        :git => 'https://github.com/puppetlabs/puppetlabs-xinetd'
 
 # Temporary fix for Ubuntu 14.04
-mod 'theforeman/apache',        :git => 'https://github.com/theforeman/puppetlabs-apache', :ref => 'fixes_ubuntu_1404'
+mod 'puppetlabs/apache',        :git => 'https://github.com/puppetlabs/puppetlabs-apache',
+                                :ref => 'c8bd21a0bfc837bb651ccd3ee4228d9aed168ec1'
 
 # Dependencies
 mod 'puppetlabs/mysql'
