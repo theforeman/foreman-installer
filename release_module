@@ -23,7 +23,8 @@ test -e modules/$MODULE/Modulefile || die "no Modulefile found in $MODULE"
 grep -q '^version' modules/$MODULE/Modulefile || die "no version found in Modulefile"
 grep -xq "## ${VERSION}" modules/$MODULE/CHANGELOG.md || die "no '## ${VERSION}' found in CHANGELOG.  Do this first, and add to your index or commit it."
 (cd modules/$MODULE && git rev-parse $VERSION >/dev/null 2>&1) && die "tag for ${VERSION} already exists"
-(cd modules/$MODULE && [ x$(git rev-parse --abbrev-ref HEAD) = xmaster ] ) || die "$MODULE isn't on master branch"
+branch=$(cd modules/$MODULE && git rev-parse --abbrev-ref HEAD)
+[[ x${branch} = xmaster || ${branch} =~ ^[0-9.]+-stable$ ]] || die "$MODULE isn't on master or stable branch"
 (cd modules/$MODULE && [ x$(git diff --shortstat -- CHANGELOG.md | wc -l) = x0 ] ) || die "CHANGELOG.md isn't in the git index or committed"
 [[ "$VERSION" =~ ^[0-9\.]+$ ]] || die "invalid version number"
 type puppet >/dev/null 2>&1 || die "puppet not installed"
@@ -48,6 +49,6 @@ echo
 echo Built pkg/$PKGS
 echo
 echo 'Next steps:'
-echo "  1. (cd modules/${MODULE} && git push origin master && git push origin ${VERSION})"
+echo "  1. (cd modules/${MODULE} && git push origin && git push origin ${VERSION})"
 echo "  2. visit http://forge.puppetlabs.com/theforeman/${MODULE} and log in"
 echo "  3. click Upload a New Release, and upload $(pwd)/pkg/$PKGS"
