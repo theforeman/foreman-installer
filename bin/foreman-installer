@@ -11,7 +11,7 @@ config_filename = File.basename($0) + ".yaml"
 
 # where to find answer file
 if File.exist?('config/' + config_filename)
-  CONFIG_FILE = 'config/' + config_filename   
+  CONFIG_FILE = 'config/' + config_filename
 else
   CONFIG_FILE = '/etc/foreman/' + config_filename
 end
@@ -57,26 +57,26 @@ exit 0 if @result.nil? # --help invocation
 # Puppet status codes say 0 for unchanged, 2 for changed succesfully
 if [0,2].include? @result.exit_code
   say "  <%= color('Success!', :good) %>"
-
-  # Foreman UI?
-  if module_enabled? 'foreman'
-    say "  * <%= color('Foreman', :info) %> is running at <%= color('#{get_param('foreman','foreman_url')}', :info) %>"
-    say "      Default credentials are '<%= color('admin:changeme', :info) %>'" if get_param('foreman','authentication') == true
-  end
-
-  # Proxy?
-  if module_enabled? 'foreman_proxy'
-    say "  * <%= color('Foreman Proxy', :info) %> is running at <%= color('#{get_param('foreman_proxy','registered_proxy_url')}', :info) %>"
-  end
-
-  # Puppetmaster?
-  if ( module_enabled?('puppet') && ( get_param('puppet','server') != false ) )
-    say "  * <%= color('Puppetmaster', :info) %> is running at <%= color('port #{get_param('puppet','server_port')}', :info) %>"
-  end
   exit_code = 0
 else
   say "  <%= color('Something went wrong!', :bad) %> Check the log for ERROR-level output"
   exit_code = @result.exit_code
+end
+
+# Foreman UI?
+if module_enabled? 'foreman'
+  say "  * <%= color('Foreman', :info) %> is running at <%= color('#{get_param('foreman','foreman_url')}', :info) %>"
+  say "      Initial credentials are <%= color('#{get_param('foreman', 'admin_username')}', :info) %> / <%= color('#{get_param('foreman', 'admin_password')}', :info) %>" if get_param('foreman','authentication') == true
+end
+
+# Proxy?
+if module_enabled? 'foreman_proxy'
+  say "  * <%= color('Foreman Proxy', :info) %> is running at <%= color('#{get_param('foreman_proxy','registered_proxy_url')}', :info) %>"
+end
+
+# Puppetmaster?
+if ( module_enabled?('puppet') && ( get_param('puppet','server') != false ) )
+  say "  * <%= color('Puppetmaster', :info) %> is running at <%= color('port #{get_param('puppet','server_port')}', :info) %>"
 end
 
 # This is always useful, success or fail
