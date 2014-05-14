@@ -15,6 +15,7 @@ foreman_proxy:
   custom_repo: true
 puppet:
   server: true
+foreman::cli: true
 foreman::plugin::bootdisk: true
 foreman::plugin::chef: false
 foreman::plugin::default_hostgroup: false
