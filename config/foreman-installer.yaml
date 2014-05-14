@@ -35,6 +35,10 @@
 
 # The mapping hash provides Kafo with the information to find plugin classes
 :mapping:
+  :foreman::cli:
+    :dir_name: foreman
+    :manifest_name: cli
+    :params_name: cli/params
   :foreman::plugin::bootdisk:
     :dir_name: foreman
     :manifest_name: plugin/bootdisk
