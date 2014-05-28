@@ -11,14 +11,14 @@ LOCALSTATEDIR = ENV['LOCALSTATEDIR'] || "#{PREFIX}/var"
 SHAREDSTAREDIR = ENV['SHAREDSTAREDIR'] || "#{LOCALSTATEDIR}/lib"
 DATAROOTDIR = DATADIR = ENV['DATAROOTDIR'] || "#{PREFIX}/share"
 MANDIR = ENV['MANDIR'] || "#{DATAROOTDIR}/man"
-
-file 'VERSION' do |t|
-  version = ENV['VERSION'] || '1.0-develop-' + Time.now.strftime("%Y%m%d%I%M")
-  File.open(t.name, 'w') { |f| f.puts version }
-end
+PKGDIR = ENV['PKGDIR'] || File.expand_path('pkg')
 
 file BUILDDIR do
   mkdir BUILDDIR
+end
+
+file PKGDIR do
+  mkdir PKGDIR
 end
 
 file "#{BUILDDIR}/foreman-installer.yaml" => 'config/foreman-installer.yaml' do |t|
@@ -110,6 +110,17 @@ end
 task :default => :build
 
 CLEAN.include [
-  'VERSION',
   '_build',
 ]
+
+namespace :pkg do
+  desc 'Generate package source tar.bz2'
+  task :generate_source => [PKGDIR, "#{BUILDDIR}/modules"] do
+    version = File.read('VERSION').chomp.chomp('-develop')
+    raise "can't find VERSION" if version.length == 0
+    Dir.chdir(BUILDDIR) { `tar -cf #{BUILDDIR}/modules.tar --transform=s,^,foreman-installer-#{version}/, modules/` }
+    `git archive --prefix=foreman-installer-#{version}/ HEAD > #{PKGDIR}/foreman-installer-#{version}.tar`
+    `tar --concatenate --file=#{PKGDIR}/foreman-installer-#{version}.tar #{BUILDDIR}/modules.tar`
+    `bzip2 -9 #{PKGDIR}/foreman-installer-#{version}.tar`
+  end
+end
