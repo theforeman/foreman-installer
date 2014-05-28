@@ -18,7 +18,6 @@ tags
 .idea
 
 pkg/
-VERSION
 _build
 .tmp/
 .librarian/
