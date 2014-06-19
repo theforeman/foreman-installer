@@ -1,8 +1,5 @@
 forge 'http://forge.puppetlabs.com'
 
-# Temporary for Amazon Linux support (https://github.com/puppetlabs/puppetlabs-xinetd/issues/32)
-mod 'puppetlabs/xinetd',        :git => 'https://github.com/puppetlabs/puppetlabs-xinetd'
-
 # Temporary fix for Ubuntu 14.04
 mod 'puppetlabs/apache',        :git => 'https://github.com/puppetlabs/puppetlabs-apache',
                                 :ref => 'c8bd21a0bfc837bb651ccd3ee4228d9aed168ec1'
