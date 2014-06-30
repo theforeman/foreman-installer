@@ -16,3 +16,4 @@ mod 'theforeman/tftp',          :git => 'https://github.com/theforeman/puppet-tf
 mod 'theforeman/foreman',       :git => 'https://github.com/theforeman/puppet-foreman'
 mod 'theforeman/foreman_proxy', :git => 'https://github.com/theforeman/puppet-foreman_proxy'
 mod 'theforeman/puppet',        :git => 'https://github.com/theforeman/puppet-puppet'
+mod 'theforeman/foreman_ipa',   :git => 'https://github.com/theforeman/puppet-foreman_ipa'
