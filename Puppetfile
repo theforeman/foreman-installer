@@ -4,9 +4,9 @@ forge 'http://forge.puppetlabs.com'
 mod 'puppetlabs/apache',        :git => 'https://github.com/puppetlabs/puppetlabs-apache',
                                 :ref => 'c8bd21a0bfc837bb651ccd3ee4228d9aed168ec1'
 
-# Temporary fix for EL7 support
-mod 'puppetlabs/postgresql',    :git => 'https://github.com/puppetlabs/puppetlabs-postgresql',
-                                :ref => '72c357a32a807bfecfa8fe21550931480cd94bfc'
+# Temporary fix for EL7 and F19 support
+mod 'puppetlabs/postgresql',    :git => 'https://github.com/theforeman/puppetlabs-postgresql',
+                                :ref => 'fedora-sysconfig'
 # Dependencies
 mod 'puppetlabs/mysql'
 mod 'theforeman/concat_native', :git => 'https://github.com/theforeman/puppet-concat'
