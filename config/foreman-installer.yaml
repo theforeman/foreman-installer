@@ -88,3 +88,7 @@
   :foreman::compute::ovirt:
     :dir_name: foreman
     :manifest_name: compute/ovirt
+  :foreman_proxy::plugin::pulp:
+    :manifest_name: plugin/pulp
+    :params_name: plugin/pulp/params
+    :dir_name: foreman_proxy
