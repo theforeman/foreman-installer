@@ -32,3 +32,4 @@ foreman::compute::openstack: false
 foreman::compute::ovirt: false
 foreman::compute::rackspace: false
 foreman::compute::vmware: false
+foreman_proxy::plugin::pulp: false
