@@ -3,6 +3,7 @@ forge 'http://forge.puppetlabs.com'
 # Dependencies
 mod 'puppetlabs/apache',        '< 1.2.0'
 mod 'puppetlabs/mysql',         '< 2.4.0'
+mod 'puppetlabs/postgresql',    '< 3.5.0'
 mod 'puppetlabs/stdlib',        '< 5.0.0'
 mod 'theforeman/concat_native', '>= 1.3.0 < 1.4.0'
 mod 'theforeman/dhcp',          '>= 1.4.0 < 1.5.0'
