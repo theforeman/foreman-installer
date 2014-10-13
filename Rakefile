@@ -93,7 +93,7 @@ task :build => [
 
 task :install => :build do |t|
   mkdir_p "#{DATADIR}/foreman-installer"
-  cp_r Dir.glob('{checks,config,VERSION,README.md,LICENSE}'), "#{DATADIR}/foreman-installer"
+  cp_r Dir.glob('{checks,config,hooks,VERSION,README.md,LICENSE}'), "#{DATADIR}/foreman-installer"
   cp_r "#{BUILDDIR}/modules", "#{DATADIR}/foreman-installer"
 
   mkdir_p "#{SYSCONFDIR}/foreman"

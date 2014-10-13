@@ -1,7 +1,5 @@
 #!/usr/bin/env ruby
 require 'rubygems'
-require 'highline/import'
-require 'yaml'
 require 'kafo'
 
 # base the answer file name on the file calling the
@@ -16,75 +14,13 @@ else
   CONFIG_FILE = '/etc/foreman/' + config_filename
 end
 
-# helpers
-def module_enabled?(name)
-  mod = @result.module(name)
-  return false if mod.nil?
-  mod.enabled?
-end
-
-def get_param(mod, name)
-  @result.param(mod, name).value
-end
-
-# functions specific to foreman installer
-Kafo::KafoConfigure.app_option '--reset-foreman-db', :flag,
-                               "Drop foreman database first? You will lose all data! Unfortunately we\n" +
-                               "can't detect a failure at the moment so you should verify the success\n" +
-                               'manually. e.g. dropping can fail when DB is currently in use.',
-    :default => false
-
-Kafo::KafoConfigure.app_option '--detailed-exitcodes', :flag,
-                               "Provide transaction information via exit codes, see puppet-agent(8)\n" +
-                               'for full details.', :default => false
-
-Kafo::KafoConfigure.hooking.register_pre(:reset_db) do |kafo|
-  if kafo.config.app[:reset_foreman_db] && !kafo.config.app[:noop]
-    `which foreman-rake > /dev/null 2>&1`
-    if $?.success?
-      Kafo::KafoConfigure.logger.info 'Dropping database!'
-      output = `foreman-rake db:drop 2>&1`
-      Kafo::KafoConfigure.logger.debug output.to_s
-      unless $?.success?
-        Kafo::KafoConfigure.logger.warn "Unable to drop DB, ignoring since it's not fatal, output was: '#{output}''"
-      end
-    else
-      Kafo::KafoConfigure.logger.warn 'Foreman not installed yet, can not drop database!'
-    end
-  end
-end
-
 # Run the install
 @result = Kafo::KafoConfigure.run
-exit 0 if @result.nil? # --help invocation
 
-# Puppet status codes say 0 for unchanged, 2 for changed succesfully
-if [0,2].include? @result.exit_code
-  say "  <%= color('Success!', :good) %>"
-  exit_code = @result.config.app[:detailed_exitcodes] ? @result.exit_code : 0
+# handle exit code when help was invoked or installer ended with '2' (success in puppet)
+if @result.nil? || (!@result.config.app[:detailed_exitcodes] && @result.exit_code == 2)
+  exit(0)
 else
-  say "  <%= color('Something went wrong!', :bad) %> Check the log for ERROR-level output"
-  exit_code = @result.exit_code
+  exit(@result.exit_code)
 end
 
-# Foreman UI?
-if module_enabled? 'foreman'
-  say "  * <%= color('Foreman', :info) %> is running at <%= color('#{get_param('foreman','foreman_url')}', :info) %>"
-  say "      Initial credentials are <%= color('#{get_param('foreman', 'admin_username')}', :info) %> / <%= color('#{get_param('foreman', 'admin_password')}', :info) %>" if get_param('foreman','authentication') == true
-end
-
-# Proxy?
-if module_enabled? 'foreman_proxy'
-  say "  * <%= color('Foreman Proxy', :info) %> is running at <%= color('#{get_param('foreman_proxy','registered_proxy_url')}', :info) %>"
-end
-
-# Puppetmaster?
-if ( module_enabled?('puppet') && ( get_param('puppet','server') != false ) )
-  say "  * <%= color('Puppetmaster', :info) %> is running at <%= color('port #{get_param('puppet','server_port')}', :info) %>"
-end
-
-# This is always useful, success or fail
-log = @result.config.app[:log_dir] + '/' + @result.config.app[:log_name]
-say "  The full log is at <%= color('#{log}', :info) %>"
-
-exit exit_code
