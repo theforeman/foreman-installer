@@ -52,6 +52,9 @@
     :dir_name: foreman
     :manifest_name: plugin/discovery
     :params_name: plugin/discovery/params
+  :foreman::plugin::ovirt_provision:
+    :dir_name: foreman
+    :manifest_name: plugin/ovirt_provision
   :foreman::plugin::chef:
     :dir_name: foreman
     :manifest_name: plugin/chef
