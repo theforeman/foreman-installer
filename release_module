@@ -37,7 +37,7 @@ TMPDIR=$(mktemp -d)
 trap "rm -rf $TMPDIR" EXIT ERR
 
 pushd modules/$MODULE >/dev/null
-if test -e modules/$MODULE/Modulefile; then
+if test -e Modulefile; then
   sed -i "/^version/ s/ .*/ '${VERSION}'/" Modulefile
   git add Modulefile
 else
