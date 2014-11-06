@@ -19,8 +19,12 @@ VERSION=$2
 
 test -d modules/$MODULE || die "no such module $MODULE"
 test -e modules/$MODULE/CHANGELOG.md || die "no CHANGELOG.md found in $MODULE"
-test -e modules/$MODULE/Modulefile || die "no Modulefile found in $MODULE"
-grep -q '^version' modules/$MODULE/Modulefile || die "no version found in Modulefile"
+test -e modules/$MODULE/Modulefile || test -e modules/$MODULE/metadata.json || die "no Modulefile/metadata.json found in $MODULE"
+if test -e modules/$MODULE/Modulefile; then
+  grep -q '^version' modules/$MODULE/Modulefile || die "no version found in Modulefile"
+else
+  grep -q '"version":' modules/$MODULE/metadata.json || die "no version found in metadata.json"
+fi
 grep -xq "## ${VERSION}" modules/$MODULE/CHANGELOG.md || die "no '## ${VERSION}' found in CHANGELOG.  Do this first, and add to your index or commit it."
 (cd modules/$MODULE && git rev-parse $VERSION >/dev/null 2>&1) && die "tag for ${VERSION} already exists"
 branch=$(cd modules/$MODULE && git rev-parse --abbrev-ref HEAD)
@@ -33,8 +37,13 @@ TMPDIR=$(mktemp -d)
 trap "rm -rf $TMPDIR" EXIT ERR
 
 pushd modules/$MODULE >/dev/null
-sed -i "/^version/ s/ .*/ '${VERSION}'/" Modulefile
-git add Modulefile
+if test -e modules/$MODULE/Modulefile; then
+  sed -i "/^version/ s/ .*/ '${VERSION}'/" Modulefile
+  git add Modulefile
+else
+  sed -i "/\"version\"/ s/\"[0-9\.]\+\"/\"${VERSION}\"/" metadata.json
+  git add metadata.json
+fi
 git ci -m "Release ${VERSION}"
 git tag -m "Release ${VERSION}" $VERSION
 git archive $VERSION | (cd $TMPDIR && tar -xf -)
