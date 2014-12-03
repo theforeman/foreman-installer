@@ -48,6 +48,9 @@
   :foreman::plugin::hooks:
     :dir_name: foreman
     :manifest_name: plugin/hooks
+  :foreman::plugin::digitalocean:
+    :dir_name: foreman
+    :manifest_name: plugin/digitalocean
   :foreman::plugin::discovery:
     :dir_name: foreman
     :manifest_name: plugin/discovery

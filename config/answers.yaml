@@ -19,6 +19,7 @@ foreman::cli: true
 foreman::plugin::bootdisk: true
 foreman::plugin::chef: false
 foreman::plugin::default_hostgroup: false
+foreman::plugin::digitalocean: false
 foreman::plugin::discovery: false
 foreman::plugin::ovirt_provision: false
 foreman::plugin::tasks: false
