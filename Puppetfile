@@ -1,9 +1,5 @@
 forge 'http://forge.puppetlabs.com'
 
-# Temporary fix for Ubuntu 12.04 setting alternative to manual mode
-mod 'adrien/alternatives',      :git => 'https://github.com/domcleal/puppet-alternatives',
-                                :ref => 'mode'
-
 # Dependencies
 mod 'puppetlabs/mysql'
 mod 'theforeman/concat_native', :git => 'https://github.com/theforeman/puppet-concat'
