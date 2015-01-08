@@ -74,6 +74,9 @@
   :foreman::plugin::templates:
     :dir_name: foreman
     :manifest_name: plugin/templates
+  :foreman::plugin::salt:
+    :dir_name: foreman
+    :manifest_name: plugin/salt
   :foreman::plugin::setup:
     :dir_name: foreman
     :manifest_name: plugin/setup
@@ -116,4 +119,8 @@
   :foreman_proxy::plugin::pulp:
     :manifest_name: plugin/pulp
     :params_name: plugin/pulp/params
+    :dir_name: foreman_proxy
+  :foreman_proxy::plugin::salt:
+    :manifest_name: plugin/salt
+    :params_name: plugin/salt/params
     :dir_name: foreman_proxy
