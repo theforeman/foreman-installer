@@ -26,6 +26,7 @@ foreman::plugin::ovirt_provision: false
 foreman::plugin::tasks: false
 foreman::plugin::hooks: false
 foreman::plugin::puppetdb: false
+foreman::plugin::salt: false
 foreman::plugin::setup: true
 foreman::plugin::templates: false
 foreman::compute::ec2: false
@@ -36,3 +37,4 @@ foreman::compute::ovirt: false
 foreman::compute::rackspace: false
 foreman::compute::vmware: false
 foreman_proxy::plugin::pulp: false
+foreman_proxy::plugin::salt: false
