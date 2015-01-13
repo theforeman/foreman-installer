@@ -97,6 +97,10 @@
   :foreman::compute::ovirt:
     :dir_name: foreman
     :manifest_name: compute/ovirt
+  :foreman_proxy::plugin::abrt:
+    :manifest_name: plugin/abrt
+    :params_name: plugin/abrt/params
+    :dir_name: foreman_proxy
   :foreman_proxy::plugin::pulp:
     :manifest_name: plugin/pulp
     :params_name: plugin/pulp/params
