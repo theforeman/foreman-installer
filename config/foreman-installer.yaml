@@ -105,6 +105,10 @@
     :manifest_name: plugin/abrt
     :params_name: plugin/abrt/params
     :dir_name: foreman_proxy
+  :foreman_proxy::plugin::chef:
+    :manifest_name: plugin/chef
+    :params_name: plugin/chef/params
+    :dir_name: foreman_proxy
   :foreman_proxy::plugin::openscap:
     :manifest_name: plugin/openscap
     :params_name: plugin/openscap/params

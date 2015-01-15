@@ -37,5 +37,6 @@ foreman::compute::ovirt: false
 foreman::compute::rackspace: false
 foreman::compute::vmware: false
 foreman_proxy::plugin::abrt: false
+foreman_proxy::plugin::chef: false
 foreman_proxy::plugin::openscap: false
 foreman_proxy::plugin::pulp: false
