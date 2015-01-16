@@ -58,6 +58,10 @@
   :foreman::plugin::docker:
     :dir_name: foreman
     :manifest_name: plugin/docker
+  :foreman::plugin::openscap:
+    :dir_name: foreman
+    :params_name: plugin/openscap/params
+    :manifest_name: plugin/openscap
   :foreman::plugin::ovirt_provision:
     :dir_name: foreman
     :manifest_name: plugin/ovirt_provision
@@ -100,6 +104,10 @@
   :foreman_proxy::plugin::abrt:
     :manifest_name: plugin/abrt
     :params_name: plugin/abrt/params
+    :dir_name: foreman_proxy
+  :foreman_proxy::plugin::openscap:
+    :manifest_name: plugin/openscap
+    :params_name: plugin/openscap/params
     :dir_name: foreman_proxy
   :foreman_proxy::plugin::pulp:
     :manifest_name: plugin/pulp
