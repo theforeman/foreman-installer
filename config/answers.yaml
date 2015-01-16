@@ -22,6 +22,7 @@ foreman::plugin::default_hostgroup: false
 foreman::plugin::digitalocean: false
 foreman::plugin::discovery: false
 foreman::plugin::docker: false
+foreman::plugin::openscap: false
 foreman::plugin::ovirt_provision: false
 foreman::plugin::tasks: false
 foreman::plugin::hooks: false
@@ -36,4 +37,5 @@ foreman::compute::ovirt: false
 foreman::compute::rackspace: false
 foreman::compute::vmware: false
 foreman_proxy::plugin::abrt: false
+foreman_proxy::plugin::openscap: false
 foreman_proxy::plugin::pulp: false
