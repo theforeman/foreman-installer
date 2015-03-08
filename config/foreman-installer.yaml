@@ -32,6 +32,10 @@
   - foreman
   - foreman_proxy
   - puppet
+:low_priority_modules:
+  - foreman_proxy_plugin
+  - foreman_compute
+  - foreman_plugin
 
 # The mapping hash provides Kafo with the information to find plugin classes
 :mapping:
