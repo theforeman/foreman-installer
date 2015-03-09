@@ -1,14 +1,17 @@
 forge 'http://forge.puppetlabs.com'
 
 # Dependencies
-mod 'puppetlabs/mysql'
-mod 'theforeman/concat_native', :git => 'https://github.com/theforeman/puppet-concat_native'
-mod 'theforeman/dhcp',          :git => 'https://github.com/theforeman/puppet-dhcp'
-mod 'theforeman/dns',           :git => 'https://github.com/theforeman/puppet-dns'
-mod 'theforeman/git',           :git => 'https://github.com/theforeman/puppet-git'
-mod 'theforeman/tftp',          :git => 'https://github.com/theforeman/puppet-tftp'
+mod 'puppetlabs/apache',        '< 1.4.0'
+mod 'puppetlabs/mysql',         '< 3.4.0'
+mod 'puppetlabs/postgresql',    '< 4.2.0'
+mod 'puppetlabs/stdlib',        '< 5.0.0'
+mod 'theforeman/concat_native', '>= 1.3.0 < 1.4.0'
+mod 'theforeman/dhcp',          '>= 1.6.0 < 1.7.0'
+mod 'theforeman/dns',           '>= 2.0.0 < 2.1.0'
+mod 'theforeman/git',           '>= 1.4.0 < 1.5.0'
+mod 'theforeman/tftp',          '>= 1.5.0 < 1.6.0'
 
 # Top-level modules
-mod 'theforeman/foreman',       :git => 'https://github.com/theforeman/puppet-foreman'
-mod 'theforeman/foreman_proxy', :git => 'https://github.com/theforeman/puppet-foreman_proxy'
-mod 'theforeman/puppet',        :git => 'https://github.com/theforeman/puppet-puppet'
+mod 'theforeman/foreman',       '>= 3.0.0 < 3.1.0'
+mod 'theforeman/foreman_proxy', '>= 2.2.0 < 2.3.0'
+mod 'theforeman/puppet',        '>= 3.0.0 < 3.1.0'
