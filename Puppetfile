@@ -2,6 +2,7 @@ forge 'http://forge.puppetlabs.com'
 
 # Dependencies
 mod 'puppetlabs/mysql'
+mod 'puppetlabs/puppetdb'
 mod 'theforeman/concat_native', :git => 'https://github.com/theforeman/puppet-concat_native'
 mod 'theforeman/dhcp',          :git => 'https://github.com/theforeman/puppet-dhcp'
 mod 'theforeman/dns',           :git => 'https://github.com/theforeman/puppet-dns'
