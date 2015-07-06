@@ -13,6 +13,6 @@ mod 'theforeman/git',           '>= 1.4.0 < 1.5.0'
 mod 'theforeman/tftp',          '>= 1.5.0 < 1.6.0'
 
 # Top-level modules
-mod 'theforeman/foreman',       '>= 3.1.0 < 3.2.0'
+mod 'theforeman/foreman',       '>= 4.0.0 < 4.1.0'
 mod 'theforeman/foreman_proxy', '>= 2.3.0 < 2.4.0'
-mod 'theforeman/puppet',        '>= 3.1.0 < 3.2.0'
+mod 'theforeman/puppet',        '>= 4.0.0 < 4.1.0'
