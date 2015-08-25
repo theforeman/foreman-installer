@@ -84,6 +84,9 @@
   :foreman::plugin::templates:
     :dir_name: foreman
     :manifest_name: plugin/templates
+  :foreman::plugin::remote_execution:
+    :dir_name: foreman
+    :manifest_name: plugin/remote_execution
   :foreman::plugin::salt:
     :dir_name: foreman
     :manifest_name: plugin/salt
@@ -122,6 +125,10 @@
     :manifest_name: plugin/chef
     :params_name: plugin/chef/params
     :dir_name: foreman_proxy
+  :foreman_proxy::plugin::dynflow:
+    :manifest_name: plugin/dynflow
+    :params_name: plugin/dynflow/params
+    :dir_name: foreman_proxy
   :foreman_proxy::plugin::openscap:
     :manifest_name: plugin/openscap
     :params_name: plugin/openscap/params
@@ -129,6 +136,10 @@
   :foreman_proxy::plugin::pulp:
     :manifest_name: plugin/pulp
     :params_name: plugin/pulp/params
+    :dir_name: foreman_proxy
+  :foreman_proxy::plugin::remote_execution::ssh:
+    :manifest_name: plugin/remote_execution/ssh
+    :params_name: plugin/remote_execution/ssh/params
     :dir_name: foreman_proxy
   :foreman_proxy::plugin::salt:
     :manifest_name: plugin/salt
