@@ -48,6 +48,7 @@
     :manifest_name: plugin/bootdisk
   :foreman::plugin::puppetdb:
     :dir_name: foreman
+    :params_name: plugin/puppetdb/params
     :manifest_name: plugin/puppetdb
   :foreman::plugin::hooks:
     :dir_name: foreman
@@ -68,12 +69,14 @@
     :manifest_name: plugin/openscap
   :foreman::plugin::ovirt_provision:
     :dir_name: foreman
+    :params_name: plugin/ovirt_provision/params
     :manifest_name: plugin/ovirt_provision
   :foreman::plugin::chef:
     :dir_name: foreman
     :manifest_name: plugin/chef
   :foreman::plugin::tasks:
     :dir_name: foreman
+    :params_name: plugin/tasks/params
     :manifest_name: plugin/tasks
   :foreman::plugin::templates:
     :dir_name: foreman
