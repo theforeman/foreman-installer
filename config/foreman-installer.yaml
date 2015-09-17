@@ -53,6 +53,9 @@
   :foreman::plugin::hooks:
     :dir_name: foreman
     :manifest_name: plugin/hooks
+  :foreman::plugin::dhcp_browser:
+    :dir_name: foreman
+    :manifest_name: plugin/dhcp_browser
   :foreman::plugin::digitalocean:
     :dir_name: foreman
     :manifest_name: plugin/digitalocean
