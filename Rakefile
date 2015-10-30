@@ -118,7 +118,7 @@ namespace :pkg do
   task :generate_source => [PKGDIR, "#{BUILDDIR}/modules"] do
     version = File.read('VERSION').chomp.chomp('-develop')
     raise "can't find VERSION" if version.length == 0
-    Dir.chdir(BUILDDIR) { `tar -cf #{BUILDDIR}/modules.tar --transform=s,^,foreman-installer-#{version}/, modules/` }
+    Dir.chdir(BUILDDIR) { `tar -cf #{BUILDDIR}/modules.tar --exclude-vcs --exclude=spec --transform=s,^,foreman-installer-#{version}/, modules/` }
     `git archive --prefix=foreman-installer-#{version}/ HEAD > #{PKGDIR}/foreman-installer-#{version}.tar`
     `tar --concatenate --file=#{PKGDIR}/foreman-installer-#{version}.tar #{BUILDDIR}/modules.tar`
     `bzip2 -9 #{PKGDIR}/foreman-installer-#{version}.tar`
