@@ -18,6 +18,7 @@ puppet:
 foreman::cli: true
 foreman::plugin::bootdisk: false
 foreman::plugin::chef: false
+foreman::plugin::cockpit: false
 foreman::plugin::default_hostgroup: false
 foreman::plugin::dhcp_browser: false
 foreman::plugin::digitalocean: false

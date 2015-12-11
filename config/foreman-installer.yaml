@@ -46,6 +46,9 @@
   :foreman::plugin::bootdisk:
     :dir_name: foreman
     :manifest_name: plugin/bootdisk
+  :foreman::plugin::cockpit:
+    :dir_name: foreman
+    :manifest_name: plugin/cockpit
   :foreman::plugin::puppetdb:
     :dir_name: foreman
     :params_name: plugin/puppetdb/params
