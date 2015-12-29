@@ -69,6 +69,10 @@
   :foreman::plugin::docker:
     :dir_name: foreman
     :manifest_name: plugin/docker
+  :foreman::plugin::memcache:
+    :dir_name: foreman
+    :manifest_name: plugin/memcache
+    :params_name: plugin/memcache/params
   :foreman::plugin::openscap:
     :dir_name: foreman
     :params_name: plugin/openscap/params
