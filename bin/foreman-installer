@@ -2,16 +2,10 @@
 require 'rubygems'
 require 'kafo'
 
-# base the answer file name on the file calling the
-# script.  This allows other programs to use their own
-# files if named based on their executable
-config_filename = File.basename($0) + ".yaml"
-
-# where to find answer file
-if File.exist?('config/' + config_filename)
-  CONFIG_FILE = 'config/' + config_filename
+if Dir.glob('config/*.yaml').any?
+  CONFIG_DIR = 'config/'
 else
-  CONFIG_FILE = '/etc/foreman/' + config_filename
+  CONFIG_DIR = '/etc/foreman-installer/scenarios.d/'
 end
 
 # Run the install
@@ -23,4 +17,3 @@ if @result.nil? || (!@result.config.app[:detailed_exitcodes] && @result.exit_cod
 else
   exit(@result.exit_code)
 end
-

@@ -12,6 +12,10 @@ SYNOPSIS
 --------
 foreman-installer
 
+foreman-installer --list-scenarios
+
+foreman-installer --scenario foreman
+
 foreman-installer --parameter=value
 
 foreman-installer --parameter=value -v
@@ -69,9 +73,9 @@ arguments to foreman-installer. Run `foreman-installer --help` for a list of
 every available option.
 
 When running the installer, all arguments passed on the command line will be
-persisted by default to `/etc/foreman/foreman-installer.yaml` and used
-automatically on subsequent runs, without needing to specify those arguments
-again. This persistence can be disabled with the -b option.
+persisted by default to `/etc/foreman-installer/scenarios.d/foreman.yaml`
+and used automatically on subsequent runs, without needing to specify those
+arguments again. This persistence can be disabled with the -b option.
 
 `Interactive mode`
 ~~~~~~~~~~~~~~~~~~
@@ -86,8 +90,9 @@ parameters, and can be run by executing:
 
 The answers file describes the classes that will be applied to the host to
 install Foreman, along with their parameters. The foreman-installer package
-stores it at `/etc/foreman/foreman-installer.yaml`. By default, the all-in-one
-setup will include Foreman, a puppetmaster, Puppet agent, and the Smart Proxy:
+stores it at `/etc/foreman-installer/scenarios.d/foreman-answers.yaml`.
+By default, the all-in-one setup will include Foreman, a puppetmaster,
+Puppet agent, and the Smart Proxy:
 
   ---
   foreman:
@@ -143,6 +148,29 @@ Enable 'puppet' puppet module (default: true)
 Drops the Foreman database, then runs the installer to recreate and reset it.
 This is a PERMANENT action and will destroy all data stored in Foreman.
 
+--detailed-exitcodes::
+Provide transaction information via exit codes, see puppet-agent(8) for
+full details. (default: false)
+
+-p, --profile::
+Run Puppet in profile mode? (default: false)
+
+-s, --skip-checks-i-know-better::
+Skip all system checks (default: false)
+
+-S, --scenario SCENARIO::
+Use installation scenario
+
+--list-scenarios::
+List available installation scenaraios
+
+--force::
+Force change of installation scenaraio
+
+--compare-scenarios::
+Show changes between last used scenario and the scenario specified
+with -S or --scenario argument.
+
 
 `Parameters for modules`
 ~~~~~~~~~~~~~~~~~~~~~~~~
@@ -155,13 +183,21 @@ The following parameters are available as installer arguments:
 EXAMPLES
 --------
 
+List available scenarios
+
+  foreman-installer --list-scenarios
+
 Install with default options
 
   foreman-installer
 
-Install with default options in verbose mode
+Install with default options for specified scenario
 
-  foreman-installer -v
+  foreman-installer --scenario foreman
+
+Install with default options for specified scenario in verbose mode
+
+  foreman-installer --scenario foreman -v
 
 Install TFTP, DHCP, DNS with provided options
 
@@ -175,9 +211,9 @@ Install TFTP, DHCP, DNS with provided options
 FILES
 -----
 
-`/etc/foreman/foreman-installer.yaml`::
-Foreman-installer is based on the 'kafo' project. Contains configuration for
-foreman-installer itself.
+`/etc/foreman-installer/scenarios.d/foreman.yaml`::
+Foreman-installer is based on the 'kafo' project. Contains
+configuration (a.k.a. scenario) for foreman-installer itself.
 
-`/etc/foreman/foreman-installer-answers.yaml`::
+`/etc/foreman-installer/scenarios.d/foreman-answers.yaml`::
 Contains answers taken from user input.
