@@ -21,11 +21,11 @@ file PKGDIR do
   mkdir PKGDIR
 end
 
-file "#{BUILDDIR}/foreman-installer.yaml" => 'config/foreman-installer.yaml' do |t|
+file "#{BUILDDIR}/foreman.yaml" => 'config/foreman.yaml' do |t|
   cp t.prerequisites[0], t.name
-  sh 'sed -i "s#\(.*answer_file:\).*#\1 %s#" %s' % ["#{SYSCONFDIR}/foreman/foreman-installer-answers.yaml", t.name]
+  sh 'sed -i "s#\(.*answer_file:\).*#\1 %s#" %s' % ["#{SYSCONFDIR}/foreman-installer/scenarios.d/foreman-answers.yaml", t.name]
   sh 'sed -i "s#\(.*installer_dir:\).*#\1 %s#" %s' % ["#{DATADIR}/foreman-installer", t.name]
-  sh 'sed -i "s#\(.*modules_dir:\).*#\1 %s#" %s' % ["#{DATADIR}/foreman-installer/modules", t.name]
+  sh 'sed -i "s#\(.*module_dirs:\).*#\1 %s#" %s' % ["#{DATADIR}/foreman-installer/modules", t.name]
   if ENV['KAFO_MODULES_DIR']
     sh 'sed -i "s#.*\(:kafo_modules_dir:\).*#\1 %s#" %s' % [ENV['KAFO_MODULES_DIR'], t.name]
   end
@@ -33,7 +33,7 @@ end
 
 file "#{BUILDDIR}/foreman-installer" => 'bin/foreman-installer' do |t|
   cp t.prerequisites[0], t.name
-  sh 'sed -i "s#\(^.*CONFIG_FILE = \'/etc/foreman\'*.\).*#  CONFIG_FILE = %s#" %s' % ["'#{SYSCONFDIR}/foreman/' + config_filename", t.name]
+  sh 'sed -i "s#\(^.*CONFIG_DIR = \'/etc/foreman-installer/scenarios.d\'*.\).*#  CONFIG_DIR = %s#" %s' % ["'#{SYSCONFDIR}/foreman-installer/scenarios.d/'", t.name]
 end
 
 file "#{BUILDDIR}/options.asciidoc" => "#{BUILDDIR}/modules" do |t|
@@ -43,7 +43,7 @@ file "#{BUILDDIR}/options.asciidoc" => "#{BUILDDIR}/modules" do |t|
     '/usr/bin',
     ENV['KAFO_EXPORTER']).each do |exporter|
     if File.executable? "#{exporter}/kafo-export-params"
-      sh "#{exporter}/kafo-export-params -c config/foreman-installer.yaml -f asciidoc > #{BUILDDIR}/options.asciidoc"
+      sh "#{exporter}/kafo-export-params -c config/foreman.yaml -f asciidoc > #{BUILDDIR}/options.asciidoc"
     end
   end
 end
@@ -85,7 +85,7 @@ end
 task :build => [
   BUILDDIR,
   'VERSION',
-  "#{BUILDDIR}/foreman-installer.yaml",
+  "#{BUILDDIR}/foreman.yaml",
   "#{BUILDDIR}/foreman-installer",
   "#{BUILDDIR}/foreman-installer.8",
   "#{BUILDDIR}/modules",
@@ -96,9 +96,9 @@ task :install => :build do |t|
   cp_r Dir.glob('{checks,config,hooks,VERSION,README.md,LICENSE}'), "#{DATADIR}/foreman-installer"
   cp_r "#{BUILDDIR}/modules", "#{DATADIR}/foreman-installer"
 
-  mkdir_p "#{SYSCONFDIR}/foreman"
-  cp "#{BUILDDIR}/foreman-installer.yaml", "#{SYSCONFDIR}/foreman/"
-  cp "config/answers.yaml", "#{SYSCONFDIR}/foreman/foreman-installer-answers.yaml"
+  mkdir_p "#{SYSCONFDIR}/foreman-installer/scenarios.d"
+  cp "#{BUILDDIR}/foreman.yaml", "#{SYSCONFDIR}/foreman-installer/scenarios.d/"
+  cp "config/foreman-answers.yaml", "#{SYSCONFDIR}/foreman-installer/scenarios.d/foreman-answers.yaml"
 
   mkdir_p SBINDIR
   install "#{BUILDDIR}/foreman-installer", "#{SBINDIR}/foreman-installer", :mode => 0755, :verbose => true

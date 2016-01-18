@@ -31,16 +31,16 @@ than are available in base OS repos.
 
 # Setup
 
-Please review the "answers" or setup file: /etc/foreman/foreman-installer-answers.yaml. This file allows
+Please review the "answers" or setup file: /etc/foreman-installer/scenarios.d/foreman-answers.yaml. This file allows
 you to override any of the default parameters (as specified in <module>/manifests/params.pp)
 
 Once you are fine with your answer file, install it with this command:
 
-    foreman-install
+    foreman-installer
 
 or if you prefer interactive mode
 
-    foreman-install -i
+    foreman-installer -i
 
 
 The answer file is a yaml format. For a module just using the defaults, simply put

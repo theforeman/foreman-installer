@@ -3,14 +3,14 @@
 
 ## Installer configuration
 # Path to answer file
-:answer_file: ./config/answers.yaml
+:answer_file: ./config/foreman-answers.yaml
 :installer_dir: .
 # Uncomment if you want to load puppet modules from a specific path, $pwd/modules is used by default
-:modules_dir: ./_build/modules
+:module_dirs: ./_build/modules
 
 ## Useful for development, e.g. when you want to move log files to local directory
 :log_dir: '/var/log/foreman-installer'
-:log_name: 'foreman-installer.log'
+:log_name: 'foreman.log'
 :log_level: :debug
 
 # Change if you want to debug default answers for you modules, this directory holds default answers
@@ -27,6 +27,7 @@
 
 ## Kafo tuning, customization of core functionality
 :name: Foreman
+:description: Default installation of Foreman
 # :no_prefix: false
 :order:
   - foreman
