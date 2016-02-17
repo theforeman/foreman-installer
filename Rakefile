@@ -74,7 +74,7 @@ file "#{BUILDDIR}/foreman-installer.8" => "#{BUILDDIR}/foreman-installer.8.ascii
   end
 end
 
-file "#{BUILDDIR}/modules" do |t|
+file "#{BUILDDIR}/modules" => BUILDDIR do |t|
   if Dir["modules/*"].empty?
     sh "librarian-puppet install --verbose --path #{BUILDDIR}/modules"
   else
