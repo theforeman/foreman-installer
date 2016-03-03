@@ -13,7 +13,11 @@ end
 
 # Proxy?
 if @kafo.config.module_enabled? 'foreman_proxy'
-  say "  * <%= color('Foreman Proxy', :info) %> is running at <%= color('#{param('foreman_proxy','registered_proxy_url').value}', :info) %>"
+  proxy_url = param('foreman_proxy','registered_proxy_url').value
+  if proxy_url.nil? || proxy_url.empty?
+    proxy_url = "https://#{param('foreman_proxy','registered_name').value}:#{param('foreman_proxy','ssl_port').value}"
+  end
+  say "  * <%= color('Foreman Proxy', :info) %> is running at <%= color('#{proxy_url}', :info) %>"
 end
 
 # Puppetmaster?
