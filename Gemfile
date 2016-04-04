@@ -1,6 +1,6 @@
 source 'https://rubygems.org'
 
-gem 'kafo', '>= 0.7.1'
+gem 'kafo', '>= 0.8.0'
 gem 'librarian-puppet'
 gem 'puppet', ENV.key?('PUPPET_VERSION') ? "~> #{ENV['PUPPET_VERSION']}" : '~> 3.0'
 gem 'rake'
