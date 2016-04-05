@@ -1,4 +1,5 @@
 require 'rake/clean'
+require 'yaml'
 
 BUILDDIR = File.expand_path(ENV['BUILDDIR'] || '_build')
 PREFIX = ENV['PREFIX'] || '/usr/local'
@@ -13,13 +14,8 @@ DATAROOTDIR = DATADIR = ENV['DATAROOTDIR'] || "#{PREFIX}/share"
 MANDIR = ENV['MANDIR'] || "#{DATAROOTDIR}/man"
 PKGDIR = ENV['PKGDIR'] || File.expand_path('pkg')
 
-file BUILDDIR do
-  mkdir BUILDDIR
-end
-
-file PKGDIR do
-  mkdir PKGDIR
-end
+directory BUILDDIR
+directory PKGDIR
 
 file "#{BUILDDIR}/foreman.yaml" => 'config/foreman.yaml' do |t|
   cp t.prerequisites[0], t.name
@@ -74,6 +70,7 @@ file "#{BUILDDIR}/foreman-installer.8" => "#{BUILDDIR}/foreman-installer.8.ascii
   end
 end
 
+directory "#{BUILDDIR}/modules"
 file "#{BUILDDIR}/modules" => BUILDDIR do |t|
   if Dir["modules/*"].empty?
     sh "librarian-puppet install --verbose --path #{BUILDDIR}/modules"
@@ -82,23 +79,42 @@ file "#{BUILDDIR}/modules" => BUILDDIR do |t|
   end
 end
 
+# Store migration scripts under DATADIR, symlinked back into SYSCONFDIR and keep .applied file in SYSCONFDIR
+directory "#{BUILDDIR}/foreman.migrations"
+file "#{BUILDDIR}/foreman.migrations" => BUILDDIR do |t|
+  # These symlinks are broken until installation, so don't reference them in rake file tasks
+  ln_s "#{DATADIR}/foreman-installer/config/foreman.migrations", "#{t.name}/foreman.migrations"
+  ln_s "#{SYSCONFDIR}/foreman-installer/scenarios.d/foreman-migrations-applied", "#{t.name}/.applied"
+end
+
+# Generate an empty applied migrations file to ensure the symlink is preserved
+file "#{BUILDDIR}/foreman-migrations-applied" => BUILDDIR do |t|
+  File.open(t.name, 'w') { |f| f.write([].to_yaml) }
+end
+
 task :build => [
   BUILDDIR,
   'VERSION',
   "#{BUILDDIR}/foreman.yaml",
   "#{BUILDDIR}/foreman-installer",
   "#{BUILDDIR}/foreman-installer.8",
+  "#{BUILDDIR}/foreman.migrations",
+  "#{BUILDDIR}/foreman-migrations-applied",
   "#{BUILDDIR}/modules",
 ]
 
 task :install => :build do |t|
   mkdir_p "#{DATADIR}/foreman-installer"
   cp_r Dir.glob('{checks,config,hooks,VERSION,README.md,LICENSE}'), "#{DATADIR}/foreman-installer"
+  copy_entry "#{BUILDDIR}/foreman.migrations/.applied", "#{DATADIR}/foreman-installer/config/foreman.migrations/.applied"
   cp_r "#{BUILDDIR}/modules", "#{DATADIR}/foreman-installer"
 
   mkdir_p "#{SYSCONFDIR}/foreman-installer/scenarios.d"
   cp "#{BUILDDIR}/foreman.yaml", "#{SYSCONFDIR}/foreman-installer/scenarios.d/"
   cp "config/foreman-answers.yaml", "#{SYSCONFDIR}/foreman-installer/scenarios.d/foreman-answers.yaml"
+
+  cp "#{BUILDDIR}/foreman-migrations-applied", "#{SYSCONFDIR}/foreman-installer/scenarios.d/foreman-migrations-applied"
+  copy_entry "#{BUILDDIR}/foreman.migrations/foreman.migrations", "#{SYSCONFDIR}/foreman-installer/scenarios.d/foreman.migrations"
 
   mkdir_p SBINDIR
   install "#{BUILDDIR}/foreman-installer", "#{SBINDIR}/foreman-installer", :mode => 0755, :verbose => true
