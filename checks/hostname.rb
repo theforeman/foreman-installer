@@ -1,11 +1,5 @@
 #!/usr/bin/env ruby
 
-begin
-  require 'rubygems'
-rescue LoadError
-end
-require 'facter'
-
 BASE = %q(If needed, change the hostname permanently via 'hostname' command and editing 
 appropriate configuration file.
 (e.g. on Red Hat systems /etc/sysconfig/network).
@@ -32,8 +26,11 @@ def error_exit(message, code)
   exit code
 end
 
+ENV['PATH'] = ENV['PATH'].split(File::PATH_SEPARATOR).concat(['/opt/puppetlabs/bin']).join(File::PATH_SEPARATOR)
+facter_fqdn = `facter fqdn`.chomp
+
 # Check that facter actually has a value that matches the hostname.
 # This should always be true for facter >= 1.7
-error_exit(DIFFERENT + BASE, 1) if Facter.value(:fqdn) != `hostname -f`.chomp
+error_exit(DIFFERENT + BASE, 1) if facter_fqdn != `hostname -f`.chomp
 # Every FQDN should have at least one dot
-error_exit(INVALID + BASE, 2) unless Facter.value(:fqdn).include?('.')
+error_exit(INVALID + BASE, 2) unless facter_fqdn.include?('.')
