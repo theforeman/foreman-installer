@@ -10,6 +10,7 @@ INCLUDEDIR = ENV['INCLUDEDIR'] || "#{PREFIX}/include"
 SYSCONFDIR = ENV['SYSCONFDIR'] || "#{PREFIX}/etc"
 LOCALSTATEDIR = ENV['LOCALSTATEDIR'] || "#{PREFIX}/var"
 SHAREDSTAREDIR = ENV['SHAREDSTAREDIR'] || "#{LOCALSTATEDIR}/lib"
+LOGDIR = ENV['LOGDIR'] || "#{LOCALSTATEDIR}/log"
 DATAROOTDIR = DATADIR = ENV['DATAROOTDIR'] || "#{PREFIX}/share"
 MANDIR = ENV['MANDIR'] || "#{DATAROOTDIR}/man"
 PKGDIR = ENV['PKGDIR'] || File.expand_path('pkg')
@@ -21,6 +22,7 @@ file "#{BUILDDIR}/foreman.yaml" => 'config/foreman.yaml' do |t|
   cp t.prerequisites[0], t.name
   sh 'sed -i "s#\(.*answer_file:\).*#\1 %s#" %s' % ["#{SYSCONFDIR}/foreman-installer/scenarios.d/foreman-answers.yaml", t.name]
   sh 'sed -i "s#\(.*installer_dir:\).*#\1 %s#" %s' % ["#{DATADIR}/foreman-installer", t.name]
+  sh 'sed -i "s#\(.*log_dir:\).*#\1 %s#" %s' % ["#{LOGDIR}/foreman-installer", t.name]
   sh 'sed -i "s#\(.*module_dirs:\).*#\1 %s#" %s' % ["#{DATADIR}/foreman-installer/modules", t.name]
   if ENV['KAFO_MODULES_DIR']
     sh 'sed -i "s#.*\(:kafo_modules_dir:\).*#\1 %s#" %s' % [ENV['KAFO_MODULES_DIR'], t.name]
@@ -29,7 +31,7 @@ end
 
 file "#{BUILDDIR}/foreman-installer" => 'bin/foreman-installer' do |t|
   cp t.prerequisites[0], t.name
-  sh 'sed -i "s#\(^.*CONFIG_DIR = \'/etc/foreman-installer/scenarios.d\'*.\).*#  CONFIG_DIR = %s#" %s' % ["'#{SYSCONFDIR}/foreman-installer/scenarios.d/'", t.name]
+  sh 'sed -i "s#\(^.*CONFIG_DIR = \).*#CONFIG_DIR = %s#" %s' % ["'#{SYSCONFDIR}/foreman-installer/scenarios.d/'", t.name]
 end
 
 file "#{BUILDDIR}/options.asciidoc" => "#{BUILDDIR}/modules" do |t|
@@ -121,6 +123,8 @@ task :install => :build do |t|
 
   mkdir_p "#{MANDIR}/man8"
   cp "#{BUILDDIR}/foreman-installer.8", "#{MANDIR}/man8/"
+
+  mkdir_p "#{LOGDIR}/foreman-installer"
 end
 
 task :default => :build

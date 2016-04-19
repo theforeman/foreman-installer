@@ -2,11 +2,7 @@
 require 'rubygems'
 require 'kafo'
 
-if Dir.glob('config/*.yaml').any?
-  CONFIG_DIR = 'config/'
-else
-  CONFIG_DIR = '/etc/foreman-installer/scenarios.d/'
-end
+CONFIG_DIR = 'config/'
 
 # Run the install
 @result = Kafo::KafoConfigure.run

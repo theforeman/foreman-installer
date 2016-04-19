@@ -9,7 +9,7 @@
 :module_dirs: ./_build/modules
 
 ## Useful for development, e.g. when you want to move log files to local directory
-:log_dir: '/var/log/foreman-installer'
+:log_dir: './_build/'
 :log_name: 'foreman.log'
 :log_level: :debug
 

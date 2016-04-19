@@ -1,0 +1,17 @@
+sudo: false
+language: ruby
+addons:
+  apt:
+    packages:
+    - asciidoc
+    - libxml2-utils
+    - xsltproc
+    - docbook-xsl
+    - ca-certificates
+rvm: 2.1.0
+env:
+  - PUPPET_VERSION=3.5
+script:
+  - INSTDIR=$(mktemp -d)
+  - bundle exec rake build install PREFIX=$INSTDIR
+  - bundle exec $INSTDIR/sbin/foreman-installer --help
