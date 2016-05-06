@@ -7,6 +7,8 @@
 :installer_dir: .
 # Uncomment if you want to load puppet modules from a specific path, $pwd/modules is used by default
 :module_dirs: ./_build/modules
+# Location of an optional cache of parsed module data, generate with kafo-export-params -f parsercache
+:parser_cache_path: ./_build/parser_cache/foreman.yaml
 
 ## Useful for development, e.g. when you want to move log files to local directory
 :log_dir: './_build/'

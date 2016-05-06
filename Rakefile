@@ -15,8 +15,14 @@ DATAROOTDIR = DATADIR = ENV['DATAROOTDIR'] || "#{PREFIX}/share"
 MANDIR = ENV['MANDIR'] || "#{DATAROOTDIR}/man"
 PKGDIR = ENV['PKGDIR'] || File.expand_path('pkg')
 
+exporter_dirs = ENV['PATH'].split(':').push('/usr/bin', ENV['KAFO_EXPORTER'])
+exporter = exporter_dirs.find { |dir| File.executable? "#{dir}/kafo-export-params" } or
+  raise("kafo-export-paths is missing from PATH, install kafo")
+
 directory BUILDDIR
 directory PKGDIR
+directory "#{BUILDDIR}/parser_cache"
+file "#{BUILDDIR}/parser_cache" => BUILDDIR
 
 file "#{BUILDDIR}/foreman.yaml" => 'config/foreman.yaml' do |t|
   cp t.prerequisites[0], t.name
@@ -24,6 +30,7 @@ file "#{BUILDDIR}/foreman.yaml" => 'config/foreman.yaml' do |t|
   sh 'sed -i "s#\(.*installer_dir:\).*#\1 %s#" %s' % ["#{DATADIR}/foreman-installer", t.name]
   sh 'sed -i "s#\(.*log_dir:\).*#\1 %s#" %s' % ["#{LOGDIR}/foreman-installer", t.name]
   sh 'sed -i "s#\(.*module_dirs:\).*#\1 %s#" %s' % ["#{DATADIR}/foreman-installer/modules", t.name]
+  sh 'sed -i "s#\(.*parser_cache_path:\).*#\1 %s#" %s' % ["#{DATADIR}/foreman-installer/parser_cache/foreman.yaml", t.name]
   if ENV['KAFO_MODULES_DIR']
     sh 'sed -i "s#.*\(:kafo_modules_dir:\).*#\1 %s#" %s' % [ENV['KAFO_MODULES_DIR'], t.name]
   end
@@ -34,33 +41,25 @@ file "#{BUILDDIR}/foreman-installer" => 'bin/foreman-installer' do |t|
   sh 'sed -i "s#\(^.*CONFIG_DIR = \).*#CONFIG_DIR = %s#" %s' % ["'#{SYSCONFDIR}/foreman-installer/scenarios.d/'", t.name]
 end
 
-file "#{BUILDDIR}/options.asciidoc" => "#{BUILDDIR}/modules" do |t|
-  ENV['PATH'].split(':').push(
-    '/usr/share/gems/bin',
-    '/usr/lib/ruby/gems/1.8/bin',
-    '/usr/bin',
-    ENV['KAFO_EXPORTER']).each do |exporter|
-    if File.executable? "#{exporter}/kafo-export-params"
-      sh "#{exporter}/kafo-export-params -c config/foreman.yaml -f asciidoc > #{BUILDDIR}/options.asciidoc"
-    end
-  end
+file "#{BUILDDIR}/parser_cache/foreman.yaml" => ["#{BUILDDIR}/modules", "#{BUILDDIR}/parser_cache"] do |t|
+  sh "#{exporter}/kafo-export-params -c config/foreman.yaml -f parsercache --no-parser-cache -o #{BUILDDIR}/parser_cache/foreman.yaml"
+end
+
+file "#{BUILDDIR}/options.asciidoc" => "#{BUILDDIR}/parser_cache/foreman.yaml" do |t|
+  sh "#{exporter}/kafo-export-params -c config/foreman.yaml -f asciidoc -o #{BUILDDIR}/options.asciidoc"
 end
 
 file "#{BUILDDIR}/foreman-installer.8.asciidoc" =>
 ['man/foreman-installer.8.asciidoc', "#{BUILDDIR}/options.asciidoc"] do |t|
   man_file = t.prerequisites[0]
   options_file = t.prerequisites[1]
-  if File.exist? options_file
-    puts "Writing combined manual page to #{t.name}"
-    options = File.read(options_file)
-    File.open(t.name, 'w') do |output|
-      File.open(man_file, 'r') do |input|
-        input.each_line {|line| output.puts line.gsub(/@@PARAMETERS@@/, options)}
-      end
+
+  puts "Writing combined manual page to #{t.name}"
+  options = File.read(options_file)
+  File.open(t.name, 'w') do |output|
+    File.open(man_file, 'r') do |input|
+      input.each_line {|line| output.puts line.gsub(/@@PARAMETERS@@/, options)}
     end
-  else
-    puts "WARNING: kafo exporter not found - not generating extended manual page"
-    cp t.prerequisites[0], t.name
   end
 end
 
@@ -103,13 +102,15 @@ task :build => [
   "#{BUILDDIR}/foreman.migrations",
   "#{BUILDDIR}/foreman-migrations-applied",
   "#{BUILDDIR}/modules",
+  "#{BUILDDIR}/parser_cache/foreman.yaml",
 ]
 
 task :install => :build do |t|
   mkdir_p "#{DATADIR}/foreman-installer"
   cp_r Dir.glob('{checks,config,hooks,VERSION,README.md,LICENSE}'), "#{DATADIR}/foreman-installer"
   copy_entry "#{BUILDDIR}/foreman.migrations/.applied", "#{DATADIR}/foreman-installer/config/foreman.migrations/.applied"
-  cp_r "#{BUILDDIR}/modules", "#{DATADIR}/foreman-installer"
+  cp_r "#{BUILDDIR}/modules", "#{DATADIR}/foreman-installer", :preserve => true
+  cp_r "#{BUILDDIR}/parser_cache", "#{DATADIR}/foreman-installer"
 
   mkdir_p "#{SYSCONFDIR}/foreman-installer/scenarios.d"
   cp "#{BUILDDIR}/foreman.yaml", "#{SYSCONFDIR}/foreman-installer/scenarios.d/"
