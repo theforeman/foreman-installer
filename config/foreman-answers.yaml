@@ -27,7 +27,6 @@ foreman::plugin::discovery: false
 foreman::plugin::docker: false
 foreman::plugin::memcache: false
 foreman::plugin::openscap: false
-foreman::plugin::ovirt_provision: false
 foreman::plugin::tasks: false
 foreman::plugin::hooks: false
 foreman::plugin::puppetdb: false
