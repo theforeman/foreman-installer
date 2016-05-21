@@ -1,15 +1,17 @@
 #!/usr/bin/env ruby
 
-BASE = %q(If needed, change the hostname permanently via 'hostname' command and editing 
-appropriate configuration file.
-(e.g. on Red Hat systems /etc/sysconfig/network).
+BASE = %q(If needed, change the hostname permanently via the
+'hostname' or 'hostnamectl set-hostname' command 
+and editing the appropriate configuration file.
+(e.g. on Red Hat systems /etc/sysconfig/network, 
+on Debian based systems /etc/hostname).
 
-If 'hostname -f' still returns unexpected result, check /etc/hosts and put
-hostname entry in the correct order, for example:
+If 'hostname -f' still returns an unexpected result, check /etc/hosts and put
+the hostname entry in the correct order, for example:
  
   1.2.3.4 full.hostname.com full
  
-Fully qualified hostname must be the first entry on the line)
+The fully qualified hostname must be the first entry on the line)
 
 DIFFERENT = %q(Output of 'facter fqdn' is different from 'hostname -f'
  
