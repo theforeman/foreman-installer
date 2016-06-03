@@ -7,7 +7,7 @@ mod 'puppetlabs/puppetdb',      '< 5.0.0'
 mod 'theforeman/dhcp',          '>= 2.3.0 < 2.4.0'
 mod 'theforeman/dns',           '>= 3.3.0 < 3.4.0'
 mod 'theforeman/git',           '>= 1.6.0 < 1.7.0'
-mod 'theforeman/tftp',          '>= 1.7.0 < 1.8.0'
+mod 'theforeman/tftp',          '>= 1.8.0 < 1.9.0'
 
 # Top-level modules
 mod 'theforeman/foreman',       '>= 5.2.0 < 5.3.0'

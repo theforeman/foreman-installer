@@ -51,7 +51,7 @@ FORGE
       puppetlabs-apache (< 2.0.0, >= 1.2.0)
       puppetlabs-concat (< 3.0.0, >= 1.0.0)
       puppetlabs-stdlib (< 5.0.0, >= 4.2.0)
-    theforeman-tftp (1.7.0)
+    theforeman-tftp (1.8.0)
       puppetlabs-stdlib (< 5.0.0, >= 2.3.0)
       puppetlabs-xinetd (< 2.0.0, >= 1.1.0)
 
@@ -84,5 +84,5 @@ DEPENDENCIES
   theforeman-foreman_proxy (< 3.1.0, >= 3.0.0)
   theforeman-git (< 1.7.0, >= 1.6.0)
   theforeman-puppet (< 5.1.0, >= 5.0.0)
-  theforeman-tftp (< 1.8.0, >= 1.7.0)
+  theforeman-tftp (< 1.9.0, >= 1.8.0)
 
