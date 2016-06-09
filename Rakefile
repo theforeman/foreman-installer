@@ -30,6 +30,7 @@ file "#{BUILDDIR}/foreman.yaml" => 'config/foreman.yaml' do |t|
   sh 'sed -i "s#\(.*installer_dir:\).*#\1 %s#" %s' % ["#{DATADIR}/foreman-installer", t.name]
   sh 'sed -i "s#\(.*log_dir:\).*#\1 %s#" %s' % ["#{LOGDIR}/foreman-installer", t.name]
   sh 'sed -i "s#\(.*module_dirs:\).*#\1 %s#" %s' % ["#{DATADIR}/foreman-installer/modules", t.name]
+  sh 'sed -i "s#\(.*hiera_config:\).*#\1 %s#" %s' % ["#{DATADIR}/foreman-installer/config/foreman-hiera.conf", t.name]
   sh 'sed -i "s#\(.*parser_cache_path:\).*#\1 %s#" %s' % ["#{DATADIR}/foreman-installer/parser_cache/foreman.yaml", t.name]
   if ENV['KAFO_MODULES_DIR']
     sh 'sed -i "s#.*\(:kafo_modules_dir:\).*#\1 %s#" %s' % [ENV['KAFO_MODULES_DIR'], t.name]
@@ -39,6 +40,11 @@ end
 file "#{BUILDDIR}/foreman-installer" => 'bin/foreman-installer' do |t|
   cp t.prerequisites[0], t.name
   sh 'sed -i "s#\(^.*CONFIG_DIR = \).*#CONFIG_DIR = %s#" %s' % ["'#{SYSCONFDIR}/foreman-installer/scenarios.d/'", t.name]
+end
+
+file "#{BUILDDIR}/foreman-hiera.conf" => 'config/foreman-hiera.conf' do |t|
+  cp t.prerequisites[0], t.name
+  sh 'sed -i "s#\(.*:datadir:\).*#\1 %s#" %s' % ["#{DATADIR}/foreman-installer/config/foreman.hiera", t.name]
 end
 
 file "#{BUILDDIR}/parser_cache/foreman.yaml" => ["#{BUILDDIR}/modules", "#{BUILDDIR}/parser_cache"] do |t|
@@ -97,6 +103,7 @@ task :build => [
   BUILDDIR,
   'VERSION',
   "#{BUILDDIR}/foreman.yaml",
+  "#{BUILDDIR}/foreman-hiera.conf",
   "#{BUILDDIR}/foreman-installer",
   "#{BUILDDIR}/foreman-installer.8",
   "#{BUILDDIR}/foreman.migrations",
@@ -108,6 +115,7 @@ task :build => [
 task :install => :build do |t|
   mkdir_p "#{DATADIR}/foreman-installer"
   cp_r Dir.glob('{checks,config,hooks,VERSION,README.md,LICENSE}'), "#{DATADIR}/foreman-installer"
+  cp "#{BUILDDIR}/foreman-hiera.conf", "#{DATADIR}/foreman-installer/config/foreman-hiera.conf"
   copy_entry "#{BUILDDIR}/foreman.migrations/.applied", "#{DATADIR}/foreman-installer/config/foreman.migrations/.applied"
   cp_r "#{BUILDDIR}/modules", "#{DATADIR}/foreman-installer", :preserve => true
   cp_r "#{BUILDDIR}/parser_cache", "#{DATADIR}/foreman-installer"
