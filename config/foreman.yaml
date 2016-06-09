@@ -7,6 +7,7 @@
 :installer_dir: .
 # Uncomment if you want to load puppet modules from a specific path, $pwd/modules is used by default
 :module_dirs: ./_build/modules
+:hiera_config: ./_build/foreman-hiera.conf
 # Location of an optional cache of parsed module data, generate with kafo-export-params -f parsercache
 :parser_cache_path: ./_build/parser_cache/foreman.yaml
 
