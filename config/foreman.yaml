@@ -76,6 +76,9 @@
   :foreman::plugin::docker:
     :dir_name: foreman
     :manifest_name: plugin/docker
+  :foreman::plugin::expire_hosts:
+    :dir_name: foreman
+    :manifest_name: plugin/expire_hosts
   :foreman::plugin::memcache:
     :dir_name: foreman
     :manifest_name: plugin/memcache
