@@ -50,6 +50,9 @@
   :foreman::plugin::ansible:
     :dir_name: foreman
     :manifest_name: plugin/ansible
+  :foreman::plugin::azure:
+    :dir_name: foreman
+    :manifest_name: plugin/azure
   :foreman::plugin::bootdisk:
     :dir_name: foreman
     :manifest_name: plugin/bootdisk
