@@ -27,7 +27,7 @@ FORGE
     theforeman-dns (3.3.0)
       puppetlabs-concat (< 3.0.0, >= 1.0.0)
       puppetlabs-stdlib (< 5.0.0, >= 2.6.0)
-    theforeman-foreman (5.2.0)
+    theforeman-foreman (5.2.1)
       adrien-alternatives (< 1.0.0, >= 0.3.0)
       puppet-extlib (< 1.0.0, >= 0.10.4)
       puppetlabs-apache (< 2.0.0, >= 1.2.0)
@@ -67,7 +67,7 @@ GIT
 GIT
   remote: https://github.com/theforeman/puppetlabs-postgresql.git
   ref: 4.7.x
-  sha: 8e2012aaa54afcae0e72624e48170c7875fe4427
+  sha: 1419e99c4b4c2e7c89fb1097e1c90b780bc67424
   specs:
     puppetlabs-postgresql (4.7.1)
       puppetlabs-apt (< 3.0.0, >= 1.8.0)
