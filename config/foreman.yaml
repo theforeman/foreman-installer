@@ -82,6 +82,9 @@
   :foreman::plugin::expire_hosts:
     :dir_name: foreman
     :manifest_name: plugin/expire_hosts
+  :foreman::plugin::host_extra_validator:
+    :dir_name: foreman
+    :manifest_name: plugin/host_extra_validator
   :foreman::plugin::memcache:
     :dir_name: foreman
     :manifest_name: plugin/memcache
