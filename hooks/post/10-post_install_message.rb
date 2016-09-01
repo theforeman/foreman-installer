@@ -6,13 +6,13 @@ else
 end
 
 # Foreman UI?
-if @kafo.config.module_enabled? 'foreman'
+if module_enabled? 'foreman'
   say "  * <%= color('Foreman', :info) %> is running at <%= color('#{param('foreman','foreman_url').value}', :info) %>"
   say "      Initial credentials are <%= color('#{param('foreman', 'admin_username').value}', :info) %> / <%= color('#{param('foreman', 'admin_password').value}', :info) %>" if param('foreman','authentication').value == true
 end
 
 # Proxy?
-if @kafo.config.module_enabled? 'foreman_proxy'
+if module_enabled? 'foreman_proxy'
   proxy_url = param('foreman_proxy','registered_proxy_url').value
   if proxy_url.nil? || proxy_url.empty?
     proxy_url = "https://#{param('foreman_proxy','registered_name').value}:#{param('foreman_proxy','ssl_port').value}"
@@ -21,7 +21,7 @@ if @kafo.config.module_enabled? 'foreman_proxy'
 end
 
 # Puppetmaster?
-if ( @kafo.config.module_enabled?('puppet') && ( param('puppet','server').value != false ) )
+if ( module_enabled?('puppet') && ( param('puppet','server').value != false ) )
   say "  * <%= color('Puppetmaster', :info) %> is running at <%= color('port #{param('puppet','server_port').value}', :info) %>"
 end
 
