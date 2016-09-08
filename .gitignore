@@ -21,7 +21,6 @@ pkg/
 _build
 .tmp/
 .librarian/
-Puppetfile.lock
 modules/*
 .ruby-*
 Gemfile.lock
