@@ -12,4 +12,4 @@ mod 'theforeman/tftp',          '>= 1.8.0 < 1.9.0'
 # Top-level modules
 mod 'theforeman/foreman',       '>= 5.2.0 < 5.3.0'
 mod 'theforeman/foreman_proxy', '>= 3.0.0 < 3.1.0'
-mod 'theforeman/puppet',        '>= 5.0.0 < 5.1.0'
+mod 'theforeman/puppet',        '>= 5.0.1 < 5.1.0'
