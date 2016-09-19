@@ -148,9 +148,17 @@
     :manifest_name: plugin/chef
     :params_name: plugin/chef/params
     :dir_name: foreman_proxy
+  :foreman_proxy::plugin::dhcp::infoblox:
+    :manifest_name: plugin/dhcp/infoblox
+    :params_name: plugin/dhcp/infoblox/params
+    :dir_name: foreman_proxy
   :foreman_proxy::plugin::discovery:
     :manifest_name: plugin/discovery
     :params_name: plugin/discovery/params
+    :dir_name: foreman_proxy
+  :foreman_proxy::plugin::dns::infoblox:
+    :manifest_name: plugin/dns/infoblox
+    :params_name: plugin/dns/infoblox/params
     :dir_name: foreman_proxy
   :foreman_proxy::plugin::dns::powerdns:
     :manifest_name: plugin/dns/powerdns
