@@ -144,6 +144,10 @@
     :manifest_name: plugin/abrt
     :params_name: plugin/abrt/params
     :dir_name: foreman_proxy
+  :foreman_proxy::plugin::ansible:
+    :manifest_name: plugin/ansible
+    :params_name: plugin/ansible/params
+    :dir_name: foreman_proxy
   :foreman_proxy::plugin::chef:
     :manifest_name: plugin/chef
     :params_name: plugin/chef/params

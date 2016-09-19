@@ -46,6 +46,7 @@ foreman::compute::ovirt: false
 foreman::compute::rackspace: false
 foreman::compute::vmware: false
 foreman_proxy::plugin::abrt: false
+foreman_proxy::plugin::ansible: false
 foreman_proxy::plugin::chef: false
 foreman_proxy::plugin::discovery: false
 foreman_proxy::plugin::dns::powerdns: false
