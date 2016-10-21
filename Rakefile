@@ -118,7 +118,7 @@ task :install => :build do |t|
 
   cp "#{BUILDDIR}/foreman-hiera.conf", "#{DATADIR}/foreman-installer/config/foreman-hiera.conf"
   mkdir_p "#{SYSCONFDIR}/foreman-installer"
-  ln_s "#{DATADIR}/foreman-installer/config/foreman.hiera/custom.yaml", "#{SYSCONFDIR}/foreman-installer/custom_hiera.yaml"
+  ln_s "#{DATADIR}/foreman-installer/config/foreman.hiera/custom.yaml", "#{SYSCONFDIR}/foreman-installer/custom-hiera.yaml"
 
   copy_entry "#{BUILDDIR}/foreman.migrations/.applied", "#{DATADIR}/foreman-installer/config/foreman.migrations/.applied"
   cp_r "#{BUILDDIR}/modules", "#{DATADIR}/foreman-installer", :preserve => true
