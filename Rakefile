@@ -115,7 +115,12 @@ task :build => [
 task :install => :build do |t|
   mkdir_p "#{DATADIR}/foreman-installer"
   cp_r Dir.glob('{checks,config,hooks,VERSION,README.md,LICENSE}'), "#{DATADIR}/foreman-installer"
+
   cp "#{BUILDDIR}/foreman-hiera.conf", "#{DATADIR}/foreman-installer/config/foreman-hiera.conf"
+  mkdir_p "#{SYSCONFDIR}/foreman-installer"
+  mv "#{DATADIR}/foreman-installer/config/foreman.hiera/custom.yaml", "#{SYSCONFDIR}/foreman-installer/custom-hiera.yaml"
+  ln_s "#{SYSCONFDIR}/foreman-installer/custom-hiera.yaml", "#{DATADIR}/foreman-installer/config/foreman.hiera/custom.yaml"
+
   copy_entry "#{BUILDDIR}/foreman.migrations/.applied", "#{DATADIR}/foreman-installer/config/foreman.migrations/.applied"
   cp_r "#{BUILDDIR}/modules", "#{DATADIR}/foreman-installer", :preserve => true
   cp_r "#{BUILDDIR}/parser_cache", "#{DATADIR}/foreman-installer"

@@ -1,0 +1,17 @@
+---
+# This YAML file lets you set your own custom configuration in Hiera for the
+# installer puppet modules that might not be exposed to users directly through
+# installer arguments.
+#
+# For example, to set 'TraceEnable Off' in Apache, a common requirement for
+# security auditors, add this to this file:
+#
+#   apache::trace_enable: Off
+#
+# Consult the full module documentation on http://forge.puppetlabs.com,
+# or the actual puppet classes themselves, to discover options to configure.
+#
+# Do note, setting some values may have unintended consequences that affect the
+# performance or functionality of the application. Consider the impact of your
+# changes before applying them, and test them in a non-production environment
+# first.
