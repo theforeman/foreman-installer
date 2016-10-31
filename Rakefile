@@ -42,7 +42,7 @@ file "#{BUILDDIR}/foreman-installer" => 'bin/foreman-installer' do |t|
   sh 'sed -i "s#\(^.*CONFIG_DIR = \).*#CONFIG_DIR = %s#" %s' % ["'#{SYSCONFDIR}/foreman-installer/scenarios.d/'", t.name]
 end
 
-file "#{BUILDDIR}/foreman-hiera.conf" => 'config/foreman-hiera.conf' do |t|
+file "#{BUILDDIR}/config/foreman-hiera.conf" => ['config/foreman-hiera.conf', "#{BUILDDIR}/config"] do |t|
   cp t.prerequisites[0], t.name
   sh 'sed -i "s#\(.*:datadir:\).*#\1 %s#" %s' % ["#{DATADIR}/foreman-installer/config/foreman.hiera", t.name]
 end
@@ -99,11 +99,19 @@ file "#{BUILDDIR}/foreman-migrations-applied" => BUILDDIR do |t|
   File.open(t.name, 'w') { |f| f.write([].to_yaml) }
 end
 
+# Store static configs under DATADIR, with customisable files symlinked into SYSCONFDIR
+directory "#{BUILDDIR}/config"
+file "#{BUILDDIR}/config" => BUILDDIR do |t|
+  cp_r "config", BUILDDIR
+  # This symlink is broken until installation, so don't reference it in rake file tasks
+  ln_sf "#{SYSCONFDIR}/foreman-installer/custom-hiera.yaml", "#{t.name}/foreman.hiera/custom.yaml"
+end
+
 task :build => [
   BUILDDIR,
   'VERSION',
+  "#{BUILDDIR}/config",
   "#{BUILDDIR}/foreman.yaml",
-  "#{BUILDDIR}/foreman-hiera.conf",
   "#{BUILDDIR}/foreman-installer",
   "#{BUILDDIR}/foreman-installer.8",
   "#{BUILDDIR}/foreman.migrations",
@@ -114,16 +122,15 @@ task :build => [
 
 task :install => :build do |t|
   mkdir_p "#{DATADIR}/foreman-installer"
-  cp_r Dir.glob('{checks,config,hooks,VERSION,README.md,LICENSE}'), "#{DATADIR}/foreman-installer"
-
-  cp "#{BUILDDIR}/foreman-hiera.conf", "#{DATADIR}/foreman-installer/config/foreman-hiera.conf"
-  mkdir_p "#{SYSCONFDIR}/foreman-installer"
-  mv "#{DATADIR}/foreman-installer/config/foreman.hiera/custom.yaml", "#{SYSCONFDIR}/foreman-installer/custom-hiera.yaml"
-  ln_s "#{SYSCONFDIR}/foreman-installer/custom-hiera.yaml", "#{DATADIR}/foreman-installer/config/foreman.hiera/custom.yaml"
+  cp_r Dir.glob('{checks,hooks,VERSION,README.md,LICENSE}'), "#{DATADIR}/foreman-installer"
+  cp_r "#{BUILDDIR}/config", "#{DATADIR}/foreman-installer"
 
   copy_entry "#{BUILDDIR}/foreman.migrations/.applied", "#{DATADIR}/foreman-installer/config/foreman.migrations/.applied"
   cp_r "#{BUILDDIR}/modules", "#{DATADIR}/foreman-installer", :preserve => true
   cp_r "#{BUILDDIR}/parser_cache", "#{DATADIR}/foreman-installer"
+
+  mkdir_p "#{SYSCONFDIR}/foreman-installer"
+  cp "config/foreman.hiera/custom.yaml", "#{SYSCONFDIR}/foreman-installer/custom-hiera.yaml"
 
   mkdir_p "#{SYSCONFDIR}/foreman-installer/scenarios.d"
   cp "#{BUILDDIR}/foreman.yaml", "#{SYSCONFDIR}/foreman-installer/scenarios.d/"
