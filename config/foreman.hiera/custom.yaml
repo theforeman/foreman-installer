@@ -11,7 +11,7 @@
 # Consult the full module documentation on http://forge.puppetlabs.com,
 # or the actual puppet classes themselves, to discover options to configure.
 #
-# Do note, setting some values may have unintended consequences the affect the
+# Do note, setting some values may have unintended consequences that affect the
 # performance or functionality of the application. Consider the impact of your
 # changes before applying them, and test them in a non-production environment
 # first.
