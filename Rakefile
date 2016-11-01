@@ -42,7 +42,7 @@ file "#{BUILDDIR}/foreman-installer" => 'bin/foreman-installer' do |t|
   sh 'sed -i "s#\(^.*CONFIG_DIR = \).*#CONFIG_DIR = %s#" %s' % ["'#{SYSCONFDIR}/foreman-installer/scenarios.d/'", t.name]
 end
 
-file "#{BUILDDIR}/config/foreman-hiera.conf" => ['config/foreman-hiera.conf', "#{BUILDDIR}/config"] do |t|
+file "#{BUILDDIR}/foreman-hiera.conf" => 'config/foreman-hiera.conf' do |t|
   cp t.prerequisites[0], t.name
   sh 'sed -i "s#\(.*:datadir:\).*#\1 %s#" %s' % ["#{DATADIR}/foreman-installer/config/foreman.hiera", t.name]
 end
@@ -112,6 +112,7 @@ task :build => [
   'VERSION',
   "#{BUILDDIR}/config",
   "#{BUILDDIR}/foreman.yaml",
+  "#{BUILDDIR}/foreman-hiera.conf",
   "#{BUILDDIR}/foreman-installer",
   "#{BUILDDIR}/foreman-installer.8",
   "#{BUILDDIR}/foreman.migrations",
@@ -124,6 +125,7 @@ task :install => :build do |t|
   mkdir_p "#{DATADIR}/foreman-installer"
   cp_r Dir.glob('{checks,hooks,VERSION,README.md,LICENSE}'), "#{DATADIR}/foreman-installer"
   cp_r "#{BUILDDIR}/config", "#{DATADIR}/foreman-installer"
+  cp "#{BUILDDIR}/foreman-hiera.conf", "#{DATADIR}/foreman-installer/config"
 
   copy_entry "#{BUILDDIR}/foreman.migrations/.applied", "#{DATADIR}/foreman-installer/config/foreman.migrations/.applied"
   cp_r "#{BUILDDIR}/modules", "#{DATADIR}/foreman-installer", :preserve => true
