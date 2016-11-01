@@ -12,6 +12,18 @@ rvm: 2.1.0
 env:
   - PUPPET_VERSION=3.5
 script:
+  #
+  # Test basic installer configuration works
+  #
   - INSTDIR=$(mktemp -d)
   - bundle exec rake build install PREFIX=$INSTDIR
   - bundle exec $INSTDIR/sbin/foreman-installer --help
+  #
+  # Test separate build/installation steps with different prefixes
+  # No references to INSTDIR should be present when built with PREFIX=/
+  #
+  - bundle exec rake clean build PREFIX=/ SYSCONFDIR=/etc
+  - INSTDIR=$(mktemp -d)
+  - bundle exec rake install PREFIX=$INSTDIR
+  - "! find $INSTDIR -type f | xargs grep $INSTDIR"
+  - "! find $INSTDIR -type l -printf '%P: ' -exec readlink {} \\; | grep $INSTDIR"
