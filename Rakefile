@@ -1,6 +1,12 @@
 require 'rake/clean'
 require 'yaml'
 
+begin
+  require 'rspec/core/rake_task'
+  RSpec::Core::RakeTask.new(:spec)
+rescue LoadError
+end
+
 BUILDDIR = File.expand_path(ENV['BUILDDIR'] || '_build')
 PREFIX = ENV['PREFIX'] || '/usr/local'
 BINDIR = ENV['BINDIR'] || "#{PREFIX}/bin"

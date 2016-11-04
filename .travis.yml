@@ -13,6 +13,10 @@ env:
   - PUPPET_VERSION=3.5
 script:
   #
+  # Run rspec tests on migrations
+  #
+  - bundle exec rake spec
+  #
   # Test basic installer configuration works
   #
   - INSTDIR=$(mktemp -d)
