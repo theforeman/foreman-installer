@@ -47,6 +47,9 @@
     :dir_name: foreman
     :manifest_name: cli
     :params_name: cli/params
+  :foreman::cli::openscap:
+    :dir_name: foreman
+    :manifest_name: cli/openscap
   :foreman::plugin::ansible:
     :dir_name: foreman
     :manifest_name: plugin/ansible
