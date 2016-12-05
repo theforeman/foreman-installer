@@ -11,6 +11,7 @@
 ---
 foreman:
   custom_repo: true
+  email_config_method: database
 foreman_proxy:
   custom_repo: true
 puppet:
