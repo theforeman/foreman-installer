@@ -1,7 +1,6 @@
 forge 'https://forgeapi.puppetlabs.com'
 
 # Dependencies
-mod 'puppet/extlib',            '<= 0.11.3'
 mod 'puppetlabs/mysql',         '>= 3.8.0'
 mod 'puppetlabs/postgresql',    '>= 4.8.0'
 mod 'puppetlabs/puppetdb'
