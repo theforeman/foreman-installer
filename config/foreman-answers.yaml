@@ -31,6 +31,8 @@ foreman::plugin::docker: false
 foreman::plugin::expire_hosts: false
 foreman::plugin::host_extra_validator: false
 foreman::plugin::memcache: false
+foreman::plugin::monitoring: false
+foreman::plugin::omaha: false
 foreman::plugin::openscap: false
 foreman::plugin::ovirt_provision: false
 foreman::plugin::tasks: false
@@ -55,6 +57,8 @@ foreman_proxy::plugin::discovery: false
 foreman_proxy::plugin::dns::infoblox: false
 foreman_proxy::plugin::dns::powerdns: false
 foreman_proxy::plugin::dynflow: false
+foreman_proxy::plugin::monitoring: false
+foreman_proxy::plugin::omaha: false
 foreman_proxy::plugin::openscap: false
 foreman_proxy::plugin::pulp: false
 foreman_proxy::plugin::remote_execution::ssh: false
