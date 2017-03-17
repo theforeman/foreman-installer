@@ -12,6 +12,7 @@
 foreman:
   custom_repo: true
   email_config_method: database
+  dynflow_in_core: true
 foreman_proxy:
   custom_repo: true
 puppet:
