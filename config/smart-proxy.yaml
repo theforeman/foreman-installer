@@ -1,0 +1,152 @@
+# foreman-installer main configuration file
+# note current configuration is written to foreman-installer.yaml every time foreman-install is run
+
+## Installer configuration
+# Path to answer file
+:answer_file: /etc/foreman/installer-scenarios.d/smart-proxy-answers.yaml
+:installer_dir: /usr/share/foreman-installer
+# Uncomment if you want to load puppet modules from a specific path, $pwd/modules is used by default
+:module_dirs: /usr/share/foreman-installer/modules
+
+## Useful for development, e.g. when you want to move log files to local directory
+:log_dir: '/var/log/foreman-installer'
+:log_name: 'foreman-installer.log'
+:log_level: :debug
+
+# Change if you want to debug default answers for you modules, this directory holds default answers
+# :default_values_dir: /tmp
+
+## Advanced configuration - if not set it's ignored
+# :log_owner: root
+# :log_group: root
+# :config_header_file:
+# :dont_save_answers:
+
+# If using the Debian ruby-kafo package, uncomment this
+# :kafo_modules_dir: /usr/share/foreman-installer/modules
+
+## Kafo tuning, customization of core functionality
+:name: Smart Proxy
+:description: Install a stand-alone Smart Proxy.
+# :no_prefix: false
+:order:
+  - foreman
+  - foreman_proxy
+  - puppet
+:low_priority_modules:
+  - foreman_proxy_plugin
+  - foreman_compute
+  - foreman_plugin
+
+# The mapping hash provides Kafo with the information to find plugin classes
+:mapping:
+  :foreman::cli:
+    :dir_name: foreman
+    :manifest_name: cli
+    :params_name: cli/params
+  :foreman::plugin::bootdisk:
+    :dir_name: foreman
+    :manifest_name: plugin/bootdisk
+  :foreman::plugin::puppetdb:
+    :dir_name: foreman
+    :params_name: plugin/puppetdb/params
+    :manifest_name: plugin/puppetdb
+  :foreman::plugin::hooks:
+    :dir_name: foreman
+    :manifest_name: plugin/hooks
+  :foreman::plugin::dhcp_browser:
+    :dir_name: foreman
+    :manifest_name: plugin/dhcp_browser
+  :foreman::plugin::digitalocean:
+    :dir_name: foreman
+    :manifest_name: plugin/digitalocean
+  :foreman::plugin::discovery:
+    :dir_name: foreman
+    :manifest_name: plugin/discovery
+    :params_name: plugin/discovery/params
+  :foreman::plugin::docker:
+    :dir_name: foreman
+    :manifest_name: plugin/docker
+  :foreman::plugin::openscap:
+    :dir_name: foreman
+    :params_name: plugin/openscap/params
+    :manifest_name: plugin/openscap
+  :foreman::plugin::ovirt_provision:
+    :dir_name: foreman
+    :params_name: plugin/ovirt_provision/params
+    :manifest_name: plugin/ovirt_provision
+  :foreman::plugin::chef:
+    :dir_name: foreman
+    :manifest_name: plugin/chef
+  :foreman::plugin::tasks:
+    :dir_name: foreman
+    :params_name: plugin/tasks/params
+    :manifest_name: plugin/tasks
+  :foreman::plugin::templates:
+    :dir_name: foreman
+    :manifest_name: plugin/templates
+  :foreman::plugin::remote_execution:
+    :dir_name: foreman
+    :manifest_name: plugin/remote_execution
+  :foreman::plugin::salt:
+    :dir_name: foreman
+    :manifest_name: plugin/salt
+  :foreman::plugin::setup:
+    :dir_name: foreman
+    :manifest_name: plugin/setup
+  :foreman::plugin::default_hostgroup:
+    :dir_name: foreman
+    :manifest_name: plugin/default_hostgroup
+  :foreman::compute::rackspace:
+    :dir_name: foreman
+    :manifest_name: compute/rackspace
+  :foreman::compute::openstack:
+    :dir_name: foreman
+    :manifest_name: compute/openstack
+  :foreman::compute::vmware:
+    :dir_name: foreman
+    :manifest_name: compute/vmware
+  :foreman::compute::libvirt:
+    :dir_name: foreman
+    :manifest_name: compute/libvirt
+  :foreman::compute::ec2:
+    :dir_name: foreman
+    :manifest_name: compute/ec2
+  :foreman::compute::gce:
+    :dir_name: foreman
+    :manifest_name: compute/gce
+  :foreman::compute::ovirt:
+    :dir_name: foreman
+    :manifest_name: compute/ovirt
+  :foreman_proxy::plugin::abrt:
+    :manifest_name: plugin/abrt
+    :params_name: plugin/abrt/params
+    :dir_name: foreman_proxy
+  :foreman_proxy::plugin::chef:
+    :manifest_name: plugin/chef
+    :params_name: plugin/chef/params
+    :dir_name: foreman_proxy
+  :foreman_proxy::plugin::dns::powerdns:
+    :manifest_name: plugin/dns/powerdns
+    :params_name: plugin/dns/powerdns/params
+    :dir_name: foreman_proxy
+  :foreman_proxy::plugin::dynflow:
+    :manifest_name: plugin/dynflow
+    :params_name: plugin/dynflow/params
+    :dir_name: foreman_proxy
+  :foreman_proxy::plugin::openscap:
+    :manifest_name: plugin/openscap
+    :params_name: plugin/openscap/params
+    :dir_name: foreman_proxy
+  :foreman_proxy::plugin::pulp:
+    :manifest_name: plugin/pulp
+    :params_name: plugin/pulp/params
+    :dir_name: foreman_proxy
+  :foreman_proxy::plugin::remote_execution::ssh:
+    :manifest_name: plugin/remote_execution/ssh
+    :params_name: plugin/remote_execution/ssh/params
+    :dir_name: foreman_proxy
+  :foreman_proxy::plugin::salt:
+    :manifest_name: plugin/salt
+    :params_name: plugin/salt/params
+    :dir_name: foreman_proxy
