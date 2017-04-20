@@ -1,0 +1,25 @@
+#!/bin/bash
+
+HOOKS_DIR=/usr/share/foreman/config/hooks/
+
+read -r -d '' MESSAGE <<'EOM'
+There are foreman hooks installed on this instance, please either remove them
+or make them non-executable in order to continue. Foreman hooks often change
+behavior and are not tested across releases.
+
+When upgrading, test all workflows before re-enabling any of these hooks to
+verify clean installation. Remember, it can be required to remove all Foreman
+hooks completely when requesting support.
+
+Use -s or --skip-checks-i-know-better parameter to ignore the check.
+
+The following Foreman hooks were found:
+EOM
+
+if [[ $(find $HOOKS_DIR -type f -executable | wc -l) -gt 0 ]]; then
+  echo "$MESSAGE"
+  find $HOOKS_DIR -type f -executable
+  exit 1
+fi
+
+exit 0
