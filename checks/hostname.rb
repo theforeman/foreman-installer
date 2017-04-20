@@ -21,7 +21,10 @@ INVALID = %q(Output of 'hostname -f' does not seems to be valid FQDN
 
 Make sure above command gives fully qualified domain name. At least one
 dot must be present. )
- 
+
+MISSING = %q(Command 'facter' does not exist in system executable path
+
+Make sure the above command is installed and executable in your system. )
 
 def error_exit(message, code)
   $stderr.puts message
@@ -29,6 +32,10 @@ def error_exit(message, code)
 end
 
 ENV['PATH'] = ENV['PATH'].split(File::PATH_SEPARATOR).concat(['/opt/puppetlabs/bin']).join(File::PATH_SEPARATOR)
+
+system("which facter > /dev/null 2>&1")
+error_exit(MISSING, 3) if $?.exitstatus == 1
+
 facter_fqdn = `facter fqdn`.chomp
 
 # Check that facter actually has a value that matches the hostname.
