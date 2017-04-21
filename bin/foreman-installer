@@ -4,6 +4,13 @@ require 'kafo'
 
 CONFIG_DIR = 'config/'
 
+# Verify that this is run as root
+if Process.uid != 0
+  cmd_name = File.basename($0)
+  puts '%s must be run as root' % cmd_name
+  exit -1
+end
+
 # Run the install
 @result = Kafo::KafoConfigure.run
 
