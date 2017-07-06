@@ -2,7 +2,7 @@ forge 'https://forgeapi.puppetlabs.com'
 
 # Dependencies
 mod 'puppetlabs/mysql',         :git => 'https://github.com/theforeman/puppetlabs-mysql', :ref => '3.11.x'
-mod 'puppetlabs/postgresql',    '>= 4.8.0', '< 5.0.0'
+mod 'puppetlabs/postgresql',    '>= 4.8.0'
 mod 'puppetlabs/concat',        '< 3.0.0'
 mod 'puppetlabs/puppetdb'
 mod 'theforeman/dhcp',          :git => 'https://github.com/theforeman/puppet-dhcp'
