@@ -24,6 +24,8 @@ pkg/
 _build
 .tmp/
 .librarian/
+.yardoc/
 modules/*
 .ruby-*
 Gemfile.lock
+config/foreman.migrations/.applied
