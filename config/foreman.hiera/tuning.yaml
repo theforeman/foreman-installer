@@ -4,3 +4,4 @@ apache::mod::passenger::passenger_max_instances_per_app: 6
 apache::mod::passenger::passenger_max_request_queue_size: 250
 apache::mod::passenger::passenger_stat_throttle_rate: 120
 apache::mod::passenger::passenger_max_requests: 10000
+apache::mod::passenger::passenger_min_instances: 1
