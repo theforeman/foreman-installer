@@ -14,6 +14,8 @@ foreman:
   email_config_method: database
 foreman_proxy:
   custom_repo: true
+  realm_split_config_files: true
+  use_autosignfile: true
 puppet:
   server: true
 foreman::cli: true

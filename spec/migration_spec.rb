@@ -8,6 +8,13 @@ Kafo::KafoConfigure.logger = Logger.new("test.log")
 describe 'migrations' do
   %w(foreman).each do |scenario_name|
     context "on #{scenario_name}" do
+      let(:answers) do
+        YAML.load_file(File.expand_path(File.join(CONFIG_DIR, "#{scenario_name}-answers.yaml")))
+      end
+
+      let(:config) do
+        YAML.load_file(File.expand_path(File.join(CONFIG_DIR, "#{scenario_name}.yaml")))
+      end
 
       let(:scenario) do
         {
@@ -17,16 +24,16 @@ describe 'migrations' do
         }
       end
 
-      let(:migrator) { Kafo::Migrations.new(scenario[:migrations]).run(scenario[:config].dup, scenario[:answers].dup) }
+      let(:migrator) { Kafo::Migrations.new(scenario[:migrations]).run(scenario[:config], scenario[:answers]) }
 
       it 'does not change scenario config' do
         after, = migrator
-        expect(scenario[:config]).to eq after
+        expect(config).to eq after
       end
 
       it 'does not change scenario answers' do
         _, after = migrator
-        expect(scenario[:answers]).to eq after
+        expect(answers).to eq after
       end
     end
   end
