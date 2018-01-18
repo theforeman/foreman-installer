@@ -24,8 +24,20 @@ forwards.each do |ip|
     error_exit("Forward DNS points to #{ip} which is not configured on this server")
   end
 
-  reverse = Resolv.getname(ip.to_s)
-  unless hostname == reverse
-    error_exit("Reverse DNS #{reverse} does not match hostname #{hostname}")
+  begin
+    reverse = Resolv.getname(ip.to_s)
+    unless hostname == reverse
+      error_exit("Reverse DNS #{reverse} does not match hostname #{hostname}")
+    end
+  rescue Resolv::ResolvError
+    # Because of https://bugs.ruby-lang.org/issues/12112:
+    if ip.ipv6?
+      reverse = Resolv::DNS.open do |dns|
+        dns.getresources ip.ip6_arpa, Resolv::DNS::Resource::IN::PTR
+      end.first
+      next if reverse && hostname == reverse.name.to_s
+    end
+
+    error_exit("Forward DNS #{ip} did not reverse resolve to any hostname.")
   end
 end
