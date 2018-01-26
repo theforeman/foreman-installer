@@ -12,7 +12,7 @@ POSSIBLE_RECENT_CONFIG_PATHS = [
 def has_password_set?(path)
   if File.exist?(path)
     config = YAML.load_file(path)
-    return true if config[:foreman].is_a?(::Hash) && (config[:foreman][:username != 'admin'] || config[:foreman][:password])
+    return true if config[:foreman].is_a?(::Hash) && (config[:foreman][:username] != 'admin' || config[:foreman][:password])
   end
   false
 end
