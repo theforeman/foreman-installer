@@ -4,9 +4,9 @@ require 'fileutils'
 NEW_HAMMER_CONFIG_PATH = '/root/.hammer/cli.modules.d'
 NEW_HAMMER_CONFIG_FILE = 'foreman.yml'
 POSSIBLE_RECENT_CONFIG_PATHS = [
-  '/etc/hammer/cli_conig.yml',
+  '/etc/hammer/cli_config.yml',
   '/etc/hammer/cli.modules.d/foreman.yml',
-  '/root/.hammer/cli_conig.yml'
+  '/root/.hammer/cli_config.yml'
 ]
 
 def has_password_set?(path)
