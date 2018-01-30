@@ -1,0 +1,15 @@
+---
+:name: Foreman Proxy
+:description: Install a stand-alone Foreman Proxy.
+:log_dir: './_build/'
+:log_name: foreman-proxy.log
+:log_level: :debug
+:answer_file: ./config/foreman-proxy-answers.yaml
+:installer_dir: .
+:module_dirs: ./_build/modules
+:parser_cache_path: ./_build/parser_cache/foreman.yaml
+:hiera_config: ./_build/foreman-hiera.conf
+:colors: true
+:order:
+- foreman_proxy
+- puppet
