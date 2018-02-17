@@ -1,0 +1,4 @@
+#Paste this repo list in /etc/apt/sources.list.d
+
+"deb http://deb.theforeman.org/ stretch 1.16"
+"deb http://deb.theforeman.org/ plugins 1.16"
