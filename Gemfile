@@ -10,3 +10,9 @@ gem 'rdoc', '< 6' if RUBY_VERSION < '2.2'
 group :test do
   gem 'rspec'
 end
+
+group :development do
+  # Needed to pin dependencies
+  gem 'puppet_forge'
+  gem 'semverse'
+end

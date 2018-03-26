@@ -28,5 +28,6 @@ _build
 Puppetfile.lock
 modules/*
 .ruby-*
+.bundle/
 Gemfile.lock
 config/foreman.migrations/.applied

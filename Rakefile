@@ -7,6 +7,14 @@ begin
 rescue LoadError
 end
 
+begin
+  require 'puppet_forge'
+  require 'semverse'
+  pin_task = true
+rescue LoadError
+  pin_task = false
+end
+
 BUILDDIR = File.expand_path(ENV['BUILDDIR'] || '_build')
 PREFIX = ENV['PREFIX'] || '/usr/local'
 BINDIR = ENV['BINDIR'] || "#{PREFIX}/bin"
@@ -171,5 +179,38 @@ namespace :pkg do
     `git archive --prefix=foreman-installer-#{version}/ HEAD > #{PKGDIR}/foreman-installer-#{version}.tar`
     `tar --concatenate --file=#{PKGDIR}/foreman-installer-#{version}.tar #{BUILDDIR}/modules.tar`
     `bzip2 -9 #{PKGDIR}/foreman-installer-#{version}.tar`
+  end
+end
+
+if pin_task
+  desc 'Pin all the modules in Puppetfile to released versions instead of git branches'
+  task :pin_modules do
+    filename = 'Puppetfile'
+    $new_content = []
+
+    def forge(url)
+      $new_content << "forge '#{url}'"
+      $new_content << ''
+      PuppetForge.host = url
+    end
+
+    def mod(name, options=nil)
+      if options.nil?
+        $new_content << "mod '#{name}'"
+      elsif options.is_a?(String)
+        $new_content << "mod '#{name}', '#{options}'"
+      else
+        release = PuppetForge::Module.find(name.gsub('/', '-')).current_release
+        version = Semverse::Version.new(release.version)
+        max = "#{version.major}.#{version.minor + 1}.0"
+        $new_content << "mod '#{name}', '>= #{version} < #{max}'"
+      end
+    end
+
+    load filename
+
+    File.open(filename, 'w') do |file|
+      file.write $new_content.join("\n") + "\n"
+    end
   end
 end
