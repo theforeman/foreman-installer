@@ -56,6 +56,7 @@ LOGDIR = ENV['LOGDIR'] || "#{LOCALSTATEDIR}/log"
 DATAROOTDIR = DATADIR = ENV['DATAROOTDIR'] || "#{PREFIX}/share"
 MANDIR = ENV['MANDIR'] || "#{DATAROOTDIR}/man"
 PKGDIR = ENV['PKGDIR'] || File.expand_path('pkg')
+SCENARIOS = ['foreman']
 
 exporter_dirs = ENV['PATH'].split(':').push('/usr/bin', ENV['KAFO_EXPORTER'])
 exporter = exporter_dirs.find { |dir| File.executable? "#{dir}/kafo-export-params" } or
@@ -66,16 +67,46 @@ directory PKGDIR
 directory "#{BUILDDIR}/parser_cache"
 file "#{BUILDDIR}/parser_cache" => BUILDDIR
 
-file "#{BUILDDIR}/foreman.yaml" => 'config/foreman.yaml' do |t|
-  cp t.prerequisites[0], t.name
-  sh 'sed -i "s#\(.*answer_file:\).*#\1 %s#" %s' % ["#{SYSCONFDIR}/foreman-installer/scenarios.d/foreman-answers.yaml", t.name]
-  sh 'sed -i "s#\(.*installer_dir:\).*#\1 %s#" %s' % ["#{DATADIR}/foreman-installer", t.name]
-  sh 'sed -i "s#\(.*log_dir:\).*#\1 %s#" %s' % ["#{LOGDIR}/foreman-installer", t.name]
-  sh 'sed -i "s#\(.*module_dirs:\).*#\1 %s#" %s' % ["#{DATADIR}/foreman-installer/modules", t.name]
-  sh 'sed -i "s#\(.*hiera_config:\).*#\1 %s#" %s' % ["#{DATADIR}/foreman-installer/config/foreman-hiera.conf", t.name]
-  sh 'sed -i "s#\(.*parser_cache_path:\).*#\1 %s#" %s' % ["#{DATADIR}/foreman-installer/parser_cache/foreman.yaml", t.name]
-  if ENV['KAFO_MODULES_DIR']
-    sh 'sed -i "s#.*\(:kafo_modules_dir:\).*#\1 %s#" %s' % [ENV['KAFO_MODULES_DIR'], t.name]
+SCENARIOS.each do |scenario|
+  file "#{BUILDDIR}/#{scenario}.yaml" => "config/#{scenario}.yaml" do |t|
+    cp t.source, t.name
+
+    scenario_config_replacements = {
+      'answer_file' => "#{SYSCONFDIR}/foreman-installer/scenarios.d/#{scenario}-answers.yaml",
+      'hiera_config' => "#{DATADIR}/foreman-installer/config/foreman-hiera.conf",
+      'installer_dir' => "#{DATADIR}/foreman-installer",
+      'log_dir' => "#{LOGDIR}/foreman-installer",
+      'module_dirs' => "#{DATADIR}/foreman-installer/modules",
+      'parser_cache_path' => "#{DATADIR}/foreman-installer/parser_cache/#{scenario}.yaml",
+    }
+    if ENV['KAFO_MODULES_DIR']
+      scenario_config_replacements['kafo_modules_dir'] = ENV['KAFO_MODULES_DIR']
+    end
+
+    scenario_config_replacements.each do |setting, value|
+      sh 'sed -i "s#\(.*%s:\).*#\1 %s#" %s' % [setting, value, t.name]
+    end
+  end
+
+  file "#{BUILDDIR}/parser_cache/#{scenario}.yaml" => ["config/#{scenario}.yaml", "#{BUILDDIR}/modules", "#{BUILDDIR}/parser_cache"] do |t|
+    sh "#{exporter}/kafo-export-params -c #{t.source} -f parsercache --no-parser-cache -o #{t.name}"
+  end
+
+  file "#{BUILDDIR}/#{scenario}-options.asciidoc" => ["config/#{scenario}.yaml", "#{BUILDDIR}/parser_cache/#{scenario}.yaml"] do |t|
+    sh "#{exporter}/kafo-export-params -c #{t.source} -f asciidoc -o #{t.name}"
+  end
+
+  # Store migration scripts under DATADIR, symlinked back into SYSCONFDIR and keep .applied file in SYSCONFDIR
+  directory "#{BUILDDIR}/#{scenario}.migrations"
+  file "#{BUILDDIR}/#{scenario}.migrations" => BUILDDIR do |t|
+    # These symlinks are broken until installation, so don't reference them in rake file tasks
+    ln_s "#{DATADIR}/foreman-installer/config/#{scenario}.migrations", "#{t.name}/#{scenario}.migrations"
+    ln_s "#{SYSCONFDIR}/foreman-installer/scenarios.d/#{scenario}-migrations-applied", "#{t.name}/.applied"
+  end
+
+  # Generate an empty applied migrations file to ensure the symlink is preserved
+  file "#{BUILDDIR}/#{scenario}-migrations-applied" => BUILDDIR do |t|
+    File.open(t.name, 'w') { |f| f.write([].to_yaml) }
   end
 end
 
@@ -89,16 +120,8 @@ file "#{BUILDDIR}/foreman-hiera.conf" => 'config/foreman-hiera.conf' do |t|
   sh 'sed -i "s#\(.*:datadir:\).*#\1 %s#" %s' % ["#{DATADIR}/foreman-installer/config/foreman.hiera", t.name]
 end
 
-file "#{BUILDDIR}/parser_cache/foreman.yaml" => ["#{BUILDDIR}/modules", "#{BUILDDIR}/parser_cache"] do |t|
-  sh "#{exporter}/kafo-export-params -c config/foreman.yaml -f parsercache --no-parser-cache -o #{BUILDDIR}/parser_cache/foreman.yaml"
-end
-
-file "#{BUILDDIR}/options.asciidoc" => "#{BUILDDIR}/parser_cache/foreman.yaml" do |t|
-  sh "#{exporter}/kafo-export-params -c config/foreman.yaml -f asciidoc -o #{BUILDDIR}/options.asciidoc"
-end
-
 file "#{BUILDDIR}/foreman-installer.8.asciidoc" =>
-['man/foreman-installer.8.asciidoc', "#{BUILDDIR}/options.asciidoc"] do |t|
+['man/foreman-installer.8.asciidoc', "#{BUILDDIR}/foreman-options.asciidoc"] do |t|
   man_file = t.prerequisites[0]
   options_file = t.prerequisites[1]
 
@@ -128,19 +151,6 @@ file "#{BUILDDIR}/modules" => BUILDDIR do |t|
   end
 end
 
-# Store migration scripts under DATADIR, symlinked back into SYSCONFDIR and keep .applied file in SYSCONFDIR
-directory "#{BUILDDIR}/foreman.migrations"
-file "#{BUILDDIR}/foreman.migrations" => BUILDDIR do |t|
-  # These symlinks are broken until installation, so don't reference them in rake file tasks
-  ln_s "#{DATADIR}/foreman-installer/config/foreman.migrations", "#{t.name}/foreman.migrations"
-  ln_s "#{SYSCONFDIR}/foreman-installer/scenarios.d/foreman-migrations-applied", "#{t.name}/.applied"
-end
-
-# Generate an empty applied migrations file to ensure the symlink is preserved
-file "#{BUILDDIR}/foreman-migrations-applied" => BUILDDIR do |t|
-  File.open(t.name, 'w') { |f| f.write([].to_yaml) }
-end
-
 # Store static configs under DATADIR, with customisable files symlinked into SYSCONFDIR
 directory "#{BUILDDIR}/config"
 file "#{BUILDDIR}/config" => BUILDDIR do |t|
@@ -149,39 +159,49 @@ file "#{BUILDDIR}/config" => BUILDDIR do |t|
   ln_sf "#{SYSCONFDIR}/foreman-installer/custom-hiera.yaml", "#{t.name}/foreman.hiera/custom.yaml"
 end
 
-task :build => [
-  BUILDDIR,
-  'VERSION',
-  "#{BUILDDIR}/config",
-  "#{BUILDDIR}/foreman.yaml",
-  "#{BUILDDIR}/foreman-hiera.conf",
-  "#{BUILDDIR}/foreman-installer",
-  "#{BUILDDIR}/foreman-installer.8",
-  "#{BUILDDIR}/foreman.migrations",
-  "#{BUILDDIR}/foreman-migrations-applied",
-  "#{BUILDDIR}/modules",
-  "#{BUILDDIR}/parser_cache/foreman.yaml",
-]
+namespace :build do
+  task :base => [
+    'VERSION',
+    BUILDDIR,
+    "#{BUILDDIR}/config",
+    "#{BUILDDIR}/foreman-hiera.conf",
+    "#{BUILDDIR}/foreman-installer",
+    "#{BUILDDIR}/foreman-installer.8",
+    "#{BUILDDIR}/modules",
+  ]
 
-task :install => :build do |t|
+  task :scenarios => [SCENARIOS.map do |scenario|
+    [
+      "#{BUILDDIR}/#{scenario}.yaml",
+      "#{BUILDDIR}/#{scenario}.migrations",
+      "#{BUILDDIR}/#{scenario}-migrations-applied",
+      "#{BUILDDIR}/parser_cache/#{scenario}.yaml",
+    ]
+  end].flatten
+end
+
+task :build => ['build:base', 'build:scenarios']
+
+task :install => :build do
   mkdir_p "#{DATADIR}/foreman-installer"
   cp_r Dir.glob('{checks,hooks,VERSION,README.md,LICENSE}'), "#{DATADIR}/foreman-installer"
   cp_r "#{BUILDDIR}/config", "#{DATADIR}/foreman-installer"
   cp "#{BUILDDIR}/foreman-hiera.conf", "#{DATADIR}/foreman-installer/config"
 
-  copy_entry "#{BUILDDIR}/foreman.migrations/.applied", "#{DATADIR}/foreman-installer/config/foreman.migrations/.applied"
+  mkdir_p "#{SYSCONFDIR}/foreman-installer/scenarios.d"
+  SCENARIOS.each do |scenario|
+    cp "#{BUILDDIR}/#{scenario}.yaml", "#{SYSCONFDIR}/foreman-installer/scenarios.d/"
+    cp "config/#{scenario}-answers.yaml", "#{SYSCONFDIR}/foreman-installer/scenarios.d/#{scenario}-answers.yaml"
+    cp "#{BUILDDIR}/#{scenario}-migrations-applied", "#{SYSCONFDIR}/foreman-installer/scenarios.d/#{scenario}-migrations-applied"
+    copy_entry "#{BUILDDIR}/#{scenario}.migrations/#{scenario}.migrations", "#{SYSCONFDIR}/foreman-installer/scenarios.d/#{scenario}.migrations"
+    copy_entry "#{BUILDDIR}/#{scenario}.migrations/.applied", "#{DATADIR}/foreman-installer/config/#{scenario}.migrations/.applied"
+  end
+
   cp_r "#{BUILDDIR}/modules", "#{DATADIR}/foreman-installer", :preserve => true
   cp_r "#{BUILDDIR}/parser_cache", "#{DATADIR}/foreman-installer"
 
   mkdir_p "#{SYSCONFDIR}/foreman-installer"
   cp "config/foreman.hiera/custom.yaml", "#{SYSCONFDIR}/foreman-installer/custom-hiera.yaml"
-
-  mkdir_p "#{SYSCONFDIR}/foreman-installer/scenarios.d"
-  cp "#{BUILDDIR}/foreman.yaml", "#{SYSCONFDIR}/foreman-installer/scenarios.d/"
-  cp "config/foreman-answers.yaml", "#{SYSCONFDIR}/foreman-installer/scenarios.d/foreman-answers.yaml"
-
-  cp "#{BUILDDIR}/foreman-migrations-applied", "#{SYSCONFDIR}/foreman-installer/scenarios.d/foreman-migrations-applied"
-  copy_entry "#{BUILDDIR}/foreman.migrations/foreman.migrations", "#{SYSCONFDIR}/foreman-installer/scenarios.d/foreman.migrations"
 
   mkdir_p SBINDIR
   install "#{BUILDDIR}/foreman-installer", "#{SBINDIR}/foreman-installer", :mode => 0755, :verbose => true
@@ -195,7 +215,8 @@ end
 task :default => :build
 
 CLEAN.include [
-  '_build',
+  BUILDDIR,
+  PKGDIR,
 ]
 
 namespace :pkg do
