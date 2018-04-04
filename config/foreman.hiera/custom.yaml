@@ -24,3 +24,9 @@
 # apache::mod::prefork::serverlimit: 256
 # apache::mod::prefork::maxclients: 256
 # apache::mod::prefork::maxrequestsperchild: 4000
+#
+# Here are some examples of how you tune the PostgreSQL options if needed:
+#
+# postgresql::server::config_entries:
+#   max_connections: 200
+#   shared_buffers: 256MB
