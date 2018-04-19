@@ -19,7 +19,11 @@ foreman_proxy:
 puppet:
   server: true
 foreman::cli: true
+foreman::cli::discovery: false
 foreman::cli::openscap: false
+foreman::cli::remote_execution: false
+foreman::cli::tasks: false
+foreman::cli::templates: false
 foreman::plugin::ansible: false
 foreman::plugin::azure: false
 foreman::plugin::bootdisk: false
