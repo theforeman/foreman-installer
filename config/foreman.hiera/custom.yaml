@@ -28,5 +28,5 @@
 # Here are some examples of how you tune the PostgreSQL options if needed:
 #
 # postgresql::server::config_entries:
-#   max_connections: 200
-#   shared_buffers: 256MB
+#   max_connections: 600
+#   shared_buffers: 1024MB
