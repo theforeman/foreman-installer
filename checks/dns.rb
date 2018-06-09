@@ -12,7 +12,7 @@ end
 hostname = `hostname -f`.chomp
 forwards = Resolv.getaddresses(hostname)
 
-if forwards.empty?
+if forwards.empty? || forwards.first.empty?
   error_exit("Unable to resolve forward DNS for #{hostname}")
 end
 
