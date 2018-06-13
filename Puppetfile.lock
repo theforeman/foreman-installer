@@ -60,7 +60,7 @@ FORGE
       theforeman-tftp (< 5.0.0, >= 1.3.0)
     theforeman-git (4.0.0)
       puppetlabs-stdlib (< 5.0.0, >= 4.13.0)
-    theforeman-puppet (9.0.0)
+    theforeman-puppet (9.0.1)
       puppet-extlib (< 3.0.0, >= 0.11.3)
       puppetlabs-apache (< 4.0.0, >= 1.2.0)
       puppetlabs-concat (< 5.0.0, >= 1.0.0)
