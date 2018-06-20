@@ -21,6 +21,10 @@ FORGE
       puppet-staging (< 4.0.0, >= 1.0.1)
       puppetlabs-stdlib (< 5.0.0, >= 3.2.0)
       puppetlabs-translate (< 2.0.0, >= 1.0.0)
+    puppetlabs-postgresql (5.6.0)
+      puppetlabs-apt (< 5.0.0, >= 2.0.0)
+      puppetlabs-concat (< 5.0.0, >= 1.1.0)
+      puppetlabs-stdlib (< 5.0.0, >= 4.13.1)
     puppetlabs-puppet_authorization (0.4.0)
       puppetlabs-concat (< 5.0.0, >= 1.1.1)
       puppetlabs-hocon (< 2.0.0, >= 0.9.3)
@@ -71,19 +75,9 @@ FORGE
       puppetlabs-stdlib (< 5.0.0, >= 4.13.1)
       puppetlabs-xinetd (< 4.0.0, >= 1.1.0)
 
-GIT
-  remote: https://github.com/puppetlabs/puppetlabs-postgresql
-  ref: a90c129feb0b9623c1b2baeb64e8ec193b2435b0
-  sha: a90c129feb0b9623c1b2baeb64e8ec193b2435b0
-  specs:
-    puppetlabs-postgresql (5.4.0)
-      puppetlabs-apt (< 5.0.0, >= 2.0.0)
-      puppetlabs-concat (< 5.0.0, >= 1.1.0)
-      puppetlabs-stdlib (< 5.0.0, >= 4.13.1)
-
 DEPENDENCIES
   puppetlabs-mysql (>= 4.0.0)
-  puppetlabs-postgresql (>= 0)
+  puppetlabs-postgresql (>= 5.6.0)
   puppetlabs-puppetdb (>= 0)
   theforeman-dhcp (< 4.2.0, >= 4.1.1)
   theforeman-dns (< 5.3.0, >= 5.2.0)
