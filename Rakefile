@@ -10,6 +10,34 @@ end
 begin
   require 'puppet_forge'
   require 'semverse'
+
+  class FakePuppetfile
+    attr_reader :new_content
+
+    def initialize
+      @new_content = []
+    end
+
+    def forge(url)
+      @new_content << "forge '#{url}'"
+      @new_content << ''
+      PuppetForge.host = url
+    end
+
+    def mod(name, options = nil)
+      if options.nil?
+        @new_content << "mod '#{name}'"
+      elsif options.is_a?(String)
+        @new_content << "mod '#{name}', '#{options}'"
+      else
+        release = PuppetForge::Module.find(name.tr('/', '-')).current_release
+        version = Semverse::Version.new(release.version)
+        max = "#{version.major}.#{version.minor + 1}.0"
+        @new_content << "mod '#{name}', '>= #{version} < #{max}'"
+      end
+    end
+  end
+
   pin_task = true
 rescue LoadError
   pin_task = false
@@ -186,31 +214,12 @@ if pin_task
   desc 'Pin all the modules in Puppetfile to released versions instead of git branches'
   task :pin_modules do
     filename = 'Puppetfile'
-    $new_content = []
 
-    def forge(url)
-      $new_content << "forge '#{url}'"
-      $new_content << ''
-      PuppetForge.host = url
-    end
-
-    def mod(name, options=nil)
-      if options.nil?
-        $new_content << "mod '#{name}'"
-      elsif options.is_a?(String)
-        $new_content << "mod '#{name}', '#{options}'"
-      else
-        release = PuppetForge::Module.find(name.gsub('/', '-')).current_release
-        version = Semverse::Version.new(release.version)
-        max = "#{version.major}.#{version.minor + 1}.0"
-        $new_content << "mod '#{name}', '>= #{version} < #{max}'"
-      end
-    end
-
-    load filename
+    fake = FakePuppetfile.new
+    fake.instance_eval { instance_eval(File.read(filename), filename, 1) }
 
     File.open(filename, 'w') do |file|
-      file.write $new_content.join("\n") + "\n"
+      file.write fake.new_content.join("\n") + "\n"
     end
   end
 end
