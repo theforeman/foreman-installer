@@ -201,7 +201,7 @@ CLEAN.include [
 namespace :pkg do
   desc 'Generate package source tar.bz2'
   task :generate_source => [PKGDIR, "#{BUILDDIR}/modules"] do
-    version = File.read('VERSION').chomp.chomp('-develop')
+    version = File.read('VERSION').chomp
     raise "can't find VERSION" if version.length == 0
     Dir.chdir(BUILDDIR) { `tar -cf #{BUILDDIR}/modules.tar --exclude-vcs --exclude=spec --transform=s,^,foreman-installer-#{version}/, modules/` }
     `git archive --prefix=foreman-installer-#{version}/ HEAD > #{PKGDIR}/foreman-installer-#{version}.tar`
