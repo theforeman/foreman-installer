@@ -16,3 +16,4 @@ postgresql::server::config_entries:
   max_connections: 500
   shared_buffers: 512MB
   work_mem: 4MB
+  log_line_prefix: '%t '
