@@ -69,7 +69,7 @@ file "#{BUILDDIR}/parser_cache" => BUILDDIR
 
 SCENARIOS.each do |scenario|
   file "#{BUILDDIR}/#{scenario}.yaml" => "config/#{scenario}.yaml" do |t|
-    cp t.source, t.name
+    cp t.prerequisites.first, t.name
 
     scenario_config_replacements = {
       'answer_file' => "#{SYSCONFDIR}/foreman-installer/scenarios.d/#{scenario}-answers.yaml",
@@ -89,11 +89,11 @@ SCENARIOS.each do |scenario|
   end
 
   file "#{BUILDDIR}/parser_cache/#{scenario}.yaml" => ["config/#{scenario}.yaml", "#{BUILDDIR}/modules", "#{BUILDDIR}/parser_cache"] do |t|
-    sh "#{exporter}/kafo-export-params -c #{t.source} -f parsercache --no-parser-cache -o #{t.name}"
+    sh "#{exporter}/kafo-export-params -c #{t.prerequisites.first} -f parsercache --no-parser-cache -o #{t.name}"
   end
 
   file "#{BUILDDIR}/#{scenario}-options.asciidoc" => ["config/#{scenario}.yaml", "#{BUILDDIR}/parser_cache/#{scenario}.yaml"] do |t|
-    sh "#{exporter}/kafo-export-params -c #{t.source} -f asciidoc -o #{t.name}"
+    sh "#{exporter}/kafo-export-params -c #{t.prerequisites.first} -f asciidoc -o #{t.name}"
   end
 
   # Store migration scripts under DATADIR, symlinked back into SYSCONFDIR and keep .applied file in SYSCONFDIR
