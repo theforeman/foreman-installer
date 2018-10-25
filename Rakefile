@@ -79,12 +79,13 @@ SCENARIOS.each do |scenario|
       'module_dirs' => "#{DATADIR}/foreman-installer/modules",
       'parser_cache_path' => "#{DATADIR}/foreman-installer/parser_cache/#{scenario}.yaml",
     }
-    if ENV['KAFO_MODULES_DIR']
-      scenario_config_replacements['kafo_modules_dir'] = ENV['KAFO_MODULES_DIR']
-    end
 
     scenario_config_replacements.each do |setting, value|
       sh 'sed -i "s#\(.*%s:\).*#\1 %s#" %s' % [setting, value, t.name]
+    end
+
+    if ENV['KAFO_MODULES_DIR']
+      sh 'sed -i "s#.*\(:kafo_modules_dir:\).*#\1 %s#" %s' % [ENV['KAFO_MODULES_DIR'], t.name]
     end
   end
 
