@@ -53,7 +53,7 @@ FORGE
       puppetlabs-concat (< 5.0.0, >= 1.0.0)
       puppetlabs-postgresql (< 6.0.0, >= 4.2.0)
       puppetlabs-stdlib (< 5.0.0, >= 4.13.0)
-    theforeman-foreman_proxy (8.0.1)
+    theforeman-foreman_proxy (8.0.2)
       puppet-extlib (< 3.0.0, >= 0.10.4)
       puppetlabs-stdlib (< 5.0.0, >= 4.19.0)
       richardc-datacat (< 1.0.0, >= 0.6.0)
