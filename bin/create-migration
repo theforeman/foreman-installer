@@ -1,0 +1,31 @@
+#!/usr/bin/env ruby
+
+if ARGV.length != 2
+  $stderr.puts "Usage #{$0} DIRECTORY MIRGATION_NAME"
+  $stderr.puts "e.g., #{$0} config/foreman.migrations add-server-ssl-crl"
+  exit 1
+end
+
+directory = ARGV[0]
+migration_name = ARGV[1]
+
+unless File.directory?(directory)
+  $stderr.puts "Directory #{directory} not found"
+  exit 2
+end
+
+if File.basename(directory) == 'foreman.migrations'
+  # Used by the foreman scenario
+  format = '+%Y%m%d%H%M%S'
+  glue = '_'
+else
+  # Recommended format by kafo
+  format = '+%y%m%d%H%M%S'
+  glue = '-'
+end
+
+timestamp = `date #{format}`.strip
+filename = File.join(directory, "#{timestamp}#{glue}#{migration_name}.rb")
+
+File.open(filename, 'w') {}
+puts "Created #{filename}"
