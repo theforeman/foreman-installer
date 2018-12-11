@@ -164,6 +164,10 @@ file "#{BUILDDIR}/foreman-proxy-certs-generate" => 'bin/foreman-proxy-certs-gene
   sh 'sed -i "s#^.*\(LAST_SCENARIO_PATH = \).*#\1%s#" %s' % ["'#{SYSCONFDIR}/foreman-installer/scenarios.d/last_scenario.yaml'", t.name]
 end
 
+file "#{BUILDDIR}/katello-certs-check" => 'bin/katello-certs-check' do |t|
+  cp t.prerequisites[0], t.name
+end
+
 file "#{BUILDDIR}/foreman-hiera.conf" => 'config/foreman-hiera.conf' do |t|
   cp t.prerequisites[0], t.name
   sh 'sed -i "s#\(.*:datadir:\).*#\1 %s#" %s' % ["#{DATADIR}/foreman-installer/config/foreman.hiera", t.name]
@@ -285,6 +289,7 @@ task :install => :build do
   mkdir_p SBINDIR
   install "#{BUILDDIR}/foreman-installer", "#{SBINDIR}/foreman-installer", :mode => 0755, :verbose => true
   install "#{BUILDDIR}/foreman-proxy-certs-generate", "#{SBINDIR}/foreman-proxy-certs-generate", :mode => 0755, :verbose => true
+  install "#{BUILDDIR}/katello-certs-check", "#{SBINDIR}/katello-certs-check", :mode => 0755, :verbose => true
 
   mkdir_p "#{MANDIR}/man8"
   cp "#{BUILDDIR}/foreman-installer.8", "#{MANDIR}/man8/"
