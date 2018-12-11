@@ -21,7 +21,9 @@ script:
   #
   - INSTDIR=$(mktemp -d)
   - bundle exec rake build install PREFIX=$INSTDIR
-  - bundle exec $INSTDIR/sbin/foreman-installer --help
+  - bundle exec $INSTDIR/sbin/foreman-installer --help --scenario foreman
+  - bundle exec $INSTDIR/sbin/foreman-installer --help --scenario foreman-proxy-content
+  - bundle exec $INSTDIR/sbin/foreman-installer --help --scenario katello
   #
   # Test separate build/installation steps with different prefixes
   # No references to INSTDIR should be present when built with PREFIX=/

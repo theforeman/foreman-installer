@@ -1,0 +1,34 @@
+---
+:name: Foreman Proxy
+:description: Install a stand-alone Foreman Proxy.
+:enabled: true
+:log_dir: /var/log/foreman-installer
+:store_dir: ''
+:log_name: foreman-proxy-content.log
+:log_level: DEBUG
+:no_prefix: false
+:mapping: {}
+:answer_file: /etc/foreman-installer/scenarios.d/foreman-proxy-content-answers.yaml
+:installer_dir: /usr/share/katello-installer-base
+:module_dirs:
+- /usr/share/foreman-installer/modules
+- /usr/share/katello-installer-base/modules
+:colors: true
+:color_of_background: :dark
+:hook_dirs:
+- ./hooks
+:custom: {}
+:low_priority_modules: []
+:verbose_log_level: info
+:skip_puppet_version_check: false
+:parser_cache_path:
+- /usr/share/foreman-installer/parser_cache/foreman.yaml
+- /usr/share/katello-installer-base/parser_cache/katello.yaml
+:hiera_config: /usr/share/foreman-installer/config/foreman-hiera.conf
+:order:
+- certs
+- foreman_proxy
+- foreman_proxy::plugin::pulp
+- foreman_proxy_content
+- puppet
+:password: -C1PSvjt9STtiNvbX5hpVYejjBS_t6mCN-FYYw8XxyE

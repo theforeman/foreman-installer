@@ -13,6 +13,14 @@ def load_config_yaml(filename)
   YAML.load_file(config_path(filename))
 end
 
+def fixture_path(directory, filename)
+  File.join(FIXTURE_DIR, directory, filename)
+end
+
+def load_fixture_yaml(directory, filename)
+  YAML.load_file(fixture_path(directory, filename))
+end
+
 RSpec.configure do |c|
   c.before(:suite) { Kafo::KafoConfigure.logger = Logger.new('test.log') }
 end

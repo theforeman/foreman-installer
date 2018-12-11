@@ -43,6 +43,8 @@ rescue LoadError
   pin_task = false
 end
 
+BUILD_KATELLO = !ENV.key?('EXCLUDE_KATELLO')
+
 BUILDDIR = File.expand_path(ENV['BUILDDIR'] || '_build')
 PREFIX = ENV['PREFIX'] || '/usr/local'
 BINDIR = ENV['BINDIR'] || "#{PREFIX}/bin"
@@ -56,8 +58,14 @@ LOGDIR = ENV['LOGDIR'] || "#{LOCALSTATEDIR}/log"
 DATAROOTDIR = DATADIR = ENV['DATAROOTDIR'] || "#{PREFIX}/share"
 MANDIR = ENV['MANDIR'] || "#{DATAROOTDIR}/man"
 PKGDIR = ENV['PKGDIR'] || File.expand_path('pkg')
-SCENARIOS = ['foreman']
-CERTS_SCENARIOS = ['foreman-proxy-certs']
+
+if BUILD_KATELLO
+  SCENARIOS = ['foreman', 'foreman-proxy-content', 'katello']
+  CERTS_SCENARIOS = ['foreman-proxy-certs']
+else
+  SCENARIOS = ['foreman']
+  CERTS_SCENARIOS = []
+end
 
 exporter_dirs = ENV['PATH'].split(':').push('/usr/bin', ENV['KAFO_EXPORTER'])
 exporter = exporter_dirs.find { |dir| File.executable? "#{dir}/kafo-export-params" } or
@@ -81,6 +89,11 @@ SCENARIOS.each do |scenario|
       'module_dirs' => "#{DATADIR}/foreman-installer/modules",
       'parser_cache_path' => "#{DATADIR}/foreman-installer/parser_cache/#{scenario}.yaml",
     }
+
+    # These scenarios have their own hook dirs for now
+    if ['foreman-proxy-content', 'katello'].include?(scenario)
+      scenario_config_replacements['installer_dir'] += '/katello'
+    end
 
     scenario_config_replacements.each do |setting, value|
       sh 'sed -i "s#\(.*%s:\).*#\1 %s#" %s' % [setting, value, t.name]
@@ -204,6 +217,12 @@ file "#{BUILDDIR}/modules" => BUILDDIR do |t|
   end
 end
 
+directory "#{BUILDDIR}/katello"
+directory "#{BUILDDIR}/katello/hooks"
+file "#{BUILDDIR}/katello/hooks" => "#{BUILDDIR}/katello" do |t|
+  cp_r "katello/hooks", "#{BUILDDIR}/katello"
+end
+
 directory "#{BUILDDIR}/config"
 
 file "#{BUILDDIR}/config/config_header.txt" => ['config/config_header.txt', "#{BUILDDIR}/config"] do |t|
@@ -232,10 +251,15 @@ namespace :build do
     "#{BUILDDIR}/foreman-hiera.conf",
     "#{BUILDDIR}/foreman-installer",
     "#{BUILDDIR}/foreman-installer.8",
-    "#{BUILDDIR}/foreman-proxy-certs-generate",
-    "#{BUILDDIR}/katello-certs-check",
     "#{BUILDDIR}/modules",
   ]
+
+  if BUILD_KATELLO
+    task :base => [
+      "#{BUILDDIR}/foreman-proxy-certs-generate",
+      "#{BUILDDIR}/katello-certs-check",
+    ]
+  end
 
   task :scenarios => [SCENARIOS.map do |scenario|
     [
@@ -265,6 +289,10 @@ task :install => :build do
   cp_r "#{BUILDDIR}/config", "#{DATADIR}/foreman-installer"
   cp "#{BUILDDIR}/foreman-hiera.conf", "#{DATADIR}/foreman-installer/config"
 
+  if BUILD_KATELLO
+    cp_r 'katello', "#{DATADIR}/foreman-installer"
+  end
+
   mkdir_p "#{SYSCONFDIR}/foreman-installer/scenarios.d"
   SCENARIOS.each do |scenario|
     cp "#{BUILDDIR}/#{scenario}.yaml", "#{SYSCONFDIR}/foreman-installer/scenarios.d/"
@@ -274,7 +302,7 @@ task :install => :build do
     copy_entry "#{BUILDDIR}/#{scenario}.migrations/.applied", "#{DATADIR}/foreman-installer/config/#{scenario}.migrations/.applied"
   end
 
-  mkdir_p "#{DATADIR}/foreman-installer/katello-certs/scenarios.d"
+  mkdir_p "#{DATADIR}/foreman-installer/katello-certs/scenarios.d" if CERTS_SCENARIOS.any?
   CERTS_SCENARIOS.each do |scenario|
     cp "#{BUILDDIR}/#{scenario}.yaml", "#{DATADIR}/foreman-installer/katello-certs/scenarios.d/#{scenario}.yaml"
     cp "katello-certs/config/#{scenario}-answers.yaml", "#{DATADIR}/foreman-installer/katello-certs/scenarios.d/#{scenario}-answers.yaml"
@@ -288,8 +316,11 @@ task :install => :build do
 
   mkdir_p SBINDIR
   install "#{BUILDDIR}/foreman-installer", "#{SBINDIR}/foreman-installer", :mode => 0755, :verbose => true
-  install "#{BUILDDIR}/foreman-proxy-certs-generate", "#{SBINDIR}/foreman-proxy-certs-generate", :mode => 0755, :verbose => true
-  install "#{BUILDDIR}/katello-certs-check", "#{SBINDIR}/katello-certs-check", :mode => 0755, :verbose => true
+
+  if BUILD_KATELLO
+    install "#{BUILDDIR}/foreman-proxy-certs-generate", "#{SBINDIR}/foreman-proxy-certs-generate", :mode => 0755, :verbose => true
+    install "#{BUILDDIR}/katello-certs-check", "#{SBINDIR}/katello-certs-check", :mode => 0755, :verbose => true
+  end
 
   mkdir_p "#{MANDIR}/man8"
   cp "#{BUILDDIR}/foreman-installer.8", "#{MANDIR}/man8/"

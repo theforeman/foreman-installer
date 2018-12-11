@@ -1,0 +1,26 @@
+---
+:name: Foreman Proxy Content
+:description: Install a stand-alone Foreman Content Proxy.
+
+:log_dir: './_build/'
+:log_name: 'foreman-proxy-content.log'
+:log_level: DEBUG
+
+:answer_file: ./config/foreman-proxy-content-answers.yaml
+:installer_dir: ./katello
+:module_dirs: ./_build/modules
+:parser_cache_path: ./_build/parser_cache/foreman-proxy-content.yaml
+:hiera_config: ./_build/foreman-hiera.conf
+
+:order:
+  - certs
+  - foreman_proxy
+  - foreman_proxy::plugin::pulp
+  - foreman_proxy_content
+  - puppet
+
+# If using the Debian ruby-kafo package, uncomment this
+# :kafo_modules_dir: /usr/lib/ruby/vendor_ruby/kafo/modules
+
+# Unused, but remains present for older config migrations
+:mapping: {}

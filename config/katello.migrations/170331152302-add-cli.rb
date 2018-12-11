@@ -1,0 +1,1 @@
+answers['foreman::cli'] ||= true
