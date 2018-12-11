@@ -8,9 +8,9 @@ addons:
     - xsltproc
     - docbook-xsl
     - ca-certificates
-rvm: 2.3.1
+rvm: 2.4
 env:
-  - PUPPET_VERSION=4.6
+  - PUPPET_VERSION=5.0
 script:
   #
   # Run rspec tests on migrations
