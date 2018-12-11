@@ -1,0 +1,25 @@
+---
+:name: foreman-proxy-certs
+:description: Generate Katello certificates for a proxy
+:enabled: true
+:no_prefix: true
+:dont_save_answers: true
+:verbose_log_level: info
+
+:installer_name: foreman-proxy-certs
+:installer_dir: "./katello-certs"
+:answer_file: "./katello-certs/config/foreman-proxy-certs-answers.yaml"
+:parser_cache_path: "./_build/parser_cache/foreman-proxy-certs.yaml"
+
+:log_dir: "./_build/"
+:log_name: foreman-proxy-certs-generate.log
+:log_level: :debug
+
+:module_dirs: "./_build/modules"
+:mapping:
+  :foreman_proxy_certs:
+    :manifest_name: foreman_proxy_content
+    :dir_name: certs
+:order:
+  - certs
+  - foreman_proxy_certs

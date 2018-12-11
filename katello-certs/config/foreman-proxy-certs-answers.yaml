@@ -1,0 +1,5 @@
+certs:
+  generate: true
+  deploy: false
+  group: foreman
+foreman_proxy_certs: true

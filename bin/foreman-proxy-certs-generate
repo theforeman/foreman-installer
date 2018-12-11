@@ -1,0 +1,28 @@
+#!/usr/bin/env ruby
+require 'rubygems'
+require 'kafo'
+
+CONFIG_DIR = './katello-certs/config/'
+LAST_SCENARIO_PATH = './config/last_scenario.yaml'
+
+Kafo::KafoConfigure.hooking.register_pre(:init) do
+  org_param = param('certs', 'org')
+  return unless org_param
+
+  # Can't use kafo.class.scenario_manager.previous_scenario because we use a
+  # different scenario directory
+  if File.exist?(LAST_SCENARIO_PATH)
+    data = YAML.load_file(LAST_SCENARIO_PATH)
+    if data && data[:answer_file] && File.file?(data[:answer_file])
+      scenario = YAML.load_file(data[:answer_file])
+      organization = scenario['foreman']['initial_organization'] rescue nil
+    end
+  end
+
+  organization ||= "Default Organization"
+
+  org_param.value = organization
+end
+
+@result = Kafo::KafoConfigure.run
+exit((@result.nil? || @result.exit_code == 2) ? 0 : @result.exit_code)
