@@ -27,7 +27,7 @@ forwards.each do |ip|
   begin
     reverse = Resolv.getname(ip.to_s)
     unless hostname == reverse
-      error_exit("Reverse DNS #{reverse} does not match hostname #{hostname}")
+      error_exit("Reverse DNS failed. Looking up #{ip} gave #{reverse}, expected to match #{hostname}")
     end
   rescue Resolv::ResolvError
     # Because of https://bugs.ruby-lang.org/issues/12112:

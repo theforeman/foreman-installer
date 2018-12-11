@@ -1,30 +1,34 @@
 #!/usr/bin/env ruby
 
 BASE = %q(If needed, change the hostname permanently via the
-'hostname' or 'hostnamectl set-hostname' command 
+'hostname' or 'hostnamectl set-hostname' command
 and editing the appropriate configuration file.
-(e.g. on Red Hat systems /etc/sysconfig/network, 
+(e.g. on Red Hat systems /etc/sysconfig/network,
 on Debian based systems /etc/hostname).
 
 If 'hostname -f' still returns an unexpected result, check /etc/hosts and put
 the hostname entry in the correct order, for example:
- 
-  1.2.3.4 full.hostname.com full
- 
+
+  1.2.3.4 hostname.example.com hostname
+
 The fully qualified hostname must be the first entry on the line)
 
 DIFFERENT = %q(Output of 'facter fqdn' is different from 'hostname -f'
- 
+
 Make sure above command gives the same output. )
 
 INVALID = %q(Output of 'hostname -f' does not seems to be valid FQDN
 
 Make sure above command gives fully qualified domain name. At least one
-dot must be present. )
+dot must be present and underscores are not allowed. )
 
 MISSING = %q(Command 'facter' does not exist in system executable path
 
 Make sure the above command is installed and executable in your system. )
+
+UPCASE = %q(The hostname contains a capital letter.
+
+This is not supported. Please modify the hostname to be all lowercase. )
 
 def error_exit(message, code)
   $stderr.puts message
@@ -43,3 +47,7 @@ facter_fqdn = `facter fqdn`.chomp
 error_exit(DIFFERENT + BASE, 1) if facter_fqdn != `hostname -f`.chomp
 # Every FQDN should have at least one dot
 error_exit(INVALID + BASE, 2) unless facter_fqdn.include?('.')
+# Per https://bugzilla.redhat.com/show_bug.cgi?id=1205960 check for underscores
+error_exit(INVALID + BASE, 2) if facter_fqdn.include?('_')
+# Capital Letters are not suported.
+error_exit(UPCASE + BASE, 3) if facter_fqdn.downcase != facter_fqdn
