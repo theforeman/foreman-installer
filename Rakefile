@@ -68,7 +68,8 @@ directory "#{BUILDDIR}/parser_cache"
 file "#{BUILDDIR}/parser_cache" => BUILDDIR
 
 SCENARIOS.each do |scenario|
-  file "#{BUILDDIR}/#{scenario}.yaml" => "config/#{scenario}.yaml" do |t|
+  config = "config/#{scenario}.yaml"
+  file "#{BUILDDIR}/#{scenario}.yaml" => [config, BUILDDIR] do |t|
     cp t.prerequisites.first, t.name
 
     scenario_config_replacements = {
@@ -89,11 +90,11 @@ SCENARIOS.each do |scenario|
     end
   end
 
-  file "#{BUILDDIR}/parser_cache/#{scenario}.yaml" => ["config/#{scenario}.yaml", "#{BUILDDIR}/modules", "#{BUILDDIR}/parser_cache"] do |t|
+  file "#{BUILDDIR}/parser_cache/#{scenario}.yaml" => [config, "#{BUILDDIR}/modules", "#{BUILDDIR}/parser_cache"] do |t|
     sh "#{exporter}/kafo-export-params -c #{t.prerequisites.first} -f parsercache --no-parser-cache -o #{t.name}"
   end
 
-  file "#{BUILDDIR}/#{scenario}-options.asciidoc" => ["config/#{scenario}.yaml", "#{BUILDDIR}/parser_cache/#{scenario}.yaml"] do |t|
+  file "#{BUILDDIR}/#{scenario}-options.asciidoc" => [config, "#{BUILDDIR}/parser_cache/#{scenario}.yaml"] do |t|
     sh "#{exporter}/kafo-export-params -c #{t.prerequisites.first} -f asciidoc -o #{t.name}"
   end
 
