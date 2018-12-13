@@ -1,26 +1,15 @@
 require 'spec_helper'
-require 'yaml'
-require 'kafo'
-
-CONFIG_DIR = File.expand_path(File.join(__FILE__, "../../config"))
-Kafo::KafoConfigure.logger = Logger.new("test.log")
 
 describe 'migrations' do
   %w(foreman).each do |scenario_name|
     context "on #{scenario_name}" do
-      let(:answers) do
-        YAML.load_file(File.expand_path(File.join(CONFIG_DIR, "#{scenario_name}-answers.yaml")))
-      end
-
-      let(:config) do
-        YAML.load_file(File.expand_path(File.join(CONFIG_DIR, "#{scenario_name}.yaml")))
-      end
-
+      let(:answers) { load_config_yaml("#{scenario_name}-answers.yaml") }
+      let(:config) { load_config_yaml("#{scenario_name}.yaml") }
       let(:scenario) do
         {
-          :answers    => YAML.load_file(File.expand_path(File.join(CONFIG_DIR, "#{scenario_name}-answers.yaml"))),
-          :config     => YAML.load_file(File.expand_path(File.join(CONFIG_DIR, "#{scenario_name}.yaml"))),
-          :migrations => File.expand_path(File.join(CONFIG_DIR, "#{scenario_name}.migrations"))
+          :answers    => load_config_yaml("#{scenario_name}-answers.yaml"),
+          :config     => load_config_yaml("#{scenario_name}.yaml"),
+          :migrations => config_path("#{scenario_name}.migrations")
         }
       end
 
