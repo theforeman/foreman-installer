@@ -106,6 +106,18 @@ SCENARIOS.each do |scenario|
     ln_s "#{SYSCONFDIR}/foreman-installer/scenarios.d/#{scenario}-migrations-applied", "#{t.name}/.applied"
   end
 
+  file "#{BUILDDIR}/config/#{scenario}.migrations" => ["config/#{scenario}.migrations", "#{BUILDDIR}/config"] do |t|
+    cp_r t.prerequisites.first, t.name
+  end
+
+  file "#{BUILDDIR}/config/#{scenario}.yaml" => ["config/#{scenario}.yaml", "#{BUILDDIR}/config"] do |t|
+    cp t.prerequisites.first, t.name
+  end
+
+  file "#{BUILDDIR}/config/#{scenario}-answers.yaml" => ["config/#{scenario}-answers.yaml", "#{BUILDDIR}/config"] do |t|
+    cp t.prerequisites.first, t.name
+  end
+
   # Generate an empty applied migrations file to ensure the symlink is preserved
   file "#{BUILDDIR}/#{scenario}-migrations-applied" => BUILDDIR do |t|
     File.open(t.name, 'w') { |f| f.write([].to_yaml) }
@@ -153,19 +165,31 @@ file "#{BUILDDIR}/modules" => BUILDDIR do |t|
   end
 end
 
-# Store static configs under DATADIR, with customisable files symlinked into SYSCONFDIR
 directory "#{BUILDDIR}/config"
-file "#{BUILDDIR}/config" => BUILDDIR do |t|
-  cp_r "config", BUILDDIR
+
+file "#{BUILDDIR}/config/config_header.txt" => ['config/config_header.txt', "#{BUILDDIR}/config"] do |t|
+  cp t.prerequisites[0], t.name
+end
+
+file "#{BUILDDIR}/config/foreman-hiera.conf" => ['config/foreman-hiera.conf', "#{BUILDDIR}/config"] do |t|
+  cp t.prerequisites[0], t.name
+end
+
+directory "#{BUILDDIR}/config/foreman.hiera"
+file "#{BUILDDIR}/config/foreman.hiera" => ['config/foreman.hiera', "#{BUILDDIR}/config"] do |t|
+  cp_r t.prerequisites[0], t.prerequisites[1]
+
   # This symlink is broken until installation, so don't reference it in rake file tasks
-  ln_sf "#{SYSCONFDIR}/foreman-installer/custom-hiera.yaml", "#{t.name}/foreman.hiera/custom.yaml"
+  ln_sf "#{SYSCONFDIR}/foreman-installer/custom-hiera.yaml", "#{t.name}/custom.yaml"
 end
 
 namespace :build do
   task :base => [
     'VERSION',
     BUILDDIR,
-    "#{BUILDDIR}/config",
+    "#{BUILDDIR}/config/config_header.txt",
+    "#{BUILDDIR}/config/foreman-hiera.conf",
+    "#{BUILDDIR}/config/foreman.hiera",
     "#{BUILDDIR}/foreman-hiera.conf",
     "#{BUILDDIR}/foreman-installer",
     "#{BUILDDIR}/foreman-installer.8",
@@ -177,6 +201,9 @@ namespace :build do
       "#{BUILDDIR}/#{scenario}.yaml",
       "#{BUILDDIR}/#{scenario}.migrations",
       "#{BUILDDIR}/#{scenario}-migrations-applied",
+      "#{BUILDDIR}/config/#{scenario}.yaml",
+      "#{BUILDDIR}/config/#{scenario}-answers.yaml",
+      "#{BUILDDIR}/config/#{scenario}.migrations",
       "#{BUILDDIR}/parser_cache/#{scenario}.yaml",
     ]
   end].flatten
