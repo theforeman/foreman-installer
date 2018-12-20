@@ -163,8 +163,19 @@ def upgrade_qpid_paths
   end
 end
 
+def remove_user_from_group(user, group)
+  begin
+    is_member = Etc.getgrnam(group).mem.include?(user)
+  rescue ArgumentError
+    is_member = false
+  end
+  if is_member
+    Kafo::Helpers.execute("gpasswd -d '#{user}' '#{group}'")
+  end
+end
+
 def drop_apache_foreman_group
-  Kafo::Helpers.execute("gpasswd -d apache foreman")
+  remove_user_from_group(apache, foreman)
 end
 
 def upgrade_step(step, options = {})
