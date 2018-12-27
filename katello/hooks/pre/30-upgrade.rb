@@ -175,7 +175,7 @@ def remove_user_from_group(user, group)
 end
 
 def drop_apache_foreman_group
-  remove_user_from_group(apache, foreman)
+  remove_user_from_group('apache', 'foreman')
 end
 
 def upgrade_step(step, options = {})
