@@ -34,7 +34,7 @@ MSG
     end
 
     def new_install_message(kafo)
-      say "      Initial credentials are <%= color('#{kafo.param('foreman', 'admin_username').value}', :info) %> / <%= color('#{kafo.param('foreman', 'admin_password').value}', :info) %>"
+      say "      Initial credentials are <%= color('#{kafo.param('foreman', 'initial_admin_username').value}', :info) %> / <%= color('#{kafo.param('foreman', 'initial_admin_password').value}', :info) %>"
     end
 
     def dev_new_install_message(kafo)
