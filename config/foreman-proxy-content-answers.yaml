@@ -11,7 +11,6 @@ puppet:
   server_foreman_ssl_key: /etc/pki/katello/puppet/puppet_client.key
   server_foreman_ssl_ca: /etc/pki/katello/puppet/puppet_client_ca.crt
 foreman_proxy:
-  custom_repo: true
   http: true
   ssl_port: '9090'
   templates: true
@@ -21,7 +20,6 @@ foreman_proxy:
   foreman_ssl_ca: /etc/foreman-proxy/foreman_ssl_ca.pem
   foreman_ssl_cert: /etc/foreman-proxy/foreman_ssl_cert.pem
   foreman_ssl_key: /etc/foreman-proxy/foreman_ssl_key.pem
-  use_autosignfile: true
   manage_puppet_group: false
 foreman_proxy::plugin::pulp:
   enabled: false
@@ -31,4 +29,4 @@ foreman_proxy::plugin::dhcp::infoblox: false
 foreman_proxy::plugin::dns::infoblox: false
 foreman_proxy::plugin::openscap: false
 foreman_proxy::plugin::remote_execution::ssh: false
-foreman_proxy::plugin::discovery: false 
+foreman_proxy::plugin::discovery: false

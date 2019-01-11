@@ -10,12 +10,8 @@
 # See params.pp in each class for what options are available
 ---
 foreman:
-  custom_repo: true
-  email_config_method: database
-foreman_proxy:
-  custom_repo: true
-  realm_split_config_files: true
-  use_autosignfile: true
+  configure_epel_repo: false
+foreman_proxy: {}
 puppet:
   server: true
 foreman::cli: true

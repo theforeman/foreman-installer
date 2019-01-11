@@ -8,11 +8,8 @@ katello:
   - katello
   - tfm-rubygem-katello
 foreman:
-  organizations_enabled: true
-  locations_enabled: true
   initial_organization: Default Organization
   initial_location: Default Location
-  custom_repo: true
   configure_epel_repo: false
   configure_scl_repo: false
   max_keepalive_requests: 10000
@@ -41,7 +38,6 @@ puppet:
   server_foreman_ssl_cert: /etc/pki/katello/puppet/puppet_client.crt
   server_foreman_ssl_key: /etc/pki/katello/puppet/puppet_client.key
 foreman_proxy:
-  custom_repo: true
   http: true
   ssl_port: '9090'
   templates: true
@@ -51,7 +47,6 @@ foreman_proxy:
   foreman_ssl_ca: /etc/foreman-proxy/foreman_ssl_ca.pem
   foreman_ssl_cert: /etc/foreman-proxy/foreman_ssl_cert.pem
   foreman_ssl_key: /etc/foreman-proxy/foreman_ssl_key.pem
-  use_autosignfile: true
   manage_puppet_group: false
 foreman_proxy::plugin::pulp:
   enabled: true

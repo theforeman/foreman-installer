@@ -95,10 +95,8 @@ By default, the all-in-one setup will include Foreman, a puppetmaster,
 Puppet agent, and the Smart Proxy:
 
   ---
-  foreman:
-    custom_repo: true
-  foreman_proxy:
-    custom_repo: true
+  foreman: true
+  foreman_proxy: true
   puppet:
     server: true
 
