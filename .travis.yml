@@ -25,6 +25,11 @@ script:
   - bundle exec $INSTDIR/sbin/foreman-installer --help --scenario foreman-proxy-content
   - bundle exec $INSTDIR/sbin/foreman-installer --help --scenario katello
   #
+  # Run rspec tests again for Puppet version support in modules.
+  # This requires all modules to be built.
+  #
+  - bundle exec rake spec
+  #
   # Test separate build/installation steps with different prefixes
   # No references to INSTDIR should be present when built with PREFIX=/
   #
