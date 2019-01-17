@@ -2,7 +2,7 @@
 require 'rubygems'
 require 'kafo'
 
-CONFIG_DIR = './katello-certs/config/'
+CONFIG_DIR = './katello_certs/config/'
 LAST_SCENARIO_PATH = './config/last_scenario.yaml'
 
 Kafo::KafoConfigure.hooking.register_pre(:init) do

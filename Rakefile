@@ -140,7 +140,7 @@ end
 
 # Special handling for katello certs
 CERTS_SCENARIOS.each do |scenario|
-  config = "katello-certs/config/#{scenario}.yaml"
+  config = "katello_certs/config/#{scenario}.yaml"
   file "#{BUILDDIR}/#{scenario}.yaml" => [config, BUILDDIR] do |t|
     cp t.prerequisites.first, t.name
 
@@ -305,7 +305,7 @@ task :install => :build do
   mkdir_p "#{DATADIR}/foreman-installer/katello-certs/scenarios.d" if CERTS_SCENARIOS.any?
   CERTS_SCENARIOS.each do |scenario|
     cp "#{BUILDDIR}/#{scenario}.yaml", "#{DATADIR}/foreman-installer/katello-certs/scenarios.d/#{scenario}.yaml"
-    cp "katello-certs/config/#{scenario}-answers.yaml", "#{DATADIR}/foreman-installer/katello-certs/scenarios.d/#{scenario}-answers.yaml"
+    cp "katello_certs/config/#{scenario}-answers.yaml", "#{DATADIR}/foreman-installer/katello-certs/scenarios.d/#{scenario}-answers.yaml"
   end
 
   cp_r "#{BUILDDIR}/modules", "#{DATADIR}/foreman-installer", :preserve => true
