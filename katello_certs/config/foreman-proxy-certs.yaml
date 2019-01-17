@@ -7,8 +7,8 @@
 :verbose_log_level: info
 
 :installer_name: foreman-proxy-certs
-:installer_dir: "./katello-certs"
-:answer_file: "./katello-certs/config/foreman-proxy-certs-answers.yaml"
+:installer_dir: "./katello_certs"
+:answer_file: "./katello_certs/config/foreman-proxy-certs-answers.yaml"
 :parser_cache_path: "./_build/parser_cache/foreman-proxy-certs.yaml"
 
 :log_dir: "./_build/"
