@@ -8,7 +8,7 @@ end
 # Foreman UI?
 if module_enabled? 'foreman'
   say "  * <%= color('Foreman', :info) %> is running at <%= color('#{param('foreman','foreman_url').value}', :info) %>"
-  say "      Initial credentials are <%= color('#{param('foreman', 'initial_admin_username').value}', :info) %> / <%= color('#{param('foreman', 'initial_admin_password').value}', :info) %>" if param('foreman','authentication').value == true
+  say "      Initial credentials are <%= color('#{param('foreman', 'initial_admin_username').value}', :info) %> / <%= color('#{param('foreman', 'initial_admin_password').value}', :info) %>"
 end
 
 # Proxy?
