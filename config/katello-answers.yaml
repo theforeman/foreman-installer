@@ -55,8 +55,11 @@ foreman::plugin::ansible: false
 foreman::plugin::bootdisk: false
 foreman::plugin::chef: false
 foreman::plugin::default_hostgroup: false
+foreman::plugin::digitalocean: false
 foreman::plugin::discovery: false
 foreman::plugin::hooks: false
+foreman::plugin::memcache: false
+foreman::plugin::monitoring: false
 foreman::plugin::openscap: false
 foreman::plugin::puppetdb: false
 foreman::plugin::remote_execution: false
@@ -68,6 +71,7 @@ foreman_proxy::plugin::chef: false
 foreman_proxy::plugin::dhcp::infoblox: false
 foreman_proxy::plugin::dns::infoblox: false
 foreman_proxy::plugin::openscap: false
+foreman_proxy::plugin::monitoring: false
 foreman_proxy::plugin::remote_execution::ssh: false
 foreman_proxy::plugin::discovery: false
 foreman::compute::ec2: false
