@@ -14,10 +14,6 @@ mod 'katello/candlepin',             :git => 'https://github.com/theforeman/pupp
 mod 'katello/pulp',                  :git => 'https://github.com/theforeman/puppet-pulp'
 mod 'katello/qpid',                  :git => 'https://github.com/theforeman/puppet-qpid'
 
-# A fork that marks metadata as compatible with puppet 5
-# https://github.com/thias/puppet-squid3/pull/59
-mod 'thias-squid3',                  :git => 'https://github.com/theforeman/puppet-squid3', :ref => 'allow-puppet-5'
-
 # Top-level modules
 mod 'theforeman/foreman',            :git => 'https://github.com/theforeman/puppet-foreman'
 mod 'theforeman/foreman_proxy',      :git => 'https://github.com/theforeman/puppet-foreman_proxy'
