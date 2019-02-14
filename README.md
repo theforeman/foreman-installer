@@ -103,6 +103,14 @@ If you just want to include the relavant bits to run on your puppet master you m
 * Commit and push until you are happy with your contribution
 * Send a pull request with a description of your changes
 
+See [CONTRIBUTING.md](/CONTRIBUTING.md) for more details.
+
+# Katello
+
+This repository also contains the tooling required to install Foreman Katello.
+
+See [KATELLO.md](/KATELLO.md) for details and specifics of that setup.
+
 # More info
 
 See http://theforeman.org or at #theforeman irc channel on freenode
