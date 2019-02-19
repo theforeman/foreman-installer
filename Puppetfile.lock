@@ -39,7 +39,7 @@ FORGE
       puppetlabs-concat (< 6.0.0, >= 1.0.0)
       puppetlabs-stdlib (< 6.0.0, >= 4.25.0)
       thias-squid3 (= 1.0.2)
-    katello-qpid (4.4.0)
+    katello-qpid (4.4.1)
       camptocamp-systemd (< 3.0.0, >= 0.4.0)
       puppetlabs-concat (< 6.0.0, >= 1.0.0)
       puppetlabs-stdlib (< 6.0.0, >= 4.13.0)
