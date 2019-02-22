@@ -5,11 +5,11 @@ SSL_BUILD_DIR = param('certs', 'ssl_build_dir').value
 MONGO_ENGINE_MMAPV1 = '/etc/foreman-installer/.mongo_engine_mmapv1'.freeze
 
 def stop_services
-  Kafo::Helpers.execute('katello-service stop')
+  Kafo::Helpers.execute('foreman-maintain service stop')
 end
 
 def start_postgresql
-  Kafo::Helpers.execute('katello-service start --only postgresql')
+  Kafo::Helpers.execute('systemctl start postgresql')
 end
 
 def migrate_candlepin

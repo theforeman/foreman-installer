@@ -20,7 +20,7 @@ end
 
 def stop_services
   Kafo::KafoConfigure.logger.info 'Stopping services'
-  Kafo::Helpers.execute('katello-service stop --exclude postgresql')
+  Kafo::Helpers.execute('foreman-maintain service stop --exclude postgresql')
 end
 
 def load_foreman_config
