@@ -217,12 +217,6 @@ file "#{BUILDDIR}/modules" => BUILDDIR do |t|
   end
 end
 
-directory "#{BUILDDIR}/katello"
-directory "#{BUILDDIR}/katello/hooks"
-file "#{BUILDDIR}/katello/hooks" => "#{BUILDDIR}/katello" do |t|
-  cp_r "katello/hooks", "#{BUILDDIR}/katello"
-end
-
 directory "#{BUILDDIR}/config"
 
 file "#{BUILDDIR}/config/config_header.txt" => ['config/config_header.txt', "#{BUILDDIR}/config"] do |t|
