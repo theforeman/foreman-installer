@@ -302,7 +302,10 @@ task :install => :build do
     copy_entry "#{BUILDDIR}/#{scenario}.migrations/.applied", "#{DATADIR}/foreman-installer/config/#{scenario}.migrations/.applied"
   end
 
-  mkdir_p "#{DATADIR}/foreman-installer/katello-certs/scenarios.d" if CERTS_SCENARIOS.any?
+  if CERTS_SCENARIOS.any?
+    mkdir_p "#{DATADIR}/foreman-installer/katello-certs/scenarios.d"
+    cp_r 'katello_certs/hooks', "#{DATADIR}/foreman-installer/katello-certs"
+  end
   CERTS_SCENARIOS.each do |scenario|
     cp "#{BUILDDIR}/#{scenario}.yaml", "#{DATADIR}/foreman-installer/katello-certs/scenarios.d/#{scenario}.yaml"
     cp "katello_certs/config/#{scenario}-answers.yaml", "#{DATADIR}/foreman-installer/katello-certs/scenarios.d/#{scenario}-answers.yaml"

@@ -24,6 +24,7 @@ script:
   - bundle exec $INSTDIR/sbin/foreman-installer --help --scenario foreman
   - bundle exec $INSTDIR/sbin/foreman-installer --help --scenario foreman-proxy-content
   - bundle exec $INSTDIR/sbin/foreman-installer --help --scenario katello
+  - bundle exec $INSTDIR/sbin/foreman-proxy-certs-generate --help
   #
   # Test separate build/installation steps with different prefixes
   # No references to INSTDIR should be present when built with PREFIX=/

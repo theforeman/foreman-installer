@@ -21,7 +21,6 @@ if [0, 2].include?(@kafo.exit_code)
       Kafo::Helpers.dev_new_install_message(@kafo) if new_install?
     end
 
-    Kafo::Helpers.proxy_instructions_message(@kafo) if Kafo::Helpers.module_enabled?(@kafo, 'foreman_proxy_certs')
     Kafo::Helpers.proxy_success_message(@kafo) if proxy?
   end
 

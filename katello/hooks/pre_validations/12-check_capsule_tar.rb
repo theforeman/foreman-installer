@@ -4,8 +4,7 @@ def error(message)
   kafo.class.exit 101
 end
 
-certs_tar = param('foreman_proxy_certs', 'certs_tar') ||
-  param('certs', 'tar_file')
+certs_tar = param('certs', 'tar_file')
 
 if certs_tar.value
   certs_tar.value = File.expand_path(certs_tar.value)
