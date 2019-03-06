@@ -1,0 +1,13 @@
+---
+dhcp::config_comment: >
+  READ: This file was written the foreman-installer and not by the Foreman
+
+  application. Any updates to subnets in the Foreman database are not
+
+  automatically reflected in this configuration and vice versa. Configuration
+
+  updates like DNS servers or adding/removing subnets must be done both in
+
+  Foreman application and in this configuration preferably via
+
+  foreman-installer. Use custom-hiera.yaml for multiple subnets.
