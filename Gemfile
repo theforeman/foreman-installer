@@ -1,8 +1,8 @@
 source 'https://rubygems.org'
 
-gem 'kafo', '>= 2.1.0'
+gem 'kafo', '>= 3.0.0'
 gem 'librarian-puppet'
-gem 'puppet', ENV.key?('PUPPET_VERSION') ? "~> #{ENV['PUPPET_VERSION']}" : '~> 5.0'
+gem 'puppet', ENV.key?('PUPPET_VERSION') ? "~> #{ENV['PUPPET_VERSION']}" : '~> 6.0'
 gem 'puppet-strings'
 gem 'rake'
 gem 'rdoc', '< 6' if RUBY_VERSION < '2.2'

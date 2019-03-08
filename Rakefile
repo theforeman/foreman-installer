@@ -83,7 +83,7 @@ SCENARIOS.each do |scenario|
 
     scenario_config_replacements = {
       'answer_file' => "#{SYSCONFDIR}/foreman-installer/scenarios.d/#{scenario}-answers.yaml",
-      'hiera_config' => "#{DATADIR}/foreman-installer/config/foreman-hiera.conf",
+      'hiera_config' => "#{DATADIR}/foreman-installer/config/foreman-hiera.yaml",
       'installer_dir' => "#{DATADIR}/foreman-installer",
       'log_dir' => "#{LOGDIR}/foreman-installer",
       'module_dirs' => "#{DATADIR}/foreman-installer/modules",
@@ -181,11 +181,6 @@ file "#{BUILDDIR}/katello-certs-check" => 'bin/katello-certs-check' do |t|
   cp t.prerequisites[0], t.name
 end
 
-file "#{BUILDDIR}/foreman-hiera.conf" => 'config/foreman-hiera.conf' do |t|
-  cp t.prerequisites[0], t.name
-  sh 'sed -i "s#\(.*:datadir:\).*#\1 %s#" %s' % ["#{DATADIR}/foreman-installer/config/foreman.hiera", t.name]
-end
-
 file "#{BUILDDIR}/foreman-installer.8.asciidoc" =>
 ['man/foreman-installer.8.asciidoc', "#{BUILDDIR}/foreman-options.asciidoc"] do |t|
   man_file = t.prerequisites[0]
@@ -223,16 +218,14 @@ file "#{BUILDDIR}/config/config_header.txt" => ['config/config_header.txt', "#{B
   cp t.prerequisites[0], t.name
 end
 
-file "#{BUILDDIR}/config/foreman-hiera.conf" => ['config/foreman-hiera.conf', "#{BUILDDIR}/config"] do |t|
+file "#{BUILDDIR}/config/foreman-hiera.yaml" => ['config/foreman-hiera.yaml', "#{BUILDDIR}/config"] do |t|
   cp t.prerequisites[0], t.name
+  sh 'sed -i "s#custom.yaml#%s#" %s' % ["#{SYSCONFDIR}/foreman-installer/custom-hiera.yaml", t.name]
 end
 
 directory "#{BUILDDIR}/config/foreman.hiera"
 file "#{BUILDDIR}/config/foreman.hiera" => ['config/foreman.hiera', "#{BUILDDIR}/config"] do |t|
   cp_r t.prerequisites[0], t.prerequisites[1]
-
-  # This symlink is broken until installation, so don't reference it in rake file tasks
-  ln_sf "#{SYSCONFDIR}/foreman-installer/custom-hiera.yaml", "#{t.name}/custom.yaml"
 end
 
 namespace :build do
@@ -240,9 +233,8 @@ namespace :build do
     'VERSION',
     BUILDDIR,
     "#{BUILDDIR}/config/config_header.txt",
-    "#{BUILDDIR}/config/foreman-hiera.conf",
+    "#{BUILDDIR}/config/foreman-hiera.yaml",
     "#{BUILDDIR}/config/foreman.hiera",
-    "#{BUILDDIR}/foreman-hiera.conf",
     "#{BUILDDIR}/foreman-installer",
     "#{BUILDDIR}/foreman-installer.8",
     "#{BUILDDIR}/modules",
@@ -281,7 +273,6 @@ task :install => :build do
   mkdir_p "#{DATADIR}/foreman-installer"
   cp_r Dir.glob('{checks,hooks,VERSION,README.md,LICENSE}'), "#{DATADIR}/foreman-installer"
   cp_r "#{BUILDDIR}/config", "#{DATADIR}/foreman-installer"
-  cp "#{BUILDDIR}/foreman-hiera.conf", "#{DATADIR}/foreman-installer/config"
 
   if BUILD_KATELLO
     cp_r 'katello', "#{DATADIR}/foreman-installer"
@@ -309,7 +300,7 @@ task :install => :build do
   cp_r "#{BUILDDIR}/parser_cache", "#{DATADIR}/foreman-installer"
 
   mkdir_p "#{SYSCONFDIR}/foreman-installer"
-  cp "config/foreman.hiera/custom.yaml", "#{SYSCONFDIR}/foreman-installer/custom-hiera.yaml"
+  cp "config/custom-hiera.yaml", "#{SYSCONFDIR}/foreman-installer"
 
   mkdir_p SBINDIR
   install "#{BUILDDIR}/foreman-installer", "#{SBINDIR}/foreman-installer", :mode => 0755, :verbose => true
