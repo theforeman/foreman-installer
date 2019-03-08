@@ -9,8 +9,8 @@ def error_exit(message, code=2)
   exit code
 end
 
-hostname = `hostname -f`.chomp
-forwards = Resolv.getaddresses(hostname)
+hostname = Resolv::DNS::Name.create(`hostname -f`.chomp)
+forwards = Resolv.getaddresses(hostname.to_s)
 
 if forwards.empty?
   error_exit("Unable to resolve forward DNS for #{hostname}")
@@ -25,7 +25,7 @@ forwards.each do |ip|
   end
 
   begin
-    reverse = Resolv.getname(ip.to_s)
+    reverse = Resolv::DNS::Name.create(Resolv.getname(ip.to_s))
     unless hostname == reverse
       error_exit("Reverse DNS failed. Looking up #{ip} gave #{reverse}, expected to match #{hostname}")
     end
@@ -35,7 +35,8 @@ forwards.each do |ip|
       reverse = Resolv::DNS.open do |dns|
         dns.getresources ip.ip6_arpa, Resolv::DNS::Resource::IN::PTR
       end.first
-      next if reverse && hostname == reverse.name.to_s
+      # name(name.to_s) is done for host.example.com. -> host.example.com
+      next if reverse && hostname == Resolv::DNS::Name.create(reverse.name.to_s)
     end
 
     error_exit("Forward DNS #{ip} did not reverse resolve to any hostname.")
