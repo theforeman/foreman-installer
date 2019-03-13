@@ -20,7 +20,7 @@ mod 'thias-squid3',                  :git => 'https://github.com/theforeman/pupp
 
 # Top-level modules
 mod 'theforeman/foreman',            '>= 11.0.0 < 11.1.0'
-mod 'theforeman/foreman_proxy',      '>= 10.0.0 < 10.1.0'
+mod 'theforeman/foreman_proxy',      '>= 10.1.0 < 10.2.0'
 mod 'theforeman/puppet',             '>= 11.0.0 < 11.1.0'
 
 # Top-level katello modules
