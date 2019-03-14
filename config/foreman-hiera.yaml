@@ -9,8 +9,8 @@ hierarchy:
   - name: "Kafo Answers"
   - name: "Built in"
     paths:
-      - "family/%{facts.os.osfamily}-%{facts.os.release.major}.yaml"
-      - "family/%{facts.os.osfamily}.yaml"
+      - "family/%{facts.os.family}-%{facts.os.release.major}.yaml"
+      - "family/%{facts.os.family}.yaml"
       - "security.yaml"
       - "tuning.yaml"
       - "common.yaml"
