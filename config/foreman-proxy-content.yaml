@@ -10,7 +10,7 @@
 :installer_dir: ./katello
 :module_dirs: ./_build/modules
 :parser_cache_path: ./_build/parser_cache/foreman-proxy-content.yaml
-:hiera_config: ./_build/foreman-hiera.conf
+:hiera_config: ./config/foreman-hiera.yaml
 
 :order:
   - certs
