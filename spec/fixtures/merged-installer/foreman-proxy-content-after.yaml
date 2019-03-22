@@ -19,7 +19,7 @@
 :verbose_log_level: info
 :skip_puppet_version_check: false
 :parser_cache_path: /usr/share/foreman-installer/parser_cache/foreman-proxy-content.yaml
-:hiera_config: /usr/share/foreman-installer/config/foreman-hiera.conf
+:hiera_config: /usr/share/foreman-installer/config/foreman-hiera.yaml
 :order:
 - certs
 - foreman_proxy
