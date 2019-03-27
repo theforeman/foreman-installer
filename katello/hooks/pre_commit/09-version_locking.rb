@@ -12,8 +12,8 @@ end
 `command -v foreman-maintain`
 if $?.success?
   `foreman-maintain installation is-locked --assumeyes`
-  if $?.exitstatus == 1
-    Kafo::Helpers.log_and_say :info, "Package versionss are locked. Continuing with unlock."
+  if $?.exitstatus == 0
+    Kafo::Helpers.log_and_say :info, "Package versions are locked. Continuing with unlock."
     Kafo::Helpers.execute('foreman-maintain installation unlock --assumeyes')
   end
 end
