@@ -8,14 +8,21 @@ if lock_versions != custom_config_value
   kafo.config.configure_application
 end
 
-# unlock packages if locked
-`command -v foreman-maintain`
-if $?.success?
-  `foreman-maintain packages is-locked --assumeyes`
-  if $?.exitstatus == 0
-    Kafo::Helpers.log_and_say :info, "Package versions are locked. Continuing with unlock."
-    Kafo::Helpers.execute('foreman-maintain packages unlock --assumeyes')
+if lock_versions
+  unless system('command -v foreman-maintain > dev/null')
+    Kafo::Helpers.log_and_say :error, 'Locking of package versions was requested but foreman-maintain is not installed'
+    kafo.class.exit 1
   end
+  unless system('foreman-maintain packages -h > /dev/null')
+    Kafo::Helpers.log_and_say :error, 'Locking of package versions was requested but foreman-maintain version installed does not support it'
+    kafo.class.exit 1
+  end
+end
+
+# unlock packages if locked
+if system('foreman-maintain packages is-locked --assumeyes > /dev/null')
+  Kafo::Helpers.log_and_say :info, "Package versions are locked. Continuing with unlock."
+  Kafo::Helpers.execute('foreman-maintain packages unlock --assumeyes', false)
 end
 nil
 
