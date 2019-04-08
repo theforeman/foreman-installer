@@ -20,9 +20,8 @@ if lock_versions
 end
 
 # unlock packages if locked
-if system('foreman-maintain packages is-locked --assumeyes > /dev/null')
+if system('foreman-maintain packages is-locked --assumeyes > /dev/null 2>&1')
   Kafo::Helpers.log_and_say :info, "Package versions are locked. Continuing with unlock."
   Kafo::Helpers.execute('foreman-maintain packages unlock --assumeyes', false)
 end
 nil
-
