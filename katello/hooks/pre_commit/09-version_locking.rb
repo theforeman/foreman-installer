@@ -9,11 +9,11 @@ if lock_versions != custom_config_value
 end
 
 if lock_versions
-  unless system('command -v foreman-maintain > dev/null')
+  unless system('command -v foreman-maintain > /dev/null')
     Kafo::Helpers.log_and_say :error, 'Locking of package versions was requested but foreman-maintain is not installed'
     kafo.class.exit 1
   end
-  unless system('foreman-maintain packages -h > /dev/null')
+  unless system('foreman-maintain packages -h > /dev/null 2>&1')
     Kafo::Helpers.log_and_say :error, 'Locking of package versions was requested but foreman-maintain version installed does not support it'
     kafo.class.exit 1
   end
