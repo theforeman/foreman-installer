@@ -1,3 +1,4 @@
+return nil unless system('command -v foreman-maintain > /dev/null')
 app_option(
   '--[no-]lock-package-versions',
   :flag,
