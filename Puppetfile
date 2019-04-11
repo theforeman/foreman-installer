@@ -12,7 +12,7 @@ mod 'theforeman/tftp',               '>= 4.4.0 < 4.5.0'
 # Katello dependencies
 mod 'katello/candlepin',             '>= 6.0.0 < 6.1.0'
 mod 'katello/pulp',                  '>= 5.8.0 < 5.9.0'
-mod 'katello/qpid',                  '>= 4.4.0 < 4.5.0'
+mod 'katello/qpid',                  '>= 4.5.0 < 4.6.0'
 
 # A fork that marks metadata as compatible with puppet 5
 # https://github.com/thias/puppet-squid3/pull/59
@@ -25,5 +25,5 @@ mod 'theforeman/puppet',             '>= 11.0.0 < 11.1.0'
 
 # Top-level katello modules
 mod 'katello/foreman_proxy_content', '>= 8.0.0 < 8.1.0'
-mod 'katello/certs',                 '>= 5.0.0 < 5.1.0'
+mod 'katello/certs',                 '>= 5.1.0 < 5.2.0'
 mod 'katello/katello',               '>= 9.0.0 < 9.1.0'
