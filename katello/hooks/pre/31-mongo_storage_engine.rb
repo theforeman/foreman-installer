@@ -5,7 +5,7 @@ def fail_and_exit(message)
 end
 
 def migration
-  katello = Kafo::Helpers.module_enabled?(@kafo, 'katello')
+  katello = module_enabled?('katello')
   export_dir = '/var/tmp/mongodb_engine_upgrade'
   mongo_dir = '/var/lib/mongodb'
   hiera_file = '/etc/foreman-installer/custom-hiera.yaml'

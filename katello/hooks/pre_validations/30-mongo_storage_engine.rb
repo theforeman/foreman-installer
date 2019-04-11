@@ -28,9 +28,9 @@ if app_value(:upgrade_mongo_storage_engine)
   end
 
   # Fail if we are not using the Katello/Foreman Proxy Content scenario.
-  katello = Kafo::Helpers.module_enabled?(@kafo, 'katello')
-  foreman_proxy_content = Kafo::Helpers.module_enabled?(@kafo, 'foreman_proxy_content')
-  fail_and_exit 'MongoDB storage engine upgrade is not currently supported for the chosen scenario.' unless katello || foreman_proxy_content
+  unless module_enabled?('katello') || module_enabled?('foreman_proxy_content')
+    fail_and_exit 'MongoDB storage engine upgrade is not currently supported for the chosen scenario.'
+  end
 
   # Fail if Katello MongoDB is not localhost, does not have a valid db connection, or an invalid value in the answerfile.
   if katello

@@ -23,7 +23,7 @@ ca_file   = param('certs', 'server_ca_cert').value
 cert_file = param('certs', 'server_cert').value
 key_file  = param('certs', 'server_key').value
 
-if app_value('certs_update_server_ca') && !Kafo::Helpers.module_enabled?(@kafo, 'katello')
+if app_value('certs_update_server_ca') && !module_enabled?('katello')
   error "--certs-update-server-ca needs to be used with katello"
 end
 

@@ -1,4 +1,4 @@
-if Kafo::Helpers.module_enabled?(@kafo, 'foreman_proxy_content')
+if module_enabled?('foreman_proxy_content')
   DISK_SIZE = 'The installation requires at least 5G of storage.'
   MONGODB_DIR = '/var/lib/mongodb'
   MIN_FREE_KB = 5 * 1024 * 1024

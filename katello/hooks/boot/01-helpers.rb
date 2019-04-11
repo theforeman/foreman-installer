@@ -1,11 +1,5 @@
 class Kafo::Helpers
   class << self
-    def module_enabled?(kafo, name)
-      mod = kafo.module(name)
-      return false if mod.nil?
-      mod.enabled?
-    end
-
     def log_and_say(level, message, do_say = true, do_log = true)
       style = case level
               when :error
