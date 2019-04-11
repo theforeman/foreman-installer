@@ -15,7 +15,7 @@ def error_exit(message, code)
   kafo.class.exit code
 end
 
-if Kafo::Helpers.module_enabled?(@kafo, 'katello')
+if module_enabled?('katello')
   java_version_string = `/usr/bin/java -version 2>&1`
   java_version = java_version_string.split("\n")[0].split('"')[1]
 

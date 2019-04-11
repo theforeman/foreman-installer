@@ -8,9 +8,7 @@ def install_syspaths
   end
 end
 
-katello = Kafo::Helpers.module_enabled?(@kafo, 'katello')
-foreman_proxy_content = Kafo::Helpers.module_enabled?(@kafo, 'foreman_proxy_content')
-if katello || foreman_proxy_content
+if module_enabled?('katello') || module_enabled?('foreman_proxy_content')
   install_syspaths
 else
   logger.debug 'Selected scenario is not applicable for rh-mongodb34-syspaths install, skipping'
