@@ -64,6 +64,7 @@ foreman::plugin::monitoring: false
 foreman::plugin::openscap: false
 foreman::plugin::puppetdb: false
 foreman::plugin::remote_execution: false
+foreman::plugin::salt: false
 foreman::plugin::setup: false
 foreman::plugin::tasks: true
 foreman::plugin::templates: false
@@ -74,6 +75,7 @@ foreman_proxy::plugin::dns::infoblox: false
 foreman_proxy::plugin::openscap: false
 foreman_proxy::plugin::monitoring: false
 foreman_proxy::plugin::remote_execution::ssh: false
+foreman_proxy::plugin::salt: false
 foreman_proxy::plugin::discovery: false
 foreman::compute::ec2: false
 foreman::compute::gce: false
