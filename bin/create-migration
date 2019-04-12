@@ -24,7 +24,7 @@ else
   glue = '-'
 end
 
-timestamp = `date #{format}`.strip
+timestamp = `TZ=UTC date #{format}`.strip
 filename = File.join(directory, "#{timestamp}#{glue}#{migration_name}.rb")
 
 File.open(filename, 'w') {}
