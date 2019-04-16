@@ -11,7 +11,7 @@ class Kafo::Helpers
       foreman_proxy_fqdn    = kafo.param('foreman_proxy_certs', 'foreman_proxy_fqdn').value
       foreman_oauth_key     = Kafo::Helpers.read_cache_data("oauth_consumer_key")
       foreman_oauth_secret  = Kafo::Helpers.read_cache_data("oauth_consumer_secret")
-      org                   = kafo.param('certs', 'org').value
+      org                   = kafo.param('certs', 'org').value.tr(' ', '_')
 
       certs_tar_file = File.join('/root', File.basename(certs_tar))
       foreman_url = "https://#{fqdn}"
