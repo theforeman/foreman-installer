@@ -67,6 +67,7 @@ foreman::plugin::puppetdb: false
 foreman::plugin::remote_execution: false
 foreman::plugin::salt: false
 foreman::plugin::setup: false
+foreman::plugin::snapshot_management: false
 foreman::plugin::tasks: true
 foreman::plugin::templates: false
 foreman_proxy::plugin::ansible: false
