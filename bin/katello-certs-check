@@ -11,7 +11,7 @@ function usage () {
 Verifies, that custom SSL certificate files are usable
 as part of the Katello installation. When passing filenames use absolute paths.
 
-usage: $0 -t TARGET -c CERT_FILE -k KEY_FILE -b CA_BUNDLE_FILEusage: $0 -c CERT_FILE -k KEY_FILE -b CA_BUNDLE_FILE
+usage: $0 -t TARGET -c CERT_FILE -k KEY_FILE -b CA_BUNDLE_FILE
 HELP
 }
 
