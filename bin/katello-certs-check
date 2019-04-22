@@ -11,12 +11,15 @@ function usage () {
 Verifies, that custom SSL certificate files are usable
 as part of the Katello installation. When passing filenames use absolute paths.
 
-usage: $0 -c CERT_FILE -k KEY_FILE -b CA_BUNDLE_FILE
+usage: $0 -t TARGET -c CERT_FILE -k KEY_FILE -b CA_BUNDLE_FILEusage: $0 -c CERT_FILE -k KEY_FILE -b CA_BUNDLE_FILE
 HELP
 }
 
-while getopts "c:k:b:" opt; do
+while getopts "t:c:k:b:" opt; do
     case $opt in
+        t)
+            TARGET=$OPTARG
+            ;;
         c)
             CERT_FILE="$(readlink -f $OPTARG)"
             ;;
@@ -45,8 +48,11 @@ if [ -z "$CERT_FILE" -o -z "$KEY_FILE" -o -z "$CA_BUNDLE_FILE" ]; then
     exit 1
 fi
 
-HOSTNAME=$(hostname -f)
-CERT_HOSTNAME=$(openssl x509 -noout -subject -in $CERT_FILE | sed -e 's/^subject.*CN=\([a-zA-Z0-9\.\-]*\).*$/\1/')
+if [[ $TARGET != "foreman" && $TARGET != "foreman-proxy" ]]; then
+    echo -e 'Target not specified or incorrect. Target value should be foreman or foreman-proxy \n' >&2
+    usage
+    exit 1
+fi
 
 function error () {
     echo -e "\n${RED}[FAIL]${RESET}\n"
@@ -165,7 +171,7 @@ check-ca-bundle
 check-cert-san
 check-cert-usage-key-encipherment
 
-if [[ $EXIT_CODE == "0" ]] && [[ $CERT_HOSTNAME == $HOSTNAME ]]; then
+if [ $EXIT_CODE == "0" -a "$TARGET" == "foreman" ]; then
     echo -e "${GREEN}Validation succeeded${RESET}\n"
     cat <<EOF
 
