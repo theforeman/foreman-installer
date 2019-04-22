@@ -42,7 +42,7 @@ done
 
 EXIT_CODE=0
 
-if [ -z "$CERT_FILE" -o -z "$KEY_FILE" -o -z "$CA_BUNDLE_FILE" ]; then
+if [ -z "$CERT_FILE" -o -z "$KEY_FILE" -o -z "$CA_BUNDLE_FILE" -o -z "$TARGET" ]; then
     echo 'One of the required parameters is missing.' >&2
     usage
     exit 1
