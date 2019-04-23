@@ -30,7 +30,6 @@ foreman::plugin::default_hostgroup: false
 foreman::plugin::dhcp_browser: false
 foreman::plugin::digitalocean: false
 foreman::plugin::discovery: false
-foreman::plugin::docker: false
 foreman::plugin::expire_hosts: false
 foreman::plugin::host_extra_validator: false
 foreman::plugin::memcache: false
@@ -53,7 +52,6 @@ foreman::compute::openstack: false
 foreman::compute::ovirt: false
 foreman::compute::rackspace: false
 foreman::compute::vmware: false
-foreman_proxy::plugin::abrt: false
 foreman_proxy::plugin::ansible: false
 foreman_proxy::plugin::chef: false
 foreman_proxy::plugin::dhcp::infoblox: false
