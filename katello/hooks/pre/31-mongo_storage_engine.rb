@@ -57,7 +57,7 @@ def migration
 
   # Update Hiera to wiredTiger for installer run
   logger.info 'Changing custom Hiera to use wiredTiger for installer Puppet run.'
-  Kafo::Helpers.execute("sed -i -e 's/Added by foreman-installer during upgrade, run the installer with --upgrade-mongo-storage to upgrade to WiredTiger./Do not remove'/g #{hiera_file}")
+  Kafo::Helpers.execute("sed -i -e 's/Added by foreman-installer during upgrade, run the installer with --upgrade-mongo-storage-engine to upgrade to WiredTiger./Do not remove'/g #{hiera_file}")
   Kafo::Helpers.execute("sed -i -e 's/mmapv1/wiredTiger/g' #{hiera_file}")
 end
 
