@@ -52,8 +52,8 @@ def migration
   end
 
   # Remove old data files
-  logger.info "Import done, removing old data in #{mongodb_backup}"
-  Kafo::Helpers.execute("rm -rf #{mongodb_backup}")
+  logger.info "Import done, removing old data in #{mongodb_backup} and #{export_dir}"
+  Kafo::Helpers.execute("rm -rf #{mongodb_backup} #{export_dir}")
 
   # Update Hiera to wiredTiger for installer run
   logger.info 'Changing custom Hiera to use wiredTiger for installer Puppet run.'
