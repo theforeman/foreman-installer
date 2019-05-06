@@ -35,7 +35,7 @@ def migration
   Kafo::Helpers.execute("mv #{mongo_conf}.bak #{mongodb_backup}")
   Kafo::Helpers.execute('foreman-maintain service start --only rh-mongodb34-mongod')
   pulp_db = katello ? param('katello', 'pulp_db_name').value : 'pulp_database'
-  Kafo::Helpers.execute("mongorestore --host localhost --db=#{pulp_db} --drop --quiet --dir=#{export_dir}/#{pulp_db}")
+  Kafo::Helpers.execute("mongorestore --host localhost --db=#{pulp_db} --drop --dir=#{export_dir}/#{pulp_db}")
   unless $?.success?
     logger.error 'The restore could not be completed correctly, reverting actions.'
     logger.info 'Stopping MongoDB'
