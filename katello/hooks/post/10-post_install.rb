@@ -14,7 +14,7 @@ if [0, 2].include?(@kafo.exit_code)
   if !app_value(:upgrade)
     if module_enabled?('katello')
       Kafo::Helpers.server_success_message(@kafo)
-      Kafo::Helpers.new_install_message(@kafo) if @kafo.param('foreman', 'authentication').value == true && new_install?
+      Kafo::Helpers.new_install_message(@kafo) if new_install?
       Kafo::Helpers.certs_generate_command_message
     elsif module_enabled?('katello_devel')
       Kafo::Helpers.dev_server_success_message(@kafo)
