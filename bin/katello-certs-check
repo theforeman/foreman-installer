@@ -11,14 +11,14 @@ function usage () {
 Verifies, that custom SSL certificate files are usable
 as part of the Katello installation. When passing filenames use absolute paths.
 
-usage: $0 -t TARGET -c CERT_FILE -k KEY_FILE -b CA_BUNDLE_FILE
+usage: $0 -t [foreman|foreman-proxy] -c CERT_FILE -k KEY_FILE -b CA_BUNDLE_FILE
 HELP
 }
 
 while getopts "t:c:k:b:" opt; do
     case $opt in
         t)
-            TARGET=$OPTARG
+            TARGET=`echo $OPTARG|tr '[:upper:]' '[:lower:]'`
             ;;
         c)
             CERT_FILE="$(readlink -f $OPTARG)"
@@ -49,7 +49,7 @@ if [ -z "$CERT_FILE" -o -z "$KEY_FILE" -o -z "$CA_BUNDLE_FILE" -o -z "$TARGET" ]
 fi
 
 if [[ $TARGET != "foreman" && $TARGET != "foreman-proxy" ]]; then
-    echo -e 'Target not specified or incorrect. Target value should be foreman or foreman-proxy \n' >&2
+    echo -e 'Target not specified or incorrect. Target value should be Foreman or Foreman-proxy \n' >&2
     usage
     exit 1
 fi
