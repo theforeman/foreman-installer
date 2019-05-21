@@ -25,6 +25,7 @@ script:
   - bundle exec $INSTDIR/sbin/foreman-installer --help --scenario foreman-proxy-content
   - bundle exec $INSTDIR/sbin/foreman-installer --help --scenario katello
   - bundle exec $INSTDIR/sbin/foreman-proxy-certs-generate --help
+  - bundle exec $INSTDIR/sbin/foreman-proxy-certs-generate --help |grep -q certs-update-server
   #
   # Run rspec tests again for Puppet version support in modules.
   # This requires all modules to be built.
