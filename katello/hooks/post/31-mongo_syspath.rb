@@ -1,4 +1,5 @@
 def install_syspaths
+  return unless facts[:operatingsystemmajrelease] == '7'
   `rpm -qa | grep rh-mongodb34-syspaths`
   if $?.success?
     logger.debug 'rh-mongodb34-syspaths already installed, skipping.'
