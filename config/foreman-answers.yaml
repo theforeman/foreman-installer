@@ -11,6 +11,7 @@
 ---
 foreman:
   configure_epel_repo: false
+  passenger: false
 foreman_proxy: {}
 puppet:
   server: true

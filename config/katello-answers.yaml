@@ -29,6 +29,7 @@ foreman:
   passenger_ruby_package: tfm-rubygem-passenger-native
   keepalive: true
   user_groups: []
+  passenger: false
 foreman_proxy_content:
   pulp_master: true
   qpid_router_broker_addr: localhost
