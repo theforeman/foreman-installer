@@ -49,7 +49,7 @@ if [ -z "$CERT_FILE" -o -z "$KEY_FILE" -o -z "$CA_BUNDLE_FILE" -o -z "$TARGET" ]
 fi
 
 if [[ $TARGET != "foreman" && $TARGET != "foreman-proxy" ]]; then
-    echo -e 'Target not specified or incorrect. Target value should be Foreman or Foreman-proxy \n' >&2
+    echo -e 'Target not specified or incorrect. Target value should be foreman or foreman-proxy \n' >&2
     usage
     exit 1
 fi
