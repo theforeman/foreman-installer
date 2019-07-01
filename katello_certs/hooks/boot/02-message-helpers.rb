@@ -1,5 +1,25 @@
 class Kafo::Helpers
   class << self
+    def main_instance_name
+      'Katello'
+    end
+
+    def proxy_name
+      'Smart Proxy'
+    end
+
+    def installer_package
+      'foreman-installer-katello'
+    end
+
+    def scenario_name
+      'foreman-proxy-content'
+    end
+
+    def installer_command
+      'foreman-installer'
+    end
+
     def proxy_instructions_message(kafo)
       fqdn = if kafo.param('foreman_proxy_certs', 'parent_fqdn')
                kafo.param('foreman_proxy_certs', 'parent_fqdn').value
@@ -21,21 +41,22 @@ class Kafo::Helpers
 
   To finish the installation, follow these steps:
 
-  If you do not have the smartproxy registered to the Katello instance, then please do the following:
+  If you do not have the #{proxy_name} registered to the #{main_instance_name} instance, then please do the following:
 
   1. yum -y localinstall http://#{fqdn}/pub/katello-ca-consumer-latest.noarch.rpm
   2. subscription-manager register --org "<%= color('#{org}', :info) %>"
 
-  Once this is completed run the steps below to start the smartproxy installation:
+  Once this is completed run the steps below to start the #{proxy_name} installation:
 
-  1. Ensure that the foreman-installer-katello package is installed on the system.
+  1. Ensure that the #{installer_package} package is installed on the system.
   2. Copy the following file <%= color("#{certs_tar}", :info) %> to the system <%= color("#{foreman_proxy_fqdn}", :info) %> at the following location <%= color("#{certs_tar_file}", :info) %>
   scp <%= color("#{certs_tar}", :info) %> root@<%= color("#{foreman_proxy_fqdn}", :info) %>:<%= color("#{certs_tar_file}", :info) %>
-  3. Run the following commands on the Foreman proxy (possibly with the customized
-     parameters, see <%= color("foreman-installer --scenario foreman-proxy-content --help", :info) %> and
+  3. Run the following commands on the #{proxy_name} (possibly with the customized
+     parameters, see <%= color("#{installer_command} --scenario #{scenario_name} --help", :info) %> and
      documentation for more info on setting up additional services):
 
-  foreman-installer --scenario foreman-proxy-content\\
+  #{installer_command} \\
+                    --scenario #{scenario_name} \\
                     --certs-tar-file                              "<%= color("#{certs_tar_file}", :info) %>"\\
                     --foreman-proxy-content-parent-fqdn           "#{fqdn}"\\
                     --foreman-proxy-register-in-foreman           "true"\\
