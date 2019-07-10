@@ -60,6 +60,7 @@ foreman::plugin::digitalocean: false
 foreman::plugin::discovery: false
 foreman::plugin::expire_hosts: false
 foreman::plugin::hooks: false
+foreman::plugin::kubevirt: false
 foreman::plugin::memcache: false
 foreman::plugin::monitoring: false
 foreman::plugin::openscap: false
@@ -70,17 +71,16 @@ foreman::plugin::setup: false
 foreman::plugin::snapshot_management: false
 foreman::plugin::tasks: true
 foreman::plugin::templates: false
-foreman::plugin::kubevirt: false
 foreman_proxy::plugin::ansible: false
 foreman_proxy::plugin::chef: false
 foreman_proxy::plugin::dhcp::infoblox: false
 foreman_proxy::plugin::dhcp::remote_isc: false
+foreman_proxy::plugin::discovery: false
 foreman_proxy::plugin::dns::infoblox: false
-foreman_proxy::plugin::openscap: false
 foreman_proxy::plugin::monitoring: false
+foreman_proxy::plugin::openscap: false
 foreman_proxy::plugin::remote_execution::ssh: false
 foreman_proxy::plugin::salt: false
-foreman_proxy::plugin::discovery: false
 foreman::compute::ec2: false
 foreman::compute::gce: false
 foreman::compute::libvirt: false
@@ -91,8 +91,8 @@ foreman::compute::vmware: false
 foreman::cli: true
 foreman::cli::ansible: false
 foreman::cli::discovery: false
+foreman::cli::kubevirt: false
 foreman::cli::openscap: false
 foreman::cli::remote_execution: false
 foreman::cli::tasks: false
 foreman::cli::templates: false
-foreman::cli::kubevirt: false
