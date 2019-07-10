@@ -71,6 +71,7 @@ foreman::plugin::setup: false
 foreman::plugin::snapshot_management: false
 foreman::plugin::tasks: true
 foreman::plugin::templates: false
+foreman::plugin::virt_who_configure: false
 foreman_proxy::plugin::ansible: false
 foreman_proxy::plugin::chef: false
 foreman_proxy::plugin::dhcp::infoblox: false
@@ -96,3 +97,4 @@ foreman::cli::openscap: false
 foreman::cli::remote_execution: false
 foreman::cli::tasks: false
 foreman::cli::templates: false
+foreman::cli::virt_who_configure: false
