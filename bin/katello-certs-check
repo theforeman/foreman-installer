@@ -18,7 +18,7 @@ HELP
 while getopts "t:c:k:b:" opt; do
     case $opt in
         t)
-            TARGET=`echo $OPTARG|tr '[:upper:]' '[:lower:]'`
+            TARGET=$(echo $OPTARG|tr '[:upper:]' '[:lower:]')
             ;;
         c)
             CERT_FILE="$(readlink -f $OPTARG)"
@@ -42,14 +42,8 @@ done
 
 EXIT_CODE=0
 
-if [ -z "$CERT_FILE" -o -z "$KEY_FILE" -o -z "$CA_BUNDLE_FILE" -o -z "$TARGET" ]; then
+if [ -z "$CERT_FILE" -o -z "$KEY_FILE" -o -z "$CA_BUNDLE_FILE" ]; then
     echo 'One of the required parameters is missing.' >&2
-    usage
-    exit 1
-fi
-
-if [[ $TARGET != "foreman" && $TARGET != "foreman-proxy" ]]; then
-    echo -e 'Target not specified or incorrect. Target value should be foreman or foreman-proxy \n' >&2
     usage
     exit 1
 fi
@@ -171,7 +165,7 @@ check-ca-bundle
 check-cert-san
 check-cert-usage-key-encipherment
 
-if [ $EXIT_CODE == "0" -a "$TARGET" == "foreman" ]; then
+if [[ $EXIT_CODE == "0" ]] && ([[ $TARGET == "foreman" ]] || [[ -z "$TARGET" ]]) ; then
     echo -e "${GREEN}Validation succeeded${RESET}\n"
     cat <<EOF
 
@@ -189,6 +183,8 @@ To update the certificates on a currently running Katello installation, run:
                       --certs-server-key "$(readlink -f $KEY_FILE)" \\
                       --certs-server-ca-cert "$(readlink -f $CA_BUNDLE_FILE)" \\
                       --certs-update-server --certs-update-server-ca
+
+To use them inside a NEW \$FOREMAN_PROXY, rerun this command with -t foreman-proxy
 EOF
 elif [[ $EXIT_CODE == "0" ]]; then
   echo -e "${GREEN}Validation succeeded${RESET}\n"
