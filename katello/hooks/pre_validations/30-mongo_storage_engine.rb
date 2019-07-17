@@ -9,7 +9,7 @@ def disk_space
   # Check diskspace in /var/tmp
   logger.info 'Checking available diskspace in /var/tmp for upgrade'
   total_space = `df -k --output=avail /var/tmp`.split("\n").last.to_i
-  mongo_size = File.directory?(MONGO_DIR) ? `du -s  #{@MONGO_DIR}`.split[0].to_i : 0
+  mongo_size = File.directory?(MONGO_DIR) ? `du -s  #{MONGO_DIR}`.split[0].to_i : 0
   if total_space < mongo_size
     fail_and_exit "There is not enough free space #{total_space}, the size of MongoDB database is #{mongo_size}, please add additional space to /var/tmp and try again, exiting."
   else
