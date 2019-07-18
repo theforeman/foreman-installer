@@ -11,12 +11,15 @@ function usage () {
 Verifies, that custom SSL certificate files are usable
 as part of the Katello installation. When passing filenames use absolute paths.
 
-usage: $0 -c CERT_FILE -k KEY_FILE -b CA_BUNDLE_FILE
+usage: $0 -t [foreman|foreman-proxy] -c CERT_FILE -k KEY_FILE -b CA_BUNDLE_FILE
 HELP
 }
 
-while getopts "c:k:b:" opt; do
+while getopts "t:c:k:b:" opt; do
     case $opt in
+        t)
+            TARGET=$(echo $OPTARG|tr '[:upper:]' '[:lower:]')
+            ;;
         c)
             CERT_FILE="$(readlink -f $OPTARG)"
             ;;
@@ -44,9 +47,6 @@ if [ -z "$CERT_FILE" -o -z "$KEY_FILE" -o -z "$CA_BUNDLE_FILE" ]; then
     usage
     exit 1
 fi
-
-HOSTNAME=$(hostname -f)
-CERT_HOSTNAME=$(openssl x509 -noout -subject -in $CERT_FILE | sed -e 's/^subject.*CN=\([a-zA-Z0-9\.\-]*\).*$/\1/')
 
 function error () {
     echo -e "\n${RED}[FAIL]${RESET}\n"
@@ -165,7 +165,7 @@ check-ca-bundle
 check-cert-san
 check-cert-usage-key-encipherment
 
-if [[ $EXIT_CODE == "0" ]] && [[ $CERT_HOSTNAME == $HOSTNAME ]]; then
+if [[ $EXIT_CODE == "0" ]] && ([[ $TARGET == "foreman" ]] || [[ -z "$TARGET" ]]) ; then
     echo -e "${GREEN}Validation succeeded${RESET}\n"
     cat <<EOF
 
@@ -183,6 +183,8 @@ To update the certificates on a currently running Katello installation, run:
                       --certs-server-key "$(readlink -f $KEY_FILE)" \\
                       --certs-server-ca-cert "$(readlink -f $CA_BUNDLE_FILE)" \\
                       --certs-update-server --certs-update-server-ca
+
+To use them inside a NEW \$FOREMAN_PROXY, rerun this command with -t foreman-proxy
 EOF
 elif [[ $EXIT_CODE == "0" ]]; then
   echo -e "${GREEN}Validation succeeded${RESET}\n"

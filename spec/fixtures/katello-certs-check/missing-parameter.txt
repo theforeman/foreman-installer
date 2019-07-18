@@ -2,4 +2,4 @@ One of the required parameters is missing.
 Verifies, that custom SSL certificate files are usable
 as part of the Katello installation. When passing filenames use absolute paths.
 
-usage: |COMMAND| -c CERT_FILE -k KEY_FILE -b CA_BUNDLE_FILE
+usage: |COMMAND| -t [foreman|foreman-proxy] -c CERT_FILE -k KEY_FILE -b CA_BUNDLE_FILE
