@@ -33,7 +33,7 @@ if app_value(:upgrade_mongo_storage_engine)
   end
 
   # Fail if Katello MongoDB is not localhost, does not have a valid db connection, or an invalid value in the answerfile.
-  if katello
+  if module_enabled?('katello')
     pulp_host_param = param('katello', 'pulp_db_seeds')
     fail_and_exit('No value set for MongoDB connection') unless pulp_host_param
     mongo_host = pulp_host_param.value
