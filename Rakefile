@@ -12,28 +12,44 @@ begin
   require 'semverse'
 
   class FakePuppetfile
-    attr_reader :new_content
-
     def initialize
       @new_content = []
     end
 
     def forge(url)
-      @new_content << "forge '#{url}'"
-      @new_content << ''
+      @new_content << ['forge', url, nil]
       PuppetForge.host = url
     end
 
     def mod(name, options = nil)
-      if options.nil?
-        @new_content << "mod '#{name}'"
-      elsif options.is_a?(String)
-        @new_content << "mod '#{name}', '#{options}'"
-      else
+      if options.is_a?(Hash) && !options.include?(:ref)
         release = PuppetForge::Module.find(name.tr('/', '-')).current_release
         version = Semverse::Version.new(release.version)
         max = "#{version.major}.#{version.minor + 1}.0"
-        @new_content << "mod '#{name}', '>= #{version} < #{max}'"
+        @new_content << ['mod', name, ">= #{version} < #{max}"]
+      else
+        @new_content << ['mod', name, options]
+      end
+    end
+
+    def content
+      max_length = @new_content.select { |type, value| type == 'mod' }.map { |type, value| value.length }.max
+
+      @new_content.each do |type, value, options|
+        if type == 'forge'
+          yield "forge '#{value}'"
+          yield ""
+        elsif type == 'mod'
+          if options.nil?
+            yield "mod '#{value}'"
+          elsif options.is_a?(String)
+            padding = ' ' * (max_length - value.length)
+            yield "mod '#{value}', #{padding}'#{options}'"
+          else
+            padding = ' ' * (max_length - value.length)
+            yield "mod '#{value}', #{padding}#{options.map { |k, v| ":#{k} => '#{v}'" }.join(', ')}"
+          end
+        end
       end
     end
   end
@@ -347,7 +363,9 @@ if pin_task
     fake.instance_eval { instance_eval(File.read(filename), filename, 1) }
 
     File.open(filename, 'w') do |file|
-      file.write fake.new_content.join("\n") + "\n"
+      fake.content do |line|
+        file.write("#{line}\n")
+      end
     end
   end
 end

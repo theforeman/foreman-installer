@@ -1,4 +1,4 @@
-forge 'https://forgeapi.puppetlabs.com'
+forge 'https://forgeapi.puppetlabs.com/'
 
 # Dependencies
 mod 'puppetlabs/mysql',              '>= 4.0.0'
