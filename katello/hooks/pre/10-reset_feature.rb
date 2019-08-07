@@ -79,11 +79,9 @@ def empty_mongo
   if remote_host?(mongo_config[:host])
     empty_remote_mongo(mongo_config)
   else
+    Kafo::Helpers.start_service('rh-mongodb34-mongod')
     Kafo::Helpers.execute(
-      [
-        'systemctl start rh-mongodb34-mongod',
         "mongo #{mongo_config[:database]} --eval 'db.dropDatabase();'"
-      ]
     )
   end
 end

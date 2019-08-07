@@ -9,7 +9,7 @@ def stop_services
 end
 
 def start_postgresql
-  Kafo::Helpers.execute('systemctl start postgresql')
+  Kafo::Helpers.start_service('postgresql')
 end
 
 def migrate_candlepin
@@ -31,9 +31,9 @@ end
 def migrate_pulp
   # Start mongo
   if `rpm -q mongodb --queryformat=%{version}`.start_with?('2.') # If mongo 2.x is on the system run the migration with that.
-    Kafo::Helpers.execute('systemctl start mongod')
+    Kafo::Helpers.start_service('mongod')
   else
-    Kafo::Helpers.execute('systemctl start rh-mongodb34-mongod')
+    Kafo::Helpers.start_service('rh-mongodb34-mongod')
   end
 
   Kafo::Helpers.execute('su - apache -s /bin/bash -c pulp-manage-db')
@@ -53,7 +53,7 @@ def mongo_mmapv1_check
       logger.info 'No changed needed, Mongo storage engine will installed/kept with WiredTiger'
     else
       # Stop Mongo 2.x
-      Kafo::Helpers.execute('systemctl stop mongod')
+      Kafo::Helpers.stop_service('mongod')
       # set storage engine to MMAPv1 in Hiera file and create engine file.
       logger.info 'Detecting Pulp database and no WiredTiger files, keeping storage engine as MMAPv1'
       logger.info 'To upgrade to WiredTiger at a later time run foreman-installer with the --upgrade-mongo-storage-engine flag.'

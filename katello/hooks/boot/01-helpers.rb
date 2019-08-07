@@ -44,6 +44,38 @@ class Kafo::Helpers
         $?.success?
       end
     end
+
+    def start_service(name)
+      return execute("foreman-maintain service start --only #{name}") if foreman_maintain?
+
+      if service_available?(name)
+        log_and_say :info, 'Expecting #{name} is managed by Foreman'
+        execute("systemctl start #{name}")
+      else
+        log_and_say :info, 'Expecting #{name} is not managed by Foreman, not trying to start'
+        true
+      end
+    end
+
+    def stop_service(name)
+      return execute("foreman-maintain service stop --only #{name}") if foreman_maintain?
+
+      if service_available?(name)
+        log_and_say :info, 'Expecting #{name} is managed by Foreman'
+        execute("systemctl stop #{name}")
+      else
+        log_and_say :info, 'Expecting #{name} is not managed by Foreman, not trying to stop'
+        true
+      end
+    end
+
+    def service_available?(name)
+      execute("which #{name}")
+    end
+
+    def foreman_maintain?
+      service_available?('foreman-maintain')
+    end
   end
 end
 
