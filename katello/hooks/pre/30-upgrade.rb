@@ -9,7 +9,7 @@ def stop_services
 end
 
 def start_postgresql
-  Kafo::Helpers.start_service('postgresql')
+  Kafo::Helpers.execute('systemctl start postgresql')
 end
 
 def migrate_candlepin
@@ -31,9 +31,9 @@ end
 def migrate_pulp
   # Start mongo
   if `rpm -q mongodb --queryformat=%{version}`.start_with?('2.') # If mongo 2.x is on the system run the migration with that.
-    Kafo::Helpers.start_service('mongod')
+    Kafo::Helpers.execute('systemctl start mongod')
   else
-    Kafo::Helpers.start_service('rh-mongodb34-mongod')
+    Kafo::Helpers.execute('systemctl start rh-mongodb34-mongod')
   end
 
   Kafo::Helpers.execute('su - apache -s /bin/bash -c pulp-manage-db')
@@ -207,7 +207,9 @@ if app_value(:upgrade)
   upgrade_step :stop_services, :run_always => true
 
   if katello
-    upgrade_step :start_postgresql, :run_always => true
+    if param_value('foreman', 'db_manage') || param_value('katello', 'candlepin_manage_db')
+      upgrade_step :start_postgresql, :run_always => true
+    end
   end
 
   if katello || foreman_proxy_content
