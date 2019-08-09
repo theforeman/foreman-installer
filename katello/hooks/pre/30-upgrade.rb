@@ -53,7 +53,7 @@ def mongo_mmapv1_check
       logger.info 'No changed needed, Mongo storage engine will installed/kept with WiredTiger'
     else
       # Stop Mongo 2.x
-      Kafo::Helpers.stop_service('mongod')
+      Kafo::Helpers.execute('systemctl stop mongod')
       # set storage engine to MMAPv1 in Hiera file and create engine file.
       logger.info 'Detecting Pulp database and no WiredTiger files, keeping storage engine as MMAPv1'
       logger.info 'To upgrade to WiredTiger at a later time run foreman-installer with the --upgrade-mongo-storage-engine flag.'
