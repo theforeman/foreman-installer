@@ -206,7 +206,7 @@ if app_value(:upgrade)
 
   upgrade_step :stop_services, :run_always => true
 
-  if katello
+  if param_value('foreman', 'db_manage') || param_value('katello', 'candlepin_manage_db')
     upgrade_step :start_postgresql, :run_always => true
   end
 
