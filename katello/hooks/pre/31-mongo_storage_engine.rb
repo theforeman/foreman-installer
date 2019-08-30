@@ -8,7 +8,6 @@ def migration
   katello = module_enabled?('katello')
   export_dir = '/var/tmp/mongodb_engine_upgrade'
   mongo_dir = '/var/lib/mongodb'
-  hiera_file = '/etc/foreman-installer/custom-hiera.yaml'
   mongodb_backup = '/var/tmp/mongodb_backup'
   mongo_conf = '/etc/opt/rh/rh-mongodb34/mongod.conf'
 
@@ -55,9 +54,8 @@ def migration
   Kafo::Helpers.execute("rm -rf #{mongodb_backup} #{export_dir}")
 
   # Update Hiera to wiredTiger for installer run
-  logger.info 'Changing custom Hiera to use wiredTiger for installer Puppet run.'
-  Kafo::Helpers.execute("sed -i -e 's/Added by foreman-installer during upgrade, run the installer with --upgrade-mongo-storage-engine to upgrade to WiredTiger./Do not remove'/g #{hiera_file}")
-  Kafo::Helpers.execute("sed -i -e 's/mmapv1/wiredTiger/g' #{hiera_file}")
+  logger.info 'Changing installer to configure wiredTiger'
+  set_internal_hiera_variable('mongodb::server::storage_engine', 'wiredTiger')
 end
 
 if app_value(:upgrade_mongo_storage_engine)

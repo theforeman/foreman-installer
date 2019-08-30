@@ -43,25 +43,19 @@ def migrate_foreman
 end
 
 def mongo_mmapv1_check
-  custom_hiera = '/etc/foreman-installer/custom-hiera.yaml'
   mongodb_dir = '/var/lib/mongodb/'
   # check and see if we have a pulp_database already from MMAPv1.
   if File.file?(File.join(mongodb_dir, 'pulp_database.0'))
-    # check if we have modifed the custom_hiera file or if there is a WiredTiger file in the db directory.
-    if File.foreach("#{custom_hiera}").grep(/mongodb::server::storage_engine:/).any? || File.file?(File.join(mongodb_dir, 'WiredTiger.wt'))
-      logger.info 'No changed needed, Mongo storage engine will installed/kept with WiredTiger'
+    if get_internal_hiera_variable('mongodb::server::storage_engine') || File.file?(File.join(mongodb_dir, 'WiredTiger.wt'))
+      logger.debug 'No changed needed, Mongo storage engine will installed/kept with WiredTiger'
     else
       # Stop Mongo 2.x
       Kafo::Helpers.execute('systemctl stop mongod')
-      # set storage engine to MMAPv1 in Hiera file and create engine file.
+
       logger.info 'Detecting Pulp database and no WiredTiger files, keeping storage engine as MMAPv1'
       logger.info 'To upgrade to WiredTiger at a later time run foreman-installer with the --upgrade-mongo-storage-engine flag.'
-      # Write to custom_hiera to tell users to not touch the setting.
-      open(custom_hiera, 'a') do |f|
-        f << "# Added by foreman-installer during upgrade, run the installer with --upgrade-mongo-storage-engine to upgrade to WiredTiger.\n"
-        f << "mongodb::server::storage_engine: 'mmapv1'\n"
-      end
 
+      set_internal_hiera_variable('mongodb::server::storage_engine', 'mmapv1')
     end
   else
     logger.debug 'No changed needed, Mongo storage engine will installed/kept with WiredTiger.'
