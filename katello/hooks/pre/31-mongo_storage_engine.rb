@@ -11,7 +11,6 @@ def migration
   hiera_file = '/etc/foreman-installer/custom-hiera.yaml'
   mongodb_backup = '/var/tmp/mongodb_backup'
   mongo_conf = '/etc/opt/rh/rh-mongodb34/mongod.conf'
-  pulp_db_param = param('katello', 'pulp_db_name')
 
   # Create export directory and dump MongoDB
   logger.info 'Stopping Pulp services except MongoDB'
