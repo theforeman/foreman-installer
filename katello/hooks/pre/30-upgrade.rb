@@ -2,7 +2,6 @@ require 'fileutils'
 
 STEP_DIRECTORY = '/etc/foreman-installer/applied_hooks/pre/'
 SSL_BUILD_DIR = param('certs', 'ssl_build_dir').value
-MONGO_ENGINE_MMAPV1 = '/etc/foreman-installer/.mongo_engine_mmapv1'.freeze
 
 def stop_services
   Kafo::Helpers.execute('foreman-maintain service stop')
@@ -63,10 +62,6 @@ def mongo_mmapv1_check
         f << "mongodb::server::storage_engine: 'mmapv1'\n"
       end
 
-      # Create engine file so we know Mongo is in mmapv1 for engine upgrade hook.
-      File.open(MONGO_ENGINE_MMAPV1, 'w') do |file|
-        file.write("Mongo storage engine set to mmapv1 on #{Time.now}")
-      end
     end
   else
     logger.debug 'No changed needed, Mongo storage engine will installed/kept with WiredTiger.'
