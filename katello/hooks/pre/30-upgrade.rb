@@ -46,9 +46,9 @@ def mongo_mmapv1_check
   custom_hiera = '/etc/foreman-installer/custom-hiera.yaml'
   mongodb_dir = '/var/lib/mongodb/'
   # check and see if we have a pulp_database already from MMAPv1.
-  if File.file?("#{mongodb_dir}/pulp_database.0")
+  if File.file?(File.join(mongodb_dir, 'pulp_database.0'))
     # check if we have modifed the custom_hiera file or if there is a WiredTiger file in the db directory.
-    if File.foreach("#{custom_hiera}").grep(/mongodb::server::storage_engine:/).any? || File.file?("#{mongodb_dir}/WiredTiger.wt")
+    if File.foreach("#{custom_hiera}").grep(/mongodb::server::storage_engine:/).any? || File.file?(File.join(mongodb_dir, 'WiredTiger.wt'))
       logger.info 'No changed needed, Mongo storage engine will installed/kept with WiredTiger'
     else
       # Stop Mongo 2.x
