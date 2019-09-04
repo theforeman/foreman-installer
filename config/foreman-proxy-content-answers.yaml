@@ -1,9 +1,7 @@
 ---
 certs:
   generate: false
-  deploy: true
-foreman_proxy_content:
-  qpid_router_broker_addr: localhost
+foreman_proxy_content: true
 puppet:
   server: true
   server_environments_owner: apache
