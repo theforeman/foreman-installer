@@ -1,1 +1,0 @@
-scenario[:mapping].clear
