@@ -7,6 +7,7 @@ hierarchy:
   - name: "Custom user answers"
     path: "custom.yaml"
   - name: "Kafo Answers"
+    path: "%{facts.kafo.scenario.answer_file}"
   - name: "Built in"
     paths:
       - "family/%{facts.os.family}-%{facts.os.release.major}.yaml"
