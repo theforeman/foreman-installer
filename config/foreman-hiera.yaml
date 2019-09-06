@@ -13,5 +13,6 @@ hierarchy:
       - "family/%{facts.os.family}-%{facts.os.release.major}.yaml"
       - "family/%{facts.os.family}.yaml"
       - "security.yaml"
-      - "tuning.yaml"
+      - "tuning/sizes/%{facts.kafo.scenario.custom.tuning}.yaml"
+      - "tuning/common.yaml"
       - "common.yaml"
