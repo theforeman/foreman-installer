@@ -11,6 +11,9 @@ apache::mod::passenger::passenger_max_requests: 10000
 apache::mod::passenger::passenger_min_instances: 1
 apache::mod::passenger::passenger_max_preloader_idle_time: 0
 
+qpid::open_file_limit: 65536
+qpid::router::open_file_limit: 150100
+
 postgresql::server::config_entries:
   checkpoint_completion_target: 0.9
   max_connections: 500
