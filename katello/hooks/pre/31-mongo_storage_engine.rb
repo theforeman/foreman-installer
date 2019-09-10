@@ -9,30 +9,27 @@ def migration
   export_dir = '/var/tmp/mongodb_engine_upgrade'
   mongo_dir = '/var/lib/mongodb'
   hiera_file = '/etc/foreman-installer/custom-hiera.yaml'
-  mongodb_backup = '/var/tmp/mongodb_backup'
   mongo_conf = '/etc/opt/rh/rh-mongodb34/mongod.conf'
   pulp_db_param = param('katello', 'pulp_db_name')
 
   # Create export directory and dump MongoDB
   logger.info 'Stopping Pulp services except MongoDB'
   Kafo::Helpers.execute('foreman-maintain service stop --exclude "rh-mongodb34-mongod","postgresql","tomcat","dynflowd","foreman-proxy","puppetserver"')
-  FileUtils.mkdir(export_dir)
+  FileUtils.mkdir(export_dir) unless File.directory?(export_dir)
   File.chmod(0700, export_dir)
   logger.info "Starting mongodump to #{export_dir}"
   Kafo::Helpers.execute("mongodump --host localhost --out #{export_dir}")
 
-  # Move datafiles out of MongoDB directory so it will start
-  logger.info 'Export done, stopping MongoDB to move old datafiles'
+  # Remove datafiles out of MongoDB directory so it will start
+  logger.info 'Export done, stopping MongoDB to remove old datafiles'
   Kafo::Helpers.execute('foreman-maintain service stop --only rh-mongodb34-mongod')
-  logger.info "Moving contents from #{mongo_dir} to #{mongodb_backup}"
-  FileUtils.mkdir_p(mongodb_backup)
-  File.chmod(0700, mongodb_backup)
-  Kafo::Helpers.execute("mv #{mongo_dir}/* #{mongodb_backup}")
+  logger.info "Removing contents from #{mongo_dir}"
+  Kafo::Helpers.execute("rm -rf #{mongo_dir}/*")
 
   # Import the dump, fail and notify user of backup if restore does not work.
   logger.info 'Changing config to WiredTiger and starting restore.'
   Kafo::Helpers.execute("sed -i.bak -e 's/mmapv1/wiredTiger/g' #{mongo_conf}")
-  Kafo::Helpers.execute("mv #{mongo_conf}.bak #{mongodb_backup}")
+  Kafo::Helpers.execute("mv #{mongo_conf}.bak #{export_dir}")
   Kafo::Helpers.execute('foreman-maintain service start --only rh-mongodb34-mongod')
   pulp_db = katello ? param('katello', 'pulp_db_name').value : 'pulp_database'
   Kafo::Helpers.execute("mongorestore --host localhost --db=#{pulp_db} --drop --dir=#{export_dir}/#{pulp_db}")
@@ -41,19 +38,20 @@ def migration
     logger.info 'Stopping MongoDB'
     Kafo::Helpers.execute('foreman-maintain service stop --only rh-mongodb34-mongod')
     logger.info 'Restoring old config'
-    Kafo::Helpers.execute("mv -f #{mongodb_backup}/mongod.conf.bak #{mongo_conf}")
+    Kafo::Helpers.execute("mv -f #{export_dir}/mongod.conf.bak #{mongo_conf}")
     logger.info "Removing contents in #{mongo_dir}"
     Kafo::Helpers.execute("rm -rf #{mongo_dir}/*")
-    logger.info "Moving old content from #{mongodb_backup} to #{mongo_dir}"
-    Kafo::Helpers.execute("mv #{mongodb_backup}/* #{mongo_dir}/")
+    logger.info "Restoring database under MMAPV1 storage engine"
+    Kafo::Helpers.execute("mongorestore --host localhost --db=#{pulp_db} --drop --dir=#{export_dir}/#{pulp_db}")
     logger.info 'Starting MongoDB with old config and database files'
     Kafo::Helpers.execute('foreman-maintain service start --only rh-mongodb34-mongod')
+    logger.error "Mongo started up in MMAPV1 mode, backup at #{export_dir}"
     kafo.class.exit 1
   end
 
   # Remove old data files
-  logger.info "Import done, removing old data in #{mongodb_backup} and #{export_dir}"
-  Kafo::Helpers.execute("rm -rf #{mongodb_backup} #{export_dir}")
+  logger.info "Import done, removing old data in #{export_dir}"
+  Kafo::Helpers.execute("rm -rf #{export_dir}")
 
   # Update Hiera to wiredTiger for installer run
   logger.info 'Changing custom Hiera to use wiredTiger for installer Puppet run.'
