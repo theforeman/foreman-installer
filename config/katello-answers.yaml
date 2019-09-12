@@ -28,9 +28,7 @@ puppet:
   server_foreman_ssl_cert: /etc/pki/katello/puppet/puppet_client.crt
   server_foreman_ssl_key: /etc/pki/katello/puppet/puppet_client.key
 foreman_proxy:
-  http: true
   ssl_port: '9090'
-  templates: true
   ssl_ca: /etc/foreman-proxy/ssl_ca.pem
   ssl_cert: /etc/foreman-proxy/ssl_cert.pem
   ssl_key: /etc/foreman-proxy/ssl_key.pem
