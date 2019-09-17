@@ -52,7 +52,7 @@ function error () {
     echo -e "\n${RED}[FAIL]${RESET}\n"
     CURRENT_EXIT_CODE=$1
     EXIT_CODE=$((EXIT_CODE|CURRENT_EXIT_CODE))
-    echo $2 >&2
+    echo -e $2 >&2
 }
 
 function success () {
@@ -114,6 +114,19 @@ function check-cert-ca-flag () {
     fi
 }
 
+function check-passphrase () {
+    printf "Checking for private key passphrase: "
+    CHECK=$(cat $KEY_FILE | grep ENCRYPTED)
+    if [[ $? == "0" ]]; then
+        error 2 "The $KEY_FILE contains a passphrase, remove the key's passphrase by doing:
+        \nmv $KEY_FILE $KEY_FILE.old
+        \nopenssl rsa -in $KEY_FILE.old -out $KEY_FILE"
+        exit 1
+    else
+        success
+    fi
+}
+
 function check-priv-key () {
     printf "Checking to see if the private key matches the certificate: "
     CERT_MOD=$(openssl x509 -noout -modulus -in $CERT_FILE)
@@ -160,6 +173,7 @@ function check-cert-usage-key-encipherment () {
 check-server-cert-encoding
 check-expiration
 check-cert-ca-flag
+check-passphrase
 check-priv-key
 check-ca-bundle
 check-cert-san
