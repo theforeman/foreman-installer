@@ -17,4 +17,4 @@ postgresql::server::config_entries:
   shared_buffers: 512MB
   work_mem: 4MB
   log_line_prefix: '%t '
-  log_min_duration: 1000
+  log_min_duration_statement: 1000
