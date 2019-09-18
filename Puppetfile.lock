@@ -87,7 +87,7 @@ FORGE
     theforeman-dns (5.4.0)
       puppetlabs-concat (< 6.0.0, >= 1.0.0)
       puppetlabs-stdlib (< 6.0.0, >= 4.13.1)
-    theforeman-foreman (11.0.1)
+    theforeman-foreman (11.0.3)
       puppet-extlib (< 4.0.0, >= 3.0.0)
       puppetlabs-apache (< 5.0.0, >= 2.0.0)
       puppetlabs-apt (< 7.0.0, >= 2.0.0)
