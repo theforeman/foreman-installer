@@ -20,6 +20,9 @@
   :foreman_proxy_certs:
     :manifest_name: foreman_proxy_content
     :dir_name: certs
+    :params_name: foreman_proxy_content::params
+    # https://projects.theforeman.org/issues/27909
+    :params_path: certs/manifests/foreman_proxy_content/params.pp
 :order:
   - certs
   - foreman_proxy_certs
