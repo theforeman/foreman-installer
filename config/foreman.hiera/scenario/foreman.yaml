@@ -1,0 +1,3 @@
+foreman::configure_epel_repo: false
+foreman::configure_scl_repo: false
+puppet::server: true
