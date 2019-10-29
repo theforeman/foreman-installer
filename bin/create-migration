@@ -1,31 +1,38 @@
 #!/usr/bin/env ruby
 
-if ARGV.length != 2
-  $stderr.puts "Usage #{$0} DIRECTORY MIRGATION_NAME"
-  $stderr.puts "e.g., #{$0} config/foreman.migrations add-server-ssl-crl"
+if ARGV.length < 2
+  $stderr.puts "Usage #{$0} MIRGATION_NAME DIRECTORY [DIRECTORY]"
+  $stderr.puts "e.g., #{$0} add-server-ssl-crl config/foreman.migrations"
   exit 1
 end
 
-directory = ARGV[0]
-migration_name = ARGV[1]
+migration_name = ARGV[0]
+directories = ARGV[1..-1]
+content = (STDIN.tty? || STDIN.closed?) ? nil : STDIN.read
 
-unless File.directory?(directory)
-  $stderr.puts "Directory #{directory} not found"
-  exit 2
+directories.each do |directory|
+  unless File.directory?(directory)
+    $stderr.puts "Directory #{directory} not found"
+    exit 2
+  end
+
+  if File.basename(directory) == 'foreman.migrations'
+    # Used by the foreman scenario
+    format = '+%Y%m%d%H%M%S'
+    to_replace = '-'
+    glue = '_'
+  else
+    # Recommended format by kafo
+    format = '+%y%m%d%H%M%S'
+    to_replace = '-'
+    glue = '-'
+  end
+
+  timestamp = `TZ=UTC date #{format}`.strip
+  filename = File.join(directory, "#{timestamp}#{glue}#{migration_name.sub(to_replace, glue)}.rb")
+
+  File.open(filename, 'w') do |file|
+    file.puts(content) if content
+  end
+  puts "Created #{filename}"
 end
-
-if File.basename(directory) == 'foreman.migrations'
-  # Used by the foreman scenario
-  format = '+%Y%m%d%H%M%S'
-  glue = '_'
-else
-  # Recommended format by kafo
-  format = '+%y%m%d%H%M%S'
-  glue = '-'
-end
-
-timestamp = `TZ=UTC date #{format}`.strip
-filename = File.join(directory, "#{timestamp}#{glue}#{migration_name}.rb")
-
-File.open(filename, 'w') {}
-puts "Created #{filename}"
