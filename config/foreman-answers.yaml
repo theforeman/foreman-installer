@@ -42,6 +42,7 @@ foreman::plugin::tasks: false
 foreman::plugin::hooks: false
 foreman::plugin::puppetdb: false
 foreman::plugin::remote_execution: false
+foreman::plugin::remote_execution::cockpit: false
 foreman::plugin::salt: false
 foreman::plugin::setup: false
 foreman::plugin::snapshot_management: false
