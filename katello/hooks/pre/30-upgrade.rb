@@ -37,6 +37,15 @@ def migrate_foreman
   Kafo::Helpers.execute('foreman-rake db:migrate')
 end
 
+def postgresql_10_upgrade
+  stop_services
+  Kafo::Helpers.execute('yum -y install rh-postgresql10-postgresql-server')
+  Kafo::Helpers.execute('scl enable rh-postgresql10 -- postgresql-setup --upgrade')
+  Kafo::Helpers.execute('yum -y remove postgresql postgresql-server')
+  Kafo::Helpers.execute('rm -f /etc/systemd/system/postgresql.service')
+  Kafo::Helpers.execute('yum -y install rh-postgresql10-syspaths')
+end
+
 def upgrade_step(step, options = {})
   noop = app_value(:noop) ? ' (noop)' : ''
   long_running = options[:long_running] ? ' (this may take a while) ' : ''
@@ -46,7 +55,7 @@ def upgrade_step(step, options = {})
     Kafo::Helpers.log_and_say :info, "Upgrade Step: #{step}#{long_running}#{noop}..."
     unless app_value(:noop)
       status = send(step)
-      fail_and_exit "Upgrade step #{step} failed. Check logs for more information." unless status
+      Kafo::Helpers.fail_and_exit "Upgrade step #{step} failed. Check logs for more information." unless status
       touch_step(step)
     end
   end
@@ -65,11 +74,6 @@ def step_path(step)
   File.join(STEP_DIRECTORY, step.to_s)
 end
 
-def fail_and_exit(message)
-  Kafo::Helpers.log_and_say :error, message
-  kafo.class.exit 1
-end
-
 if app_value(:upgrade)
   Kafo::Helpers.log_and_say :info, 'Upgrading, to monitor the progress on all related services, please do:'
   Kafo::Helpers.log_and_say :info, '  foreman-tail | tee upgrade-$(date +%Y-%m-%d-%H%M).log'
@@ -80,7 +84,7 @@ if app_value(:upgrade)
 
   upgrade_step :stop_services, :run_always => true
 
-  if param_value('foreman', 'db_manage') || param_value('katello', 'candlepin_manage_db')
+  if local_postgresql?
     upgrade_step :start_postgresql, :run_always => true
   end
 
@@ -91,6 +95,10 @@ if app_value(:upgrade)
   if katello
     upgrade_step :migrate_candlepin, :run_always => true
     upgrade_step :migrate_foreman, :run_always => true
+  end
+
+  if local_postgresql? && facts[:os][:release][:major] == '7'
+    upgrade_step :postgresql_10_upgrade
   end
 
   Kafo::Helpers.log_and_say :info, 'Upgrade Step: Running installer...'
