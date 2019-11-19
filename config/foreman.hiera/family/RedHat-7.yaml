@@ -1,5 +1,5 @@
 ---
-mongodb::globals::server_package_name: 'rh-mongodb34-mongodb-server'
+mongodb::globals::server_package_name: 'rh-mongodb34-syspaths'
 mongodb::client::package_name: 'rh-mongodb34-mongodb'
 mongodb::globals::service_name: 'rh-mongodb34-mongod'
 mongodb::server::config: '/etc/opt/rh/rh-mongodb34/mongod.conf'
