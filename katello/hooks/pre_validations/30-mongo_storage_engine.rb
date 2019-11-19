@@ -1,8 +1,7 @@
 MONGO_DIR = '/var/lib/mongodb/'
 
 def fail_and_exit(message)
-  Kafo::Helpers.log_and_say :error, message
-  kafo.class.exit 1
+  Kafo::Helpers.fail_and_exit message
 end
 
 def disk_space
