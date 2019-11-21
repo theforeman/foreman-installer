@@ -80,6 +80,7 @@ foreman::compute::rackspace: false
 foreman::compute::vmware: false
 foreman::cli: true
 foreman::cli::ansible: false
+foreman::cli::azure: false
 foreman::cli::discovery: false
 foreman::cli::kubevirt: false
 foreman::cli::openscap: false
