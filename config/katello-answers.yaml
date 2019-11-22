@@ -19,8 +19,7 @@ foreman:
   websockets_ssl_key: /etc/pki/katello/private/katello-apache.key
   websockets_ssl_cert: /etc/pki/katello/certs/katello-apache.crt
   user_groups: []
-foreman_proxy_content:
-  pulp_master: true
+foreman_proxy_content: true
 puppet:
   server: true
   server_environments_owner: apache
