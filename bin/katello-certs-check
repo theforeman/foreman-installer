@@ -6,6 +6,8 @@ GREEN=`tput setaf 2`
 YELLOW=`tput setaf 3`
 RESET=`tput sgr0`
 
+CABUNDLE_MAX_ISSUERS=32
+
 function usage () {
   cat <<HELP >&2
 Verifies, that custom SSL certificate files are usable
@@ -149,6 +151,19 @@ function check-ca-bundle () {
     fi
 }
 
+function check-ca-bundle-size () {
+    printf "Checking CA bundle size: "
+    CHECK=$(grep -c "^--*BEGIN" $CA_BUNDLE_FILE)
+    if [[ $CHECK -lt $CABUNDLE_MAX_ISSUERS ]]; then
+		success
+    else
+		CERTISSUER=$(openssl x509 -noout -in $CERT_FILE -issuer 2>&1)
+		error 10 "The CA bundle counts $CHECK issuers. Please trim your CA bundle and include only the certs relevant to your cert file"
+		echo $CERTISSUER
+		echo
+    fi
+}
+
 function check-cert-san () {
     printf "Checking Subject Alt Name on certificate "
     CHECK=$(openssl x509 -noout -text -in $CERT_FILE | grep DNS:)
@@ -176,6 +191,7 @@ check-cert-ca-flag
 check-passphrase
 check-priv-key
 check-ca-bundle
+check-ca-bundle-size
 check-cert-san
 check-cert-usage-key-encipherment
 
