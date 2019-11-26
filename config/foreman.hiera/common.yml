@@ -1,4 +1,5 @@
 ---
+apache::default_vhost: false
 dhcp::config_comment: >
   READ: This file was written the foreman-installer and not by the Foreman
 
