@@ -1,7 +1,6 @@
 require 'fileutils'
 
 STEP_DIRECTORY = '/etc/foreman-installer/applied_hooks/pre/'
-SSL_BUILD_DIR = param('certs', 'ssl_build_dir').value
 
 def stop_services
   Kafo::Helpers.execute('foreman-maintain service stop')
