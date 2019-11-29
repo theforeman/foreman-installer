@@ -2,6 +2,9 @@ require 'fileutils'
 
 STEP_DIRECTORY = '/etc/foreman-installer/applied_hooks/pre/'
 
+# puppet-pulp uses this file to know whether it needs to run pulp-manage-db
+PULP2_MIGRATION_MARKER_FILE = '/var/lib/pulp/init.flag'
+
 def stop_services
   Kafo::Helpers.execute('foreman-maintain service stop')
 end
@@ -24,12 +27,6 @@ def migrate_candlepin
     db_uri += "&sslfactory=org.postgresql.ssl.NonValidatingFactory" unless db_ssl_verify
   end
   Kafo::Helpers.execute("/usr/share/candlepin/cpdb --update --database '#{db_uri}' --user '#{db_user}' --password '#{db_password}'")
-end
-
-def migrate_pulp
-  # Start mongo
-  Kafo::Helpers.execute('systemctl start rh-mongodb34-mongod')
-  Kafo::Helpers.execute('su - apache -s /bin/bash -c pulp-manage-db')
 end
 
 def migrate_foreman
@@ -87,8 +84,8 @@ if app_value(:upgrade)
     upgrade_step :start_postgresql, :run_always => true
   end
 
-  if katello || foreman_proxy_content
-    upgrade_step :migrate_pulp, :run_always => true
+  if File.exist?(PULP2_MIGRATION_MARKER_FILE)
+    File.unlink(PULP2_MIGRATION_MARKER_FILE)
   end
 
   if katello
