@@ -2,6 +2,8 @@ require 'fileutils'
 
 STEP_DIRECTORY = '/etc/foreman-installer/applied_hooks/pre/'
 
+# puppet-candlepin users this file to know whether it needs to run cpdb --update
+CANDLEPIN_MIGRATION_MARKER_FILE = '/var/lib/candlepin/cpdb_update_done'
 # puppet-pulp uses this file to know whether it needs to run pulp-manage-db
 PULP2_MIGRATION_MARKER_FILE = '/var/lib/pulp/init.flag'
 
@@ -11,22 +13,6 @@ end
 
 def start_postgresql
   execute('systemctl start postgresql')
-end
-
-def migrate_candlepin
-  db_host = param('katello', 'candlepin_db_host').value
-  db_port = param('katello', 'candlepin_db_port').value
-  db_name = param('katello', 'candlepin_db_name').value
-  db_user = param('katello', 'candlepin_db_user').value
-  db_password = param('katello', 'candlepin_db_password').value
-  db_ssl = param('katello', 'candlepin_db_ssl').value
-  db_ssl_verify = param('katello', 'candlepin_db_ssl_verify').value
-  db_uri = "//#{db_host}" + (db_port.nil? ? '' : ":#{db_port}") + "/#{db_name}"
-  if db_ssl
-    db_uri += "?ssl=true"
-    db_uri += "&sslfactory=org.postgresql.ssl.NonValidatingFactory" unless db_ssl_verify
-  end
-  execute("/usr/share/candlepin/cpdb --update --database '#{db_uri}' --user '#{db_user}' --password '#{db_password}'")
 end
 
 def postgresql_10_upgrade
@@ -75,16 +61,12 @@ if app_value(:upgrade)
 
   upgrade_step :stop_services, :run_always => true
 
-  if local_postgresql?
-    upgrade_step :start_postgresql, :run_always => true
-  end
-
   if File.exist?(PULP2_MIGRATION_MARKER_FILE)
     File.unlink(PULP2_MIGRATION_MARKER_FILE)
   end
 
-  if module_enabled?('katello')
-    upgrade_step :migrate_candlepin, :run_always => true
+  if File.exist?(CANDLEPIN_MIGRATION_MARKER_FILE)
+    File.unlink(CANDLEPIN_MIGRATION_MARKER_FILE)
   end
 
   if local_postgresql? && facts[:os][:release][:major] == '7'
