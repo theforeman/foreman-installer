@@ -104,5 +104,9 @@ foreman_proxy::plugin::remote_execution::script: false
 foreman_proxy::plugin::salt: false
 foreman_proxy::plugin::shellhooks: false
 foreman_proxy_content: true
-katello: true
 puppet: false
+global: true
+application: true
+pulp: true
+candlepin: true
+qpid: true
