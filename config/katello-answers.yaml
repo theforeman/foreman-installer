@@ -39,6 +39,7 @@ foreman_proxy:
   manage_puppet_group: false
 foreman_proxy::plugin::pulp: true
 foreman::plugin::ansible: false
+foreman::plugin::azure: false
 foreman::plugin::bootdisk: false
 foreman::plugin::chef: false
 foreman::plugin::default_hostgroup: false
