@@ -7,10 +7,10 @@ def check_postgresql_storage
     postgres_size = `du -b -s #{current_postgres_dir}`.split[0].to_i
 
     if available_space(new_postgres_dir) < postgres_size
-      Kafo::Helpers.fail_and_exit "The postgres upgrade requires at least #{(postgres_size / 1024) / 1024} MB of storage."
+      fail_and_exit "The postgres upgrade requires at least #{(postgres_size / 1024) / 1024} MB of storage."
     end
   rescue StandardError
-    Kafo::Helpers.fail_and_exit 'Failed to verify available disk space'
+    fail_and_exit 'Failed to verify available disk space'
   end
 end
 

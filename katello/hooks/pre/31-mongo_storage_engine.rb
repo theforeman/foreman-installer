@@ -1,8 +1,4 @@
 require 'fileutils'
-def fail_and_exit(message)
-  Kafo::Helpers.log_and_say :error, message
-  kafo.class.exit 1
-end
 
 def migration
   katello = module_enabled?('katello')
