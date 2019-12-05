@@ -75,9 +75,6 @@ if app_value(:upgrade)
   Kafo::Helpers.log_and_say :info, '  foreman-tail | tee upgrade-$(date +%Y-%m-%d-%H%M).log'
   sleep 3
 
-  katello = module_enabled?('katello')
-  foreman_proxy_content = param('foreman_proxy_plugin_pulp', 'pulpnode_enabled').value
-
   upgrade_step :stop_services, :run_always => true
 
   if local_postgresql?
@@ -88,7 +85,7 @@ if app_value(:upgrade)
     File.unlink(PULP2_MIGRATION_MARKER_FILE)
   end
 
-  if katello
+  if module_enabled?('katello')
     upgrade_step :migrate_candlepin, :run_always => true
     upgrade_step :migrate_foreman, :run_always => true
   end
