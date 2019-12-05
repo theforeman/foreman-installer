@@ -30,7 +30,7 @@ class Kafo::Helpers
     end
 
     def execute_command(command, do_say, do_log)
-      process = IO.popen("#{command} 2>&1") do |io|
+      IO.popen("#{command} 2>&1") do |io|
         while line = io.gets
           line.chomp!
           log_and_say(:debug, line, do_say, do_log)
