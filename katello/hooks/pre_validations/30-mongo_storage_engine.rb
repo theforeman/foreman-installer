@@ -1,9 +1,5 @@
 MONGO_DIR = '/var/lib/mongodb/'
 
-def fail_and_exit(message)
-  Kafo::Helpers.fail_and_exit message
-end
-
 def disk_space
   # Check diskspace in /var/tmp
   logger.info 'Checking available diskspace in /var/tmp for upgrade'

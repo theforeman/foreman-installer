@@ -16,11 +16,6 @@ class Kafo::Helpers
       Kafo::KafoConfigure.logger.send(level, message) if do_log
     end
 
-    def fail_and_exit(message)
-      log_and_say :error, message
-      exit 1
-    end
-
     def read_cache_data(param)
       YAML.load_file("/opt/puppetlabs/puppet/cache/foreman_cache_data/#{param}")
     end
@@ -56,6 +51,11 @@ module HookContextExtension
   # FIXME: remove when #23332 is released
   def param_value(mod, name)
     param(mod, name).value if param(mod, name)
+  end
+
+  def fail_and_exit(message)
+    Kafo::Helpers.log_and_say :error, message
+    exit 1
   end
 
   def local_postgresql?

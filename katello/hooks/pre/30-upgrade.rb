@@ -51,7 +51,7 @@ def upgrade_step(step, options = {})
     Kafo::Helpers.log_and_say :info, "Upgrade Step: #{step}#{long_running}#{noop}..."
     unless app_value(:noop)
       status = send(step)
-      Kafo::Helpers.fail_and_exit "Upgrade step #{step} failed. Check logs for more information." unless status
+      fail_and_exit "Upgrade step #{step} failed. Check logs for more information." unless status
       touch_step(step)
     end
   end

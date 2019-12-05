@@ -10,11 +10,6 @@ def upgrade_tasks
   fail_and_exit "Application Upgrade Failed" unless status
 end
 
-def fail_and_exit(message)
-  Kafo::Helpers.log_and_say :error, message
-  kafo.class.exit 1
-end
-
 if app_value(:upgrade)
   if [0, 2].include?(@kafo.exit_code)
     if module_enabled?('foreman')
