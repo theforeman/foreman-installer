@@ -34,9 +34,11 @@ def migrate_foreman
 end
 
 def postgresql_10_upgrade
+  start_postgresql
+  (name, owner, enconding, collate, ctype, privileges) = %x{runuser postgres -c 'psql -lt | grep -E "^\s+postgres"'}.chomp.split('|').map(&:strip)
   stop_services
   Kafo::Helpers.execute('yum -y install rh-postgresql10-postgresql-server')
-  Kafo::Helpers.execute('scl enable rh-postgresql10 -- postgresql-setup --upgrade')
+  Kafo::Helpers.execute(%Q{scl enable rh-postgresql10 "PGSETUP_INITDB_OPTIONS='--lc-collate=#{collate} --lc-ctype=#{ctype} --locale=#{collate}' postgresql-setup --upgrade"})
   Kafo::Helpers.execute('yum -y remove postgresql postgresql-server')
   Kafo::Helpers.execute('rm -f /etc/systemd/system/postgresql.service')
   Kafo::Helpers.execute('yum -y install rh-postgresql10-syspaths')
