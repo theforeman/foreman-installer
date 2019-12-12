@@ -1,4 +1,4 @@
-class Kafo::Helpers
+class Kafo::MessageHelpers
   class << self
     def success_message
       say "  <%= color('Success!', :good) %>"

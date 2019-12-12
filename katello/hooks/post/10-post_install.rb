@@ -13,15 +13,15 @@ end
 if [0, 2].include?(@kafo.exit_code)
   if !app_value(:upgrade)
     if module_enabled?('katello')
-      Kafo::Helpers.server_success_message(@kafo)
-      Kafo::Helpers.new_install_message(@kafo) if new_install?
-      Kafo::Helpers.certs_generate_command_message
+      Kafo::MessageHelpers.server_success_message(@kafo)
+      Kafo::MessageHelpers.new_install_message(@kafo) if new_install?
+      Kafo::MessageHelpers.certs_generate_command_message
     elsif module_enabled?('katello_devel')
-      Kafo::Helpers.dev_server_success_message(@kafo)
-      Kafo::Helpers.dev_new_install_message(@kafo) if new_install?
+      Kafo::MessageHelpers.dev_server_success_message(@kafo)
+      Kafo::MessageHelpers.dev_new_install_message(@kafo) if new_install?
     end
 
-    Kafo::Helpers.proxy_success_message(@kafo) if proxy?
+    Kafo::MessageHelpers.proxy_success_message(@kafo) if proxy?
   end
 
   File.open(success_file, 'w') {} unless app_value(:noop) # Used to indicate that we had a successful install
