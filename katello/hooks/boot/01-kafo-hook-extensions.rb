@@ -32,10 +32,14 @@ module HookContextExtension
   def execute(commands, do_say = true, do_log = true)
     commands = commands.is_a?(Array) ? commands : [commands]
     results = []
+
     commands.each do |command|
       results << execute_command(command, do_say, do_log)
     end
-    !results.include? false
+
+    if results.include? false
+      exit 1
+    end
   end
 
   def execute_command(command, do_say, do_log)
