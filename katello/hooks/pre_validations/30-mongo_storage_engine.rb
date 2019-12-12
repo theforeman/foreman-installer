@@ -35,7 +35,7 @@ if app_value(:upgrade_mongo_storage_engine)
     fail_and_exit 'Upgrading is not supported on remote MongoDB database connections' unless mongo_host == 'localhost:27017'
   end
 
-  Kafo::Helpers.log_and_say :info, "Starting disk space check for upgrade"
+  log_and_say :info, "Starting disk space check for upgrade"
   disk_space
 end
 

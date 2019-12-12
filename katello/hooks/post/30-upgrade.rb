@@ -1,12 +1,12 @@
 require 'fileutils'
 
 def db_seed
-  status = Kafo::Helpers.execute('foreman-rake db:seed')
+  status = execute('foreman-rake db:seed')
   fail_and_exit "Upgrade failed while seeding the DB" unless status
 end
 
 def upgrade_tasks
-  status = Kafo::Helpers.execute('foreman-rake upgrade:run')
+  status = execute('foreman-rake upgrade:run')
   fail_and_exit "Application Upgrade Failed" unless status
 end
 
@@ -17,8 +17,8 @@ if app_value(:upgrade)
       upgrade_tasks
     end
 
-    Kafo::Helpers.log_and_say :info, 'Upgrade completed!'
+    log_and_say :info, 'Upgrade completed!'
   else
-    Kafo::Helpers.log_and_say :error, 'Upgrade failed during the installation phase. Fix the error and re-run the upgrade.'
+    log_and_say :error, 'Upgrade failed during the installation phase. Fix the error and re-run the upgrade.'
   end
 end

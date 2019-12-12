@@ -10,18 +10,18 @@ end
 
 if lock_versions
   unless system('command -v foreman-maintain > /dev/null')
-    Kafo::Helpers.log_and_say :error, 'Locking of package versions was requested but foreman-maintain is not installed'
+    log_and_say :error, 'Locking of package versions was requested but foreman-maintain is not installed'
     kafo.class.exit 1
   end
   unless system('foreman-maintain packages -h > /dev/null 2>&1')
-    Kafo::Helpers.log_and_say :error, 'Locking of package versions was requested but foreman-maintain version installed does not support it'
+    log_and_say :error, 'Locking of package versions was requested but foreman-maintain version installed does not support it'
     kafo.class.exit 1
   end
 end
 
 # unlock packages if locked
 if system('foreman-maintain packages is-locked --assumeyes > /dev/null 2>&1')
-  Kafo::Helpers.log_and_say :info, "Package versions are locked. Continuing with unlock."
-  Kafo::Helpers.execute('foreman-maintain packages unlock --assumeyes', false)
+  log_and_say :info, "Package versions are locked. Continuing with unlock."
+  execute('foreman-maintain packages unlock --assumeyes', false)
 end
 nil

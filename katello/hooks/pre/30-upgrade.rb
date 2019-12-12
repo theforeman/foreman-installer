@@ -6,11 +6,11 @@ STEP_DIRECTORY = '/etc/foreman-installer/applied_hooks/pre/'
 PULP2_MIGRATION_MARKER_FILE = '/var/lib/pulp/init.flag'
 
 def stop_services
-  Kafo::Helpers.execute('foreman-maintain service stop')
+  execute('foreman-maintain service stop')
 end
 
 def start_postgresql
-  Kafo::Helpers.execute('systemctl start postgresql')
+  execute('systemctl start postgresql')
 end
 
 def migrate_candlepin
@@ -26,22 +26,22 @@ def migrate_candlepin
     db_uri += "?ssl=true"
     db_uri += "&sslfactory=org.postgresql.ssl.NonValidatingFactory" unless db_ssl_verify
   end
-  Kafo::Helpers.execute("/usr/share/candlepin/cpdb --update --database '#{db_uri}' --user '#{db_user}' --password '#{db_password}'")
+  execute("/usr/share/candlepin/cpdb --update --database '#{db_uri}' --user '#{db_user}' --password '#{db_password}'")
 end
 
 def migrate_foreman
-  Kafo::Helpers.execute('foreman-rake db:migrate')
+  execute('foreman-rake db:migrate')
 end
 
 def postgresql_10_upgrade
   start_postgresql
   (name, owner, enconding, collate, ctype, privileges) = %x{runuser postgres -c 'psql -lt | grep -E "^\s+postgres"'}.chomp.split('|').map(&:strip)
   stop_services
-  Kafo::Helpers.execute('yum -y install rh-postgresql10-postgresql-server')
-  Kafo::Helpers.execute(%Q{scl enable rh-postgresql10 "PGSETUP_INITDB_OPTIONS='--lc-collate=#{collate} --lc-ctype=#{ctype} --locale=#{collate}' postgresql-setup --upgrade"})
-  Kafo::Helpers.execute('yum -y remove postgresql postgresql-server')
-  Kafo::Helpers.execute('rm -f /etc/systemd/system/postgresql.service')
-  Kafo::Helpers.execute('yum -y install rh-postgresql10-syspaths')
+  execute('yum -y install rh-postgresql10-postgresql-server')
+  execute(%Q{scl enable rh-postgresql10 "PGSETUP_INITDB_OPTIONS='--lc-collate=#{collate} --lc-ctype=#{ctype} --locale=#{collate}' postgresql-setup --upgrade"})
+  execute('yum -y remove postgresql postgresql-server')
+  execute('rm -f /etc/systemd/system/postgresql.service')
+  execute('yum -y install rh-postgresql10-syspaths')
 end
 
 def upgrade_step(step, options = {})
@@ -50,7 +50,7 @@ def upgrade_step(step, options = {})
   run_always = options.fetch(:run_always, false)
 
   if run_always || app_value(:force_upgrade_steps) || !step_ran?(step)
-    Kafo::Helpers.log_and_say :info, "Upgrade Step: #{step}#{long_running}#{noop}..."
+    log_and_say :info, "Upgrade Step: #{step}#{long_running}#{noop}..."
     unless app_value(:noop)
       status = send(step)
       fail_and_exit "Upgrade step #{step} failed. Check logs for more information." unless status
@@ -73,8 +73,8 @@ def step_path(step)
 end
 
 if app_value(:upgrade)
-  Kafo::Helpers.log_and_say :info, 'Upgrading, to monitor the progress on all related services, please do:'
-  Kafo::Helpers.log_and_say :info, '  foreman-tail | tee upgrade-$(date +%Y-%m-%d-%H%M).log'
+  log_and_say :info, 'Upgrading, to monitor the progress on all related services, please do:'
+  log_and_say :info, '  foreman-tail | tee upgrade-$(date +%Y-%m-%d-%H%M).log'
   sleep 3
 
   upgrade_step :stop_services, :run_always => true
@@ -96,5 +96,5 @@ if app_value(:upgrade)
     upgrade_step :postgresql_10_upgrade
   end
 
-  Kafo::Helpers.log_and_say :info, 'Upgrade Step: Running installer...'
+  log_and_say :info, 'Upgrade Step: Running installer...'
 end

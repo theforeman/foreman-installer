@@ -5,6 +5,6 @@ if local_postgresql? && facts[:os][:release][:major] == '7' && !app_value(:upgra
   `rpm -q #{package}`
 
   unless $?.success?
-    Kafo::Helpers.execute("yum -y install #{package}")
+    execute("yum -y install #{package}")
   end
 end

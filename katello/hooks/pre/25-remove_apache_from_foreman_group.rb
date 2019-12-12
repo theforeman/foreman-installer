@@ -5,7 +5,7 @@ def remove_user_from_group(user, group)
     is_member = false
   end
   if is_member
-    Kafo::Helpers.execute("gpasswd -d '#{user}' '#{group}'")
+    execute("gpasswd -d '#{user}' '#{group}'")
   else
     true
   end

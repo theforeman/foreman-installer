@@ -20,7 +20,7 @@ end
 
 def stop_services
   Kafo::KafoConfigure.logger.info 'Stopping services'
-  Kafo::Helpers.execute('foreman-maintain service stop --exclude postgresql')
+  execute('foreman-maintain service stop --exclude postgresql')
 end
 
 def load_foreman_config
@@ -40,7 +40,7 @@ def reset_database
   if remote_host?(config[:host])
     empty_database!(config)
   else
-    Kafo::Helpers.execute('DISABLE_DATABASE_ENVIRONMENT_CHECK=1 foreman-rake db:drop 2>&1')
+    execute('DISABLE_DATABASE_ENVIRONMENT_CHECK=1 foreman-rake db:drop 2>&1')
   end
 end
 
@@ -59,7 +59,7 @@ def empty_candlepin_database
   if remote_host?(config[:host])
     empty_database!(config)
   else
-    Kafo::Helpers.execute("sudo -u postgres dropdb #{config[:database]}")
+    execute("sudo -u postgres dropdb #{config[:database]}")
   end
 end
 
@@ -70,7 +70,7 @@ def reset_candlepin
     'rm -f /var/lib/candlepin/cpinit_done',
     'systemctl stop tomcat'
   ]
-  Kafo::Helpers.execute(commands)
+  execute(commands)
   empty_candlepin_database
 end
 
@@ -79,7 +79,7 @@ def empty_mongo
   if remote_host?(mongo_config[:host])
     empty_remote_mongo(mongo_config)
   else
-    Kafo::Helpers.execute(
+    execute(
       [
         'systemctl start rh-mongodb34-mongod',
         "mongo #{mongo_config[:database]} --eval 'db.dropDatabase();'"
@@ -116,20 +116,20 @@ def empty_remote_mongo(config)
   password = "-p #{config[:password]}" if config[:password]
   host = "--host #{config[:host]} --port #{config[:port]}"
   cmd = "mongo #{config[:database]} #{username} #{password} #{host} #{ssl} #{ca_cert} #{client_cert} --eval 'db.dropDatabase();'"
-  Kafo::Helpers.execute(cmd)
+  execute(cmd)
 end
 
 def reset_pulp
   Kafo::KafoConfigure.logger.info 'Dropping Pulp database!'
 
-  Kafo::Helpers.execute(
+  execute(
     [
       'rm -f /var/lib/pulp/init.flag',
       'systemctl stop httpd pulp_workers'
     ]
   )
   empty_mongo
-  Kafo::Helpers.execute(
+  execute(
     'rm -rf /var/lib/pulp/{distributions,published,repos}/*'
   )
 end
