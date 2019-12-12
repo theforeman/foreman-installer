@@ -1,13 +1,11 @@
 require 'fileutils'
 
 def db_seed
-  status = execute('foreman-rake db:seed')
-  fail_and_exit "Upgrade failed while seeding the DB" unless status
+  execute('foreman-rake db:seed')
 end
 
 def upgrade_tasks
-  status = execute('foreman-rake upgrade:run')
-  fail_and_exit "Application Upgrade Failed" unless status
+  execute('foreman-rake upgrade:run')
 end
 
 if app_value(:upgrade)
