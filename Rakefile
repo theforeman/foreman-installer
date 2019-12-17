@@ -79,7 +79,7 @@ if BUILD_KATELLO
   SCENARIOS = ['foreman', 'foreman-proxy-content', 'katello']
   CERTS_SCENARIOS = ['foreman-proxy-certs']
 else
-  SCENARIOS = ['foreman']
+  SCENARIOS = ['foreman', 'foreman-proxy']
   CERTS_SCENARIOS = []
 end
 
