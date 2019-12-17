@@ -1,4 +1,4 @@
-module HookContextExtension
+module KatelloHookContextExtension
   # FIXME: remove when #23332 is released
   def param_value(mod, name)
     param(mod, name).value if param(mod, name)
@@ -59,4 +59,4 @@ module HookContextExtension
   end
 end
 
-Kafo::HookContext.send(:include, HookContextExtension)
+Kafo::HookContext.send(:include, KatelloHookContextExtension)

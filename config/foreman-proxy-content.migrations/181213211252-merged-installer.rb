@@ -1,6 +1,9 @@
 scenario[:name] = 'Foreman Proxy Content'
 scenario[:description] = 'Install a stand-alone Foreman Content Proxy.'
-scenario.delete(:hook_dirs)
+
+if scenario[:hook_dirs] && scenario[:hook_dirs].include?('/usr/share/katello-installer-base/hooks')
+  scenario.delete(:hook_dirs)
+end
 
 if scenario[:installer_dir] == '/usr/share/katello-installer-base'
   scenario[:installer_dir] = '/usr/share/foreman-installer/katello'
