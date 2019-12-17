@@ -7,8 +7,10 @@
 :log_level: DEBUG
 
 :answer_file: ./config/katello-answers.yaml
-:installer_dir: ./katello
+:installer_dir: .
 :module_dirs: ./_build/modules
+:hook_dirs:
+  - ./katello/hooks
 :parser_cache_path: ./_build/parser_cache/katello.yaml
 :hiera_config: ./config/foreman-hiera.yaml
 :facts:

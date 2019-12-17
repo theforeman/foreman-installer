@@ -6,7 +6,7 @@ class Kafo::MessageHelpers
 
     def server_success_message(kafo)
       success_message
-      say "  * <%= color('Katello', :info) %> is running at <%= color('#{kafo.param('foreman', 'foreman_url').value}', :info) %>"
+      say "  * <%= color('Foreman', :info) %> is running at <%= color('#{kafo.param('foreman', 'foreman_url').value}', :info) %>"
     end
 
     def dev_server_success_message(kafo)
@@ -39,6 +39,14 @@ MSG
 
     def dev_new_install_message(kafo)
       say "      Initial credentials are <%= color('admin', :info) %> / <%= color('#{kafo.param('katello_devel', 'admin_password').value}', :info) %>"
+    end
+
+    def failure_message
+      say "  <%= color('Something went wrong!', :bad) %> Check the log for ERROR-level output"
+    end
+
+    def log_message(kafo)
+      say "  The full log is at <%= color('#{kafo.config.log_file}', :info) %>"
     end
   end
 end

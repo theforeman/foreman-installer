@@ -9,9 +9,11 @@
 :no_prefix: false
 :mapping: {}
 :answer_file: /etc/foreman-installer/scenarios.d/foreman-proxy-content-answers.yaml
-:installer_dir: /usr/share/foreman-installer/katello
+:installer_dir: /usr/share/foreman-installer
 :module_dirs:
 - /usr/share/foreman-installer/modules
+:hook_dirs:
+- /usr/share/foreman-installer/katello/katello/hooks
 :colors: true
 :color_of_background: :dark
 :custom: {}
