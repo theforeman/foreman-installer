@@ -26,8 +26,20 @@ module HookContextExtension
     exit 1
   end
 
+  def foreman_server?
+    module_enabled?('foreman')
+  end
+
   def local_postgresql?
     param_value('foreman', 'db_manage') || param_value('katello', 'candlepin_manage_db')
+  end
+
+  def local_redis?
+    (foreman_server? && !param_value('foreman', 'jobs_sidekiq_redis_url')) || param_value('foreman_proxy::plugin::pulp', 'pulpcore_enabled')
+  end
+
+  def el7?
+    facts[:os][:release][:major] == '7' && facts[:os][:family] == 'RedHat'
   end
 
   def log_and_say(level, message, do_say = true, do_log = true)
