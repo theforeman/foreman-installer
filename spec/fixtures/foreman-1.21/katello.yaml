@@ -1,0 +1,28 @@
+---
+:name: Katello
+:description: Install Foreman with Katello
+
+:log_dir: './_build/'
+:log_name: 'katello.log'
+:log_level: DEBUG
+
+:answer_file: ./config/katello-answers.yaml
+:installer_dir: ./katello
+:module_dirs: ./_build/modules
+:parser_cache_path: ./_build/parser_cache/katello.yaml
+:hiera_config: ./_build/foreman-hiera.conf
+
+:order:
+  - certs
+  - foreman
+  - katello
+  - foreman_proxy
+  - foreman_proxy::plugin::pulp
+  - foreman_proxy_content
+  - puppet
+
+# If using the Debian ruby-kafo package, uncomment this
+# :kafo_modules_dir: /usr/lib/ruby/vendor_ruby/kafo/modules
+
+# Unused, but remains present for older config migrations
+:mapping: {}

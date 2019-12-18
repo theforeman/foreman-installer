@@ -27,13 +27,14 @@ describe 'migrations' do
     end
   end
 
-  %w(foreman-proxy-content katello).each do |scenario_name|
-    context "migrates #{scenario_name} split installer" do
-      let(:config_after) { load_fixture_yaml('merged-installer', "#{scenario_name}-after.yaml") }
+  %w(katello).each do |scenario_name|
+    context "on #{scenario_name} migrated from Foreman 1.21" do
+      let(:answers) { load_config_yaml("#{scenario_name}-answers.yaml") }
+      let(:config) { load_config_yaml("#{scenario_name}.yaml") }
       let(:scenario) do
         {
-          :answers    => load_config_yaml("#{scenario_name}-answers.yaml"),
-          :config     => load_fixture_yaml('merged-installer', "#{scenario_name}-before.yaml"),
+          :answers    => load_fixture_yaml("foreman-1.21", "#{scenario_name}-answers.yaml"),
+          :config     => load_fixture_yaml("foreman-1.21", "#{scenario_name}.yaml"),
           :migrations => config_path("#{scenario_name}.migrations")
         }
       end
@@ -42,7 +43,12 @@ describe 'migrations' do
 
       it 'does not change scenario config' do
         after, = migrator
-        expect(after).to eq config_after
+        expect(config).to eq after
+      end
+
+      it 'does not change scenario answers' do
+        _, after = migrator
+        expect(answers).to eq after
       end
     end
   end
