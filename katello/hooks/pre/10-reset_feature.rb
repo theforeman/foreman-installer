@@ -15,7 +15,7 @@ end
 
 def foreman_installed?
   `which foreman-rake > /dev/null 2>&1`
-  $?.success?
+  $CHILD_STATUS.success?
 end
 
 def stop_services
@@ -68,7 +68,7 @@ def reset_candlepin
   commands = [
     'rm -f /var/lib/candlepin/cpdb_done',
     'rm -f /var/lib/candlepin/cpinit_done',
-    'systemctl stop tomcat'
+    'systemctl stop tomcat',
   ]
   execute(commands)
   empty_candlepin_database
@@ -82,7 +82,7 @@ def empty_mongo
     execute(
       [
         'systemctl start rh-mongodb34-mongod',
-        "mongo #{mongo_config[:database]} --eval 'db.dropDatabase();'"
+        "mongo #{mongo_config[:database]} --eval 'db.dropDatabase();'",
       ]
     )
   end
@@ -125,7 +125,7 @@ def reset_pulp
   execute(
     [
       'rm -f /var/lib/pulp/init.flag',
-      'systemctl stop httpd pulp_workers'
+      'systemctl stop httpd pulp_workers',
     ]
   )
   empty_mongo

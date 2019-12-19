@@ -1,13 +1,13 @@
 require 'yaml'
 require 'fileutils'
 
-NEW_HAMMER_CONFIG_PATH = '/root/.hammer/cli.modules.d'
-NEW_HAMMER_CONFIG_FILE = 'foreman.yml'
+NEW_HAMMER_CONFIG_PATH = '/root/.hammer/cli.modules.d'.freeze
+NEW_HAMMER_CONFIG_FILE = 'foreman.yml'.freeze
 POSSIBLE_RECENT_CONFIG_PATHS = [
   '/etc/hammer/cli_config.yml',
   '/etc/hammer/cli.modules.d/foreman.yml',
-  '/root/.hammer/cli_config.yml'
-]
+  '/root/.hammer/cli_config.yml',
+].freeze
 
 def password_set?(path)
   if File.exist?(path)

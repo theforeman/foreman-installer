@@ -1,5 +1,5 @@
 # Puppet status codes say 0 for unchanged, 2 for changed succesfully
-if [0,2].include? @kafo.exit_code
+if [0, 2].include? @kafo.exit_code
   # Foreman UI?
   if module_enabled? 'foreman'
     Kafo::MessageHelpers.server_success_message(@kafo)

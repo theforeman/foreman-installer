@@ -1,4 +1,4 @@
-MONGO_DIR = '/var/lib/mongodb/'
+MONGO_DIR = '/var/lib/mongodb/'.freeze
 
 def disk_space
   # Check diskspace in /var/tmp

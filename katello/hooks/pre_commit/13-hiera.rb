@@ -1,12 +1,12 @@
 # A mapping of tuning profile to the required CPU cores and memory in GB
 TUNING_SIZES = {
-  'default' => {cpu_cores: 1, memory: 8},
-  'medium' => {cpu_cores: 8, memory: 32},
-  'large' => {cpu_cores: 16, memory: 64},
-  'extra-large' => {cpu_cores: 32, memory: 128},
-  'extra-extra-large' => {cpu_cores: 48, memory: 256},
-}
-TUNING_FACT = 'tuning'
+  'default' => { cpu_cores: 1, memory: 8 },
+  'medium' => { cpu_cores: 8, memory: 32 },
+  'large' => { cpu_cores: 16, memory: 64 },
+  'extra-large' => { cpu_cores: 32, memory: 128 },
+  'extra-extra-large' => { cpu_cores: 48, memory: 256 },
+}.freeze
+TUNING_FACT = 'tuning'.freeze
 
 EXIT_INVALID_TUNING = 101
 EXIT_INSUFFICIENT_CPU_CORES = 102

@@ -1,14 +1,14 @@
-JAVA_VERSION = %q(OpenJDK 1.7 or later is required. For more
-details on the version currently installed, run 'java -version')
+JAVA_VERSION = "OpenJDK 1.7 or later is required. For more
+details on the version currently installed, run 'java -version'".freeze
 
-OPENJDK = %q(A version of java which is not OpenJDK is installed.
+OPENJDK = "A version of java which is not OpenJDK is installed.
 
 Please install OpenJDK 1.7 or later and make sure it is set as the default
 java using
 
   alternatives --config java
 
-For more details on the version currently installed, run 'java -version'.)
+For more details on the version currently installed, run 'java -version'.".freeze
 
 def error_exit(message, code)
   $stderr.puts message

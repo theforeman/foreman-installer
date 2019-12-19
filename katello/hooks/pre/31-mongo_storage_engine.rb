@@ -11,7 +11,7 @@ def migration
   logger.info 'Stopping Pulp services except MongoDB'
   execute('foreman-maintain service stop --exclude "rh-mongodb34-mongod","postgresql","tomcat","dynflowd","foreman-proxy","puppetserver"')
   FileUtils.mkdir(export_dir) unless File.directory?(export_dir)
-  File.chmod(0700, export_dir)
+  File.chmod(0o700, export_dir)
   logger.info "Starting mongodump to #{export_dir}"
   execute("mongodump --host localhost --out #{export_dir}")
 
@@ -28,7 +28,7 @@ def migration
   execute('foreman-maintain service start --only rh-mongodb34-mongod')
   pulp_db = katello ? param('katello', 'pulp_db_name').value : 'pulp_database'
   execute("mongorestore --host localhost --db=#{pulp_db} --drop --dir=#{export_dir}/#{pulp_db}")
-  unless $?.success?
+  unless $CHILD_STATUS.success?
     logger.error 'The restore could not be completed correctly, reverting actions.'
     logger.info 'Stopping MongoDB'
     execute('foreman-maintain service stop --only rh-mongodb34-mongod')

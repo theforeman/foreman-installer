@@ -3,6 +3,6 @@ if answers['foreman_proxy_content'].is_a?(Hash) && answers['foreman_proxy_conten
   if answers['certs'].is_a?(Hash)
     answers['certs']['tar_file'] = answer
   elsif answers['certs']
-    answers['certs'] = {'tar_file' => answer}
+    answers['certs'] = { 'tar_file' => answer }
   end
 end

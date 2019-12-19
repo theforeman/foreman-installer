@@ -12,6 +12,7 @@ rvm: 2.4
 env:
   - PUPPET_VERSION=5.0
 script:
+  - bundle exec rake rubocop
   #
   # Run rspec tests on migrations
   #

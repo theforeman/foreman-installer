@@ -1,5 +1,5 @@
 def check_postgresql_storage
-  #Ensure there is at least 1x /var/lib/pgsql free disk space available on the main filesystem
+  # Ensure there is at least 1x /var/lib/pgsql free disk space available on the main filesystem
   current_postgres_dir = '/var/lib/pgsql'
   new_postgres_dir = '/var/opt/rh/rh-postgresql10/lib/pgsql'
 

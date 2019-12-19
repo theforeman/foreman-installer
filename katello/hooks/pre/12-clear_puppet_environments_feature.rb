@@ -1,7 +1,7 @@
 # See bottom of the script for the command that kicks off the script
 
-PUPPET_THREE_ENV_DIR = '/etc/puppet/environments'
-PUPPET_FOUR_ENV_DIR = '/etc/puppetlabs/code/environments'
+PUPPET_THREE_ENV_DIR = '/etc/puppet/environments'.freeze
+PUPPET_FOUR_ENV_DIR = '/etc/puppetlabs/code/environments'.freeze
 
 def clear_puppet_environments
   [PUPPET_THREE_ENV_DIR, PUPPET_FOUR_ENV_DIR].each do |env_dir|
