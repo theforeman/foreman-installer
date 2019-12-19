@@ -1,7 +1,7 @@
 # evaluate version locking settings
 cli_param = app_value(:lock_package_versions)
 custom_config_value = get_custom_config(:lock_package_versions)
-lock_versions = cli_param.nil? ? !!custom_config_value : cli_param
+lock_versions = cli_param.nil? ? !!custom_config_value : cli_param # rubocop:disable Style/DoubleNegation
 
 if lock_versions != custom_config_value
   store_custom_config(:lock_package_versions, lock_versions)

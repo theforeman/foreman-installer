@@ -1,6 +1,6 @@
 #!/usr/bin/env ruby
 
-BASE = %q(If needed, change the hostname permanently via the
+BASE = "If needed, change the hostname permanently via the
 'hostname' or 'hostnamectl set-hostname' command
 and editing the appropriate configuration file.
 (e.g. on Red Hat systems /etc/sysconfig/network,
@@ -11,24 +11,24 @@ the hostname entry in the correct order, for example:
 
   1.2.3.4 hostname.example.com hostname
 
-The fully qualified hostname must be the first entry on the line)
+The fully qualified hostname must be the first entry on the line".freeze
 
-DIFFERENT = %q(Output of 'facter fqdn' is different from 'hostname -f'
+DIFFERENT = "Output of 'facter fqdn' is different from 'hostname -f'
 
-Make sure above command gives the same output. )
+Make sure above command gives the same output. ".freeze
 
-INVALID = %q(Output of 'hostname -f' does not seems to be valid FQDN
+INVALID = "Output of 'hostname -f' does not seems to be valid FQDN
 
 Make sure above command gives fully qualified domain name. At least one
-dot must be present and underscores are not allowed. )
+dot must be present and underscores are not allowed. ".freeze
 
-MISSING = %q(Command 'facter' does not exist in system executable path
+MISSING = "Command 'facter' does not exist in system executable path
 
-Make sure the above command is installed and executable in your system. )
+Make sure the above command is installed and executable in your system. ".freeze
 
-UPCASE = %q(The hostname contains a capital letter.
+UPCASE = 'The hostname contains a capital letter.
 
-This is not supported. Please modify the hostname to be all lowercase. )
+This is not supported. Please modify the hostname to be all lowercase. '.freeze
 
 def error_exit(message, code)
   $stderr.puts message
@@ -38,7 +38,7 @@ end
 ENV['PATH'] = ENV['PATH'].split(File::PATH_SEPARATOR).concat(['/opt/puppetlabs/bin']).join(File::PATH_SEPARATOR)
 
 system("which facter > /dev/null 2>&1")
-error_exit(MISSING, 3) if $?.exitstatus == 1
+error_exit(MISSING, 3) if $CHILD_STATUS.exitstatus == 1
 
 facter_fqdn = `facter fqdn`.chomp
 

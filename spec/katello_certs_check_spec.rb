@@ -25,14 +25,14 @@ describe 'katello-certs-check' do
 
   it 'completes correctly' do
     command_with_certs = "#{command} -b #{ca} -k #{key} -c #{cert}"
-    stdout, stderr, status = Open3.capture3(command_with_certs)
+    _stdout, stderr, status = Open3.capture3(command_with_certs)
     expect(stderr).to eq ''
     expect(status.exitstatus).to eq 0
   end
 
   it 'with password on key' do
     command_with_certs = "#{command} -b #{ca} -k #{badkey} -c #{cert}"
-    stdout, stderr, status = Open3.capture3(command_with_certs)
+    _stdout, stderr, status = Open3.capture3(command_with_certs)
     expect(stderr).to eq "The #{badkey} contains a passphrase, remove the key's passphrase by doing: \nmv #{badkey} #{badkey}.old \nopenssl rsa -in #{badkey}.old -out #{badkey}\n"
     expect(status.exitstatus).to eq 1
   end

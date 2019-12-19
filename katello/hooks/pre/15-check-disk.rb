@@ -1,6 +1,6 @@
 if module_enabled?('foreman_proxy_content')
-  DISK_SIZE = 'The installation requires at least 5G of storage.'
-  MONGODB_DIR = '/var/lib/mongodb'
+  DISK_SIZE = 'The installation requires at least 5G of storage.'.freeze
+  MONGODB_DIR = '/var/lib/mongodb'.freeze
   MIN_FREE_KB = 5 * 1024 * 1024
 
   # Error out if there is not 5 gigs of free space.

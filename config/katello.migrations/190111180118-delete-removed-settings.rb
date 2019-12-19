@@ -37,7 +37,7 @@ DELETED = {
     'server_service_fallback',
     'server_template',
   ],
-}
+}.freeze
 
 CLEAR = {
   'foreman' => [
@@ -49,23 +49,21 @@ CLEAR = {
   'foreman_proxy' => [
     'repo',
   ],
-}
+}.freeze
 
 DELETED.each do |mod, parameters|
   mod_answers = answers[mod]
-  if mod_answers.is_a?(Hash)
-    parameters.each do |parameter|
-      mod_answers.delete(parameter)
-    end
+  next unless mod_answers.is_a?(Hash)
+  parameters.each do |parameter|
+    mod_answers.delete(parameter)
   end
 end
 
 CLEAR.each do |mod, parameters|
   mod_answers = answers[mod]
-  if mod_answers.is_a?(Hash)
-    parameters.each do |parameter|
-      mod_answers[parameter] = nil if mod_answers[parameter]
-    end
+  next unless mod_answers.is_a?(Hash)
+  parameters.each do |parameter|
+    mod_answers[parameter] = nil if mod_answers[parameter]
   end
 end
 

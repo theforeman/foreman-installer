@@ -1,7 +1,7 @@
-# TODO automatically get the tuning sizes - standard doesn't exist and only
+# TODO: automatically get the tuning sizes - standard doesn't exist and only
 # loads base. The rest maps to config/foreman.hiera/tuning/sizes/$size.yaml
 TUNING_SIZES = ['default'] + ['medium', 'large', 'extra-large', 'extra-extra-large']
-TUNING_FACT = 'tuning'
+TUNING_FACT = 'tuning'.freeze
 
 app_option(
   '--tuning',

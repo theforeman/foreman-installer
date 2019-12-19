@@ -1,11 +1,11 @@
 require 'fileutils'
 
-STEP_DIRECTORY = '/etc/foreman-installer/applied_hooks/pre/'
+STEP_DIRECTORY = '/etc/foreman-installer/applied_hooks/pre/'.freeze
 
 # puppet-candlepin users this file to know whether it needs to run cpdb --update
-CANDLEPIN_MIGRATION_MARKER_FILE = '/var/lib/candlepin/cpdb_update_done'
+CANDLEPIN_MIGRATION_MARKER_FILE = '/var/lib/candlepin/cpdb_update_done'.freeze
 # puppet-pulp uses this file to know whether it needs to run pulp-manage-db
-PULP2_MIGRATION_MARKER_FILE = '/var/lib/pulp/init.flag'
+PULP2_MIGRATION_MARKER_FILE = '/var/lib/pulp/init.flag'.freeze
 
 def stop_services
   execute('foreman-maintain service stop')
@@ -17,10 +17,10 @@ end
 
 def postgresql_10_upgrade
   start_postgresql
-  (name, owner, enconding, collate, ctype, privileges) = %x{runuser postgres -c 'psql -lt | grep -E "^\s+postgres"'}.chomp.split('|').map(&:strip)
+  (_name, _owner, _enconding, collate, ctype, _privileges) = `runuser postgres -c 'psql -lt | grep -E "^\s+postgres"'`.chomp.split('|').map(&:strip)
   stop_services
   ensure_package('rh-postgresql10-postgresql-server', 'installed')
-  execute(%Q{scl enable rh-postgresql10 "PGSETUP_INITDB_OPTIONS='--lc-collate=#{collate} --lc-ctype=#{ctype} --locale=#{collate}' postgresql-setup --upgrade"})
+  execute(%(scl enable rh-postgresql10 "PGSETUP_INITDB_OPTIONS='--lc-collate=#{collate} --lc-ctype=#{ctype} --locale=#{collate}' postgresql-setup --upgrade"))
   ensure_package('postgresql-server', 'absent')
   ensure_package('postgresql', 'absent')
   execute('rm -f /etc/systemd/system/postgresql.service')
@@ -42,12 +42,12 @@ def upgrade_step(step, options = {})
 end
 
 def touch_step(step)
-  FileUtils.mkpath(STEP_DIRECTORY) unless Dir.exists?(STEP_DIRECTORY)
+  FileUtils.mkpath(STEP_DIRECTORY) unless Dir.exist?(STEP_DIRECTORY)
   FileUtils.touch(step_path(step))
 end
 
 def step_ran?(step)
-  File.exists?(step_path(step))
+  File.exist?(step_path(step))
 end
 
 def step_path(step)

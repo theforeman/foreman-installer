@@ -53,12 +53,12 @@ if app_value('certs_update_server_ca') || app_value('certs_reset')
 end
 
 if !app_value('certs_skip_check') &&
-       cert_file.to_s != "" &&
-       (app_value('certs_update_server_ca') || app_value('certs_update_server'))
-  check_cmd = %{#{CHECK_SCRIPT} -c "#{cert_file}" -k "#{key_file}" -b "#{ca_file}"}
+   cert_file.to_s != "" &&
+   (app_value('certs_update_server_ca') || app_value('certs_update_server'))
+  check_cmd = %(#{CHECK_SCRIPT} -c "#{cert_file}" -k "#{key_file}" -b "#{ca_file}")
   output = `#{check_cmd} 2>&1`
-  unless $?.success?
-    error "Command '#{check_cmd}' exited with #{$?.exitstatus}:\n #{output}"
+  unless $CHILD_STATUS.success?
+    error "Command '#{check_cmd}' exited with #{$CHILD_STATUS.exitstatus}:\n #{output}"
   end
 end
 

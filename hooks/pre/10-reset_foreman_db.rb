@@ -2,11 +2,11 @@
 
 def reset_foreman_db
   `which foreman-rake > /dev/null 2>&1`
-  if $?.success?
+  if $CHILD_STATUS.success?
     logger.info 'Dropping database!'
     output = `foreman-rake db:drop 2>&1`
     logger.debug output.to_s
-    unless $?.success?
+    unless $CHILD_STATUS.success?
       logger.warn "Unable to drop DB, ignoring since it's not fatal, output was: '#{output}''"
     end
   else

@@ -2,8 +2,8 @@
 require 'rubygems'
 require 'kafo'
 
-CONFIG_DIR = './katello_certs/config/'
-LAST_SCENARIO_PATH = './config/last_scenario.yaml'
+CONFIG_DIR = './katello_certs/config/'.freeze
+LAST_SCENARIO_PATH = './config/last_scenario.yaml'.freeze
 
 Kafo::KafoConfigure.hooking.register_pre(:init) do
   org_param = param('certs', 'org')
@@ -15,7 +15,11 @@ Kafo::KafoConfigure.hooking.register_pre(:init) do
     data = YAML.load_file(LAST_SCENARIO_PATH)
     if data && data[:answer_file] && File.file?(data[:answer_file])
       scenario = YAML.load_file(data[:answer_file])
-      organization = scenario['foreman']['initial_organization'] rescue nil
+      organization = begin
+                       scenario['foreman']['initial_organization']
+                     rescue StandardError
+                       nil
+                     end
     end
   end
 

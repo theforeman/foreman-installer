@@ -5,6 +5,7 @@ begin
   require 'rspec/core/rake_task'
   RSpec::Core::RakeTask.new(:spec)
 rescue LoadError
+  puts 'RSpec not loaded'
 end
 
 begin
@@ -40,7 +41,7 @@ begin
     end
 
     def content
-      max_length = @new_content.select { |type, value| type == 'mod' }.map { |type, value| value.length }.max
+      max_length = @new_content.select { |type, _value| type == 'mod' }.map { |_type, value| value.length }.max
 
       @new_content.each do |type, value, options|
         if type == 'forge'
@@ -83,11 +84,11 @@ MANDIR = ENV['MANDIR'] || "#{DATAROOTDIR}/man"
 PKGDIR = ENV['PKGDIR'] || File.expand_path('pkg')
 
 if BUILD_KATELLO
-  SCENARIOS = ['foreman', 'foreman-proxy-content', 'katello']
-  CERTS_SCENARIOS = ['foreman-proxy-certs']
+  SCENARIOS = ['foreman', 'foreman-proxy-content', 'katello'].freeze
+  CERTS_SCENARIOS = ['foreman-proxy-certs'].freeze
 else
-  SCENARIOS = ['foreman']
-  CERTS_SCENARIOS = []
+  SCENARIOS = ['foreman'].freeze
+  CERTS_SCENARIOS = [].freeze
 end
 
 exporter_dirs = ENV['PATH'].split(':').push('/usr/bin', ENV['KAFO_EXPORTER'])
@@ -118,11 +119,11 @@ SCENARIOS.each do |scenario|
     end
 
     scenario_config_replacements.each do |setting, value|
-      sh 'sed -i "s#\(.*%s:\).*#\1 %s#" %s' % [setting, value, t.name]
+      sh format('sed -i "s#\(.*%s:\).*#\1 %s#" %s', setting, value, t.name)
     end
 
     if ENV['KAFO_MODULES_DIR']
-      sh 'sed -i "s#.*\(:kafo_modules_dir:\).*#\1 %s#" %s' % [ENV['KAFO_MODULES_DIR'], t.name]
+      sh format('sed -i "s#.*\(:kafo_modules_dir:\).*#\1 %s#" %s', ENV['KAFO_MODULES_DIR'], t.name)
     end
   end
 
@@ -175,7 +176,7 @@ CERTS_SCENARIOS.each do |scenario|
     }
 
     scenario_config_replacements.each do |setting, value|
-      sh 'sed -i "s#\(.*%s:\).*#\1 %s#" %s' % [setting, value, t.name]
+      sh format('sed -i "s#\(.*%s:\).*#\1 %s#" %s', setting, value, t.name)
     end
   end
 
@@ -190,13 +191,13 @@ end
 
 file "#{BUILDDIR}/foreman-installer" => 'bin/foreman-installer' do |t|
   cp t.prerequisites[0], t.name
-  sh 'sed -i "s#\(^.*CONFIG_DIR = \).*#CONFIG_DIR = %s#" %s' % ["'#{SYSCONFDIR}/foreman-installer/scenarios.d/'", t.name]
+  sh format('sed -i "s#\(^.*CONFIG_DIR = \).*#CONFIG_DIR = %s#" %s', "'#{SYSCONFDIR}/foreman-installer/scenarios.d/'", t.name)
 end
 
 file "#{BUILDDIR}/foreman-proxy-certs-generate" => 'bin/foreman-proxy-certs-generate' do |t|
   cp t.prerequisites[0], t.name
-  sh 'sed -i "s#^.*\(CONFIG_DIR = \).*#\1%s#" %s' % ["'#{DATADIR}/foreman-installer/katello-certs/scenarios.d/'", t.name]
-  sh 'sed -i "s#^.*\(LAST_SCENARIO_PATH = \).*#\1%s#" %s' % ["'#{SYSCONFDIR}/foreman-installer/scenarios.d/last_scenario.yaml'", t.name]
+  sh format('sed -i "s#^.*\(CONFIG_DIR = \).*#\1%s#" %s', "'#{DATADIR}/foreman-installer/katello-certs/scenarios.d/'", t.name)
+  sh format('sed -i "s#^.*\(LAST_SCENARIO_PATH = \).*#\1%s#" %s', "'#{SYSCONFDIR}/foreman-installer/scenarios.d/last_scenario.yaml'", t.name)
 end
 
 file "#{BUILDDIR}/katello-certs-check" => 'bin/katello-certs-check' do |t|
@@ -212,12 +213,12 @@ file "#{BUILDDIR}/foreman-installer.8.asciidoc" =>
   options = File.read(options_file)
   File.open(t.name, 'w') do |output|
     File.open(man_file, 'r') do |input|
-      input.each_line {|line| output.puts line.gsub(/@@PARAMETERS@@/, options)}
+      input.each_line { |line| output.puts line.gsub(/@@PARAMETERS@@/, options) }
     end
   end
 end
 
-file "#{BUILDDIR}/foreman-installer.8" => "#{BUILDDIR}/foreman-installer.8.asciidoc" do |t|
+file "#{BUILDDIR}/foreman-installer.8" => "#{BUILDDIR}/foreman-installer.8.asciidoc" do |_t|
   if ENV['NO_MAN_PAGE']
     touch "#{BUILDDIR}/foreman-installer.8"
   else
@@ -226,7 +227,7 @@ file "#{BUILDDIR}/foreman-installer.8" => "#{BUILDDIR}/foreman-installer.8.ascii
 end
 
 directory "#{BUILDDIR}/modules"
-file "#{BUILDDIR}/modules" => BUILDDIR do |t|
+file "#{BUILDDIR}/modules" => BUILDDIR do |_t|
   if Dir["modules/*"].empty?
     sh "librarian-puppet install --verbose --path #{BUILDDIR}/modules"
   else
@@ -242,7 +243,7 @@ end
 
 file "#{BUILDDIR}/config/foreman-hiera.yaml" => ['config/foreman-hiera.yaml', "#{BUILDDIR}/config"] do |t|
   cp t.prerequisites[0], t.name
-  sh 'sed -i "s#custom.yaml#%s#" %s' % ["#{SYSCONFDIR}/foreman-installer/custom-hiera.yaml", t.name]
+  sh format('sed -i "s#custom.yaml#%s#" %s', "#{SYSCONFDIR}/foreman-installer/custom-hiera.yaml", t.name)
 end
 
 directory "#{BUILDDIR}/config/foreman.hiera"
@@ -325,11 +326,11 @@ task :install => :build do
   cp "config/custom-hiera.yaml", "#{SYSCONFDIR}/foreman-installer"
 
   mkdir_p SBINDIR
-  install "#{BUILDDIR}/foreman-installer", "#{SBINDIR}/foreman-installer", :mode => 0755, :verbose => true
+  install "#{BUILDDIR}/foreman-installer", "#{SBINDIR}/foreman-installer", :mode => 0o755, :verbose => true
 
   if BUILD_KATELLO
-    install "#{BUILDDIR}/foreman-proxy-certs-generate", "#{SBINDIR}/foreman-proxy-certs-generate", :mode => 0755, :verbose => true
-    install "#{BUILDDIR}/katello-certs-check", "#{SBINDIR}/katello-certs-check", :mode => 0755, :verbose => true
+    install "#{BUILDDIR}/foreman-proxy-certs-generate", "#{SBINDIR}/foreman-proxy-certs-generate", :mode => 0o755, :verbose => true
+    install "#{BUILDDIR}/katello-certs-check", "#{SBINDIR}/katello-certs-check", :mode => 0o755, :verbose => true
   end
 
   mkdir_p "#{MANDIR}/man8"
@@ -349,7 +350,7 @@ namespace :pkg do
   desc 'Generate package source tar.bz2'
   task :generate_source => [PKGDIR, "#{BUILDDIR}/modules"] do
     version = File.read('VERSION').chomp
-    raise "can't find VERSION" if version.length == 0
+    raise "can't find VERSION" if version.empty?
     filename = "#{PKGDIR}/foreman-installer-#{version}.tar.bz2"
     File.unlink(filename) if File.exist?(filename)
     Dir.chdir(BUILDDIR) { `tar -cf #{BUILDDIR}/modules.tar --exclude-vcs --exclude=spec --transform=s,^,foreman-installer-#{version}/, modules/` }

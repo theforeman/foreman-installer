@@ -2,7 +2,7 @@
 require 'rubygems'
 require 'kafo'
 
-CONFIG_DIR = 'config/'
+CONFIG_DIR = 'config/'.freeze
 
 # Run the install
 @result = Kafo::KafoConfigure.run

@@ -4,7 +4,7 @@ require 'ipaddr'
 require 'resolv'
 require 'socket'
 
-def error_exit(message, code=2)
+def error_exit(message, code = 2)
   $stderr.puts message
   exit code
 end
