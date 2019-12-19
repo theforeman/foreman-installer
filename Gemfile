@@ -13,6 +13,7 @@ gem 'rdoc', '< 6' if RUBY_VERSION < '2.2'
 
 group :test do
   gem 'rspec'
+  gem 'rubocop', '~> 0.50.0'
 end
 
 group :development do

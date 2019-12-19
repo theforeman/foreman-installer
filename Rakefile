@@ -8,6 +8,13 @@ rescue LoadError
 end
 
 begin
+  require 'rubocop/rake_task'
+  RuboCop::RakeTask.new
+rescue LoadError
+  puts 'Rubocop not loaded'
+end
+
+begin
   require 'puppet_forge'
   require 'semverse'
 
