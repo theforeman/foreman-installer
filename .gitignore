@@ -31,3 +31,4 @@ modules/*
 .bundle/
 Gemfile.lock
 config/foreman.migrations/.applied
+.vendor/
