@@ -52,8 +52,7 @@ def upgrade_step(step, options = {})
   if run_always || app_value(:force_upgrade_steps) || !step_ran?(step)
     log_and_say :info, "Upgrade Step: #{step}#{long_running}#{noop}..."
     unless app_value(:noop)
-      status = send(step)
-      fail_and_exit "Upgrade step #{step} failed. Check logs for more information." unless status
+      send(step)
       touch_step(step)
     end
   end
