@@ -12,6 +12,15 @@ module HookContextExtension
     !File.exist?(success_file)
   end
 
+  def ensure_package(package, state = 'installed')
+    unless ['installed', 'absent', 'latest'].include?(state)
+      fail_and_exit('Incorrect package state supplied to ensure_package')
+    end
+
+    bin_path = Kafo::PuppetCommand.search_puppet_path('puppet')
+    execute("#{bin_path} resource package #{package} ensure=#{state}")
+  end
+
   def fail_and_exit(message)
     log_and_say :error, message
     exit 1
@@ -31,9 +40,7 @@ module HookContextExtension
               level
             end
 
-    # \ and ' characters could cause trouble in ERB, make sure to escape them
-    escaped_message = message.gsub('\\', '\\\\\\').gsub("'", %q{\\\'})
-    say "<%= color('#{escaped_message}', :#{style}) %>" if do_say
+    say HighLine.color(message, style.to_sym) if do_say
     Kafo::KafoConfigure.logger.send(level, message) if do_log
   end
 

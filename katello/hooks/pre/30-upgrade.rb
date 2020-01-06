@@ -37,11 +37,12 @@ def postgresql_10_upgrade
   start_postgresql
   (name, owner, enconding, collate, ctype, privileges) = %x{runuser postgres -c 'psql -lt | grep -E "^\s+postgres"'}.chomp.split('|').map(&:strip)
   stop_services
-  execute('yum -y install rh-postgresql10-postgresql-server')
+  ensure_package('rh-postgresql10-postgresql-server', 'installed')
   execute(%Q{scl enable rh-postgresql10 "PGSETUP_INITDB_OPTIONS='--lc-collate=#{collate} --lc-ctype=#{ctype} --locale=#{collate}' postgresql-setup --upgrade"})
-  execute('yum -y remove postgresql postgresql-server')
+  ensure_package('postgresql', 'absent')
+  ensure_package('postgresql-server', 'absent')
   execute('rm -f /etc/systemd/system/postgresql.service')
-  execute('yum -y install rh-postgresql10-syspaths')
+  ensure_package('rh-postgresql10-syspaths', 'installed')
 end
 
 def upgrade_step(step, options = {})
