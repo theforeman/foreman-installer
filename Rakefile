@@ -106,11 +106,6 @@ SCENARIOS.each do |scenario|
       'parser_cache_path' => "#{DATADIR}/foreman-installer/parser_cache/#{scenario}.yaml",
     }
 
-    # These scenarios have their own hook dirs for now
-    if ['foreman-proxy-content', 'katello'].include?(scenario)
-      scenario_config_replacements['installer_dir'] += '/katello'
-    end
-
     scenario_config_replacements.each do |setting, value|
       sh 'sed -i "s#\(.*%s:\).*#\1 %s#" %s' % [setting, value, t.name]
     end
