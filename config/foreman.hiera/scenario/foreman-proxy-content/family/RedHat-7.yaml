@@ -1,9 +1,0 @@
----
-postgresql::globals::version: '10'
-postgresql::globals::client_package_name: rh-postgresql10-postgresql-syspaths
-postgresql::globals::server_package_name: rh-postgresql10-postgresql-server-syspaths
-postgresql::globals::contrib_package_name: rh-postgresql10-postgresql-contrib-syspaths
-postgresql::globals::service_name: postgresql
-postgresql::globals::datadir: /var/opt/rh/rh-postgresql10/lib/pgsql/data
-postgresql::globals::confdir: /var/opt/rh/rh-postgresql10/lib/pgsql/data
-postgresql::globals::bindir: /usr/bin

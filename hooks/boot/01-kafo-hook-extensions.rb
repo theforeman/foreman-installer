@@ -40,6 +40,10 @@ module HookContextExtension
     (foreman_server? && !param_value('foreman', 'jobs_sidekiq_redis_url')) || param_value('foreman_proxy::plugin::pulp', 'pulpcore_enabled')
   end
 
+  def needs_postgresql_scl_upgrade?
+    !File.exist?('/var/opt/rh/rh-postgresql12/lib/pgsql/data') && File.exist?('/var/lib/pgsql/data')
+  end
+
   def el7?
     facts[:os][:release][:major] == '7' && facts[:os][:family] == 'RedHat'
   end
