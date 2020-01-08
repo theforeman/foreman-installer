@@ -11,22 +11,6 @@ def stop_services
   execute('foreman-maintain service stop')
 end
 
-def start_postgresql
-  execute('systemctl start postgresql')
-end
-
-def postgresql_10_upgrade
-  start_postgresql
-  (_name, _owner, _enconding, collate, ctype, _privileges) = `runuser postgres -c 'psql -lt | grep -E "^\s+postgres"'`.chomp.split('|').map(&:strip)
-  stop_services
-  ensure_package('rh-postgresql10-postgresql-server', 'installed')
-  execute(%(scl enable rh-postgresql10 "PGSETUP_INITDB_OPTIONS='--lc-collate=#{collate} --lc-ctype=#{ctype} --locale=#{collate}' postgresql-setup --upgrade"))
-  ensure_package('postgresql-server', 'absent')
-  ensure_package('postgresql', 'absent')
-  execute('rm -f /etc/systemd/system/postgresql.service')
-  ensure_package('rh-postgresql10-syspaths', 'installed')
-end
-
 def upgrade_step(step, options = {})
   noop = app_value(:noop) ? ' (noop)' : ''
   long_running = options[:long_running] ? ' (this may take a while) ' : ''
@@ -67,10 +51,6 @@ if app_value(:upgrade)
 
   if File.exist?(CANDLEPIN_MIGRATION_MARKER_FILE)
     File.unlink(CANDLEPIN_MIGRATION_MARKER_FILE)
-  end
-
-  if local_postgresql? && facts[:os][:release][:major] == '7'
-    upgrade_step :postgresql_10_upgrade
   end
 
   log_and_say :info, 'Upgrade Step: Running installer...'
