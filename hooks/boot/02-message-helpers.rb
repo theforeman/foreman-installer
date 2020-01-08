@@ -48,5 +48,11 @@ MSG
     def log_message(kafo)
       say "  The full log is at <%= color('#{kafo.config.log_file}', :info) %>"
     end
+
+    def upgrade_message
+      log_and_say :info, 'Starting upgrade of all enabled services'
+      log_and_say :info, 'To monitor the progress on all related services, please do:'
+      log_and_say :info, '  foreman-tail | tee upgrade-$(date +%Y-%m-%d-%H%M).log'
+    end
   end
 end
