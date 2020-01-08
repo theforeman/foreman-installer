@@ -29,10 +29,6 @@ def migrate_candlepin
   execute("/usr/share/candlepin/cpdb --update --database '#{db_uri}' --user '#{db_user}' --password '#{db_password}'")
 end
 
-def migrate_foreman
-  execute('foreman-rake db:migrate')
-end
-
 def postgresql_10_upgrade
   start_postgresql
   (name, owner, enconding, collate, ctype, privileges) = %x{runuser postgres -c 'psql -lt | grep -E "^\s+postgres"'}.chomp.split('|').map(&:strip)
@@ -89,7 +85,6 @@ if app_value(:upgrade)
 
   if module_enabled?('katello')
     upgrade_step :migrate_candlepin, :run_always => true
-    upgrade_step :migrate_foreman, :run_always => true
   end
 
   if local_postgresql? && facts[:os][:release][:major] == '7'
