@@ -35,6 +35,10 @@ if app_value(:upgrade_mongo_storage_engine)
     fail_and_exit 'Upgrading is not supported on remote MongoDB database connections' unless mongo_host == 'localhost:27017'
   end
 
+  # Make sure MongoDB is running before start of engine upgrade
+  log_and_say :info, 'Ensuring MongoDB is running before upgrade.'
+  execute('foreman-maintain service start --only rh-mongodb34-mongod')
+
   log_and_say :info, "Starting disk space check for upgrade"
   disk_space
 end
