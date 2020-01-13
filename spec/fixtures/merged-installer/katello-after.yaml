@@ -13,7 +13,7 @@
 :module_dirs:
 - /usr/share/foreman-installer/modules
 :hook_dirs:
-- /usr/share/foreman-installer/katello/katello/hooks
+- /usr/share/foreman-installer/katello/hooks
 :colors: true
 :color_of_background: :dark
 :custom: {}
