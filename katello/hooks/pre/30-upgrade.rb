@@ -35,8 +35,8 @@ def postgresql_10_upgrade
   stop_services
   ensure_package('rh-postgresql10-postgresql-server', 'installed')
   execute(%Q{scl enable rh-postgresql10 "PGSETUP_INITDB_OPTIONS='--lc-collate=#{collate} --lc-ctype=#{ctype} --locale=#{collate}' postgresql-setup --upgrade"})
-  ensure_package('postgresql', 'absent')
   ensure_package('postgresql-server', 'absent')
+  ensure_package('postgresql', 'absent')
   execute('rm -f /etc/systemd/system/postgresql.service')
   ensure_package('rh-postgresql10-syspaths', 'installed')
 end
