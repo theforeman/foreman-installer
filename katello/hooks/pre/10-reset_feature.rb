@@ -1,4 +1,5 @@
 # See bottom of the script for the command that kicks off the script
+require 'English'
 
 def reset
   if foreman_installed?

@@ -1,3 +1,5 @@
+require 'English'
+
 module HookContextExtension
   # FIXME: remove when #23332 is released
   def param_value(mod, name)

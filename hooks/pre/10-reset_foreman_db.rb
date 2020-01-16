@@ -1,4 +1,5 @@
 # See bottom of the script for the command that kicks off the script
+require 'English'
 
 def reset_foreman_db
   `which foreman-rake > /dev/null 2>&1`
