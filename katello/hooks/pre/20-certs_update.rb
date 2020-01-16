@@ -1,4 +1,5 @@
 require 'fileutils'
+require 'English'
 
 SSL_BUILD_DIR = param('certs', 'ssl_build_dir').value
 CHECK_SCRIPT = `which katello-certs-check`.strip

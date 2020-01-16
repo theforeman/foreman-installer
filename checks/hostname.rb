@@ -1,5 +1,7 @@
 #!/usr/bin/env ruby
 
+require 'English'
+
 BASE = "If needed, change the hostname permanently via the
 'hostname' or 'hostnamectl set-hostname' command
 and editing the appropriate configuration file.

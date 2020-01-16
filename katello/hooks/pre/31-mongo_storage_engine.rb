@@ -1,4 +1,5 @@
 require 'fileutils'
+require 'English'
 
 def migration
   katello = module_enabled?('katello')
