@@ -4,12 +4,10 @@ module MessageHookContextExtension
   end
 
   def server_success_message(kafo)
-    success_message
     say "  * <%= color('Foreman', :info) %> is running at <%= color('#{kafo.param('foreman', 'foreman_url').value}', :info) %>"
   end
 
   def dev_server_success_message(kafo)
-    success_message
     say "  * To run the <%= color('Katello', :info) %> dev server log in using SSH"
     say "  * Run `cd foreman && bundle exec foreman start`"
     say "  * The server is running at <%= color('https://#{`hostname -f`}', :info) %>"
@@ -27,7 +25,6 @@ MSG
   end
 
   def proxy_success_message(kafo)
-    success_message
     foreman_proxy_url = kafo.param('foreman_proxy', 'registered_proxy_url').value || "https://#{kafo.param('foreman_proxy', 'registered_name').value}:#{kafo.param('foreman_proxy', 'ssl_port').value}"
     say "  * <%= color('Foreman Proxy', :info) %> is running at <%= color('#{foreman_proxy_url}', :info) %>"
   end

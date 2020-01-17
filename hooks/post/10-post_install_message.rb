@@ -1,7 +1,8 @@
 # Puppet status codes say 0 for unchanged, 2 for changed succesfully
 if [0, 2].include? @kafo.exit_code
-  # Foreman UI?
-  if module_enabled? 'foreman'
+  success_message
+
+  if foreman_server?
     server_success_message(@kafo)
     new_install_message(@kafo) if new_install?
   end
