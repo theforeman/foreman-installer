@@ -28,8 +28,8 @@ module KatelloCertsMessageHookContextExtension
 
     certs_tar = kafo.param('foreman_proxy_certs', 'certs_tar').value
     foreman_proxy_fqdn    = kafo.param('foreman_proxy_certs', 'foreman_proxy_fqdn').value
-    foreman_oauth_key     = Kafo::Helpers.read_cache_data("oauth_consumer_key")
-    foreman_oauth_secret  = Kafo::Helpers.read_cache_data("oauth_consumer_secret")
+    foreman_oauth_key     = read_cache_data("oauth_consumer_key")
+    foreman_oauth_secret  = read_cache_data("oauth_consumer_secret")
     org                   = kafo.param('certs', 'org').value.tr(' ', '_')
 
     certs_tar_file = File.join('/root', File.basename(certs_tar))
