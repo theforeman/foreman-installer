@@ -1,0 +1,35 @@
+foreman::cli: true
+foreman::cli::ansible: false
+foreman::cli::azure: false
+foreman::cli::kubevirt: false
+foreman::cli::virt_who_configure: false
+foreman::compute::ec2: false
+foreman::compute::gce: false
+foreman::compute::libvirt: false
+foreman::compute::openstack: false
+foreman::compute::ovirt: false
+foreman::compute::rackspace: false
+foreman::compute::vmware: false
+foreman::plugin::azure: false
+foreman::plugin::digitalocean: false
+foreman::plugin::expire_hosts: false
+foreman::plugin::inventory_upload: false
+foreman::plugin::kubevirt: false
+foreman::plugin::memcache: false
+foreman::plugin::monitoring: false
+foreman::plugin::remote_execution::cockpit: false
+foreman::plugin::salt: false
+foreman::plugin::snapshot_management: false
+foreman::plugin::virt_who_configure: false
+foreman_proxy::plugin::chef: false
+foreman_proxy::plugin::dhcp::remote_isc: false
+foreman_proxy::plugin::discovery: false
+foreman_proxy::plugin::monitoring: false
+foreman_proxy::plugin::pulp:
+  pulpcore_enabled: true
+foreman_proxy::plugin::salt: false
+foreman_proxy_content:
+  proxy_pulp_isos_to_pulpcore: false
+katello:
+  use_pulp_2_for_docker: true
+  use_pulp_2_for_file: true
