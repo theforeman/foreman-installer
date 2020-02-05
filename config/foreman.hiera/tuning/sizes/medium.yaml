@@ -9,6 +9,5 @@ apache::mod::prefork::maxrequestsperchild: 4000
 postgresql::server::config_entries:
   max_connections: 1000
   shared_buffers: 4GB
-  checkpoint_segments: 32
   effective_cache_size: 16GB
   autovacuum_vacuum_cost_limit: 2000
