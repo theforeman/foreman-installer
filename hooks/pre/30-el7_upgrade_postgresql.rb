@@ -3,6 +3,11 @@ def postgresql_12_upgrade
   (_name, _owner, _enconding, collate, ctype, _privileges) = `runuser postgres -c 'psql -lt | grep -E "^\s+postgres"'`.chomp.split('|').map(&:strip)
   execute('foreman-maintain service stop')
   ensure_package('rh-postgresql12-postgresql-server', 'installed')
+
+  if execute_command("rpm -q postgresql-contrib", false, false)
+    ensure_package('rh-postgresql12-postgresql-contrib', 'installed')
+  end
+
   execute(%(scl enable rh-postgresql12 "PGSETUP_INITDB_OPTIONS='--lc-collate=#{collate} --lc-ctype=#{ctype} --locale=#{collate}' postgresql-setup --upgrade"))
   ensure_package('postgresql-server', 'absent')
   ensure_package('postgresql', 'absent')
