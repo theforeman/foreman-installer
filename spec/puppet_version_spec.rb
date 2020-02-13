@@ -17,7 +17,7 @@ describe 'Puppet module' do
 
       VERSIONS.each do |puppet_version|
         it "should support Puppet #{puppet_version}" do
-          expect(puppet_requirement.include?(puppet_version)).to be true
+          expect(puppet_requirement).to include(puppet_version)
         end
       end
     end
