@@ -11,7 +11,7 @@ mod 'theforeman/tftp',               :git => 'https://github.com/theforeman/pupp
 # Katello dependencies
 mod 'katello/candlepin',             :git => 'https://github.com/theforeman/puppet-candlepin'
 mod 'katello/pulp',                  :git => 'https://github.com/theforeman/puppet-pulp'
-mod 'katello/pulpcore',              :git => 'https://github.com/theforeman/puppet-pulpcore'
+mod 'theforeman/pulpcore',           :git => 'https://github.com/theforeman/puppet-pulpcore'
 mod 'katello/qpid',                  :git => 'https://github.com/theforeman/puppet-qpid'
 
 # Top-level modules
