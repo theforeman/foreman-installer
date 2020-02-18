@@ -17,10 +17,6 @@ if app_value(:upgrade_mongo_storage_engine)
   if File.file?("#{MONGO_DIR}/WiredTiger.wt")
     fail_and_exit 'MongoDB has already been switched to wiredTiger. Exiting.'
   end
-  if app_value(:upgrade)
-    fail_and_exit 'Concurrent use of --upgrade and --upgrade-mongo-storage-engine is not supported. '\
-                  'Please run --upgrade first, then --upgrade-mongo-storage-engine.'
-  end
 
   # Fail if we are not using the Katello/Foreman Proxy Content scenario.
   unless module_enabled?('katello') || module_enabled?('foreman_proxy_content')
