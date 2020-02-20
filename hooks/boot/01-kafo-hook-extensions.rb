@@ -20,7 +20,11 @@ module HookContextExtension
     end
 
     bin_path = Kafo::PuppetCommand.search_puppet_path('puppet')
-    execute("#{bin_path} resource package #{package} ensure=#{state}")
+    response = `#{bin_path} resource package #{package} ensure=#{state}`
+
+    if state == 'installed' && response.include?('purged')
+      fail_and_exit("Could not find #{package} in any repository.")
+    end
   end
 
   def fail_and_exit(message)
