@@ -1,4 +1,5 @@
 require 'English'
+require 'open3'
 
 module HookContextExtension
   # FIXME: remove when #23332 is released
@@ -14,13 +15,25 @@ module HookContextExtension
     !File.exist?(success_file)
   end
 
-  def ensure_package(package, state = 'installed')
-    unless ['installed', 'absent', 'latest'].include?(state)
-      fail_and_exit('Incorrect package state supplied to ensure_package')
-    end
+  def ensure_packages(packages, state = 'installed')
+    return if packages.empty?
 
+    code = "package { ['#{packages.join('\', \'')}']: ensure => #{state} }"
+    logger.info("Ensuring #{packages.join(', ')} to package state #{state}")
+    stdout, stderr, status = apply_puppet_code(code)
+
+    unless [0, 2].include?(status.exitstatus)
+      log_and_say(:error, "Failed to ensure #{packages.join(', ')} #{(packages.length == 1) ? 'is' : 'are'} #{state}")
+      log_and_say(:error, stderr.strip) if stderr && stderr.strip
+      logger.debug(stdout.strip) if stdout && stdout.strip
+      logger.debug("Exit status is #{status.exitstatus.inspect}")
+      exit(1)
+    end
+  end
+
+  def apply_puppet_code(code)
     bin_path = Kafo::PuppetCommand.search_puppet_path('puppet')
-    execute("#{bin_path} resource package #{package} ensure=#{state}")
+    Open3.capture3("echo \"#{code}\" | #{bin_path} apply --detailed-exitcodes")
   end
 
   def fail_and_exit(message)
