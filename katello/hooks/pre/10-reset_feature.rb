@@ -8,6 +8,7 @@ def reset
     reset_database
     reset_candlepin
     reset_pulp
+    reset_pulpcore if pulpcore_enabled?
 
   else
     Kafo::KafoConfigure.logger.warn 'Katello not installed yet, can not drop database!'
@@ -133,6 +134,26 @@ def reset_pulp
   execute(
     'rm -rf /var/lib/pulp/{distributions,published,repos}/*'
   )
+end
+
+def load_pulpcore_config
+  db_config = {}
+  db_config[:host] = param_value('foreman_proxy_content', 'pulpcore_postgresql_host') || 'localhost'
+  db_config[:port] = param_value('foreman_proxy_content', 'pulpcore_postgresql_port') || 5432
+  db_config[:database] = param_value('foreman_proxy_content', 'pulpcore_postgresql_db_name') || 'pulpcore'
+  db_config[:username] = param_value('foreman_proxy_content', 'pulpcore_postgresql_user')
+  db_config[:password] = param_value('foreman_proxy_content', 'pulpcore_postgresql_password')
+  db_config
+end
+
+def reset_pulpcore
+  Kafo::KafoConfigure.logger.info 'Dropping Pulpcore database!'
+  config = load_pulpcore_config
+  if remote_host?(config[:host])
+    empty_database!(config)
+  else
+    execute("sudo -u postgres dropdb #{config[:database]}")
+  end
 end
 
 def remote_host?(hostname)
