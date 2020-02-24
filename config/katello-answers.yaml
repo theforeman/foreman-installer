@@ -1,42 +1,50 @@
+# Format:
+# <classname>: false - don't include this class
+# <classname>: true - include and use the defaults
+# <classname>:
+#   <param>: <value> - include and override the default(s)
+#
+# Every support plugin/compute class is listed, so that it
+# shows up in the interactive menu
+#
+# See params.pp in each class for what options are available
 ---
 certs:
   group: foreman
-katello: true
 foreman:
-  initial_organization: Default Organization
-  initial_location: Default Location
-  configure_epel_repo: false
-  configure_scl_repo: false
-  max_keepalive_requests: 10000
-  server_ssl_cert: /etc/pki/katello/certs/katello-apache.crt
-  server_ssl_key: /etc/pki/katello/private/katello-apache.key
-  server_ssl_ca: /etc/pki/katello/certs/katello-default-ca.crt
-  server_ssl_chain: /etc/pki/katello/certs/katello-server-ca.crt
-  server_ssl_crl: ""
+  client_ssl_ca: /etc/foreman/proxy_ca.pem
   client_ssl_cert: /etc/foreman/client_cert.pem
   client_ssl_key: /etc/foreman/client_key.pem
-  client_ssl_ca: /etc/foreman/proxy_ca.pem
-  websockets_ssl_key: /etc/pki/katello/private/katello-apache.key
-  websockets_ssl_cert: /etc/pki/katello/certs/katello-apache.crt
+  configure_epel_repo: false
+  configure_scl_repo: false
+  initial_location: Default Location
+  initial_organization: Default Organization
+  max_keepalive_requests: 10000
+  server_ssl_ca: /etc/pki/katello/certs/katello-default-ca.crt
+  server_ssl_cert: /etc/pki/katello/certs/katello-apache.crt
+  server_ssl_chain: /etc/pki/katello/certs/katello-server-ca.crt
+  server_ssl_crl: ""
+  server_ssl_key: /etc/pki/katello/private/katello-apache.key
   user_groups: []
-foreman_proxy_content: true
-puppet:
-  server: true
-  server_environments_owner: apache
-  server_foreman_ssl_ca: /etc/pki/katello/puppet/puppet_client_ca.crt
-  server_foreman_ssl_cert: /etc/pki/katello/puppet/puppet_client.crt
-  server_foreman_ssl_key: /etc/pki/katello/puppet/puppet_client.key
-foreman_proxy:
-  ssl_port: '9090'
-  ssl_ca: /etc/foreman-proxy/ssl_ca.pem
-  ssl_cert: /etc/foreman-proxy/ssl_cert.pem
-  ssl_key: /etc/foreman-proxy/ssl_key.pem
-  foreman_ssl_ca: /etc/foreman-proxy/foreman_ssl_ca.pem
-  foreman_ssl_cert: /etc/foreman-proxy/foreman_ssl_cert.pem
-  foreman_ssl_key: /etc/foreman-proxy/foreman_ssl_key.pem
-  manage_puppet_group: false
-foreman_proxy::plugin::pulp:
-  pulpcore_enabled: true
+  websockets_ssl_cert: /etc/pki/katello/certs/katello-apache.crt
+  websockets_ssl_key: /etc/pki/katello/private/katello-apache.key
+foreman::cli: true
+foreman::cli::ansible: false
+foreman::cli::azure: false
+foreman::cli::discovery: false
+foreman::cli::kubevirt: false
+foreman::cli::openscap: false
+foreman::cli::remote_execution: false
+foreman::cli::tasks: false
+foreman::cli::templates: false
+foreman::cli::virt_who_configure: false
+foreman::compute::ec2: false
+foreman::compute::gce: false
+foreman::compute::libvirt: false
+foreman::compute::openstack: false
+foreman::compute::ovirt: false
+foreman::compute::rackspace: false
+foreman::compute::vmware: false
 foreman::plugin::ansible: false
 foreman::plugin::azure: false
 foreman::plugin::bootdisk: false
@@ -60,6 +68,15 @@ foreman::plugin::snapshot_management: false
 foreman::plugin::tasks: true
 foreman::plugin::templates: false
 foreman::plugin::virt_who_configure: false
+foreman_proxy:
+  foreman_ssl_ca: /etc/foreman-proxy/foreman_ssl_ca.pem
+  foreman_ssl_cert: /etc/foreman-proxy/foreman_ssl_cert.pem
+  foreman_ssl_key: /etc/foreman-proxy/foreman_ssl_key.pem
+  manage_puppet_group: false
+  ssl_ca: /etc/foreman-proxy/ssl_ca.pem
+  ssl_cert: /etc/foreman-proxy/ssl_cert.pem
+  ssl_key: /etc/foreman-proxy/ssl_key.pem
+  ssl_port: '9090'
 foreman_proxy::plugin::ansible: false
 foreman_proxy::plugin::chef: false
 foreman_proxy::plugin::dhcp::infoblox: false
@@ -68,22 +85,15 @@ foreman_proxy::plugin::discovery: false
 foreman_proxy::plugin::dns::infoblox: false
 foreman_proxy::plugin::monitoring: false
 foreman_proxy::plugin::openscap: false
+foreman_proxy::plugin::pulp:
+  pulpcore_enabled: true
 foreman_proxy::plugin::remote_execution::ssh: false
 foreman_proxy::plugin::salt: false
-foreman::compute::ec2: false
-foreman::compute::gce: false
-foreman::compute::libvirt: false
-foreman::compute::openstack: false
-foreman::compute::ovirt: false
-foreman::compute::rackspace: false
-foreman::compute::vmware: false
-foreman::cli: true
-foreman::cli::ansible: false
-foreman::cli::azure: false
-foreman::cli::discovery: false
-foreman::cli::kubevirt: false
-foreman::cli::openscap: false
-foreman::cli::remote_execution: false
-foreman::cli::tasks: false
-foreman::cli::templates: false
-foreman::cli::virt_who_configure: false
+foreman_proxy_content: true
+katello: true
+puppet:
+  server: true
+  server_environments_owner: apache
+  server_foreman_ssl_ca: /etc/pki/katello/puppet/puppet_client_ca.crt
+  server_foreman_ssl_cert: /etc/pki/katello/puppet/puppet_client.crt
+  server_foreman_ssl_key: /etc/pki/katello/puppet/puppet_client.key
