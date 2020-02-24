@@ -6,31 +6,22 @@ AllCops:
     - 'Gemfile'
     - 'Puppetfile'
 
-# Don't prefer is_a? over kind_of?
-Style/ClassCheck:
+Bundler/OrderedGems:
   Enabled: false
 
-# Don't enforce certain methods, e.g. detect over find
-Style/CollectionMethods:
+Layout/AlignHash:
   Enabled: false
 
-# Don't enforce documentation
-Style/Documentation:
+Layout/AlignParameters:
   Enabled: false
 
-# Support both ruby19 and hash_rockets
-Style/HashSyntax:
-  Enabled: false
-
-# Both double and single quotes are OK
-Style/StringLiterals:
-  Enabled: false
-
-# Don't enforce frozen string literals
-Style/FrozenStringLiteralComment:
+Layout/DotPosition:
   Enabled: false
 
 Metrics:
+  Enabled: false
+
+Naming/FileName:
   Enabled: false
 
 Performance/Casecmp:
@@ -42,65 +33,74 @@ Performance/RedundantMatch:
 Performance/RedundantMerge:
   Enabled: true
 
-#Allow both ['a', 'b'], %w[a b] and %w(a b) style arrays
-Style/WordArray:
-  Enabled: false
+Style/Alias:
+  EnforcedStyle: prefer_alias_method
 
 Style/AndOr:
   EnforcedStyle: conditionals
 
-Style/TernaryParentheses:
-  EnforcedStyle: require_parentheses_when_complex
-
-Style/InverseMethods:
+# Don't prefer is_a? over kind_of?
+Style/ClassCheck:
   Enabled: false
 
-Bundler/OrderedGems:
-  Enabled: false
-
-Style/Alias:
-  EnforcedStyle: prefer_alias_method
-
-Layout/DotPosition:
-  Enabled: false
-
-Style/IfUnlessModifier:
+# Don't enforce certain methods, e.g. detect over find
+Style/CollectionMethods:
   Enabled: false
 
 Style/ConditionalAssignment:
   Enabled: false
 
+# Don't enforce documentation
+Style/Documentation:
+  Enabled: false
+
 Style/EmptyMethod:
   EnforcedStyle: expanded
 
-Style/ParenthesesAroundCondition:
+# Don't enforce frozen string literals
+Style/FrozenStringLiteralComment:
   Enabled: false
 
-Layout/AlignHash:
+Style/GuardClause:
   Enabled: false
 
-Layout/AlignParameters:
+# Support both, Ruby 1.9 hashmap and hash-rocket syntax
+Style/HashSyntax:
+  Enabled: false
+
+Style/IfUnlessModifier:
+  Enabled: false
+
+Style/InverseMethods:
   Enabled: false
 
 # disabled until we can configure "+" as concat sign
 Style/LineEndConcatenation:
   Enabled: false
 
+# Won't work with sqlite
+Style/MultipleComparison:
+  Enabled: false
+
 Style/ParallelAssignment:
+  Enabled: false
+
+Style/ParenthesesAroundCondition:
   Enabled: false
 
 Style/PreferredHashMethods:
   Enabled: false
 
-# Won't work with sqlite
-Style/MultipleComparison:
+# Both double and single quotes are OK
+Style/StringLiterals:
   Enabled: false
 
-Naming/FileName:
-  Enabled: false
-
-Style/GuardClause:
-  Enabled: false
+Style/TernaryParentheses:
+  EnforcedStyle: require_parentheses_when_complex
 
 Style/TrailingCommaInLiteral:
   EnforcedStyleForMultiline: comma
+
+#Allow both ['a', 'b'], %w[a b] and %w(a b) style arrays
+Style/WordArray:
+  Enabled: false
