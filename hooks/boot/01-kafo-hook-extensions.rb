@@ -41,7 +41,11 @@ module HookContextExtension
   end
 
   def local_redis?
-    (foreman_server? && !param_value('foreman', 'jobs_sidekiq_redis_url')) || param_value('foreman_proxy::plugin::pulp', 'pulpcore_enabled') || devel_scenario?
+    (foreman_server? && !param_value('foreman', 'jobs_sidekiq_redis_url')) || pulpcore_enabled? || devel_scenario?
+  end
+
+  def pulpcore_enabled?
+    param_value('foreman_proxy_plugin_pulp', 'pulpcore_enabled')
   end
 
   def needs_postgresql_scl_upgrade?
