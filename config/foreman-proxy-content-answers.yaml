@@ -1,31 +1,23 @@
+# Format:
+# <classname>: false - don't include this class
+# <classname>: true - include and use the defaults
+# <classname>:
+#   <param>: <value> - include and override the default(s)
+#
+# Every support plugin/compute class is listed, so that it
+# shows up in the interactive menu
+#
+# See params.pp in each class for what options are available
 ---
-certs:
-  generate: false
-foreman_proxy_content: true
-puppet:
-  server: true
-  server_environments_owner: apache
-  server_foreman_ssl_cert: /etc/pki/katello/puppet/puppet_client.crt
-  server_foreman_ssl_key: /etc/pki/katello/puppet/puppet_client.key
-  server_foreman_ssl_ca: /etc/pki/katello/puppet/puppet_client_ca.crt
-foreman_proxy:
-  http: true
-  ssl_port: '9090'
-  templates: true
-  ssl_ca: /etc/foreman-proxy/ssl_ca.pem
-  ssl_cert: /etc/foreman-proxy/ssl_cert.pem
-  ssl_key: /etc/foreman-proxy/ssl_key.pem
-  foreman_ssl_ca: /etc/foreman-proxy/foreman_ssl_ca.pem
-  foreman_ssl_cert: /etc/foreman-proxy/foreman_ssl_cert.pem
-  foreman_ssl_key: /etc/foreman-proxy/foreman_ssl_key.pem
-  manage_puppet_group: false
-foreman_proxy::plugin::pulp:
-  enabled: false
-  pulpnode_enabled: true
+certs: true
+foreman_proxy: true
 foreman_proxy::plugin::ansible: false
 foreman_proxy::plugin::dhcp::infoblox: false
 foreman_proxy::plugin::dhcp::remote_isc: false
+foreman_proxy::plugin::discovery: false
 foreman_proxy::plugin::dns::infoblox: false
 foreman_proxy::plugin::openscap: false
+foreman_proxy::plugin::pulp: true
 foreman_proxy::plugin::remote_execution::ssh: false
-foreman_proxy::plugin::discovery: false
+foreman_proxy_content: true
+puppet: true

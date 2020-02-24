@@ -1,0 +1,35 @@
+---
+certs::group: foreman
+foreman::client_ssl_ca: /etc/foreman/proxy_ca.pem
+foreman::client_ssl_cert: /etc/foreman/client_cert.pem
+foreman::client_ssl_key: /etc/foreman/client_key.pem
+foreman::configure_epel_repo: false
+foreman::configure_scl_repo: false
+foreman::initial_location: Default Location
+foreman::initial_organization: Default Organization
+foreman::max_keepalive_requests: 10000
+foreman::server_ssl_ca: /etc/pki/katello/certs/katello-default-ca.crt
+foreman::server_ssl_cert: /etc/pki/katello/certs/katello-apache.crt
+foreman::server_ssl_chain: /etc/pki/katello/certs/katello-server-ca.crt
+foreman::server_ssl_crl: ""
+foreman::server_ssl_key: /etc/pki/katello/private/katello-apache.key
+foreman::user_groups: []
+foreman::websockets_ssl_cert: /etc/pki/katello/certs/katello-apache.crt
+foreman::websockets_ssl_key: /etc/pki/katello/private/katello-apache.key
+foreman_proxy::foreman_ssl_ca: /etc/foreman-proxy/foreman_ssl_ca.pem
+foreman_proxy::foreman_ssl_cert: /etc/foreman-proxy/foreman_ssl_cert.pem
+foreman_proxy::foreman_ssl_key: /etc/foreman-proxy/foreman_ssl_key.pem
+foreman_proxy::http: true
+foreman_proxy::manage_puppet_group: false
+foreman_proxy::plugin::pulp::pulpcore_enabled: true
+foreman_proxy::ssl_ca: /etc/foreman-proxy/ssl_ca.pem
+foreman_proxy::ssl_cert: /etc/foreman-proxy/ssl_cert.pem
+foreman_proxy::ssl_key: /etc/foreman-proxy/ssl_key.pem
+foreman_proxy::ssl_port: '9090'
+foreman_proxy::templates: true
+foreman_proxy_content::pulp_master: true
+puppet::server: true
+puppet::server_environments_owner: apache
+puppet::server_foreman_ssl_ca: /etc/pki/katello/puppet/puppet_client_ca.crt
+puppet::server_foreman_ssl_cert: /etc/pki/katello/puppet/puppet_client.crt
+puppet::server_foreman_ssl_key: /etc/pki/katello/puppet/puppet_client.key
