@@ -36,9 +36,9 @@ module HookContextExtension
     Open3.capture3("echo \"#{code}\" | #{bin_path} apply --detailed-exitcodes")
   end
 
-  def fail_and_exit(message)
+  def fail_and_exit(message, code = 1)
     log_and_say :error, message
-    exit 1
+    exit code
   end
 
   def foreman_server?

@@ -4,12 +4,6 @@ require 'English'
 SSL_BUILD_DIR = param('certs', 'ssl_build_dir').value
 CHECK_SCRIPT = `which katello-certs-check`.strip
 
-def error(message)
-  logger.error message
-  say message
-  exit 101
-end
-
 def mark_for_update(cert_name, hostname = nil)
   path = File.join(*[SSL_BUILD_DIR, hostname, cert_name].compact)
   puts "Marking certificate #{path} for update"
@@ -25,7 +19,7 @@ cert_file = param('certs', 'server_cert').value
 key_file  = param('certs', 'server_key').value
 
 if app_value('certs_update_server_ca') && !module_enabled?('katello')
-  error "--certs-update-server-ca needs to be used with katello"
+  fail_and_exit("--certs-update-server-ca needs to be used with katello", 101)
 end
 
 if param('foreman_proxy_certs', 'foreman_proxy_fqdn')
@@ -59,7 +53,7 @@ if !app_value('certs_skip_check') &&
   check_cmd = %(#{CHECK_SCRIPT} -c "#{cert_file}" -k "#{key_file}" -b "#{ca_file}")
   output = `#{check_cmd} 2>&1`
   unless $CHILD_STATUS.success?
-    error "Command '#{check_cmd}' exited with #{$CHILD_STATUS.exitstatus}:\n #{output}"
+    fail_and_exit("Command '#{check_cmd}' exited with #{$CHILD_STATUS.exitstatus}:\n #{output}", 101)
   end
 end
 
