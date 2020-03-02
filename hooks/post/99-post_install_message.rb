@@ -24,4 +24,5 @@ else
   failure_message
 end
 
+File.write(success_file, '') if !app_value(:noop) && new_install?
 log_message(@kafo)
