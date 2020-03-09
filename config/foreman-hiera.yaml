@@ -4,8 +4,12 @@ defaults:
   datadir: foreman.hiera
   data_hash: yaml_data
 hierarchy:
+  - name: "Enforced scenario overrides"
+    path: "scenario/%{facts.kafo.scenario.id}/enforced-scenario-overrides.yaml"
   - name: "Custom user answers"
     path: "custom.yaml"
+  - name: "Scenario overrides"
+    path: "scenario/%{facts.kafo.scenario.id}/scenario-overrides.yaml"
   - name: "Kafo Answers"
     path: "%{facts.kafo.scenario.answer_file}"
   - name: "Built in"
