@@ -120,7 +120,7 @@ describe 'HookContextExtension' do
       end
 
       after do
-        expect(Kafo::PuppetCommand).to have_received(:search_puppet_path)
+        expect(Kafo::PuppetCommand).to have_received(:search_puppet_path).twice
       end
 
       context 'empty code' do
@@ -128,7 +128,7 @@ describe 'HookContextExtension' do
 
         specify do
           is_expected.to eq('result')
-          expect(Open3).to have_received(:capture3).with('echo "" | /bin/puppet apply --detailed-exitcodes')
+          expect(Open3).to have_received(:capture3).with(anything, 'echo "" | /bin/puppet apply --detailed-exitcodes', anything)
         end
       end
 
@@ -137,7 +137,7 @@ describe 'HookContextExtension' do
 
         specify do
           is_expected.to eq('result')
-          expect(Open3).to have_received(:capture3).with('echo "package { \'vim-enhanced\': ensure => installed }" | /bin/puppet apply --detailed-exitcodes')
+          expect(Open3).to have_received(:capture3).with(anything, 'echo "package { \'vim-enhanced\': ensure => installed }" | /bin/puppet apply --detailed-exitcodes', anything)
         end
       end
     end
