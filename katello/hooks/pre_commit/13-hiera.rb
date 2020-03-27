@@ -7,10 +7,22 @@ TUNING_SIZES = {
   'extra-extra-large' => { cpu_cores: 48, memory: 256 },
 }.freeze
 TUNING_FACT = 'tuning'.freeze
+MONGO_CACHE_SIZE_FACT = 'mongo_cache_size'.freeze
 
 EXIT_INVALID_TUNING = 101
 EXIT_INSUFFICIENT_CPU_CORES = 102
 EXIT_INSUFFICIENT_MEMORY = 103
+
+# Setting Default Mongo WiredTiger Engine cache size to be 20% of total memory
+# See https://access.redhat.com/solutions/4505561
+# See https://docs.mongodb.com/manual/core/wiredtiger/#memory-use
+current_mongo_cache_size = get_custom_fact(MONGO_CACHE_SIZE_FACT)
+required_mongo_cache_size = (facts[:memory][:system][:total_bytes] * 0.2 / 1024 / 1024 / 1024).round(2)
+if current_mongo_cache_size != required_mongo_cache_size
+  store_custom_fact(MONGO_CACHE_SIZE_FACT, required_mongo_cache_size)
+  # Store the app config to disk
+  kafo.config.configure_application
+end
 
 current_tuning = get_custom_fact(TUNING_FACT)
 if module_enabled?('foreman')
