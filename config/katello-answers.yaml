@@ -54,7 +54,6 @@ foreman::plugin::digitalocean: false
 foreman::plugin::discovery: false
 foreman::plugin::expire_hosts: false
 foreman::plugin::hooks: false
-foreman::plugin::inventory_upload: false
 foreman::plugin::kubevirt: false
 foreman::plugin::memcache: false
 foreman::plugin::monitoring: false
@@ -62,6 +61,7 @@ foreman::plugin::openscap: false
 foreman::plugin::puppetdb: false
 foreman::plugin::remote_execution: false
 foreman::plugin::remote_execution::cockpit: false
+foreman::plugin::rh_cloud: false
 foreman::plugin::salt: false
 foreman::plugin::setup: false
 foreman::plugin::snapshot_management: false
