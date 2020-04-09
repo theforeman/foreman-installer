@@ -1,7 +1,7 @@
 def postgresql_12_upgrade
-  execute('foreman-maintain service start --only=postgresql')
+  start_services(['postgresql'])
   (_name, _owner, _enconding, collate, ctype, _privileges) = `runuser postgres -c 'psql -lt | grep -E "^\s+postgres"'`.chomp.split('|').map(&:strip)
-  execute('foreman-maintain service stop')
+  stop_services
 
   server_packages = ['rh-postgresql12-postgresql-server']
   if execute_command("rpm -q postgresql-contrib", false, false)

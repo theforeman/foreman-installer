@@ -5,6 +5,7 @@ def reset
   if foreman_installed?
 
     stop_services
+    start_services(['postgresql'])
     reset_database
     reset_candlepin
     reset_pulp
@@ -18,11 +19,6 @@ end
 def foreman_installed?
   `which foreman-rake > /dev/null 2>&1`
   $CHILD_STATUS.success?
-end
-
-def stop_services
-  Kafo::KafoConfigure.logger.info 'Stopping services'
-  execute('foreman-maintain service stop --exclude postgresql')
 end
 
 def load_foreman_config
