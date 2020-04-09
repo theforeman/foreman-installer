@@ -33,7 +33,7 @@ if app_value(:upgrade_mongo_storage_engine)
 
   # Make sure MongoDB is running before start of engine upgrade
   log_and_say :info, 'Ensuring MongoDB is running before upgrade.'
-  execute('foreman-maintain service start --only rh-mongodb34-mongod')
+  start_services(['rh-mongodb34-mongod'])
 
   log_and_say :info, "Starting disk space check for upgrade"
   disk_space
