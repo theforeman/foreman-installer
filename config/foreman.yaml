@@ -25,6 +25,9 @@
 # If using the Debian ruby-kafo package, uncomment this
 # :kafo_modules_dir: /usr/lib/ruby/vendor_ruby/kafo/modules
 
+:facts:
+  tuning: 'default'
+
 ## Kafo tuning, customization of core functionality
 :name: Foreman
 :description: Default installation of Foreman
