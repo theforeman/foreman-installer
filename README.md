@@ -18,7 +18,13 @@ See the manual and quickstart guide available at [theforeman.org](http://thefore
 
 ## Using GIT
 
-git clone --recursive git://github.com/theforeman/foreman-installer.git -b develop
+git clone https://github.com/theforeman/foreman-installer.git
+
+Using the git version for develop or testing requires the puppet-agent AIO package be available. Follow the instructions for your OS from [Puppet](https://puppet.com/docs/puppet/latest/install_linux.html). Additionally, after installing puppet-agent the puppet-strings gem needs to be available in the environment:
+
+```
+/opt/puppetlabs/puppet/bin/gem install puppet-strings
+```
 
 # Requirements
 

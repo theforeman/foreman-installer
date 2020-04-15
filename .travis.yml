@@ -1,5 +1,5 @@
-sudo: false
 language: ruby
+rvm: 2.5
 addons:
   apt:
     packages:
@@ -8,10 +8,14 @@ addons:
     - xsltproc
     - docbook-xsl
     - ca-certificates
-rvm: 2.4
-env:
-  - PUPPET_VERSION=5.0
+before_script:
+  - wget https://apt.puppetlabs.com/puppet6-release-xenial.deb
+  - sudo dpkg -i puppet6-release-xenial.deb
+  - sudo apt-get update
+  - sudo apt-get install puppet-agent
+  - sudo /opt/puppetlabs/puppet/bin/gem install puppet-strings
 script:
+  - source /etc/profile.d/puppet-agent.sh
   - bundle exec rake rubocop
   #
   # Run rspec tests on migrations
