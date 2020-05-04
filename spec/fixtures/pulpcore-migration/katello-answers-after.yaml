@@ -14,6 +14,7 @@ foreman::plugin::azure: false
 foreman::plugin::digitalocean: false
 foreman::plugin::expire_hosts: false
 foreman::plugin::kubevirt: false
+foreman::plugin::leapp: false
 foreman::plugin::memcache: false
 foreman::plugin::monitoring: false
 foreman::plugin::remote_execution::cockpit: false
