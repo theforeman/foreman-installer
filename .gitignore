@@ -25,7 +25,6 @@ _build
 .tmp/
 .librarian/
 .yardoc/
-Puppetfile.lock
 modules/*
 .ruby-*
 .bundle/
