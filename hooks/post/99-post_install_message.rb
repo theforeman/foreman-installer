@@ -20,9 +20,10 @@ if [0, 2].include? @kafo.exit_code
   if module_enabled? 'foreman_proxy'
     proxy_success_message(@kafo)
   end
+
+  File.write(success_file, '') if !app_value(:noop) && new_install?
 else
   failure_message
 end
 
-File.write(success_file, '') if !app_value(:noop) && new_install?
 log_message(@kafo)
