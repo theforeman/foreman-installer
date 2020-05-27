@@ -49,8 +49,16 @@ module HookContextExtension
     module_enabled?('katello_devel')
   end
 
+  def local_foreman_db?
+    foreman_server? && param_value('foreman', 'db_manage')
+  end
+
+  def local_candlepin_db?
+    module_enabled?('katello') && param_value('katello', 'candlepin_manage_db')
+  end
+
   def local_postgresql?
-    param_value('foreman', 'db_manage') || param_value('katello', 'candlepin_manage_db') || devel_scenario?
+    local_foreman_db? || local_candlepin_db? || devel_scenario?
   end
 
   def local_redis?
@@ -58,7 +66,7 @@ module HookContextExtension
   end
 
   def pulpcore_enabled?
-    param_value('foreman_proxy_plugin_pulp', 'pulpcore_enabled')
+    module_enabled?('foreman_proxy_plugin_pulp') && param_value('foreman_proxy_plugin_pulp', 'pulpcore_enabled')
   end
 
   def needs_postgresql_scl_upgrade?
