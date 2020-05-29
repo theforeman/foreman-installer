@@ -15,17 +15,6 @@ module ForemanMaintainHookContextExtension
     foreman_maintain('packages unlock --assumeyes', true)
   end
 
-  def start_services(services)
-    foreman_maintain("service start --only=#{services.join(',')}", true)
-  end
-
-  def stop_services(services = nil)
-    command = "service stop"
-    command = "service stop --only=#{services.join(',')}" if services
-
-    foreman_maintain(command, true)
-  end
-
   def foreman_maintain(command, exit_on_fail = false)
     command = "foreman-maintain #{command}"
     status = execute_command(command, false, true)
