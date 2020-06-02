@@ -1,0 +1,1 @@
+../../../hooks/pre_commit/20-certs_update.rb

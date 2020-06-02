@@ -1,1 +1,1 @@
-../../../katello/hooks/boot/20-certs_update.rb
+../../../hooks/boot/20-certs_update.rb
