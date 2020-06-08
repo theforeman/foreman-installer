@@ -31,6 +31,7 @@ foreman_proxy::plugin::pulp:
 foreman_proxy::plugin::salt: false
 foreman_proxy_content:
   proxy_pulp_isos_to_pulpcore: false
+  puppet: false
 katello:
   use_pulp_2_for_docker: true
   use_pulp_2_for_file: true
