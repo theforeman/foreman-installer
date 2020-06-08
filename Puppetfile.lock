@@ -19,7 +19,7 @@ FORGE
       puppet-trusted_ca (>= 2.0.0, < 4.0.0)
       puppetlabs-concat (>= 1.0.0, < 7.0.0)
       puppetlabs-stdlib (>= 4.25.0, < 7.0.0)
-    katello-foreman_proxy_content (10.0.0)
+    katello-foreman_proxy_content (10.0.1)
       katello-certs (>= 6.0.0, < 8.0.0)
       katello-pulp (>= 7.0.0, < 8.0.0)
       katello-qpid (>= 4.5.0, < 7.0.0)
