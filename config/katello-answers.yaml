@@ -90,7 +90,8 @@ foreman_proxy::plugin::pulp:
   pulpcore_enabled: true
 foreman_proxy::plugin::remote_execution::ssh: false
 foreman_proxy::plugin::salt: false
-foreman_proxy_content: true
+foreman_proxy_content:
+  proxy_pulp_yum_to_pulpcore: true
 katello:
   use_pulp_2_for_yum: false
 puppet:
