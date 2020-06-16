@@ -11,7 +11,9 @@
 ---
 certs:
   generate: false
-foreman_proxy_content: true
+foreman_proxy_content:
+  proxy_pulp_isos_to_pulpcore: false
+  proxy_pulp_yum_to_pulpcore: false
 foreman_proxy:
   foreman_ssl_ca: /etc/foreman-proxy/foreman_ssl_ca.pem
   foreman_ssl_cert: /etc/foreman-proxy/foreman_ssl_cert.pem
