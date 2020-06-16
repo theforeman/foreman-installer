@@ -38,7 +38,7 @@ if required.nil?
   exit EXIT_INVALID_TUNING
 end
 
-unless app_value(:disable_system_checks)
+unless kafo.disable_system_checks?
   required_cores = required[:cpu_cores]
   required_memory = required[:memory]
 

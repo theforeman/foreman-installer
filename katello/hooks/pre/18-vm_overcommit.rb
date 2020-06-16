@@ -1,5 +1,5 @@
 # Check to see if vm.overcommit is enabled and if so exit but also give the user an option to disable the check with the --disable-system-checks flag
-if app_value(:disable_system_checks)
+if kafo.disable_system_checks?
   logger.warn 'Skipping system checks.'
 else
   # Grab the current status of vm.overcommit from sysctl
