@@ -8,9 +8,6 @@ def upgrade
   answers[FOREMAN_PROXY_CONTENT][PROXY_ISOS] = false
 end
 
-if answers[FOREMAN_PROXY_CONTENT] == true ||
-   (answers[FOREMAN_PROXY_CONTENT].is_a?(Hash) &&
-   answers[FOREMAN_PROXY_CONTENT][PROXY_YUM].nil? &&
-   answers[FOREMAN_PROXY_CONTENT][PROXY_ISOS].nil?)
+if answers[FOREMAN_PROXY_CONTENT] == true || answers[FOREMAN_PROXY_CONTENT].is_a?(Hash)
   upgrade
 end
