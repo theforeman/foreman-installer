@@ -1,6 +1,3 @@
-require 'English'
-require 'open3'
-
 module ForemanMaintainHookContextExtension
   def package_lock_feature?
     foreman_maintain('packages -h')
@@ -31,11 +28,9 @@ module ForemanMaintainHookContextExtension
 
   def foreman_maintain(command, exit_on_fail = false)
     command = "foreman-maintain #{command}"
-    log_and_say :debug, "Executing: #{command}"
+    status = execute_command_nonscl(command, false, true)
 
-    _stdout, stderr, status = Open3.capture3(*Kafo::PuppetCommand.format_command(command))
-
-    fail_and_exit(stderr) if exit_on_fail && !status.success?
+    exit 1 if exit_on_fail && !status.success?
     status.success?
   end
 end
