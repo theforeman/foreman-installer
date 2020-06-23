@@ -119,6 +119,20 @@ module HookContextExtension
       $CHILD_STATUS.success?
     end
   end
+
+  def execute_command_nonscl(command, do_say, do_log)
+    log_and_say(:debug, "Executing: #{command}", do_say, do_log)
+
+    _stdout, stderr, status = Open3.capture3(*Kafo::PuppetCommand.format_command(command))
+
+    if status.success?
+      log_and_say(:debug, "#{command} finished successfully!", do_say, do_log)
+    else
+      log_and_say(:debug, stderr, do_say, do_log)
+      log_and_say(:error, "#{command} failed! Check the output for error!", do_say, do_log)
+    end
+    status.success?
+  end
 end
 
 Kafo::HookContext.send(:include, HookContextExtension)
