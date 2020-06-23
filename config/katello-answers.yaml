@@ -15,8 +15,6 @@ foreman:
   client_ssl_ca: /etc/foreman/proxy_ca.pem
   client_ssl_cert: /etc/foreman/client_cert.pem
   client_ssl_key: /etc/foreman/client_key.pem
-  configure_epel_repo: false
-  configure_scl_repo: false
   initial_location: Default Location
   initial_organization: Default Organization
   max_keepalive_requests: 10000

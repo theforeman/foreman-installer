@@ -9,8 +9,7 @@
 #
 # See params.pp in each class for what options are available
 ---
-foreman:
-  configure_epel_repo: false
+foreman: {}
 foreman::cli: true
 foreman::cli::ansible: false
 foreman::cli::azure: false
