@@ -28,7 +28,7 @@ module ForemanMaintainHookContextExtension
 
   def foreman_maintain(command, exit_on_fail = false)
     command = "foreman-maintain #{command}"
-    status = execute_command_nonscl(command, false, true)
+    status = execute_command(command, false, true)
 
     exit 1 if exit_on_fail && !status
     status

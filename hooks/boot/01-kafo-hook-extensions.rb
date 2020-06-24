@@ -105,30 +105,16 @@ module HookContextExtension
   end
 
   def execute_command(command, do_say, do_log)
-    IO.popen("#{command} 2>&1") do |io|
-      while (line = io.gets)
-        line.chomp!
-        log_and_say(:debug, line, do_say, do_log)
-      end
-      io.close
-      if $CHILD_STATUS.success?
-        log_and_say(:debug, "#{command} finished successfully!", do_say, do_log)
-      else
-        log_and_say(:error, "#{command} failed! Check the output for error!", do_say, do_log)
-      end
-      $CHILD_STATUS.success?
-    end
-  end
-
-  def execute_command_nonscl(command, do_say, do_log)
     log_and_say(:debug, "Executing: #{command}", do_say, do_log)
 
-    _stdout, stderr, status = Open3.capture3(*Kafo::PuppetCommand.format_command(command))
+    stdout_stderr, status = Open3.capture2e(*Kafo::PuppetCommand.format_command(command))
+    stdout_stderr.lines.map(&:chomp).each do |line|
+      log_and_say(:debug, line, do_say, do_log)
+    end
 
     if status.success?
       log_and_say(:debug, "#{command} finished successfully!", do_say, do_log)
     else
-      log_and_say(:debug, stderr, do_say, do_log)
       log_and_say(:error, "#{command} failed! Check the output for error!", do_say, do_log)
     end
     status.success?
