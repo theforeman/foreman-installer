@@ -1,6 +1,6 @@
 module ForemanMaintainHookContextExtension
   def package_lock_feature?
-    foreman_maintain('packages -h')
+    el? && foreman_maintain('packages -h')
   end
 
   def packages_locked?

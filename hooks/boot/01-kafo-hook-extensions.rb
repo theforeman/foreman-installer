@@ -73,8 +73,12 @@ module HookContextExtension
     !File.exist?('/var/opt/rh/rh-postgresql12/lib/pgsql/data') && File.exist?('/var/lib/pgsql/data')
   end
 
+  def el?
+    facts[:os][:family] == 'RedHat'
+  end
+
   def el7?
-    facts[:os][:release][:major] == '7' && facts[:os][:family] == 'RedHat'
+    facts[:os][:release][:major] == '7' && el?
   end
 
   def log_and_say(level, message, do_say = true, do_log = true)
