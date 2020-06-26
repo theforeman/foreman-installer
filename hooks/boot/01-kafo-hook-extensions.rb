@@ -107,7 +107,13 @@ module HookContextExtension
   def execute_command(command, do_say, do_log)
     log_and_say(:debug, "Executing: #{command}", do_say, do_log)
 
-    stdout_stderr, status = Open3.capture2e(*Kafo::PuppetCommand.format_command(command))
+    begin
+      stdout_stderr, status = Open3.capture2e(*Kafo::PuppetCommand.format_command(command))
+    rescue Errno::ENOENT
+      log_and_say(:error, "Command #{command} not found", do_say, do_log)
+      return false
+    end
+
     stdout_stderr.lines.map(&:chomp).each do |line|
       log_and_say(:debug, line, do_say, do_log)
     end
