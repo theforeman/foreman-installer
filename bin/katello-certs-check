@@ -8,12 +8,21 @@ RESET=`tput sgr0`
 
 CABUNDLE_MAX_ISSUERS=32
 
+# Branding
+PROJECT=${PROJECT:-Katello}
+SERVER_SCENARIO=${SERVER_SCENARIO:-katello}
+INSTALLER=${INSTALLER:-foreman-installer}
+CERTS_TOOL=${CERTS_TOOL:-foreman-proxy-certs-generate}
+SERVER_TARGET=${SERVER_TARGET:-foreman}
+PROXY_TARGET=${PROXY_TARGET:-foreman-proxy}
+PROXY_VAR=${PROXY_VAR:-FOREMAN_PROXY}
+
 function usage () {
   cat <<HELP >&2
 Verifies, that custom SSL certificate files are usable
-as part of the Katello installation. When passing filenames use absolute paths.
+as part of the ${PROJECT} installation. When passing filenames use absolute paths.
 
-usage: $0 -t [foreman|foreman-proxy] -c CERT_FILE -k KEY_FILE -b CA_BUNDLE_FILE
+usage: $0 -t [${SERVER_TARGET}|${PROXY_TARGET}] -c CERT_FILE -k KEY_FILE -b CA_BUNDLE_FILE
 HELP
 }
 
@@ -195,43 +204,43 @@ check-ca-bundle-size
 check-cert-san
 check-cert-usage-key-encipherment
 
-if [[ $EXIT_CODE == "0" ]] && ([[ $TARGET == "foreman" ]] || [[ -z "$TARGET" ]]) ; then
+if [[ $EXIT_CODE == "0" ]] && ([[ $TARGET == ${SERVER_TARGET} ]] || [[ -z "$TARGET" ]]) ; then
     echo -e "${GREEN}Validation succeeded${RESET}\n"
     cat <<EOF
 
-To install the Katello main server with the custom certificates, run:
+To install the ${PROJECT} server with the custom certificates, run:
 
-    foreman-installer --scenario katello \\
+    ${INSTALLER} --scenario ${SERVER_SCENARIO} \\
                       --certs-server-cert "$(readlink -f $CERT_FILE)" \\
                       --certs-server-key "$(readlink -f $KEY_FILE)" \\
                       --certs-server-ca-cert "$(readlink -f $CA_BUNDLE_FILE)"
 
-To update the certificates on a currently running Katello installation, run:
+To update the certificates on a currently running ${PROJECT} installation, run:
 
-    foreman-installer --scenario katello \\
+    ${INSTALLER} --scenario ${SERVER_SCENARIO} \\
                       --certs-server-cert "$(readlink -f $CERT_FILE)" \\
                       --certs-server-key "$(readlink -f $KEY_FILE)" \\
                       --certs-server-ca-cert "$(readlink -f $CA_BUNDLE_FILE)" \\
                       --certs-update-server --certs-update-server-ca
 
-To use them inside a NEW \$FOREMAN_PROXY, rerun this command with -t foreman-proxy
+To use them inside a NEW \$${PROXY_VAR}, rerun this command with -t ${PROXY_TARGET}
 EOF
 elif [[ $EXIT_CODE == "0" ]]; then
   echo -e "${GREEN}Validation succeeded${RESET}\n"
   cat <<EOF
 
-  To use them inside a NEW \$FOREMAN_PROXY, run this command:
+  To use them inside a NEW \$${PROXY_VAR}, run this command:
 
-      foreman-proxy-certs-generate --foreman-proxy-fqdn "\$FOREMAN_PROXY" \\
-                                   --certs-tar  "~/\$FOREMAN_PROXY-certs.tar" \\
+      ${CERTS_TOOL} --foreman-proxy-fqdn "\$${PROXY_VAR}" \\
+                                   --certs-tar  "~/\$${PROXY_VAR}-certs.tar" \\
                                    --server-cert "$(readlink -f $CERT_FILE)" \\
                                    --server-key "$(readlink -f $KEY_FILE)" \\
                                    --server-ca-cert "$(readlink -f $CA_BUNDLE_FILE)" \\
 
-  To use them inside an EXISTING \$FOREMAN_PROXY, run this command INSTEAD:
+  To use them inside an EXISTING \$${PROXY_VAR}, run this command INSTEAD:
 
-      foreman-proxy-certs-generate --foreman-proxy-fqdn "\$FOREMAN_PROXY" \\
-                                   --certs-tar  "~/\$FOREMAN_PROXY-certs.tar" \\
+      ${CERTS_TOOL} --foreman-proxy-fqdn "\$${PROXY_VAR}" \\
+                                   --certs-tar  "~/\$${PROXY_VAR}-certs.tar" \\
                                    --server-cert "$(readlink -f $CERT_FILE)" \\
                                    --server-key "$(readlink -f $KEY_FILE)" \\
                                    --server-ca-cert "$(readlink -f $CA_BUNDLE_FILE)" \\
