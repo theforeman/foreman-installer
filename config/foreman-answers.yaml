@@ -11,6 +11,15 @@
 ---
 foreman:
   configure_epel_repo: false
+  server_ssl_crl: ""
+  server_ssl_ca: "/etc/foreman-pki/certs/ca/ca.crt"
+  server_ssl_chain: "/etc/foreman-pki/certs/ca/ca.crt"
+  server_ssl_cert: "/etc/foreman-pki/certs/apache/apache.crt"
+  server_ssl_key: "/etc/foreman-pki/certs/apache/apache.key"
+  client_ssl_ca: "/etc/foreman-pki/certs/ca/ca.crt"
+  client_ssl_cert: "/etc/foreman-pki/certs/foreman/foreman-to-smart-proxy.crt"
+  client_ssl_key: "/etc/foreman-pki/certs/foreman/foreman-to-smart-proxy.key"
+  user_groups: []
 
 ## CLI ##
 foreman::cli: true
@@ -65,6 +74,9 @@ foreman_proxy:
   puppet: false
   puppetca: false
   manage_puppet_group: false
+  ssl_ca: "/etc/foreman-pki/certs/ca/ca.crt"
+  ssl_cert: "/etc/foreman-pki/certs/smart-proxy/smart-proxy.crt"
+  ssl_key: "/etc/foreman-pki/certs/smart-proxy/smart-proxy.key"
 foreman_proxy::plugin::ansible: false
 foreman_proxy::plugin::chef: false
 foreman_proxy::plugin::dhcp::infoblox: false
