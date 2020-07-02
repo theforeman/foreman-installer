@@ -1,4 +1,8 @@
-if system('command -v foreman-maintain > /dev/null')
+def package_lock_feature?
+  foreman_maintain('packages -h')
+end
+
+if package_lock_feature?
   app_option(
     '--[no-]lock-package-versions',
     :flag,
