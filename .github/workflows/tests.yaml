@@ -1,0 +1,131 @@
+name: Tests
+
+on:
+  - pull_request
+  # TODO: only for testing
+  - push
+
+env:
+  COLORTERM: 'yes'
+  TERM: 'xterm-256color'
+
+jobs:
+  tests:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Setup ruby
+        uses: actions/setup-ruby@v1
+        with:
+          ruby-version: 2.5
+      - name: Install dependencies
+        run: |
+          sudo apt install -y asciidoc
+          gem install bundler
+          bundle install --jobs 4 --retry 3
+      - name: Run Rubocop
+        run: bundle exec rake rubocop
+      # Run rspec tests on migrations and hooks
+      - name: Run spec tests
+        run: bundle exec rake spec
+
+      # Test basic installer configuration works
+      - name: Integration tests
+        run: |
+          INSTDIR=$(mktemp -d)
+          bundle exec rake build install PREFIX=$INSTDIR
+          bundle exec $INSTDIR/sbin/foreman-installer --help --scenario foreman
+          cat $INSTDIR/var/log/foreman-installer/foreman.log
+          bundle exec $INSTDIR/sbin/foreman-installer --help --scenario foreman-proxy-content
+          cat $INSTDIR/var/log/foreman-installer/foreman-proxy-content.log
+          bundle exec $INSTDIR/sbin/foreman-installer --help --scenario katello
+          cat $INSTDIR/var/log/foreman-installer/katello.log
+          bundle exec $INSTDIR/sbin/foreman-proxy-certs-generate --help
+          bundle exec $INSTDIR/sbin/foreman-proxy-certs-generate --help | grep -q certs-update-server
+      # Run rspec tests again for Puppet version support in modules.
+      # This requires all modules to be built.
+      - name: Run spec tests with modules
+        run: bundle exec rake spec
+
+      - name: Build artifact
+        run: |
+          TAR_PATH=$(bundle exec rake pkg:generate_source)
+          mv "$TAR_PATH" foreman-installer.tar.bz2
+      - name: Upload artifact
+        uses: actions/upload-artifact@v1
+        with:
+          name: foreman-installer
+          path: foreman-installer.tar.bz2
+      # Test separate build/installation steps with different prefixes
+      # No references to INSTDIR should be present when built with PREFIX=/
+      - name: Verify the installer is built correctly
+        run: |
+          bundle exec rake build PREFIX=/ SYSCONFDIR=/etc
+          INSTDIR=$(mktemp -d)
+          bundle exec rake install PREFIX=$INSTDIR
+          ! find $INSTDIR -type f | xargs grep $INSTDIR
+          ! find $INSTDIR -type l -printf '%P: ' -exec readlink {} \; | grep $INSTDIR
+
+  integration:
+    runs-on: ubuntu-latest
+    needs: tests
+    strategy:
+      fail-fast: false
+      matrix:
+        os:
+          - centos:7
+          - centos:8
+          - debian:10
+          - ubuntu:18.04
+    container:
+      image: ${{ matrix.os }}
+    steps:
+      - name: Download installer tarball
+        uses: actions/download-artifact@v1
+        with:
+          name: foreman-installer
+      - name: Install dependencies
+        run: |
+          . /etc/os-release
+          if [ $ID = centos ] ; then
+            yum -y install rubygem-rake bzip2 asciidoc \
+              https://yum.theforeman.org/releases/nightly/el${VERSION_ID}/x86_64/foreman-release.rpm \
+              https://yum.puppet.com/puppet-release-el-${VERSION_ID}.noarch.rpm
+            if [ $VERSION_ID = 7 ] ; then
+              yum -y install centos-release-scl-rh
+              yum -y install tfm-rubygem-kafo puppet-agent puppet-agent-puppet-string
+            else
+              yum -y install rubygem-kafo puppet-agent puppet-agent-puppet-strings
+            fi
+          else
+            apt update
+            apt install -y wget gnupg
+          wget https://deb.theforeman.org/foreman.asc -O - | apt-key add
+          echo "deb https://deb.theforeman.org/ ${VERSION_CODENAME} nightly" > /etc/apt/sources.list.d/foreman.list
+            apt update
+            # TODO: puppet-strings is not available on Ubuntu 18.04
+            apt install -y rake ruby-kafo puppet puppet-strings asciidoc
+          fi
+      - name: Build and install installer
+        run: |
+          tar xaf foreman-installer/foreman-installer.tar.bz2
+          cd foreman-installer-*
+          . /etc/os-release
+          if [ $ID = centos ] && [ $VERSION_ID = 7 ] ; then
+            . scl_source enable tfm
+          fi
+          rake build \
+            PREFIX=/ \
+            LOCALSTATEDIR=/var/lib \
+            SBINDIR=/usr/sbin \
+            SYSCONFDIR=/etc \
+            --trace
+          rake install \
+            PREFIX=/ \
+            LOCALSTATEDIR=/var/lib \
+            SBINDIR=/usr/sbin \
+            SYSCONFDIR=/etc \
+            --trace
+      - name: Run Foreman scenario in noop
+        run: foreman-installer --scenario foreman --noop
