@@ -127,5 +127,6 @@ jobs:
             SBINDIR=/usr/sbin \
             SYSCONFDIR=/etc \
             --trace
+      # Skip checks because the hostname is invalid
       - name: Run Foreman scenario in noop
-        run: foreman-installer --scenario foreman --noop
+        run: foreman-installer --scenario foreman --noop --skip-checks-i-know-better
