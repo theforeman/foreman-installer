@@ -70,7 +70,9 @@ module HookContextExtension
   end
 
   def needs_postgresql_scl_upgrade?
-    !File.exist?('/var/opt/rh/rh-postgresql12/lib/pgsql/data') && File.exist?('/var/lib/pgsql/data')
+    old_path = '/var/lib/pgsql/data'
+    new_path = '/var/opt/rh/rh-postgresql12/lib/pgsql/data'
+    (File.exist?(old_path) && !Dir.empty?(old_path)) && (!File.exist?(new_path) || Dir.empty?(new_path))
   end
 
   def el7?
