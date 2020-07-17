@@ -14,6 +14,7 @@ certs:
 foreman_proxy_content:
   proxy_pulp_isos_to_pulpcore: false
   proxy_pulp_yum_to_pulpcore: false
+  pulpcore_media_root: /var/lib/pulp
 foreman_proxy:
   foreman_ssl_ca: /etc/foreman-proxy/foreman_ssl_ca.pem
   foreman_ssl_cert: /etc/foreman-proxy/foreman_ssl_cert.pem

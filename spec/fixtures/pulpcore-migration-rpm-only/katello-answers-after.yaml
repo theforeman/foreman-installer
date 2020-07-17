@@ -33,6 +33,7 @@ foreman_proxy_content:
   proxy_pulp_isos_to_pulpcore: false
   proxy_pulp_yum_to_pulpcore: false
   puppet: false
+  pulpcore_media_root: /var/lib/pulp/docroot
 katello:
   use_pulp_2_for_docker: true
   use_pulp_2_for_file: true
