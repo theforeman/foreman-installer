@@ -45,6 +45,10 @@ module HookContextExtension
     module_enabled?('foreman')
   end
 
+  def katello_enabled?
+    module_enabled?('katello')
+  end
+
   def devel_scenario?
     module_enabled?('katello_devel')
   end
