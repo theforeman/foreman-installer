@@ -7,11 +7,11 @@ if [0, 2].include? @kafo.exit_code
     new_install_message(@kafo) if new_install?
   end
 
-  if module_enabled?('katello')
+  if katello_enabled?
     certs_generate_command_message
   end
 
-  if module_enabled?('katello_devel')
+  if devel_scenario?
     dev_server_success_message(@kafo)
     dev_new_install_message(@kafo) if new_install?
   end
