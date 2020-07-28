@@ -1,4 +1,4 @@
-if !app_value(:noop) && module_enabled?('katello')
+if !app_value(:noop) && katello_enabled?
   param = get_custom_config('cdn_ssl_version')
   if param
     logger.info 'cdn_ssl_version param found, migrating to a Katello setting'

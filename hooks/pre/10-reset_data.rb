@@ -5,7 +5,7 @@ def reset
   stop_services
   start_services(['postgresql']) if local_postgresql?
   empty_db_in_postgresql('foreman') if foreman_server?
-  reset_candlepin if module_enabled?('katello')
+  reset_candlepin if candlepin_enabled?
   reset_pulp if pulp_enabled?
   empty_db_in_postgresql('pulpcore') if pulpcore_enabled?
 end

@@ -18,7 +18,7 @@ ca_file   = param('certs', 'server_ca_cert').value
 cert_file = param('certs', 'server_cert').value
 key_file  = param('certs', 'server_key').value
 
-if app_value('certs_update_server_ca') && !module_enabled?('katello')
+if app_value('certs_update_server_ca') && !katello_enabled?
   fail_and_exit("--certs-update-server-ca needs to be used with katello", 101)
 end
 

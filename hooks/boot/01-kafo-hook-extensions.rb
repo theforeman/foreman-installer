@@ -62,7 +62,7 @@ module HookContextExtension
   end
 
   def local_candlepin_db?
-    module_enabled?('katello') && param_value('katello', 'candlepin_manage_db')
+    candlepin_enabled? && param_value('katello', 'candlepin_manage_db')
   end
 
   def local_postgresql?
@@ -71,6 +71,10 @@ module HookContextExtension
 
   def local_redis?
     (foreman_server? && !param_value('foreman', 'jobs_sidekiq_redis_url')) || pulpcore_enabled? || devel_scenario?
+  end
+
+  def candlepin_enabled?
+    katello_enabled?
   end
 
   def pulp_enabled?
