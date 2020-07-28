@@ -1,5 +1,5 @@
 # Working around https://tickets.puppetlabs.com/browse/PUP-10548
-if facts[:selinux]
+if facts.dig(:os, :selinux, :enabled)
   packages = []
 
   if el7?
