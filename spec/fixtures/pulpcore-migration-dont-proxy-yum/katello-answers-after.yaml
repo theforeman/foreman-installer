@@ -21,6 +21,7 @@ foreman::plugin::remote_execution::cockpit: false
 foreman::plugin::rh_cloud: false
 foreman::plugin::salt: false
 foreman::plugin::snapshot_management: false
+foreman::plugin::statistics: false
 foreman::plugin::virt_who_configure: false
 foreman_proxy::plugin::chef: false
 foreman_proxy::plugin::dhcp::remote_isc: false

@@ -66,6 +66,7 @@ foreman::plugin::rh_cloud: false
 foreman::plugin::salt: false
 foreman::plugin::setup: false
 foreman::plugin::snapshot_management: false
+foreman::plugin::statistics: false
 foreman::plugin::tasks: true
 foreman::plugin::templates: false
 foreman::plugin::virt_who_configure: false
