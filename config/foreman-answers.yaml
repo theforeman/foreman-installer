@@ -51,6 +51,7 @@ foreman::plugin::remote_execution::cockpit: false
 foreman::plugin::salt: false
 foreman::plugin::setup: false
 foreman::plugin::snapshot_management: false
+foreman::plugin::statistics: false
 foreman::plugin::tasks: false
 foreman::plugin::templates: false
 foreman_proxy: {}
