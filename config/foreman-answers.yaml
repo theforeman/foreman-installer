@@ -31,6 +31,7 @@ foreman::plugin::ansible: false
 foreman::plugin::azure: false
 foreman::plugin::bootdisk: false
 foreman::plugin::chef: false
+foreman::plugin::column_view: false
 foreman::plugin::default_hostgroup: false
 foreman::plugin::dhcp_browser: false
 foreman::plugin::digitalocean: false
