@@ -69,6 +69,10 @@ module HookContextExtension
     (foreman_server? && !param_value('foreman', 'jobs_sidekiq_redis_url')) || pulpcore_enabled? || devel_scenario?
   end
 
+  def pulp_enabled?
+    module_enabled?('foreman_proxy_plugin_pulp') && (param_value('foreman_proxy_plugin_pulp', 'pulpnode_enabled') || param_value('foreman_proxy_plugin_pulp', 'enabled'))
+  end
+
   def pulpcore_enabled?
     module_enabled?('foreman_proxy_plugin_pulp') && param_value('foreman_proxy_plugin_pulp', 'pulpcore_enabled')
   end
