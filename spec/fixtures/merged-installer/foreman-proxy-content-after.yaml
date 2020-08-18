@@ -29,5 +29,3 @@
 - foreman_proxy_content
 - puppet
 :password: -C1PSvjt9STtiNvbX5hpVYejjBS_t6mCN-FYYw8XxyE
-:facts:
-  tuning: 'default'
