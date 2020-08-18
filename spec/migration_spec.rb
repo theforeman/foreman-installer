@@ -102,4 +102,24 @@ describe 'migrations' do
       end
     end
   end
+
+  %w[foreman-proxy-content].each do |scenario_name|
+    context "foreman-proxy-content remove tuning fact" do
+      let(:config_after) { load_fixture_yaml('foreman-proxy-content-remove-tuning-fact', "#{scenario_name}-after.yaml") }
+      let(:scenario) do
+        {
+          :answers    => load_config_yaml("#{scenario_name}-answers.yaml"),
+          :config     => load_fixture_yaml('foreman-proxy-content-remove-tuning-fact', "#{scenario_name}-before.yaml"),
+          :migrations => config_path("#{scenario_name}.migrations"),
+        }
+      end
+
+      let(:migrator) { Kafo::Migrations.new(scenario[:migrations]).run(scenario[:config], scenario[:answers]) }
+
+      it 'changes scenario config' do
+        after, = migrator
+        expect(config_after).to eq after
+      end
+    end
+  end
 end
