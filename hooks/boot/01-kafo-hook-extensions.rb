@@ -91,6 +91,8 @@ module HookContextExtension
               'bad'
             when :debug
               'yellow'
+            when :warn
+              'yellow'
             else
               level
             end
