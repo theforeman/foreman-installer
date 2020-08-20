@@ -49,6 +49,10 @@ module HookContextExtension
     module_enabled?('katello')
   end
 
+  def katello_present?
+    module_present?('katello')
+  end
+
   def devel_scenario?
     module_enabled?('katello_devel')
   end

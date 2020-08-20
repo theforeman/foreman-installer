@@ -114,3 +114,6 @@ Lint/SendWithMixinArgument:
 
 Style/NumericPredicate:
   Enabled: false
+
+Layout/HeredocIndentation:
+  Enabled: false
