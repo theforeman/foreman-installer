@@ -1,0 +1,50 @@
+#!/bin/bash
+set -euo pipefail
+
+# Configuration part
+
+# This is a git alias for a remote. To configure this, the following can be used:
+#
+# git config url."https://github.com/theforeman".insteadOf ghf:
+# git config url."git@github.com:theforeman/".pushInsteadOf ghf:
+#
+# This sets up fetching over HTTPS and pushing over SSH. Obviously this is just
+# one way. The value can also be modified to a different base URL.
+REPO_BASE_URL="ghf:"
+
+# Script
+
+MODULE="$1"
+BRANCH="${2:-master}"
+
+if [[ -z $MODULE ]] ; then
+	echo "Usage: $0 MODULE [BRANCH]"
+	exit 1
+fi
+
+SHORT_VERSION=$(cut -d. -f1,2 VERSION)
+
+WORKDIR="${PWD}/workdir"
+BARE_CHECKOUT="${WORKDIR}/bare/${MODULE}.git"
+FULL_CHECKOUT="${WORKDIR}/modules/${SHORT_VERSION}/${MODULE}"
+REPO_URL="${REPO_BASE_URL}${MODULE}"
+
+if [[ -d "$BARE_CHECKOUT" ]] ; then
+	git --git-dir "$BARE_CHECKOUT" fetch --quiet
+else
+	git clone --mirror --bare --quiet "$REPO_URL" "$BARE_CHECKOUT"
+fi
+
+# If the stable branch doesn't exist, master is used.
+# TODO: if master has moved on, it would be great if we can detect a branch is needed
+# This can be done by checking if there's a new major version in metadata.json
+if ! git --git-dir "$BARE_CHECKOUT" branch | grep --word-regexp "$BRANCH" --quiet ; then
+	echo "Branch ${BRANCH} does not exist for ${MODULE}; assuming master"
+	BRANCH="master"
+fi
+
+if [[ -d "$FULL_CHECKOUT" ]] ; then
+	( cd "$FULL_CHECKOUT" && git checkout "$BRANCH" )
+else
+	git --git-dir "$BARE_CHECKOUT" worktree add --track -B "$BRANCH" "$FULL_CHECKOUT" "$BRANCH"
+fi
