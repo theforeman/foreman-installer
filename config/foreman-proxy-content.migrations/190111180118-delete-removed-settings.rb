@@ -54,6 +54,7 @@ CLEAR = {
 DELETED.each do |mod, parameters|
   mod_answers = answers[mod]
   next unless mod_answers.is_a?(Hash)
+
   parameters.each do |parameter|
     mod_answers.delete(parameter)
   end
@@ -62,6 +63,7 @@ end
 CLEAR.each do |mod, parameters|
   mod_answers = answers[mod]
   next unless mod_answers.is_a?(Hash)
+
   parameters.each do |parameter|
     mod_answers[parameter] = nil if mod_answers[parameter]
   end

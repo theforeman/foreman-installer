@@ -21,7 +21,7 @@ begin
       puts "puppet-#{name} #{manifest.version} #{branch}"
     end
   end
-rescue ArgumentError => error
-  puts error
+rescue ArgumentError => e
+  puts e
   exit 1
 end

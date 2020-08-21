@@ -351,6 +351,7 @@ namespace :pkg do
   task :generate_source => [PKGDIR, "#{BUILDDIR}/modules"] do
     version = File.read('VERSION').chomp
     raise "can't find VERSION" if version.empty?
+
     filename = "#{PKGDIR}/foreman-installer-#{version}.tar.bz2"
     File.unlink(filename) if File.exist?(filename)
     Dir.chdir(BUILDDIR) { `tar -cf #{BUILDDIR}/modules.tar --exclude-vcs --exclude=spec --transform=s,^,foreman-installer-#{version}/, modules/` }

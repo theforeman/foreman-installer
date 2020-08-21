@@ -10,7 +10,7 @@ gem 'rake'
 
 group :test do
   gem 'rspec'
-  gem 'rubocop', '~> 0.50.0'
+  gem 'rubocop', '~> 0.80.0'
 end
 
 group :development do
