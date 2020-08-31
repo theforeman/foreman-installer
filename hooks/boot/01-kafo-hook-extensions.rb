@@ -81,6 +81,10 @@ module HookContextExtension
     module_enabled?('foreman_proxy_plugin_pulp') && (param_value('foreman_proxy_plugin_pulp', 'pulpnode_enabled') || param_value('foreman_proxy_plugin_pulp', 'enabled'))
   end
 
+  def pulp_present?
+    module_present?('foreman_proxy_plugin_pulp')
+  end
+
   def pulpcore_enabled?
     module_enabled?('foreman_proxy_plugin_pulp') && param_value('foreman_proxy_plugin_pulp', 'pulpcore_enabled')
   end
