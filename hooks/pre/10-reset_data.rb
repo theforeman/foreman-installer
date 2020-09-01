@@ -1,5 +1,6 @@
 # See bottom of the script for the command that kicks off the script
 require 'English'
+require 'fileutils'
 
 def reset
   stop_services
@@ -7,7 +8,7 @@ def reset
   empty_db_in_postgresql('foreman') if foreman_server?
   reset_candlepin if candlepin_enabled?
   reset_pulp if pulp_enabled?
-  empty_db_in_postgresql('pulpcore') if pulpcore_enabled?
+  reset_pulpcore if pulpcore_enabled?
 end
 
 def load_db_config(db)
@@ -126,6 +127,21 @@ def empty_database!(config)
       ))
   delete_statements = `#{generate_delete_statements}`
   execute(pg_sql_statement(config, delete_statements)) if delete_statements
+end
+
+def clear_pulpcore_content(content_dir)
+  if File.directory?(content_dir)
+    logging.debug "Removing Pulpcore content from \'#{content_dir}\'"
+    FileUtils.rm_rf(content_dir)
+    logger.info "Pulpcore content successfully removed from \'#{content_dir}\'"
+  else
+    logger.warn "Pulpcore content directory not present at \'#{content_dir}\'"
+  end
+end
+
+def reset_pulpcore
+  empty_db_in_postgresql('pulpcore')
+  clear_pulpcore_content('/var/lib/pulp/docroot')
 end
 
 reset if app_value(:reset_data) && !app_value(:noop)
