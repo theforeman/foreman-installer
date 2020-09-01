@@ -63,29 +63,25 @@ def empty_mongo
   if remote_host?(mongo_config[:host])
     empty_remote_mongo(mongo_config)
   else
-    execute(
-      [
-        'systemctl start rh-mongodb34-mongod',
-        "mongo #{mongo_config[:database]} --eval 'db.dropDatabase();'",
-      ]
-    )
+    start_services(['rh-mongodb34-mongod'])
+    execute("mongo #{mongo_config[:database]} --eval 'db.dropDatabase();'")
   end
 end
 
 def load_mongo_config
-  config = {}
   seeds = param_value('katello', 'pulp_db_seeds')
   seed = seeds.split(',').first
   host, port = seed.split(':') if seed
-  config[:host] = host || 'localhost'
-  config[:port] = port || '27017'
-  config[:database] = param_value('katello', 'pulp_db_name') || 'pulp_database'
-  config[:username] = param_value('katello', 'pulp_db_username')
-  config[:password] = param_value('katello', 'pulp_db_password')
-  config[:ssl] = param_value('katello', 'pulp_db_ssl') || false
-  config[:ca_path] = param_value('katello', 'pulp_db_ca_path')
-  config[:ssl_certfile] = param_value('katello', 'pulp_db_ssl_certfile')
-  config
+  {
+    host: host || 'localhost',
+    port: port || '27017',
+    database: param_value('katello', 'pulp_db_name') || 'pulp_database',
+    username: param_value('katello', 'pulp_db_username'),
+    password: param_value('katello', 'pulp_db_password'),
+    ssl: param_value('katello', 'pulp_db_ssl') || false,
+    ca_path: param_value('katello', 'pulp_db_ca_path'),
+    ssl_certfile: param_value('katello', 'pulp_db_ssl_certfile'),
+  }
 end
 
 def empty_remote_mongo(config)
@@ -114,8 +110,7 @@ def remote_host?(hostname)
 end
 
 def pg_command_base(config, command, args)
-  port = "-p #{config[:port]}" if config[:port]
-  "PGPASSWORD='#{config[:password]}' #{command} -U #{config[:username]} -h #{config[:host]} #{port} #{args}"
+  "PGPASSWORD='#{config[:password]}' #{command} -U #{config[:username]} -h #{config[:host]} -p #{config[:port]} #{args}"
 end
 
 def pg_sql_statement(config, statement)
