@@ -53,7 +53,7 @@ end
 
 def reset_candlepin
   execute('rm -f /var/lib/candlepin/.puppet-candlepin-cpdb*')
-  empty_db_in_postgresql(db)
+  empty_db_in_postgresql('candlepin')
 end
 
 def empty_mongo
