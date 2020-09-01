@@ -133,12 +133,4 @@ def empty_database!(config)
   execute(pg_sql_statement(config, delete_statements)) if delete_statements
 end
 
-if app_value(:reset_data) && !app_value(:noop)
-  response = ask('Are you sure you want to continue? This will drop the databases, reset all configurations that you have made and bring all application data back to a fresh install. [y/n]')
-  if response.downcase != 'y'
-    $stderr.puts '** cancelled **'
-    exit(1)
-  else
-    reset
-  end
-end
+reset if app_value(:reset_data) && !app_value(:noop)
