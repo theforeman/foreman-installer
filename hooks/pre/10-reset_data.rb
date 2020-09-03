@@ -103,7 +103,7 @@ end
 def reset_pulp
   execute('rm -f /var/lib/pulp/init.flag')
   empty_mongo
-  execute('rm -rf /var/lib/pulp/{distributions,published,repos}/*')
+  execute('rm -rf /var/lib/pulp/{distributions,published,repos,content}/*')
 end
 
 def remote_host?(hostname)
