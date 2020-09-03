@@ -57,18 +57,6 @@ def reset_candlepin
   empty_db_in_postgresql('candlepin')
 end
 
-def empty_mongo
-  logger.info "Dropping Pulp database!"
-
-  mongo_config = load_mongo_config
-  if remote_host?(mongo_config[:host])
-    empty_remote_mongo(mongo_config)
-  else
-    start_services(['rh-mongodb34-mongod'])
-    execute("mongo #{mongo_config[:database]} --eval 'db.dropDatabase();'")
-  end
-end
-
 def load_mongo_config
   seeds = param_value('katello', 'pulp_db_seeds')
   seed = seeds.split(',').first
@@ -85,7 +73,7 @@ def load_mongo_config
   }
 end
 
-def empty_remote_mongo(config)
+def empty_mongo(config)
   if config[:ssl]
     ssl = "--ssl"
     if config[:ca_path]
@@ -102,7 +90,13 @@ end
 
 def reset_pulp
   execute('rm -f /var/lib/pulp/init.flag')
-  empty_mongo
+
+  mongo_config = load_mongo_config
+  start_services(['rh-mongodb34-mongod']) unless remote_host?(mongo_config[:host])
+  logger.info 'Dropping Pulp database!'
+  empty_mongo(mongo_config)
+
+  logger.info 'Clearing Pulp content from disk.'
   execute('rm -rf /var/lib/pulp/{distributions,published,repos,content}/*')
 end
 
