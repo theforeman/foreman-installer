@@ -59,7 +59,7 @@ end
 
 def empty_mongo(config)
   if config[:ssl]
-    ssl = "--ssl"
+    ssl = '--ssl'
     if config[:ca_path]
       ca_cert = "--sslCAFile #{config[:ca_path]}"
       client_cert = "--sslPEMKeyFile #{config[:ssl_certfile]}" if config[:ssl_certfile]
@@ -105,11 +105,11 @@ end
 
 def clear_pulpcore_content(content_dir)
   if File.directory?(content_dir)
-    logging.debug "Removing Pulpcore content from \'#{content_dir}\'"
+    logging.debug "Removing Pulpcore content from '#{content_dir}'"
     FileUtils.rm_rf(content_dir)
-    logger.info "Pulpcore content successfully removed from \'#{content_dir}\'"
+    logger.info "Pulpcore content successfully removed from '#{content_dir}'"
   else
-    logger.warn "Pulpcore content directory not present at \'#{content_dir}\'"
+    logger.warn "Pulpcore content directory not present at '#{content_dir}'"
   end
 end
 
