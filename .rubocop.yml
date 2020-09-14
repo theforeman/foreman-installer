@@ -56,9 +56,18 @@ Style/FrozenStringLiteralComment:
 Style/GuardClause:
   Enabled: false
 
+Style/HashEachMethods:
+  Enabled: true
+
 # Support both, Ruby 1.9 hashmap and hash-rocket syntax
 Style/HashSyntax:
   Enabled: false
+
+Style/HashTransformKeys:
+  Enabled: true
+
+Style/HashTransformValues:
+  Enabled: true
 
 Style/IfUnlessModifier:
   Enabled: false
