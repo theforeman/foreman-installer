@@ -1,4 +1,5 @@
-if @kafo.config.answers['katello'].is_a?(Hash) &&
+if katello_enabled? &&
+   @kafo.config.answers['katello'].is_a?(Hash) &&
    @kafo.config.answers['katello'].key?('cdn_ssl_version')
   # Using @kafo.config.answers because param() goes through PuppetModule. At
   # this point the parameter doesn't exist in the module on disk so param()
