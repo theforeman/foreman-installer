@@ -14,4 +14,5 @@ if facts.dig(:os, :selinux, :enabled)
   packages << 'crane-selinux' if pulp_enabled?
 
   ensure_packages(packages, 'installed')
+  execute('mkdir -Z /var/log/redis') if local_redis?
 end
