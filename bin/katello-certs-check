@@ -175,12 +175,29 @@ function check-ca-bundle-size () {
 
 function check-cert-san () {
     printf "Checking Subject Alt Name on certificate "
-    CHECK=$(openssl x509 -noout -text -in $CERT_FILE | grep DNS:)
+    DNS_LIST=$(openssl x509 -noout -text -in $CERT_FILE | grep DNS:)
     if [[ $? == "0" ]]; then
         success
+        printf "Checking if any Subject Alt Name on certificate matches the Subject CN"
+        SUBJECT_CN=$(openssl x509 -in $CERT_FILE -noout -subject -nameopt multiline|grep commonName|cut -d '=' -f 2|tr -d ' ')
+        for DNS in ${DNS_LIST}
+          do
+          DNS_VALUE="$( echo ${DNS//DNS:/} | tr -d ',')"
+          if [ $SUBJECT_CN == $DNS_VALUE ]
+          then
+            success
+            return
+          fi
+        done
+        error
+        echo "The $CERT_FILE does not have a Subject Alt Name matching the Subject CN"
     else
-        warning
-        echo "The $CERT_FILE does not contain a Subject Alt Name."
+        error
+        cat <<Explanation
+$CERT_FILE does not contain a Subject Alt Name. Common Name is deprecated, use Subject Alt Name instead.
+See: https://tools.ietf.org/html/rfc2818#section-3.1
+
+Explanation
     fi
 }
 
