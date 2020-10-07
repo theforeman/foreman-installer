@@ -1,4 +1,5 @@
 require 'English'
+require 'fileutils'
 require 'open3'
 
 module HookContextExtension
@@ -32,8 +33,13 @@ module HookContextExtension
   end
 
   def apply_puppet_code(code)
-    bin_path = Kafo::PuppetCommand.search_puppet_path('puppet')
-    Open3.capture3(*Kafo::PuppetCommand.format_command("echo \"#{code}\" | #{bin_path} apply --detailed-exitcodes"))
+    execution_env = Kafo::ExecutionEnvironment.new
+    puppetconf = execution_env.configure_puppet
+    options = ['--detailed-exitcodes']
+    command = PuppetCommand.new(code, options, puppetconf).command
+    Open3.capture3(*Kafo::PuppetCommand.format_command(command))
+  ensure
+    FileUtils.rm_rf(execution_env.directory)
   end
 
   def fail_and_exit(message, code = 1)
