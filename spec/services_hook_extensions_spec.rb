@@ -5,7 +5,7 @@ require_relative '../hooks/boot/04-services'
 describe 'ForemanMaintainHookContextExtension' do
   let(:kafo) { instance_double('KafoConfigure') }
   let(:logger) { instance_double('Logger') }
-  let(:context) { Kafo::HookContext.new(kafo) }
+  let(:context) { Kafo::HookContext.new(kafo, logger) }
 
   before do
     allow(context).to receive(:logger).and_return(logger)

@@ -3,6 +3,7 @@ if pulp_present?
     '--clear-pulp-content',
     :flag,
     'This option will clear all Pulp 2 data.',
-    :default => false
+    :default => false,
+    :advanced => true
   )
 end
