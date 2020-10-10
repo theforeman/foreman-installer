@@ -38,11 +38,13 @@ MSG
   end
 
   def failure_message
-    say "  <%= color('Something went wrong!', :bad) %> Check the log for ERROR-level output"
+    say "\n  <%= color('There were errors detected during install.', :bad) %>"
+    say "  Please address the errors and re-run the installer to ensure the system is properly configured."
+    say "  Failing to do so is likely to result in broken functionality."
   end
 
   def log_message(kafo)
-    say "  The full log is at <%= color('#{kafo.config.log_file}', :info) %>"
+    say "\n  The full log is at <%= color('#{kafo.config.log_file}', :info) %>"
   end
 end
 
