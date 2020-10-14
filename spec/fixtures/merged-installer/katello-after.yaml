@@ -18,7 +18,8 @@
 :color_of_background: :dark
 :custom: {}
 :low_priority_modules: []
-:verbose_log_level: info
+:verbose: true
+:verbose_log_level: notice
 :skip_puppet_version_check: false
 :parser_cache_path: /usr/share/foreman-installer/parser_cache/katello.yaml
 :hiera_config: /usr/share/foreman-installer/config/foreman-hiera.yaml

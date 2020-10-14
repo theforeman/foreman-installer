@@ -5,6 +5,8 @@
 :log_dir: './_build/'
 :log_name: 'foreman-proxy-content.log'
 :log_level: DEBUG
+:verbose: true
+:verbose_log_level: notice
 
 :answer_file: ./config/foreman-proxy-content-answers.yaml
 :installer_dir: .
