@@ -5,6 +5,8 @@
 :log_dir: './_build/'
 :log_name: 'katello.log'
 :log_level: DEBUG
+:verbose: true
+:verbose_log_level: notice
 
 :answer_file: ./config/katello-answers.yaml
 :installer_dir: .

@@ -13,6 +13,9 @@
 :parser_cache_path: ./_build/parser_cache/foreman-proxy-content.yaml
 :hiera_config: ./config/foreman-hiera.yaml
 
+:verbose: true
+:verbose_log_level: 'notice'
+
 :order:
   - certs
   - foreman_proxy
