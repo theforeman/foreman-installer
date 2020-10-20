@@ -1,84 +1,19 @@
-Certificate:
-    Data:
-        Version: 1 (0x0)
-        Serial Number: 1048577 (0x100001)
-    Signature Algorithm: sha256WithRSAEncryption
-        Issuer: O=My Company/emailAddress=dev@example.com, L=My Town, ST=State or Providence, C=US, CN=foremanca.example.com
-        Validity
-            Not Before: Oct 17 14:11:14 2019 GMT
-            Not After : Oct 16 14:11:14 2020 GMT
-        Subject: C=US, ST=State or Providence, O=My Company, CN=foreman.example.com
-        Subject Public Key Info:
-            Public Key Algorithm: rsaEncryption
-                Public-Key: (2048 bit)
-                Modulus:
-                    00:ba:7b:c7:cb:72:10:5e:d8:61:3d:aa:4c:5a:79:
-                    3c:b0:63:f3:1f:c1:ec:27:18:86:39:e3:76:58:98:
-                    bd:74:87:df:c0:99:6f:7b:82:aa:1d:f2:b7:a4:49:
-                    b0:56:44:55:ee:20:73:12:1f:34:5f:3e:60:d9:04:
-                    84:84:e5:08:c7:d5:f7:22:a0:e2:fd:bb:61:07:b7:
-                    c2:f0:3b:76:81:39:21:c3:82:d4:93:db:e2:55:8d:
-                    a8:01:5d:f6:74:97:32:42:b3:65:96:62:42:e1:d7:
-                    0d:16:c3:d1:fe:fb:df:5b:8a:7a:1a:11:44:1d:ba:
-                    de:7d:f1:9b:ac:38:55:71:36:fe:13:1f:d7:ef:d5:
-                    5c:b8:1a:12:1e:28:73:86:77:e6:37:a2:5d:65:b7:
-                    19:74:d3:46:d2:51:e4:36:d2:73:46:28:c3:88:43:
-                    ef:af:1a:6f:91:a5:b8:d6:e1:5e:bd:90:46:d7:35:
-                    fc:71:b3:31:02:9b:bc:50:10:c2:8b:10:95:2e:5b:
-                    4c:91:64:88:c7:23:af:1c:79:da:54:ee:61:91:ff:
-                    08:0f:64:c2:1d:8b:b5:bb:69:9e:a3:cd:7e:01:f7:
-                    04:88:f7:66:ad:1e:64:f9:1e:97:d7:f1:43:ed:1a:
-                    12:95:10:6d:f4:24:48:b7:34:e7:b6:57:cc:8a:07:
-                    a4:eb
-                Exponent: 65537 (0x10001)
-        X509v3 extensions:
-            X509v3 Basic Constraints: 
-                CA:FALSE
-            X509v3 Subject Key Identifier: 
-                F3:3D:D4:AC:E8:7F:09:68:75:96:75:B8:A4:7C:6B:36:4B:75:B7:B3
-            X509v3 Key Usage: 
-                Digital Signature, Non Repudiation, Key Encipherment
-            X509v3 Extended Key Usage: 
-                TLS Web Server Authentication, TLS Web Client Authentication, Code Signing, E-mail Protection
-            X509v3 Subject Alternative Name: 
-                DNS:foreman.example.com
-    Signature Algorithm: sha256WithRSAEncryption
-         47:e3:37:d6:61:32:2d:08:1d:4b:c2:1d:e1:8e:c4:b3:b3:ef:
-         b1:b7:d3:98:e0:cb:d2:57:f7:6b:75:74:7f:af:a5:7b:1d:24:
-         d6:b6:1c:35:33:ef:94:85:07:15:19:d2:e2:cf:17:c3:5e:4b:
-         20:e7:6c:80:44:17:82:98:91:11:6d:12:3a:66:b9:69:a4:eb:
-         c0:30:a2:b2:a7:d7:ae:1e:38:cc:f6:61:61:52:f2:92:3d:ce:
-         e0:ff:9f:1e:04:ff:45:24:0c:c9:03:d9:49:1a:0d:59:06:b8:
-         b4:f6:50:53:d7:7a:7b:6e:42:e0:97:14:5b:12:5b:b4:bb:2a:
-         47:74:2e:12:2c:af:ac:71:88:0f:60:7d:80:79:74:6c:b6:11:
-         4d:09:a3:82:7d:f3:3e:1f:e8:eb:a3:55:c8:d6:39:c7:23:14:
-         c7:4a:6d:24:45:dc:26:af:45:bb:aa:95:42:a0:1f:35:a1:b3:
-         0c:40:a1:ba:b5:17:94:cd:fa:5d:a4:a5:d7:32:b5:3d:16:5d:
-         7a:cf:d8:47:5a:ce:1d:f6:51:86:74:fd:7f:4a:44:89:7a:5b:
-         51:cc:19:01:4c:ac:ba:4e:23:96:2c:48:6c:eb:87:5e:66:97:
-         9c:62:c7:43:19:b2:d5:0b:e9:53:ff:ed:63:b0:54:e6:b2:03:
-         71:29:fe:d8
 -----BEGIN CERTIFICATE-----
-MIIEBDCCAuwCAxAAATANBgkqhkiG9w0BAQsFADCBnzETMBEGA1UEChMKTXkgQ29t
-cGFueTErMCkGCSqGSIb3DQEJARYcZGV2QGNvbW11bml0eS50aGVmb3JlbWFuLm9y
-ZzEQMA4GA1UEBxMHTXkgVG93bjEcMBoGA1UECBMTU3RhdGUgb3IgUHJvdmlkZW5j
-ZTELMAkGA1UEBhMCVVMxHjAcBgNVBAMTFWZvcmVtYW5jYS5leGFtcGxlLmNvbTAe
-Fw0xOTEwMTcxNDExMTRaFw0yMDEwMTYxNDExMTRaMF4xCzAJBgNVBAYTAlVTMRww
-GgYDVQQIExNTdGF0ZSBvciBQcm92aWRlbmNlMRMwEQYDVQQKEwpNeSBDb21wYW55
-MRwwGgYDVQQDExNmb3JlbWFuLmV4YW1wbGUuY29tMIIBIjANBgkqhkiG9w0BAQEF
-AAOCAQ8AMIIBCgKCAQEAunvHy3IQXthhPapMWnk8sGPzH8HsJxiGOeN2WJi9dIff
-wJlve4KqHfK3pEmwVkRV7iBzEh80Xz5g2QSEhOUIx9X3IqDi/bthB7fC8Dt2gTkh
-w4LUk9viVY2oAV32dJcyQrNllmJC4dcNFsPR/vvfW4p6GhFEHbreffGbrDhVcTb+
-Ex/X79VcuBoSHihzhnfmN6JdZbcZdNNG0lHkNtJzRijDiEPvrxpvkaW41uFevZBG
-1zX8cbMxApu8UBDCixCVLltMkWSIxyOvHHnaVO5hkf8ID2TCHYu1u2meo81+AfcE
-iPdmrR5k+R6X1/FD7RoSlRBt9CRItzTntlfMigek6wIDAQABo4GNMIGKMAkGA1Ud
-EwQCMAAwHQYDVR0OBBYEFPM91KzofwlodZZ1uKR8azZLdbezMAsGA1UdDwQEAwIF
-4DAxBgNVHSUEKjAoBggrBgEFBQcDAQYIKwYBBQUHAwIGCCsGAQUFBwMDBggrBgEF
-BQcDBDAeBgNVHREEFzAVghNmb3JlbWFuLmV4YW1wbGUuY29tMA0GCSqGSIb3DQEB
-CwUAA4IBAQBH4zfWYTItCB1Lwh3hjsSzs++xt9OY4MvSV/drdXR/r6V7HSTWthw1
-M++UhQcVGdLizxfDXksg52yARBeCmJERbRI6ZrlppOvAMKKyp9euHjjM9mFhUvKS
-Pc7g/58eBP9FJAzJA9lJGg1ZBri09lBT13p7bkLglxRbElu0uypHdC4SLK+scYgP
-YH2AeXRsthFNCaOCffM+H+jro1XI1jnHIxTHSm0kRdwmr0W7qpVCoB81obMMQKG6
-tReUzfpdpKXXMrU9Fl16z9hHWs4d9lGGdP1/SkSJeltRzBkBTKy6TiOWLEhs64de
-ZpecYsdDGbLVC+lT/+1jsFTmsgNxKf7Y
+MIIDITCCAgmgAwIBAgIUA3PteXehmyq9431VVShc4JnrWfcwDQYJKoZIhvcNAQEL
+BQAwQjELMAkGA1UEBhMCWFgxFTATBgNVBAcMDERlZmF1bHQgQ2l0eTEcMBoGA1UE
+CgwTRGVmYXVsdCBDb21wYW55IEx0ZDAeFw0yMDEwMjAxMTU3NTdaFw0zMDEwMTgx
+MTU3NTdaMEIxCzAJBgNVBAYTAlhYMRUwEwYDVQQHDAxEZWZhdWx0IENpdHkxHDAa
+BgNVBAoME0RlZmF1bHQgQ29tcGFueSBMdGQwggEiMA0GCSqGSIb3DQEBAQUAA4IB
+DwAwggEKAoIBAQC2n5msgU4jJNJdjY7A4hcih1xxHFF8jkZp9cTKd347Xd2FBvmy
+Tf7hIlNqA0MJJNNmra+8MeaHcOoLJgkwETNg6XnKYkmqF+HeqQK332rqDybBdWa+
+bXFgrDRR7HAX+V1QEJJnteUIHIu7DDnoGCzK4Hq2GJSQktPsHkK6v1yWJh/BDzMk
+0e008XweSsUaG081aQLnYf6yl5tig+poXjmctgpfwzCqvGYeC3WEqV+C4Rtu4Twd
+cxD/vS9e3qxjFI1m2/9WGPDKSiCZCrQln+9TJjLvEe3xa4W9sFNlrOdDlIdV3ECH
+rT4cHLJokudHuGMCnP3/z4RCvbZyI3GnxdtJAgMBAAGjDzANMAsGA1UdDwQEAwIF
+IDANBgkqhkiG9w0BAQsFAAOCAQEAI5PB3OyADZtQcgCmbkX1UIkEQL6umAdcFbfl
+mNoUBQ7w2xZhmao5y8UFsYHciokDYEbNnUAW6ZVKGt2NTwCwaqlDOj9LLtMAuF61
+ydxX13mKZvfh9Z+CoW9wPI3903Xv7EEjREzN5FNYcLnpsjsQn0ceIS9+dqaA0cJr
+tcYW4XVeUvGon3FE4TUojkPoUk87sNMDMGZzrpkOjzwKN0NnEeMBcpAWj7YO7t++
+sXXFQP+4rUBpUIXiVr8nGltw+DxNIeLipcXiJOc6J2ifPb7r7WejkDEwysK09wWc
+BM3I49/ZJKqEOPxjQl4TUq63OagrvKXKvKiUw5C5KHnQEgXgcA==
 -----END CERTIFICATE-----
