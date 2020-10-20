@@ -8,7 +8,6 @@ foreman::compute::gce: false
 foreman::compute::libvirt: false
 foreman::compute::openstack: false
 foreman::compute::ovirt: false
-foreman::compute::rackspace: false
 foreman::compute::vmware: false
 foreman::plugin::azure: false
 foreman::plugin::column_view: false
