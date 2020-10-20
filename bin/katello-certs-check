@@ -181,7 +181,7 @@ function check-cert-usage-key-encipherment () {
     if [[ $? == "0" ]]; then
         success
     else
-        error 4 "The $CERT_FILE does not allow for the 'Digital Signature' key usage."
+        error 4 "The $CERT_FILE does not allow for the 'Key Encipherment' key usage."
     fi
 }
 
