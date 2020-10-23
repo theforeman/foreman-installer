@@ -113,17 +113,8 @@ module HookContextExtension
     Kafo::KafoConfigure.logger.send(level, message) if do_log
   end
 
-  def execute(commands, do_say = true, do_log = true)
-    commands = commands.is_a?(Array) ? commands : [commands]
-    results = []
-
-    commands.each do |command|
-      results << execute_command(command, do_say, do_log)
-    end
-
-    if results.include? false
-      exit 1
-    end
+  def execute(command, do_say = true, do_log = true)
+    exit 1 unless execute_command(command, do_say, do_log)
   end
 
   def execute_command(command, do_say, do_log)
