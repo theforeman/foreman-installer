@@ -27,5 +27,23 @@
 # If using the Debian ruby-kafo package, uncomment this
 # :kafo_modules_dir: /usr/lib/ruby/vendor_ruby/kafo/modules
 
-# Unused, but remains present for older config migrations
-:mapping: {}
+:mapping:
+  :global:
+    :dir_name: 'katello'
+    :manifest_name: 'globals'
+  :pulp:
+    :dir_name: 'katello'
+    :manifest_name: 'pulp'
+    :params_name: 'params'
+  :candlepin:
+    :dir_name: 'katello'
+    :manifest_name: 'candlepin'
+    :params_name: 'params'
+  :qpid:
+    :dir_name: 'katello'
+    :manifest_name: 'qpid'
+    :params_name: 'params'
+  :application:
+    :dir_name: 'katello'
+    :manifest_name: 'application'
+    :params_name: 'params'
