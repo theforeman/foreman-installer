@@ -113,8 +113,23 @@ module HookContextExtension
     Kafo::KafoConfigure.logger.send(level, message) if do_log
   end
 
-  def execute(command, do_say = true, do_log = true)
-    exit 1 unless execute_command(command, do_say, do_log)
+  def execute!(command, do_say = true, do_log = true)
+    stdout_stderr, status = execute_command(command, do_say, do_log)
+
+    if stdout_stderr.nil?
+      log_and_say(:error, "Command #{command} not found", do_say, do_log)
+      exit 1
+    end
+
+    unless status
+      log_and_say("#{command} failed! Check the output for error!", do_say, do_log)
+      exit 1
+    end
+  end
+
+  def execute(command, do_say, do_log)
+    _stdout_stderr, status = execute_command(command, do_say, do_log)
+    status
   end
 
   def execute_command(command, do_say, do_log)
@@ -123,20 +138,14 @@ module HookContextExtension
     begin
       stdout_stderr, status = Open3.capture2e(*Kafo::PuppetCommand.format_command(command))
     rescue Errno::ENOENT
-      log_and_say(:error, "Command #{command} not found", do_say, do_log)
-      return false
+      return [nil, false]
     end
 
     stdout_stderr.lines.map(&:chomp).each do |line|
       log_and_say(:debug, line, do_say, do_log)
     end
 
-    if status.success?
-      log_and_say(:debug, "#{command} finished successfully!", do_say, do_log)
-    else
-      log_and_say(:error, "#{command} failed! Check the output for error!", do_say, do_log)
-    end
-    status.success?
+    [stdout_stderr, status.success?]
   end
 
   def remote_host?(hostname)
