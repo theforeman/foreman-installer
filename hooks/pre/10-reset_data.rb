@@ -48,12 +48,12 @@ def empty_db_in_postgresql(db)
   if remote_host?(config[:host])
     empty_database!(config)
   else
-    execute("sudo -u postgres dropdb #{config[:database]}")
+    execute!("sudo -u postgres dropdb #{config[:database]}")
   end
 end
 
 def reset_candlepin
-  execute('rm -f /var/lib/candlepin/.puppet-candlepin-cpdb*')
+  execute!('rm -f /var/lib/candlepin/.puppet-candlepin-cpdb*')
   empty_db_in_postgresql('candlepin')
 end
 
@@ -69,11 +69,11 @@ def empty_mongo(config)
   password = "-p #{config[:password]}" if config[:password]
   host = "--host #{config[:host]} --port #{config[:port]}"
   cmd = "mongo #{config[:database]} #{username} #{password} #{host} #{ssl} #{ca_cert} #{client_cert} --eval 'db.dropDatabase();'"
-  execute(cmd)
+  execute!(cmd)
 end
 
 def reset_pulp
-  execute('rm -f /var/lib/pulp/init.flag')
+  execute!('rm -f /var/lib/pulp/init.flag')
 
   mongo_config = load_mongo_config
   start_services(['rh-mongodb34-mongod']) unless remote_host?(mongo_config[:host])
@@ -81,7 +81,7 @@ def reset_pulp
   empty_mongo(mongo_config)
 
   logger.info 'Clearing Pulp content from disk.'
-  execute('rm -rf /var/lib/pulp/{distributions,published,repos,content}/*')
+  execute!('rm -rf /var/lib/pulp/{distributions,published,repos,content}/*')
 end
 
 def pg_command_base(config, command, args)
@@ -100,7 +100,7 @@ def empty_database!(config)
         where schemaname = 'public';
       ))
   delete_statements = `#{generate_delete_statements}`
-  execute(pg_sql_statement(config, delete_statements)) if delete_statements
+  execute!(pg_sql_statement(config, delete_statements)) if delete_statements
 end
 
 def clear_pulpcore_content(content_dir)

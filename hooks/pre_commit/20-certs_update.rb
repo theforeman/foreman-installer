@@ -14,6 +14,6 @@ if module_enabled?('certs')
   key_file  = param('certs', 'server_key').value
 
   unless app_value(:certs_skip_check) || [cert_file, ca_file, key_file].all? { |v| v.to_s.empty? }
-    execute(%(katello-certs-check -c "#{cert_file}" -k "#{key_file}" -b "#{ca_file}"))
+    execute!(%(katello-certs-check -c "#{cert_file}" -k "#{key_file}" -b "#{ca_file}"))
   end
 end

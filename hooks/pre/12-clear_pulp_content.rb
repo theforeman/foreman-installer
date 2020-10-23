@@ -31,7 +31,7 @@ def reset_repo_importers(config)
   host = "--host #{config[:host]} --port #{config[:port]}"
   cmd_base = '--eval \'db.repo_importers.update({"scratchpad": {$ne: null}}, {$set: {"scratchpad.repomd_revision": null}}, {"multi":true})\''
   cmd = "mongo #{config[:database]} #{username} #{password} #{host} #{ssl} #{ca_cert} #{client_cert} #{cmd_base}"
-  execute(cmd)
+  execute!(cmd)
 end
 
 if app_value(:clear_pulp_content)

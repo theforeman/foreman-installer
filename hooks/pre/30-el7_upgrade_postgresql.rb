@@ -4,15 +4,15 @@ def postgresql_12_upgrade
   stop_services
 
   server_packages = ['rh-postgresql12-postgresql-server']
-  if execute_command("rpm -q postgresql-contrib", false, false)
+  if execute("rpm -q postgresql-contrib", false, false)
     server_packages << 'rh-postgresql12-postgresql-contrib'
   end
   ensure_packages(server_packages, 'installed')
 
-  execute(%(scl enable rh-postgresql12 "PGSETUP_INITDB_OPTIONS='--lc-collate=#{collate} --lc-ctype=#{ctype} --locale=#{collate}' postgresql-setup --upgrade"))
+  execute!(%(scl enable rh-postgresql12 "PGSETUP_INITDB_OPTIONS='--lc-collate=#{collate} --lc-ctype=#{ctype} --locale=#{collate}' postgresql-setup --upgrade"))
   ensure_packages(['postgresql-server'], 'absent')
   ensure_packages(['postgresql'], 'absent')
-  execute('rm -f /etc/systemd/system/postgresql.service')
+  execute!('rm -f /etc/systemd/system/postgresql.service')
   ensure_packages(['rh-postgresql12-syspaths'], 'installed')
 end
 
