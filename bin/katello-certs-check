@@ -9,6 +9,10 @@ RESET=`tput sgr0`
 CABUNDLE_MAX_ISSUERS=32
 
 # Branding
+BRANDING_FILE=/usr/share/foreman-installer/katello-certs-check-branding
+if [[ -f "${BRANDING_FILE}" ]]; then
+  source "${BRANDING_FILE}"
+fi
 PROJECT=${PROJECT:-Katello}
 SERVER_SCENARIO=${SERVER_SCENARIO:-katello}
 INSTALLER=${INSTALLER:-foreman-installer}
