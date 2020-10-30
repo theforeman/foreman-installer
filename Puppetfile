@@ -1,7 +1,7 @@
 forge 'https://forgeapi.puppetlabs.com/'
 
 mod 'puppetlabs/postgresql',         '>= 5.6.0'
-mod 'theforeman/dhcp',               '>= 6.0.0 < 6.1.0'
+mod 'theforeman/dhcp',               '>= 6.1.0 < 6.2.0'
 mod 'theforeman/dns',                '>= 8.0.0 < 8.1.0'
 mod 'theforeman/git',                '>= 6.1.0 < 6.2.0'
 mod 'theforeman/tftp',               '>= 6.0.0 < 6.1.0'
