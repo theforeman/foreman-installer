@@ -1,2 +1,6 @@
 [ extensions ]
 keyUsage = keyEncipherment
+subjectAltName = @alt_names
+
+[alt_names]
+DNS.1 = foreman.example.com
