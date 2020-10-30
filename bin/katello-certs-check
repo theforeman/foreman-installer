@@ -74,10 +74,6 @@ function success () {
     echo -e "\n${GREEN}[OK]${RESET}\n"
 }
 
-function warning () {
-    echo -e "\n${YELLOW}[WARNING]${RESET}\n"
-}
-
 function check-server-cert-encoding () {
     printf 'Checking server certificate encoding: '
     openssl x509 -inform pem -in $CERT_FILE -noout -text &> /dev/null
