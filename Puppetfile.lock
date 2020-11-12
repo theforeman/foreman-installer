@@ -95,7 +95,7 @@ FORGE
     theforeman-dns (8.0.0)
       puppetlabs-concat (>= 4.1.0, < 7.0.0)
       puppetlabs-stdlib (>= 4.13.1, < 7.0.0)
-    theforeman-foreman (15.1.1)
+    theforeman-foreman (15.1.2)
       camptocamp-systemd (>= 2.2.0, < 3.0.0)
       puppet-extlib (>= 3.0.0, < 6.0.0)
       puppet-redis (>= 5.0.0, < 7.0.0)
