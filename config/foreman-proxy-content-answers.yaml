@@ -31,9 +31,6 @@ foreman_proxy::plugin::dhcp::remote_isc: false
 foreman_proxy::plugin::discovery: false
 foreman_proxy::plugin::dns::infoblox: false
 foreman_proxy::plugin::openscap: false
-foreman_proxy::plugin::pulp:
-  enabled: false
-  pulpnode_enabled: true
 foreman_proxy::plugin::remote_execution::ssh: false
 puppet:
   server: true

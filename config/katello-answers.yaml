@@ -85,12 +85,11 @@ foreman_proxy::plugin::discovery: false
 foreman_proxy::plugin::dns::infoblox: false
 foreman_proxy::plugin::monitoring: false
 foreman_proxy::plugin::openscap: false
-foreman_proxy::plugin::pulp:
-  pulpcore_enabled: true
 foreman_proxy::plugin::remote_execution::ssh: false
 foreman_proxy::plugin::salt: false
 foreman_proxy_content:
   proxy_pulp_yum_to_pulpcore: true
+  proxy_pulp_iso_to_pulpcore: true
 katello:
   use_pulp_2_for_yum: false
 puppet:

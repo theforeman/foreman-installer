@@ -27,8 +27,6 @@ foreman_proxy::plugin::chef: false
 foreman_proxy::plugin::dhcp::remote_isc: false
 foreman_proxy::plugin::discovery: false
 foreman_proxy::plugin::monitoring: false
-foreman_proxy::plugin::pulp:
-  pulpcore_enabled: true
 foreman_proxy::plugin::salt: false
 foreman_proxy_content:
   proxy_pulp_isos_to_pulpcore: false

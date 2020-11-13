@@ -1,0 +1,4 @@
+foreman_proxy::plugin::pulp::pulpcore_enabled: false
+foreman_proxy::plugin::pulp::pulpcore_mirror: false
+foreman_proxy::plugin::pulp::pulpnode_enabled: true
+foreman_proxy::plugin::pulp::enabled: false
