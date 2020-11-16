@@ -84,11 +84,11 @@ describe 'migrations' do
       end
     end
 
-    context "pulpcore migration dont proxy yum" do
-      let(:answers_after) { load_fixture_yaml('pulpcore-migration-dont-proxy-yum', "#{scenario_name}-answers-after.yaml") }
+    context "pulpcore migration dont use content plugins on upgrades" do
+      let(:answers_after) { load_fixture_yaml('pulpcore-migration-dont-use-content-plugins-on-upgrades', "#{scenario_name}-answers-after.yaml") }
       let(:scenario) do
         {
-          :answers    => load_fixture_yaml('pulpcore-migration-dont-proxy-yum', "#{scenario_name}-answers-before.yaml"),
+          :answers    => load_fixture_yaml('pulpcore-migration-dont-use-content-plugins-on-upgrades', "#{scenario_name}-answers-before.yaml"),
           :config     => load_config_yaml("#{scenario_name}.yaml"),
           :migrations => config_path("#{scenario_name}.migrations"),
         }
