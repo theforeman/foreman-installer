@@ -33,8 +33,10 @@ foreman_proxy::plugin::salt: false
 foreman_proxy_content:
   proxy_pulp_isos_to_pulpcore: false
   proxy_pulp_yum_to_pulpcore: false
+  proxy_pulp_deb_to_pulpcore: false
   puppet: false
 katello:
+  use_pulp_2_for_deb: true
   use_pulp_2_for_docker: true
   use_pulp_2_for_file: true
   use_pulp_2_for_yum: true
