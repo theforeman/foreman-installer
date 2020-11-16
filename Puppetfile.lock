@@ -115,7 +115,7 @@ FORGE
       theforeman-tftp (>= 1.3.0, < 7.0.0)
     theforeman-git (6.1.0)
       puppetlabs-stdlib (>= 4.13.0, < 7.0.0)
-    theforeman-pulpcore (2.0.0)
+    theforeman-pulpcore (2.1.0)
       camptocamp-systemd (>= 2.2.0, < 3.0.0)
       puppet-extlib (>= 3.0.0, < 6.0.0)
       puppet-redis (>= 5.0.0, < 7.0.0)
@@ -146,7 +146,7 @@ DEPENDENCIES
   theforeman-foreman (>= 16.0.0, < 16.1.0)
   theforeman-foreman_proxy (>= 16.0.0, < 16.1.0)
   theforeman-git (>= 6.1.0, < 6.2.0)
-  theforeman-pulpcore (>= 2.0.0, < 2.1.0)
+  theforeman-pulpcore (>= 2.1.0, < 2.2.0)
   theforeman-puppet (>= 14.2.0, < 14.3.0)
   theforeman-tftp (>= 6.0.0, < 6.1.0)
 
