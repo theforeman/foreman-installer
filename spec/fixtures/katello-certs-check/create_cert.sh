@@ -57,3 +57,13 @@ if [[ ! -f "$CERTS_DIR/$CERT_NAME.key" || ! -f "$CERTS_DIR/$CERT_NAME.crt" ]]; t
 else
   echo "Wildcard server certificate exists. Skipping."
 fi
+
+CERT_NAME=shortname
+if [[ ! -f "$CERTS_DIR/$CERT_NAME.key" || ! -f "$CERTS_DIR/$CERT_NAME.crt" ]]; then
+  echo "Generate shortname server certificate"
+  openssl genrsa -out $CERTS_DIR/$CERT_NAME.key 2048
+  openssl req -new -key $CERTS_DIR/$CERT_NAME.key -out $CERTS_DIR/$CERT_NAME.csr -subj "/CN=foreman"
+  openssl x509 -req -in $CERTS_DIR/$CERT_NAME.csr -CA $CERTS_DIR/$CA_CERT_NAME.crt -CAkey $CERTS_DIR/$CA_CERT_NAME.key -CAcreateserial -out $CERTS_DIR/$CERT_NAME.crt -days 3650 -sha256 -extfile extensions.txt -extensions shortname_extensions
+else
+  echo "Shortname server certificate exists. Skipping."
+fi

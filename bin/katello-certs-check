@@ -215,6 +215,29 @@ function check-cert-usage-key-encipherment () {
     fi
 }
 
+function check-shortname () {
+    printf "Checking for use of shortname as CN"
+
+    SUBJECT_CN=$(openssl x509 -in $CERT_FILE -noout -subject -nameopt multiline|grep commonName|cut -d '=' -f 2|tr -d ' ')
+    if [[ $SUBJECT_CN != *"."* ]]; then
+        error 1 "The $(basename $CERT_FILE) is using a shortname for Common Name (CN) and cannot be used with $PROJECT.\n"
+    fi
+
+    DNS_LIST=$(openssl x509 -noout -text -in $CERT_FILE | grep DNS:)
+    if [[ $? == "0" ]]; then
+        for DNS in ${DNS_LIST}
+          do
+          DNS_VALUE="$( echo ${DNS//DNS:/} | tr -d ',')"
+
+          if [[ $DNS_VALUE == *"."* ]]; then
+            success
+            return
+          fi
+        done
+        error 1 "The $(basename $CERT_FILE) is using only shortnames for Subject Alt Name and cannot be used with $PROJECT.\n"
+    fi
+}
+
 check-server-cert-encoding
 check-expiration
 check-cert-ca-flag
@@ -224,6 +247,7 @@ check-ca-bundle
 check-ca-bundle-size
 check-cert-san
 check-cert-usage-key-encipherment
+check-shortname
 
 if [[ $EXIT_CODE == "0" ]] && ([[ $TARGET == ${SERVER_TARGET} ]] || [[ -z "$TARGET" ]]) ; then
     echo -e "${GREEN}Validation succeeded${RESET}\n"

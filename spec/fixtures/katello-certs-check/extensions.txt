@@ -1,17 +1,24 @@
-[ extensions ]
+[extensions]
 keyUsage = keyEncipherment
 subjectAltName = @alt_names
 
-[ client_extensions ]
+[client_extensions]
 keyUsage = keyEncipherment
 extendedKeyUsage = clientAuth
 
-[ wildcard_extensions ]
+[wildcard_extensions]
 keyUsage = keyEncipherment
 subjectAltName = @wildcard_alt_names
+
+[shortname_extensions]
+keyUsage = keyEncipherment
+subjectAltName = @shortname_alt_names
 
 [alt_names]
 DNS.1 = foreman.example.com
 
 [wildcard_alt_names]
 DNS.1 = *.example.com
+
+[shortname_alt_names]
+DNS.1 = foreman
