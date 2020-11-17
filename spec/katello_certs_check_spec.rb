@@ -65,4 +65,17 @@ describe 'katello-certs-check' do
       expect(status.exitstatus).to eq 0
     end
   end
+
+  context 'with shortname certificate' do
+    let(:key) { File.join(certs_directory, 'shortname.key') }
+    let(:cert) { File.join(certs_directory, 'shortname.crt') }
+
+    it 'fails on shortname' do
+      command_with_certs = "#{command} -b #{ca} -k #{key} -c #{cert}"
+      _stdout, stderr, status = Open3.capture3(command_with_certs)
+      expect(stderr).to include 'The shortname.crt is using a shortname for Common Name (CN) and cannot be used with Katello.'
+      expect(stderr).to include 'The shortname.crt is using only shortnames for Subject Alt Name and cannot be used with Katello.'
+      expect(status.exitstatus).to eq 1
+    end
+  end
 end
