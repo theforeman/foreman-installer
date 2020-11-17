@@ -12,7 +12,7 @@ describe 'katello-certs-check' do
   let(:command) { File.join(__dir__, '..', 'bin', 'katello-certs-check') }
   let(:directory) { File.join(FIXTURE_DIR, 'katello-certs-check') }
   let(:certs_directory) { File.join(directory, 'certs') }
-  let(:ca) { File.join(certs_directory, 'ca.crt') }
+  let(:ca) { File.join(certs_directory, 'ca-bundle.crt') }
 
   context 'with valid certificates' do
     let(:key) { File.join(certs_directory, 'foreman.example.com.key') }
@@ -50,6 +50,19 @@ describe 'katello-certs-check' do
       _stdout, stderr, status = Open3.capture3(command_with_certs)
       expect(stderr).to include 'does not verify'
       expect(status.exitstatus).to eq 4
+    end
+  end
+
+  context 'with wildcard certificate' do
+    let(:key) { File.join(certs_directory, 'wildcard.key') }
+    let(:cert) { File.join(certs_directory, 'wildcard.crt') }
+
+    it 'completes correctly' do
+      command_with_certs = "#{command} -b #{ca} -k #{key} -c #{cert}"
+      stdout, stderr, status = Open3.capture3(command_with_certs)
+      expect(stderr).to eq ''
+      expect(stdout).to include 'Checking CA bundle size: 2'
+      expect(status.exitstatus).to eq 0
     end
   end
 end
