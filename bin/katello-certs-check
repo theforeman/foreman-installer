@@ -166,6 +166,7 @@ function check-ca-bundle () {
 function check-ca-bundle-size () {
     printf "Checking CA bundle size: "
     CHECK=$(grep -c "^--*BEGIN" $CA_BUNDLE_FILE)
+    printf $CHECK
     if [[ $CHECK -lt $CABUNDLE_MAX_ISSUERS ]]; then
 		success
     else
