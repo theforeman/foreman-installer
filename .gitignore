@@ -31,6 +31,6 @@ modules/*
 Gemfile.lock
 config/foreman.migrations/.applied
 .vendor/
-spec/fixtures/katello-certs-check/*.csr
+spec/fixtures/katello-certs-check/certs/*.csr
 spec/fixtures/katello-certs-check/ca.key
-spec/fixtures/katello-certs-check/*.srl
+spec/fixtures/katello-certs-check/certs/*.srl
