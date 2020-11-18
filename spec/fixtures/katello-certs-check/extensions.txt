@@ -2,5 +2,9 @@
 keyUsage = keyEncipherment
 subjectAltName = @alt_names
 
+[ client_extensions ]
+keyUsage = keyEncipherment
+extendedKeyUsage = clientAuth
+
 [alt_names]
 DNS.1 = foreman.example.com

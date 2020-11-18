@@ -40,4 +40,16 @@ describe 'katello-certs-check' do
       expect(status.exitstatus).to eq 1
     end
   end
+
+  context 'with invalid server certificates' do
+    let(:key) { File.join(certs_directory, 'invalid.key') }
+    let(:cert) { File.join(certs_directory, 'invalid.crt') }
+
+    it 'fails if purpose is not sslserver' do
+      command_with_certs = "#{command} -b #{ca} -k #{key} -c #{cert}"
+      _stdout, stderr, status = Open3.capture3(command_with_certs)
+      expect(stderr).to include 'does not verify'
+      expect(status.exitstatus).to eq 4
+    end
+  end
 end
