@@ -31,9 +31,13 @@ module HookContextExtension
     end
   end
 
-  def apply_puppet_code(code)
-    bin_path = Kafo::PuppetCommand.search_puppet_path('puppet')
-    Open3.capture3(*Kafo::PuppetCommand.format_command("echo \"#{code}\" | #{bin_path} apply --detailed-exitcodes"))
+  def apply_puppet_code(code, use_noop=true)
+    puppet_execution_environment do |env|
+      options = ['--detailed-exitcodes']
+      settings = {noop: use_noop && app_value(:noop)}
+      command = env.build_command(code, options: options, settings: settings)
+      Open3.capture3(*command)
+    end
   end
 
   def fail_and_exit(message, code = 1)
