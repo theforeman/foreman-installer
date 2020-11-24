@@ -1,0 +1,7 @@
+---
+# EL8 doesn't have support for SSLv3 anymore and errors out on it. This
+# overrides security.yaml
+apache::mod::ssl::ssl_protocol:
+  - 'ALL'
+  - '-TLSv1'
+  - '-TLSv1.1'
