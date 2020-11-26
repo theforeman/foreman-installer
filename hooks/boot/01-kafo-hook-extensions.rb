@@ -15,6 +15,14 @@ module HookContextExtension
     !File.exist?(success_file)
   end
 
+  # @summary Use Puppet's package resource to ensure package state
+  # @param [Array[String]] packages
+  #   A list of package names
+  # @param [String] state
+  #   The package state to ensure. Can be installed, latest, absent or a
+  #   specific version number.
+  # @return [Boolean]
+  #   true if a change was made, false if not. Exits if there was an error
   def ensure_packages(packages, state = 'installed')
     return if packages.empty?
 
@@ -29,6 +37,8 @@ module HookContextExtension
       logger.debug("Exit status is #{status.exitstatus.inspect}")
       exit(1)
     end
+
+    status.exitstatus == 2
   end
 
   def apply_puppet_code(code)
