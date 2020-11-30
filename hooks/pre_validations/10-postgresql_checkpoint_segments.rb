@@ -1,5 +1,4 @@
 HIERA_FILE = '/etc/foreman-installer/custom-hiera.yaml'.freeze
-SCL_POSTGRESQL_CONF = '/var/opt/rh/rh-postgresql12/lib/pgsql/data/postgresql.conf'.freeze
 
 custom_hiera = YAML.load_file(HIERA_FILE)
 
@@ -14,10 +13,6 @@ if custom_hiera &&
     Please remove this from the following locations and then re-run the installer:
       - #{HIERA_FILE}
   HEREDOC
-
-  if File.exist?(SCL_POSTGRESQL_CONF)
-    message += "    - #{SCL_POSTGRESQL_CONF}"
-  end
 
   if katello_present?
     message += <<~HEREDOC

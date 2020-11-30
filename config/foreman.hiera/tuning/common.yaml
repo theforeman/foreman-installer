@@ -1,8 +1,4 @@
 ---
-lookup_options:
-  postgresql::server::config_entries:
-    merge: hash
-
 apache::mod::passenger::passenger_max_pool_size: 12
 apache::mod::passenger::passenger_max_instances_per_app: 6
 apache::mod::passenger::passenger_max_request_queue_size: 250

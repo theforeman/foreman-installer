@@ -1,4 +1,8 @@
 ---
+lookup_options:
+  postgresql::server::config_entries:
+    merge: hash
+
 apache::default_vhost: false
 dhcp::config_comment: |
   READ: This file was written the foreman-installer and not by the Foreman
@@ -13,3 +17,8 @@ mongodb::server::set_parameter: "{diagnosticDataCollectionEnabled: false}"
 foreman::config::apache::proxy_params:
   retry: '0'
   timeout: '900'
+
+postgresql::server::config_entries:
+  # PostgreSQL 9.5 removed checkpoint_segments as a valid option. Foreman
+  # requires PostgreSQL 9.6 or newer.
+  checkpoint_segments: ~
