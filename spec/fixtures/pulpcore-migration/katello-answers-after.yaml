@@ -11,7 +11,6 @@ foreman::compute::ovirt: false
 foreman::compute::vmware: false
 foreman::plugin::azure: false
 foreman::plugin::column_view: false
-foreman::plugin::digitalocean: false
 foreman::plugin::expire_hosts: false
 foreman::plugin::kubevirt: false
 foreman::plugin::leapp: false
