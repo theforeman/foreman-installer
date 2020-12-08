@@ -35,6 +35,7 @@ foreman_proxy::plugin::pulp:
   enabled: false
   pulpnode_enabled: true
 foreman_proxy::plugin::remote_execution::ssh: false
+foreman_proxy::plugin::salt: false
 puppet:
   server: true
   server_environments_owner: apache
