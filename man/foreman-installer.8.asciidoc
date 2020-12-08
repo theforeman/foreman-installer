@@ -116,7 +116,7 @@ Skip saving answers to answers.yaml? (default: false)
 Run puppet in noop mode? (default: false)
 
 -v, --verbose::
-Display log on STDOUT instead of progressbar
+Display log on STDOUT instead of progress bar
 
 -l, --verbose-log-level 'LEVEL'::
 Log level for verbose mode output (default: "info")
@@ -160,10 +160,10 @@ Skip all system checks (default: false)
 Use installation scenario
 
 --list-scenarios::
-List available installation scenaraios
+List available installation scenarios
 
 --force::
-Force change of installation scenaraio
+Force change of installation scenario
 
 --compare-scenarios::
 Show changes between last used scenario and the scenario specified
