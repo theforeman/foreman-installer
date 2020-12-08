@@ -1,7 +1,7 @@
 #!/usr/bin/env ruby
 
 if ARGV.length < 2
-  $stderr.puts "Usage #{$PROGRAM_NAME} MIRGATION_NAME DIRECTORY [DIRECTORY]"
+  $stderr.puts "Usage #{$PROGRAM_NAME} MIGRATION_NAME DIRECTORY [DIRECTORY]"
   $stderr.puts "e.g., #{$PROGRAM_NAME} add-server-ssl-crl config/foreman.migrations"
   exit 1
 end
