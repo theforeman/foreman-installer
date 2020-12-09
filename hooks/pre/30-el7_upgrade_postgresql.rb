@@ -11,6 +11,7 @@ def postgresql_12_upgrade
 
   execute!(%(scl enable rh-postgresql12 "PGSETUP_INITDB_OPTIONS='--lc-collate=#{collate} --lc-ctype=#{ctype} --locale=#{collate}' postgresql-setup --upgrade"))
   ensure_packages(['postgresql-server'], 'absent')
+  ensure_packages(['postgresql-devel'], 'absent')
   ensure_packages(['postgresql'], 'absent')
   execute!('rm -f /etc/systemd/system/postgresql.service')
   ensure_packages(['rh-postgresql12-syspaths'], 'installed')
