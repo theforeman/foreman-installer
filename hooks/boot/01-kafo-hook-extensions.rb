@@ -65,8 +65,12 @@ module HookContextExtension
     candlepin_enabled? && param_value('katello', 'candlepin_manage_db')
   end
 
+  def local_pulpcore_db?
+    pulpcore_enabled? && param_value('foreman_proxy_content', 'pulpcore_manage_postgresql')
+  end
+
   def local_postgresql?
-    local_foreman_db? || local_candlepin_db? || devel_scenario?
+    local_foreman_db? || local_candlepin_db? || local_pulpcore_db? || devel_scenario?
   end
 
   def local_redis?
