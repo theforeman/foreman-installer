@@ -2,7 +2,14 @@
 
 ## Filing and Fixing Issues
 
-All issues are tracked using [Redmine](https://projects.theforeman.org/projects/puppet-foreman/issues). There are two types of issues that may arise:
+All issues are tracked using [Redmine](https://projects.theforeman.org/projects/puppet-foreman/issues).
+
+Where relevant, the first line of a commit message should reference the
+associated Redmine issue to permit automation to work correctly, for example:
+
+`Fixes #31387 - Drop TLS 1.0 and TLS 1.1 from Apache`
+
+There are two types of issues that may arise:
 
   * A bug within an individual module
   * A bug within the hooks or scripts of the installer
