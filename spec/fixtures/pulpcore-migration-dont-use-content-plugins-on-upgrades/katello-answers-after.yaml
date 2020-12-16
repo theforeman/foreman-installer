@@ -2,6 +2,7 @@ foreman::cli: true
 foreman::cli::ansible: false
 foreman::cli::azure: false
 foreman::cli::kubevirt: false
+foreman::cli::remote_execution: true
 foreman::cli::virt_who_configure: false
 foreman::compute::ec2: false
 foreman::compute::gce: false
@@ -16,6 +17,7 @@ foreman::plugin::kubevirt: false
 foreman::plugin::leapp: false
 foreman::plugin::memcache: false
 foreman::plugin::monitoring: false
+foreman::plugin::remote_execution: true
 foreman::plugin::remote_execution::cockpit: false
 foreman::plugin::rh_cloud: false
 foreman::plugin::salt: false
