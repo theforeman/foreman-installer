@@ -32,7 +32,7 @@ foreman::cli::azure: false
 foreman::cli::discovery: false
 foreman::cli::kubevirt: false
 foreman::cli::openscap: false
-foreman::cli::remote_execution: false
+foreman::cli::remote_execution: true
 foreman::cli::tasks: false
 foreman::cli::templates: false
 foreman::cli::virt_who_configure: false
@@ -57,7 +57,7 @@ foreman::plugin::memcache: false
 foreman::plugin::monitoring: false
 foreman::plugin::openscap: false
 foreman::plugin::puppetdb: false
-foreman::plugin::remote_execution: false
+foreman::plugin::remote_execution: true
 foreman::plugin::remote_execution::cockpit: false
 foreman::plugin::rh_cloud: false
 foreman::plugin::salt: false
