@@ -1,8 +1,8 @@
 require 'pathname'
 
 PULP_ROOT = Pathname.new('/var/lib/pulp')
-LEGACY_DIR = PULP_ROOT / 'artifact'
-DESTINATION = PULP_ROOT / 'media' / LEGACY_DIR.basename
+LEGACY_DIR = PULP_ROOT / 'docroot'
+DESTINATION = PULP_ROOT / 'media'
 
 if LEGACY_DIR.directory? && !LEGACY_DIR.symlink? && DESTINATION.directory?
   message = <<~MESSAGE

@@ -1,6 +1,6 @@
 require 'pathname'
 
-LEGACY_DIR = Pathname.new('/var/lib/pulp/artifact')
+LEGACY_DIR = Pathname.new('/var/lib/pulp/docroot')
 
 if LEGACY_DIR.symlink?
   logger.debug("Removing legacy symlink #{LEGACY_DIR}")
