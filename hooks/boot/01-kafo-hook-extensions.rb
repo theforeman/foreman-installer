@@ -90,7 +90,7 @@ module HookContextExtension
   end
 
   def pulpcore_enabled?
-    module_enabled?('foreman_proxy_plugin_pulp') && param_value('foreman_proxy_plugin_pulp', 'pulpcore_enabled')
+    module_enabled?('foreman_proxy_content')
   end
 
   def needs_postgresql_scl_upgrade?
