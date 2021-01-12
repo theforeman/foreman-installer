@@ -1,0 +1,1 @@
+../../../hooks/boot/01-kafo-hook-extensions.rb
