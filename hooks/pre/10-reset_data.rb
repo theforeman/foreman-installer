@@ -7,7 +7,6 @@ def reset
   start_services(['postgresql']) if local_postgresql?
   empty_db_in_postgresql('foreman') if foreman_server?
   reset_candlepin if candlepin_enabled?
-  reset_pulp if pulp_enabled?
   reset_pulpcore if pulpcore_enabled?
 end
 
@@ -55,33 +54,6 @@ end
 def reset_candlepin
   execute!('rm -f /var/lib/candlepin/.puppet-candlepin-cpdb*')
   empty_db_in_postgresql('candlepin')
-end
-
-def empty_mongo(config)
-  if config[:ssl]
-    ssl = '--ssl'
-    if config[:ca_path]
-      ca_cert = "--sslCAFile #{config[:ca_path]}"
-      client_cert = "--sslPEMKeyFile #{config[:ssl_certfile]}" if config[:ssl_certfile]
-    end
-  end
-  username = "-u #{config[:username]}" if config[:username]
-  password = "-p #{config[:password]}" if config[:password]
-  host = "--host #{config[:host]} --port #{config[:port]}"
-  cmd = "mongo #{config[:database]} #{username} #{password} #{host} #{ssl} #{ca_cert} #{client_cert} --eval 'db.dropDatabase();'"
-  execute!(cmd)
-end
-
-def reset_pulp
-  execute!('rm -f /var/lib/pulp/init.flag')
-
-  mongo_config = load_mongo_config
-  start_services(['rh-mongodb34-mongod']) unless remote_host?(mongo_config[:host])
-  logger.info 'Dropping Pulp database!'
-  empty_mongo(mongo_config)
-
-  logger.info 'Clearing Pulp content from disk.'
-  execute!('rm -rf /var/lib/pulp/{distributions,published,repos,content}/*')
 end
 
 def pg_command_base(config, command, args)

@@ -81,16 +81,8 @@ module HookContextExtension
     katello_enabled?
   end
 
-  def pulp_enabled?
-    module_enabled?('foreman_proxy_plugin_pulp') && (param_value('foreman_proxy_plugin_pulp', 'pulpnode_enabled') || param_value('foreman_proxy_plugin_pulp', 'enabled'))
-  end
-
-  def pulp_present?
-    module_present?('foreman_proxy_plugin_pulp')
-  end
-
   def pulpcore_enabled?
-    module_enabled?('foreman_proxy_plugin_pulp') && param_value('foreman_proxy_plugin_pulp', 'pulpcore_enabled')
+    module_enabled?('foreman_proxy_content')
   end
 
   def needs_postgresql_scl_upgrade?
@@ -154,22 +146,6 @@ module HookContextExtension
 
   def remote_host?(hostname)
     !['localhost', '127.0.0.1', `hostname`.strip].include?(hostname)
-  end
-
-  def load_mongo_config
-    seeds = param_value('katello', 'pulp_db_seeds')
-    seed = seeds&.split(',')&.first
-    host, port = seed.split(':') if seed
-    {
-      host: host || 'localhost',
-      port: port || '27017',
-      database: param_value('katello', 'pulp_db_name') || 'pulp_database',
-      username: param_value('katello', 'pulp_db_username'),
-      password: param_value('katello', 'pulp_db_password'),
-      ssl: param_value('katello', 'pulp_db_ssl') || false,
-      ca_path: param_value('katello', 'pulp_db_ca_path'),
-      ssl_certfile: param_value('katello', 'pulp_db_ssl_certfile'),
-    }
   end
 end
 

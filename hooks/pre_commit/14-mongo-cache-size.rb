@@ -1,7 +1,7 @@
 # Setting Default Mongo WiredTiger Engine cache size to be 20% of total memory
 # See https://access.redhat.com/solutions/4505561
 # See https://docs.mongodb.com/manual/core/wiredtiger/#memory-use
-if pulp_enabled?
+if katello_enabled? || devel_scenario?
   MONGO_CACHE_SIZE_FACT = 'mongo_cache_size'.freeze
 
   current_mongo_cache_size = get_custom_fact(MONGO_CACHE_SIZE_FACT)
