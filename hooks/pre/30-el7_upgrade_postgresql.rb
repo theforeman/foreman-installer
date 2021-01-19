@@ -7,11 +7,14 @@ def postgresql_12_upgrade
   if execute("rpm -q postgresql-contrib", false, false)
     server_packages << 'rh-postgresql12-postgresql-contrib'
   end
+  if execute("rpm -q postgresql-docs", false, false)
+    server_packages << 'rh-postgresql12-postgresql-docs'
+  end
   ensure_packages(server_packages, 'installed')
 
   execute!(%(scl enable rh-postgresql12 "PGSETUP_INITDB_OPTIONS='--lc-collate=#{collate} --lc-ctype=#{ctype} --locale=#{collate}' postgresql-setup --upgrade"))
   ensure_packages(['postgresql-server'], 'absent')
-  ensure_packages(['postgresql-devel'], 'absent')
+  ensure_packages(['postgresql-devel', 'postgresql-contrib', 'postgresql-docs'], 'absent')
   ensure_packages(['postgresql'], 'absent')
   execute!('rm -f /etc/systemd/system/postgresql.service')
   ensure_packages(['rh-postgresql12-syspaths'], 'installed')
