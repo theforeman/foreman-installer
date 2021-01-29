@@ -64,7 +64,6 @@ foreman_proxy::plugin::dynflow: false
 foreman_proxy::plugin::monitoring: false
 foreman_proxy::plugin::omaha: false
 foreman_proxy::plugin::openscap: false
-foreman_proxy::plugin::pulp: false
 foreman_proxy::plugin::remote_execution::ssh: false
 foreman_proxy::plugin::salt: false
 puppet:
