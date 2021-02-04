@@ -31,6 +31,20 @@ module HookContextExtension
     end
   end
 
+  def ensure_dnf_module(dnf_module, version)
+    code = "package { ['#{dnf_module}']: ensure => #{version}, enable_only => true, provider => 'dnfmodule' }"
+    logger.info("Ensuring #{dnf_module}:#{version} is enabled")
+    stdout, stderr, status = apply_puppet_code(code)
+
+    unless [0, 2].include?(status.exitstatus)
+      log_and_say(:error, "Failed to ensure #{dnf_module}:#{version} is enabled")
+      log_and_say(:error, stderr.strip) if stderr && stderr.strip
+      logger.debug(stdout.strip) if stdout && stdout.strip
+      logger.debug("Exit status is #{status.exitstatus.inspect}")
+      exit(1)
+    end
+  end
+
   def apply_puppet_code(code)
     bin_path = Kafo::PuppetCommand.search_puppet_path('puppet')
     Open3.capture3(*Kafo::PuppetCommand.format_command("echo \"#{code}\" | #{bin_path} apply --detailed-exitcodes"))
@@ -91,6 +105,10 @@ module HookContextExtension
 
   def el7?
     facts[:os][:release][:major] == '7' && facts[:os][:family] == 'RedHat'
+  end
+
+  def el8?
+    facts[:os][:release][:major] == '8' && facts[:os][:family] == 'RedHat'
   end
 
   def log_and_say(level, message, do_say = true, do_log = true)
