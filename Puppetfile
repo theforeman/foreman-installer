@@ -1,7 +1,7 @@
 forge 'https://forgeapi.puppetlabs.com/'
 
 # Dependencies
-mod 'puppetlabs/postgresql',         '>= 5.6.0'
+mod 'puppetlabs/postgresql',         '>= 6.10.1'
 mod 'theforeman/dhcp',               :git => 'https://github.com/theforeman/puppet-dhcp'
 mod 'theforeman/dns',                :git => 'https://github.com/theforeman/puppet-dns'
 mod 'theforeman/git',                :git => 'https://github.com/theforeman/puppet-git'
