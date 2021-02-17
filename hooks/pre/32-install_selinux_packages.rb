@@ -12,5 +12,10 @@ if facts.dig(:os, :selinux, :enabled)
   packages << 'candlepin-selinux' if katello_enabled?
   packages << 'pulpcore-selinux' if pulpcore_enabled?
 
+  if katello_enabled? && el8?
+    # candlepin-selinux pulls in candlepin which requires pki-core
+    execute!('dnf module enable pki-core --assumeyes', false, true)
+  end
+
   ensure_packages(packages, 'installed')
 end
