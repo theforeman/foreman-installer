@@ -2,19 +2,17 @@ require 'open3'
 
 module ServicesHookContextExtension
   ALL_POSSIBLE_SERVICES = [
-    '*mongo*', # Used by Pulp 2
     '*redis*', # Used by Foreman/Dynflow and Pulpcore
     'apache.service', # Apache on Debian
     'dynflow*',
     'foreman*',
     'httpd.service', # Apache on Red Hat
     'postgresql*', # Used by Foreman/Dynflow and Pulpcore
-    'pulp*',
-    'qdrouterd.service', # Used by Pulp 2
-    'qpidd.service', # Used by Pulp 2
+    'pulpcore*',
+    'qdrouterd.service', # Used by Katello for katello-agent
+    'qpidd.service', # Used by Katello for katello-agent
     'smart_proxy_dynflow_core.service', # Used by Foreman Proxy
     'tomcat.service', # Candlepin
-    'squid.service', # Used by Pulp 2
   ].freeze
 
   def start_services(services)

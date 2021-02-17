@@ -22,6 +22,3 @@ postgresql::server::config_entries:
   log_line_prefix: '%t '
   log_min_duration_statement: 1000
   log_rotation_size: 200000
-
-mongodb::server::config_data:
-  storage.wiredTiger.engineConfig.cacheSizeGB: "%{facts.kafo.scenario.custom.mongo_cache_size}"
