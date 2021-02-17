@@ -1,15 +1,4 @@
 ---
-mongodb::globals::server_package_name: 'rh-mongodb34-syspaths'
-mongodb::client::package_name: 'rh-mongodb34-mongodb'
-mongodb::globals::service_name: 'rh-mongodb34-mongod'
-mongodb::server::config: '/etc/opt/rh/rh-mongodb34/mongod.conf'
-mongodb::server::dbpath: '/var/lib/mongodb'
-mongodb::server::syslog: true
-mongodb::server::logpath: false
-mongodb::server::config_template: 'mongodb/mongodb.conf.2.6.erb'
-mongodb::server::manage_pidfile: false
-mongodb::server::pidfilepath: '/var/opt/rh/rh-mongodb34/run/mongodb/mongod.pid'
-
 redis::globals::scl: rh-redis5
 
 postgresql::globals::version: '12'

@@ -8,8 +8,6 @@ dhcp::config_comment: |
   Foreman application and in this configuration preferably via
   foreman-installer. Use custom-hiera.yaml for multiple subnets.
 
-mongodb::server::set_parameter: "{diagnosticDataCollectionEnabled: false}"
-
 foreman::config::apache::proxy_params:
   retry: '0'
   timeout: '900'
