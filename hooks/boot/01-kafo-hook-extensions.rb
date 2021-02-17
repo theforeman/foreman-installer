@@ -93,6 +93,10 @@ module HookContextExtension
     facts[:os][:release][:major] == '7' && facts[:os][:family] == 'RedHat'
   end
 
+  def el8?
+    facts[:os][:release][:major] == '8' && facts[:os][:family] == 'RedHat'
+  end
+
   def log_and_say(level, message, do_say = true, do_log = true)
     style = case level
             when :error
