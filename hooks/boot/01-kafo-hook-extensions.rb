@@ -122,7 +122,7 @@ module HookContextExtension
     end
 
     unless status
-      log_and_say("#{command} failed! Check the output for error!", do_say, do_log)
+      log_and_say(:error, "#{command} failed! Check the output for error!", do_say, do_log)
       exit 1
     end
   end
