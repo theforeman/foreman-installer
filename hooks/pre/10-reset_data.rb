@@ -105,7 +105,7 @@ end
 
 def clear_pulpcore_content(content_dir)
   if File.directory?(content_dir)
-    logging.debug "Removing Pulpcore content from '#{content_dir}'"
+    logger.debug "Removing Pulpcore content from '#{content_dir}'"
     FileUtils.rm_rf(content_dir)
     logger.info "Pulpcore content successfully removed from '#{content_dir}'"
   else
