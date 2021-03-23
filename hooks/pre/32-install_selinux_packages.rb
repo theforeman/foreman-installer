@@ -12,6 +12,7 @@ if facts.dig(:os, :selinux, :enabled)
   packages << 'candlepin-selinux' if katello_enabled?
   packages << 'pulpcore-selinux' if pulpcore_enabled?
   packages << 'crane-selinux' if pulp_enabled?
+  packages << 'pulp-selinux' if pulp_enabled?
 
   ensure_packages(packages, 'installed')
 end
