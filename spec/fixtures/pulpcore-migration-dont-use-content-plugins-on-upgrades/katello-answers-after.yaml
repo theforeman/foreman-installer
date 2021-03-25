@@ -24,11 +24,13 @@ foreman::plugin::salt: false
 foreman::plugin::snapshot_management: false
 foreman::plugin::statistics: false
 foreman::plugin::virt_who_configure: false
+foreman::plugin::webhooks: false
 foreman_proxy::plugin::chef: false
 foreman_proxy::plugin::dhcp::remote_isc: false
 foreman_proxy::plugin::discovery: false
 foreman_proxy::plugin::monitoring: false
 foreman_proxy::plugin::salt: false
+foreman_proxy::plugin::shellhooks: false
 foreman_proxy_content:
   proxy_pulp_deb_to_pulpcore: false
   proxy_pulp_isos_to_pulpcore: false
