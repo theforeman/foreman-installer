@@ -67,6 +67,7 @@ foreman::plugin::statistics: false
 foreman::plugin::tasks: true
 foreman::plugin::templates: false
 foreman::plugin::virt_who_configure: false
+foreman::plugin::webhooks: false
 foreman_proxy:
   foreman_ssl_ca: /etc/foreman-proxy/foreman_ssl_ca.pem
   foreman_ssl_cert: /etc/foreman-proxy/foreman_ssl_cert.pem
@@ -86,6 +87,7 @@ foreman_proxy::plugin::monitoring: false
 foreman_proxy::plugin::openscap: false
 foreman_proxy::plugin::remote_execution::ssh: false
 foreman_proxy::plugin::salt: false
+foreman_proxy::plugin::shellhooks: false
 foreman_proxy_content:
   proxy_pulp_yum_to_pulpcore: true
   proxy_pulp_deb_to_pulpcore: true
