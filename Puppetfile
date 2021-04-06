@@ -6,6 +6,7 @@ mod 'puppetlabs/postgresql',         :git => 'https://github.com/theforeman/pupp
 mod 'theforeman/dhcp',               :git => 'https://github.com/theforeman/puppet-dhcp'
 mod 'theforeman/dns',                :git => 'https://github.com/theforeman/puppet-dns'
 mod 'theforeman/git',                :git => 'https://github.com/theforeman/puppet-git'
+mod 'theforeman/puppetserver_foreman', :git => 'https://github.com/theforeman/puppet-puppetserver_foreman'
 mod 'theforeman/tftp',               :git => 'https://github.com/theforeman/puppet-tftp'
 
 # Katello dependencies
