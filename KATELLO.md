@@ -46,7 +46,6 @@ foreman-proxy-certs-generate --foreman-proxy-fqdn "myforeman-proxy-content.examp
 # Copy the ~/myforeman-proxy.example.com-certs.tar to the foreman-proxy system
 # register the system to Katello and run:
 foreman-installer --scenario                                "foreman-proxy-content"\
-                  --foreman-proxy-content-parent-fqdn       "master.example.com"\
                   --foreman-proxy-register-in-foreman       "true"\
                   --foreman-proxy-foreman-base-url          "https://master.example.com"\
                   --foreman-proxy-trusted-hosts             "master.example.com"\

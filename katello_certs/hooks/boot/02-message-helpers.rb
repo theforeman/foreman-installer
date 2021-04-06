@@ -57,7 +57,6 @@ module KatelloCertsMessageHookContextExtension
   #{installer_command} \\
                     --scenario #{scenario_name} \\
                     --certs-tar-file                              "<%= color("#{certs_tar_file}", :info) %>"\\
-                    --foreman-proxy-content-parent-fqdn           "#{fqdn}"\\
                     --foreman-proxy-register-in-foreman           "true"\\
                     --foreman-proxy-foreman-base-url              "#{foreman_url}"\\
                     --foreman-proxy-trusted-hosts                 "#{fqdn}"\\
