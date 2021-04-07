@@ -100,3 +100,6 @@ puppet:
   server_foreman_ssl_ca: /etc/pki/katello/puppet/puppet_client_ca.crt
   server_foreman_ssl_cert: /etc/pki/katello/puppet/puppet_client.crt
   server_foreman_ssl_key: /etc/pki/katello/puppet/puppet_client.key
+  server_jvm_extra_args:
+    - "-Djruby.logger.class=com.puppetlabs.jruby_utils.jruby.Slf4jLogger"
+    - "-XX:ReservedCodeCacheSize=512m"

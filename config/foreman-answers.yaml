@@ -70,3 +70,6 @@ foreman_proxy::plugin::salt: false
 foreman_proxy::plugin::shellhooks: false
 puppet:
   server: true
+  server_jvm_extra_args:
+    - "-Djruby.logger.class=com.puppetlabs.jruby_utils.jruby.Slf4jLogger"
+    - "-XX:ReservedCodeCacheSize=512m"
