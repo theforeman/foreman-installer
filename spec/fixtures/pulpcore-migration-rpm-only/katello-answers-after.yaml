@@ -1,6 +1,7 @@
 foreman::cli: true
 foreman::cli::ansible: false
 foreman::cli::azure: false
+foreman::cli::katello: true
 foreman::cli::kubevirt: false
 foreman::cli::remote_execution: true
 foreman::cli::virt_who_configure: false
