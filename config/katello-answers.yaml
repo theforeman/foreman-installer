@@ -30,6 +30,7 @@ foreman::cli: true
 foreman::cli::ansible: false
 foreman::cli::azure: false
 foreman::cli::discovery: false
+foreman::cli::katello: true
 foreman::cli::kubevirt: false
 foreman::cli::openscap: false
 foreman::cli::remote_execution: true
