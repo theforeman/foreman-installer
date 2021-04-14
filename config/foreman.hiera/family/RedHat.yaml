@@ -1,3 +1,0 @@
----
-# Disable additional Phusion Passenger repo on EL, preferring EPEL/Foreman's
-apache::mod::passenger::manage_repo: false

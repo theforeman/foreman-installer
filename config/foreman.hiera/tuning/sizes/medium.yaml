@@ -1,7 +1,4 @@
 ---
-apache::mod::passenger::passenger_max_pool_size: 30
-apache::mod::passenger::passenger_max_request_queue_size: 1000
-
 apache::mod::prefork::serverlimit: 1024
 apache::mod::prefork::maxclients: 1024
 apache::mod::prefork::maxrequestsperchild: 4000
