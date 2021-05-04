@@ -1,25 +1,17 @@
 forge 'https://forgeapi.puppetlabs.com/'
 
-# Dependencies
-# This uses a version with DNF module support but without dropping Puppet 5
-mod 'puppetlabs/postgresql',         :git => 'https://github.com/theforeman/puppetlabs-postgresql', :commit => '8d0efec9fb5a5df42ed64375c71a11d8b6f90b4c'
-mod 'theforeman/dhcp',               :git => 'https://github.com/theforeman/puppet-dhcp'
-mod 'theforeman/dns',                :git => 'https://github.com/theforeman/puppet-dns'
-mod 'theforeman/git',                :git => 'https://github.com/theforeman/puppet-git'
-mod 'theforeman/puppetserver_foreman', :git => 'https://github.com/theforeman/puppet-puppetserver_foreman'
-mod 'theforeman/tftp',               :git => 'https://github.com/theforeman/puppet-tftp'
-
-# Katello dependencies
-mod 'katello/candlepin',             :git => 'https://github.com/theforeman/puppet-candlepin'
-mod 'theforeman/pulpcore',           :git => 'https://github.com/theforeman/puppet-pulpcore'
-mod 'katello/qpid',                  :git => 'https://github.com/theforeman/puppet-qpid'
-
-# Top-level modules
-mod 'theforeman/foreman',            :git => 'https://github.com/theforeman/puppet-foreman'
-mod 'theforeman/foreman_proxy',      :git => 'https://github.com/theforeman/puppet-foreman_proxy'
-mod 'theforeman/puppet',             :git => 'https://github.com/theforeman/puppet-puppet'
-
-# Top-level katello modules
-mod 'katello/foreman_proxy_content', :git => 'https://github.com/theforeman/puppet-foreman_proxy_content'
-mod 'katello/certs',                 :git => 'https://github.com/theforeman/puppet-certs'
-mod 'katello/katello',               :git => 'https://github.com/theforeman/puppet-katello'
+mod 'puppetlabs/postgresql',           '>= 6.10.1 < 7.0.0'
+mod 'theforeman/dhcp',                 '>= 6.2.0 < 6.3.0'
+mod 'theforeman/dns',                  '>= 8.2.0 < 8.3.0'
+mod 'theforeman/git',                  '>= 6.3.0 < 6.4.0'
+mod 'theforeman/puppetserver_foreman', '>= 1.0.0 < 1.1.0'
+mod 'theforeman/tftp',                 '>= 6.0.0 < 6.1.0'
+mod 'katello/candlepin',               '>= 11.3.0 < 11.4.0'
+mod 'theforeman/pulpcore',             '>= 3.3.0 < 3.4.0'
+mod 'katello/qpid',                    '>= 8.0.0 < 8.1.0'
+mod 'theforeman/foreman',              '>= 17.0.0 < 17.1.0'
+mod 'theforeman/foreman_proxy',        '>= 18.1.0 < 18.2.0'
+mod 'theforeman/puppet',               '>= 15.0.0 < 15.1.0'
+mod 'katello/foreman_proxy_content',   '>= 18.1.0 < 18.2.0'
+mod 'katello/certs',                   '>= 12.0.0 < 12.1.0'
+mod 'katello/katello',                 '>= 20.0.0 < 20.1.0'
