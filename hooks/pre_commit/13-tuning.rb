@@ -9,7 +9,6 @@ if app_option?(:tuning)
   }.freeze
   TUNING_FACT = 'tuning'.freeze
 
-  EXIT_INVALID_TUNING = 101
   EXIT_INSUFFICIENT_CPU_CORES = 102
   EXIT_INSUFFICIENT_MEMORY = 103
 
@@ -20,14 +19,8 @@ if app_option?(:tuning)
     new_tuning = current_tuning
   end
 
-  required = TUNING_SIZES[new_tuning]
-  if required.nil?
-    say "<%= color('Invalid tuning profile', :bad) %>"
-    say "'#{new_tuning}' is not one of #{TUNING_SIZES.keys.join(', ')}"
-    exit EXIT_INVALID_TUNING
-  end
-
   unless app_value(:disable_system_checks)
+    required = TUNING_SIZES[new_tuning]
     required_cores = required[:cpu_cores]
     required_memory = required[:memory]
 
