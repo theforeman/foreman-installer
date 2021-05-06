@@ -1,6 +1,7 @@
 forge 'https://forgeapi.puppetlabs.com/'
 
-mod 'puppetlabs/postgresql',           '>= 6.10.1 < 7.0.0'
+# This uses a version with DNF module support but without dropping Puppet 5
+mod 'puppetlabs/postgresql',           :git => 'https://github.com/theforeman/puppetlabs-postgresql', :commit => '8d0efec9fb5a5df42ed64375c71a11d8b6f90b4c'
 mod 'theforeman/dhcp',                 '>= 6.2.0 < 6.3.0'
 mod 'theforeman/dns',                  '>= 8.2.0 < 8.3.0'
 mod 'theforeman/git',                  '>= 6.3.0 < 6.4.0'
