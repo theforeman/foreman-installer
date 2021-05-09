@@ -58,10 +58,6 @@ FORGE
     puppetlabs-inifile (4.4.0)
       puppetlabs-stdlib (>= 4.13.0, < 7.0.0)
       puppetlabs-translate (>= 1.0.0, < 3.0.0)
-    puppetlabs-postgresql (6.10.2)
-      puppetlabs-apt (>= 2.0.0, < 8.0.0)
-      puppetlabs-concat (>= 4.1.0, < 7.0.0)
-      puppetlabs-stdlib (>= 4.13.1, < 7.0.0)
     puppetlabs-stdlib (6.6.0)
     puppetlabs-translate (2.2.0)
     puppetlabs-xinetd (3.3.0)
@@ -112,13 +108,23 @@ FORGE
       puppetlabs-stdlib (>= 4.13.1, < 7.0.0)
       puppetlabs-xinetd (>= 1.1.0, < 4.0.0)
 
+GIT
+  remote: https://github.com/theforeman/puppetlabs-postgresql
+  ref: 8d0efec9fb5a5df42ed64375c71a11d8b6f90b4c
+  sha: 8d0efec9fb5a5df42ed64375c71a11d8b6f90b4c
+  specs:
+    puppetlabs-postgresql (6.10.1)
+      puppetlabs-apt (>= 2.0.0, < 8.0.0)
+      puppetlabs-concat (>= 4.1.0, < 7.0.0)
+      puppetlabs-stdlib (>= 4.13.1, < 7.0.0)
+
 DEPENDENCIES
   katello-candlepin (>= 11.3.0, < 11.4.0)
   katello-certs (>= 12.0.0, < 12.1.0)
   katello-foreman_proxy_content (>= 18.1.0, < 18.2.0)
   katello-katello (>= 20.0.0, < 20.1.0)
   katello-qpid (>= 8.0.0, < 8.1.0)
-  puppetlabs-postgresql (>= 6.10.1, < 7.0.0)
+  puppetlabs-postgresql (>= 0)
   theforeman-dhcp (>= 6.2.0, < 6.3.0)
   theforeman-dns (>= 8.2.0, < 8.3.0)
   theforeman-foreman (>= 17.0.0, < 17.1.0)
