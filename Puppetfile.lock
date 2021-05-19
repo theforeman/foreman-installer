@@ -115,7 +115,7 @@ FORGE
       theforeman-tftp (>= 1.3.0, < 7.0.0)
     theforeman-git (6.1.0)
       puppetlabs-stdlib (>= 4.13.0, < 7.0.0)
-    theforeman-pulpcore (2.2.1)
+    theforeman-pulpcore (2.2.3)
       camptocamp-systemd (>= 2.2.0, < 3.0.0)
       puppet-extlib (>= 3.0.0, < 6.0.0)
       puppet-redis (>= 5.0.0, < 7.0.0)
