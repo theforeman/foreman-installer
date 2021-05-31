@@ -2,7 +2,7 @@ require 'json'
 require 'semantic_puppet'
 
 describe 'Puppet module' do
-  VERSIONS = ['6.1.0'].map { |v| SemanticPuppet::Version.parse(v) }
+  VERSIONS = ['6.1.0', '7.0.0'].map { |v| SemanticPuppet::Version.parse(v) }
 
   Dir.glob(File.join(__dir__, '../_build/modules/*/metadata.json')).each do |filename|
     context File.basename(File.dirname(filename)) do

@@ -1,8 +1,8 @@
 forge 'https://forgeapi.puppetlabs.com/'
 
 # Dependencies
-# This uses a version with DNF module support but without dropping Puppet 5
-mod 'puppetlabs/postgresql',         :git => 'https://github.com/theforeman/puppetlabs-postgresql', :commit => '8d0efec9fb5a5df42ed64375c71a11d8b6f90b4c'
+# DNF module management on EL8 is needed
+mod 'puppetlabs/postgresql',         '>= 7.0.0'
 mod 'theforeman/dhcp',               :git => 'https://github.com/theforeman/puppet-dhcp'
 mod 'theforeman/dns',                :git => 'https://github.com/theforeman/puppet-dns'
 mod 'theforeman/git',                :git => 'https://github.com/theforeman/puppet-git'
