@@ -18,10 +18,10 @@ begin
     author, name = manifest.name.split('-')
     if ['theforeman', 'katello'].include?(author)
       branch = "#{manifest.version.to_s.split('.')[0..1].join('.')}-stable"
-      puts "puppet-#{name} #{manifest.version} #{branch}"
+      puts "puppet-#{name} #{branch} #{manifest.version}"
     end
   end
-rescue ArgumentError => e
-  puts e
+rescue ArgumentError => error
+  STDERR.puts error
   exit 1
 end
