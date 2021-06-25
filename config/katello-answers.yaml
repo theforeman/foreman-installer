@@ -17,15 +17,12 @@ foreman:
   client_ssl_key: /etc/foreman/client_key.pem
   initial_location: Default Location
   initial_organization: Default Organization
-  max_keepalive_requests: 10000
   server_ssl_ca: /etc/pki/katello/certs/katello-default-ca.crt
   server_ssl_cert: /etc/pki/katello/certs/katello-apache.crt
   server_ssl_chain: /etc/pki/katello/certs/katello-server-ca.crt
   server_ssl_crl: ""
   server_ssl_key: /etc/pki/katello/private/katello-apache.key
   user_groups: []
-  websockets_ssl_cert: /etc/pki/katello/certs/katello-apache.crt
-  websockets_ssl_key: /etc/pki/katello/private/katello-apache.key
 foreman::cli: true
 foreman::cli::ansible: false
 foreman::cli::azure: false
