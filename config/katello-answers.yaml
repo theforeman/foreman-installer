@@ -22,7 +22,6 @@ foreman:
   server_ssl_chain: /etc/pki/katello/certs/katello-server-ca.crt
   server_ssl_crl: ""
   server_ssl_key: /etc/pki/katello/private/katello-apache.key
-  user_groups: []
 foreman::cli: true
 foreman::cli::ansible: false
 foreman::cli::azure: false
