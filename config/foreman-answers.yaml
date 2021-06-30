@@ -43,6 +43,7 @@ foreman::plugin::monitoring: false
 foreman::plugin::omaha: false
 foreman::plugin::openscap: false
 foreman::plugin::ovirt_provision: false
+foreman::plugin::puppet: false
 foreman::plugin::puppetdb: false
 foreman::plugin::remote_execution: false
 foreman::plugin::remote_execution::cockpit: false
