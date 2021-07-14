@@ -62,7 +62,7 @@ describe 'migrations' do
 
       it 'changes scenario answers' do
         _, after = migrator
-        expect(answers_after).to eq after
+        expect(after).to include answers_after
       end
     end
 
@@ -80,7 +80,7 @@ describe 'migrations' do
 
       it 'changes scenario answers' do
         _, after = migrator
-        expect(answers_after).to eq after
+        expect(after).to include answers_after
       end
     end
 
@@ -98,7 +98,7 @@ describe 'migrations' do
 
       it 'changes scenario answers' do
         _, after = migrator
-        expect(answers_after).to eq after
+        expect(after).to include answers_after
       end
     end
   end
@@ -118,7 +118,7 @@ describe 'migrations' do
 
       it 'changes scenario config' do
         after, = migrator
-        expect(config_after).to eq after
+        expect(after).to include config_after
       end
     end
   end
