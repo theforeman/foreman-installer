@@ -18,4 +18,5 @@ if facts.dig(:os, :selinux, :enabled)
   end
 
   ensure_packages(packages, 'installed')
+  execute('mkdir -Z /var/log/redis') if local_redis?
 end
