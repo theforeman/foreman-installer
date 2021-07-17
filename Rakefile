@@ -77,7 +77,7 @@ SBINDIR = ENV['SBINDIR'] || "#{PREFIX}/sbin"
 INCLUDEDIR = ENV['INCLUDEDIR'] || "#{PREFIX}/include"
 SYSCONFDIR = ENV['SYSCONFDIR'] || "#{PREFIX}/etc"
 LOCALSTATEDIR = ENV['LOCALSTATEDIR'] || "#{PREFIX}/var"
-SHAREDSTAREDIR = ENV['SHAREDSTAREDIR'] || "#{LOCALSTATEDIR}/lib"
+SHAREDSTATEDIR = ENV['SHAREDSTATEDIR'] || "#{LOCALSTATEDIR}/lib"
 LOGDIR = ENV['LOGDIR'] || "#{LOCALSTATEDIR}/log"
 DATAROOTDIR = DATADIR = ENV['DATAROOTDIR'] || "#{PREFIX}/share"
 MANDIR = ENV['MANDIR'] || "#{DATAROOTDIR}/man"
@@ -106,7 +106,7 @@ SCENARIOS.each do |scenario|
     cp t.prerequisites.first, t.name
 
     scenario_config_replacements = {
-      'answer_file' => "#{SYSCONFDIR}/foreman-installer/scenarios.d/#{scenario}-answers.yaml",
+      'answer_file' => "#{SHAREDSTATEDIR}/foreman-installer/scenarios.d/#{scenario}-answers.yaml",
       'hiera_config' => "#{DATADIR}/foreman-installer/config/foreman-hiera.yaml",
       'installer_dir' => "#{DATADIR}/foreman-installer",
       'log_dir' => "#{LOGDIR}/foreman-installer",
@@ -135,12 +135,12 @@ SCENARIOS.each do |scenario|
     sh "#{exporter}/kafo-export-params -c #{t.prerequisites.first} -f asciidoc -o #{t.name}"
   end
 
-  # Store migration scripts under DATADIR, symlinked back into SYSCONFDIR and keep .applied file in SYSCONFDIR
+  # Store migration scripts under DATADIR, symlinked back into SHAREDSTATEDIR and keep .applied file in SHAREDSTATEDIR
   directory "#{BUILDDIR}/#{scenario}.migrations"
   file "#{BUILDDIR}/#{scenario}.migrations" => BUILDDIR do |t|
     # These symlinks are broken until installation, so don't reference them in rake file tasks
     ln_s "#{DATADIR}/foreman-installer/config/#{scenario}.migrations", "#{t.name}/#{scenario}.migrations"
-    ln_s "#{SYSCONFDIR}/foreman-installer/scenarios.d/#{scenario}-migrations-applied", "#{t.name}/.applied"
+    ln_s "#{SHAREDSTATEDIR}/foreman-installer/scenarios.d/#{scenario}-migrations-applied", "#{t.name}/.applied"
   end
 
   file "#{BUILDDIR}/config/#{scenario}.migrations" => ["config/#{scenario}.migrations", "#{BUILDDIR}/config"] do |t|
@@ -191,13 +191,13 @@ end
 
 file "#{BUILDDIR}/foreman-installer" => 'bin/foreman-installer' do |t|
   cp t.prerequisites[0], t.name
-  sh format('sed -i "s#\(^.*CONFIG_DIR = \).*#CONFIG_DIR = %s#" %s', "'#{SYSCONFDIR}/foreman-installer/scenarios.d/'", t.name)
+  sh format('sed -i "s#\(^.*CONFIG_DIR = \).*#CONFIG_DIR = %s#" %s', "'#{SHAREDSTATEDIR}/foreman-installer/scenarios.d/'", t.name)
 end
 
 file "#{BUILDDIR}/foreman-proxy-certs-generate" => 'bin/foreman-proxy-certs-generate' do |t|
   cp t.prerequisites[0], t.name
   sh format('sed -i "s#^.*\(CONFIG_DIR = \).*#\1%s#" %s', "'#{DATADIR}/foreman-installer/katello-certs/scenarios.d/'", t.name)
-  sh format('sed -i "s#^.*\(LAST_SCENARIO_PATH = \).*#\1%s#" %s', "'#{SYSCONFDIR}/foreman-installer/scenarios.d/last_scenario.yaml'", t.name)
+  sh format('sed -i "s#^.*\(LAST_SCENARIO_PATH = \).*#\1%s#" %s', "'#{SHAREDSTATEDIR}/foreman-installer/scenarios.d/last_scenario.yaml'", t.name)
 end
 
 file "#{BUILDDIR}/katello-certs-check" => 'bin/katello-certs-check' do |t|
@@ -301,12 +301,12 @@ task :install => :build do
     cp_r 'katello', "#{DATADIR}/foreman-installer"
   end
 
-  mkdir_p "#{SYSCONFDIR}/foreman-installer/scenarios.d"
+  mkdir_p "#{SHAREDSTATEDIR}/foreman-installer/scenarios.d"
   SCENARIOS.each do |scenario|
-    cp "#{BUILDDIR}/#{scenario}.yaml", "#{SYSCONFDIR}/foreman-installer/scenarios.d/"
-    cp "config/#{scenario}-answers.yaml", "#{SYSCONFDIR}/foreman-installer/scenarios.d/#{scenario}-answers.yaml"
-    cp "#{BUILDDIR}/#{scenario}-migrations-applied", "#{SYSCONFDIR}/foreman-installer/scenarios.d/#{scenario}-migrations-applied"
-    copy_entry "#{BUILDDIR}/#{scenario}.migrations/#{scenario}.migrations", "#{SYSCONFDIR}/foreman-installer/scenarios.d/#{scenario}.migrations"
+    cp "#{BUILDDIR}/#{scenario}.yaml", "#{SHAREDSTATEDIR}/foreman-installer/scenarios.d/"
+    cp "config/#{scenario}-answers.yaml", "#{SHAREDSTATEDIR}/foreman-installer/scenarios.d/#{scenario}-answers.yaml"
+    cp "#{BUILDDIR}/#{scenario}-migrations-applied", "#{SHAREDSTATEDIR}/foreman-installer/scenarios.d/#{scenario}-migrations-applied"
+    copy_entry "#{BUILDDIR}/#{scenario}.migrations/#{scenario}.migrations", "#{SHAREDSTATEDIR}/foreman-installer/scenarios.d/#{scenario}.migrations"
     copy_entry "#{BUILDDIR}/#{scenario}.migrations/.applied", "#{DATADIR}/foreman-installer/config/#{scenario}.migrations/.applied"
   end
 
