@@ -29,7 +29,7 @@ directories.each do |directory|
   end
 
   timestamp = `TZ=UTC date #{format}`.strip
-  filename = File.join(directory, "#{timestamp}#{glue}#{migration_name.sub(to_replace, glue)}.rb")
+  filename = File.join(directory, "#{timestamp}#{glue}#{migration_name.gsub(to_replace, glue)}.rb")
 
   File.open(filename, 'w') do |file|
     file.puts(content) if content
