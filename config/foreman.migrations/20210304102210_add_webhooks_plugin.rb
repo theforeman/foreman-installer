@@ -1,1 +1,1 @@
-answers['foreman::plugin::webhooks'] ||= false
+add_module('foreman::plugin::webhooks')

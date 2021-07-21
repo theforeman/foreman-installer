@@ -1,1 +1,1 @@
-answers['foreman::plugin::host_extra_validator'] ||= false
+add_module('foreman::plugin::host_extra_validator')

@@ -1,3 +1,1 @@
-unless answers.key?('foreman::plugin::puppet')
-  answers['foreman::plugin::puppet'] = true
-end
+add_module('foreman::plugin::puppet', true)

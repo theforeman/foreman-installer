@@ -1,1 +1,3 @@
-answers['foreman']['passenger'] = false if answers['foreman'].is_a?(Hash) && answers['foreman']['passenger']
+migrate_module('foreman') do |mod|
+  mod['passenger'] = false if mod['passenger']
+end

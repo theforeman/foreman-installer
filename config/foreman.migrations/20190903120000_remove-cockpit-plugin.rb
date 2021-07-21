@@ -1,3 +1,1 @@
-['foreman::plugin::cockpit'].each do |plugin|
-  answers.delete(plugin) if answers.include?(plugin)
-end
+delete_module('foreman::plugin::cockpit')

@@ -1,1 +1,1 @@
-answers['foreman::plugin::memcache'] ||= false
+add_module('foreman::plugin::memcache')

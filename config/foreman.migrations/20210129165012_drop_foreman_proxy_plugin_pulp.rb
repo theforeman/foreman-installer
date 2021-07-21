@@ -1,1 +1,1 @@
-answers.delete('foreman_proxy::plugin::pulp')
+remove_module('foreman_proxy::plugin::pulp')

@@ -1,2 +1,2 @@
-answers['foreman::plugin::remote_execution'] ||= false
-answers['foreman_proxy::plugin::remote_execution::ssh'] ||= false
+add_module('foreman::plugin::remote_execution')
+add_module('foreman_proxy::plugin::remote_execution::ssh')

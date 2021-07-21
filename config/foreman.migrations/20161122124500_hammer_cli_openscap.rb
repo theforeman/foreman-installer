@@ -1,1 +1,1 @@
-answers['foreman::cli::openscap'] ||= false
+add_module('foreman::cli::openscap')

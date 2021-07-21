@@ -1,1 +1,1 @@
-answers['foreman::cli::azure'] ||= false
+add_module('foreman::cli::azure')

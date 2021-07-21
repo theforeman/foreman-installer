@@ -1,4 +1,4 @@
-answers['foreman::cli::discovery'] ||= false
-answers['foreman::cli::remote_execution'] ||= false
-answers['foreman::cli::tasks'] ||= false
-answers['foreman::cli::templates'] ||= false
+add_module('foreman::cli::discovery')
+add_module('foreman::cli::remote_execution')
+add_module('foreman::cli::tasks')
+add_module('foreman::cli::templates')

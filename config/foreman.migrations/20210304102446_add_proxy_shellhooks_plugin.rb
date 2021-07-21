@@ -1,1 +1,1 @@
-answers['foreman_proxy::plugin::shellhooks'] ||= false
+add_module('foreman_proxy::plugin::shellhooks')

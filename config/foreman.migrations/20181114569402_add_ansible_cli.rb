@@ -1,1 +1,1 @@
-answers['foreman::cli::ansible'] ||= false
+add_module('foreman::cli::ansible')

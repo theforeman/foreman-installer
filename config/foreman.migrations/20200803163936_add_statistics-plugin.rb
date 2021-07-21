@@ -1,1 +1,1 @@
-answers['foreman::plugin::statistics'] ||= false
+add_module('foreman::plugin::statistics')

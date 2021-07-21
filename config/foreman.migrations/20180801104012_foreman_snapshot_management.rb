@@ -1,1 +1,1 @@
-answers['foreman::plugin::snapshot_management'] ||= false
+add_module('foreman::plugin::snapshot_management')
