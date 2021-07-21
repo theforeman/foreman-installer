@@ -1,3 +1,1 @@
-if answers.key?('foreman::plugin::digitalocean')
-  answers.delete('foreman::plugin::digitalocean')
-end
+remove_module('foreman::plugin::digitalocean')

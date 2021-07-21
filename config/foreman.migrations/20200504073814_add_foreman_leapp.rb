@@ -1,1 +1,1 @@
-answers['foreman::plugin::leapp'] ||= false
+add_module('foreman::plugin::leapp')

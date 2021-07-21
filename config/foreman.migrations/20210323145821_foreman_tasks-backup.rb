@@ -1,3 +1,3 @@
-if answers['foreman::plugin::tasks'].is_a?(Hash) && !answers['foreman::plugin::tasks'].key?('backup')
-  answers['foreman::plugin::tasks']['backup'] = true
+migrate_module('foreman::plugin::tasks') do |mod|
+  mod['backup'] = true unless mod.key?('backup')
 end

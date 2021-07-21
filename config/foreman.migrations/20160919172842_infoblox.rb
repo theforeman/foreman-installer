@@ -1,2 +1,2 @@
-answers['foreman_proxy::plugin::dns::infoblox'] ||= false
-answers['foreman_proxy::plugin::dhcp::infoblox'] ||= false
+add_module('foreman_proxy::plugin::dns::infoblox')
+add_module('foreman_proxy::plugin::dhcp::infoblox')

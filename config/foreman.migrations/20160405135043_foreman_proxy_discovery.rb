@@ -1,1 +1,1 @@
-answers['foreman_proxy::plugin::discovery'] ||= false
+add_module('foreman_proxy::plugin::discovery')

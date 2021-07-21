@@ -1,1 +1,1 @@
-answers['foreman_proxy::plugin::omaha'] ||= false
+add_module('foreman_proxy::plugin::omaha')

@@ -1,1 +1,1 @@
-answers['foreman::plugin::column_view'] ||= false
+add_module('foreman::plugin::column_view')

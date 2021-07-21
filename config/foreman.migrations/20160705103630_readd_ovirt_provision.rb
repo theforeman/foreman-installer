@@ -1,1 +1,1 @@
-answers['foreman::plugin::ovirt_provision'] ||= false
+add_module('foreman::plugin::ovirt_provision')

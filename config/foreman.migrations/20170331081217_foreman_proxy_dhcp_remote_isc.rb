@@ -1,1 +1,1 @@
-answers['foreman_proxy::plugin::dhcp::remote_isc'] ||= false
+add_module('foreman_proxy::plugin::dhcp::remote_isc')

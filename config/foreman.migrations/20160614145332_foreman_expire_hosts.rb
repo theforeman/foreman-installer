@@ -1,1 +1,1 @@
-answers['foreman::plugin::expire_hosts'] ||= false
+add_module('foreman::plugin::expire_hosts')

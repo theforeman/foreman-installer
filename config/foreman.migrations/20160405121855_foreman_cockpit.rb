@@ -1,1 +1,1 @@
-answers['foreman::plugin::cockpit'] ||= false
+add_module('foreman::plugin::cockpit')

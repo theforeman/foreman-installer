@@ -1,1 +1,1 @@
-answers['foreman::plugin::kubevirt'] ||= false
+add_module('foreman::plugin::kubevirt')

@@ -1,1 +1,1 @@
-answers['foreman_proxy::plugin::monitoring'] ||= false
+add_module('foreman_proxy::plugin::monitoring')

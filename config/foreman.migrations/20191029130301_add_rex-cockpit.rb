@@ -1,1 +1,1 @@
-answers['foreman::plugin::remote_execution::cockpit'] ||= false
+add_module('foreman::plugin::remote_execution::cockpit')

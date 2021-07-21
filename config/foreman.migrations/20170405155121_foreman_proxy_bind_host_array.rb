@@ -1,3 +1,5 @@
-if answers['foreman_proxy'] && answers['foreman_proxy']['bind_host'].is_a?(String)
-  answers['foreman_proxy']['bind_host'] = [answers['foreman_proxy']['bind_host']]
+migrate_module('foreman_proxy') do |mod|
+  if mod['bind_host'].is_a?(String)
+    mod['bind_host'] = [mod['bind_host']]
+  end
 end
