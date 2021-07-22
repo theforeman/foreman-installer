@@ -1,5 +1,5 @@
 def packages_locked?
-  foreman_maintain('packages is-locked --assumeyes')
+  foreman_maintain('packages is-locked')
 end
 
 def unlock_packages
