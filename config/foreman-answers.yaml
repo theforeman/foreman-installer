@@ -19,6 +19,7 @@ foreman::cli::openscap: false
 foreman::cli::remote_execution: false
 foreman::cli::tasks: false
 foreman::cli::templates: false
+foreman::cli::webhooks: false
 foreman::compute::ec2: false
 foreman::compute::gce: false
 foreman::compute::libvirt: false
