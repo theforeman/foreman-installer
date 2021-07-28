@@ -1,6 +1,8 @@
 forge 'https://forgeapi.puppetlabs.com/'
 
 # Dependencies
+# For Puppet 7 support
+mod 'puppetlabs/xinetd',             :git => 'https://github.com/puppetlabs/puppetlabs-xinetd', :commit => 'e742608dccdf42236144acf9f05e483b47c576f1'
 mod 'puppetlabs/postgresql',         '>= 7.0.0'
 mod 'theforeman/dhcp',               :git => 'https://github.com/theforeman/puppet-dhcp'
 mod 'theforeman/dns',                :git => 'https://github.com/theforeman/puppet-dns'
