@@ -24,6 +24,7 @@ foreman_proxy:
   ssl_key: /etc/foreman-proxy/ssl_key.pem
   ssl_port: '9090'
   templates: true
+foreman_proxy::plugin::acd: false
 foreman_proxy::plugin::ansible: false
 foreman_proxy::plugin::dhcp::infoblox: false
 foreman_proxy::plugin::dhcp::remote_isc: false
