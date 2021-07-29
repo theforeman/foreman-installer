@@ -25,6 +25,7 @@ foreman::compute::libvirt: false
 foreman::compute::openstack: false
 foreman::compute::ovirt: false
 foreman::compute::vmware: false
+foreman::plugin::acd: false
 foreman::plugin::ansible: false
 foreman::plugin::azure: false
 foreman::plugin::bootdisk: false
@@ -55,6 +56,7 @@ foreman::plugin::tasks: false
 foreman::plugin::templates: false
 foreman::plugin::webhooks: false
 foreman_proxy: {}
+foreman_proxy::plugin::acd: false
 foreman_proxy::plugin::ansible: false
 foreman_proxy::plugin::chef: false
 foreman_proxy::plugin::dhcp::infoblox: false
