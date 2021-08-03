@@ -16,6 +16,7 @@ foreman::cli::azure: false
 foreman::cli::discovery: false
 foreman::cli::kubevirt: false
 foreman::cli::openscap: false
+foreman::cli::puppet: true
 foreman::cli::remote_execution: false
 foreman::cli::tasks: false
 foreman::cli::templates: false
