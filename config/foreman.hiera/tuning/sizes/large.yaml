@@ -8,3 +8,7 @@ postgresql::server::config_entries:
   shared_buffers: 8GB
   effective_cache_size: 16GB
   autovacuum_vacuum_cost_limit: 2000
+
+foreman::foreman_service_puma_workers: 24
+foreman::foreman_service_puma_threads_max: 5
+foreman::foreman_service_puma_threads_min: 5

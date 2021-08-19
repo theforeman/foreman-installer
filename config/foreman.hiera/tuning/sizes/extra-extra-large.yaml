@@ -11,3 +11,7 @@ postgresql::server::config_entries:
   work_mem: 8MB
   effective_cache_size: 32GB
   autovacuum_vacuum_cost_limit: 2000
+
+foreman::foreman_service_puma_workers: 72
+foreman::foreman_service_puma_threads_max: 5
+foreman::foreman_service_puma_threads_min: 5
