@@ -29,7 +29,7 @@ foreman::cli::discovery: false
 foreman::cli::katello: true
 foreman::cli::kubevirt: false
 foreman::cli::openscap: false
-foreman::cli::puppet: true
+foreman::cli::puppet: false
 foreman::cli::remote_execution: true
 foreman::cli::tasks: false
 foreman::cli::templates: false
@@ -56,7 +56,7 @@ foreman::plugin::leapp: false
 foreman::plugin::memcache: false
 foreman::plugin::monitoring: false
 foreman::plugin::openscap: false
-foreman::plugin::puppet: true
+foreman::plugin::puppet: false
 foreman::plugin::puppetdb: false
 foreman::plugin::remote_execution: true
 foreman::plugin::remote_execution::cockpit: false
@@ -78,6 +78,8 @@ foreman_proxy:
   ssl_cert: /etc/foreman-proxy/ssl_cert.pem
   ssl_key: /etc/foreman-proxy/ssl_key.pem
   ssl_port: '9090'
+  puppet: false
+  puppetca: false
 foreman_proxy::plugin::acd: false
 foreman_proxy::plugin::ansible: false
 foreman_proxy::plugin::chef: false
@@ -92,11 +94,4 @@ foreman_proxy::plugin::salt: false
 foreman_proxy::plugin::shellhooks: false
 foreman_proxy_content: true
 katello: true
-puppet:
-  server: true
-  server_foreman_ssl_ca: /etc/pki/katello/puppet/puppet_client_ca.crt
-  server_foreman_ssl_cert: /etc/pki/katello/puppet/puppet_client.crt
-  server_foreman_ssl_key: /etc/pki/katello/puppet/puppet_client.key
-  server_jvm_extra_args:
-    - "-Djruby.logger.class=com.puppetlabs.jruby_utils.jruby.Slf4jLogger"
-    - "-XX:ReservedCodeCacheSize=512m"
+puppet: false
