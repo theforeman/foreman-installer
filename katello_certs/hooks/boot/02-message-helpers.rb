@@ -62,8 +62,7 @@ module KatelloCertsMessageHookContextExtension
                     --foreman-proxy-trusted-hosts                 "#{fqdn}"\\
                     --foreman-proxy-trusted-hosts                 "#{foreman_proxy_fqdn}"\\
                     --foreman-proxy-oauth-consumer-key            "#{foreman_oauth_key}"\\
-                    --foreman-proxy-oauth-consumer-secret         "#{foreman_oauth_secret}"\\
-                    --puppet-server-foreman-url                   "#{foreman_url}"
+                    --foreman-proxy-oauth-consumer-secret         "#{foreman_oauth_secret}"
 MSG
   end
 end
