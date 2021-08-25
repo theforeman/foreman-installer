@@ -6,4 +6,4 @@ def upgrade
   answers[FPC][PROXY_YUM] = false
 end
 
-upgrade if answers[FPC] && answers[FPC][PROXY_YUM].nil?
+upgrade if answers[FPC].is_a?(Hash) && answers[FPC][PROXY_YUM].nil?

@@ -6,4 +6,4 @@ def upgrade
   answers[KATELLO][USE_PULP_2_FOR_YUM] = true
 end
 
-upgrade if answers[KATELLO] && answers[KATELLO][USE_PULP_2_FOR_YUM].nil?
+upgrade if answers[KATELLO].is_a?(Hash) && answers[KATELLO][USE_PULP_2_FOR_YUM].nil?
