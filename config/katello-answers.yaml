@@ -90,12 +90,8 @@ foreman_proxy::plugin::openscap: false
 foreman_proxy::plugin::remote_execution::ssh: false
 foreman_proxy::plugin::salt: false
 foreman_proxy::plugin::shellhooks: false
-foreman_proxy_content:
-  proxy_pulp_yum_to_pulpcore: true
-  proxy_pulp_deb_to_pulpcore: true
-katello:
-  use_pulp_2_for_yum: false
-  use_pulp_2_for_deb: false
+foreman_proxy_content: true
+katello: true
 puppet:
   server: true
   server_environments_owner: apache
