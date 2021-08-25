@@ -19,6 +19,6 @@ CLEAR.each do |mod, parameters|
   end
 end
 
-if (mod_answers = answers['foreman_proxy'])
+if (mod_answers = answers['foreman_proxy']) && mod_answers.is_a?(Hash)
   mod_answers['dhcp_gateway'] = nil if mod_answers['dhcp_gateway'] == '192.168.100.1'
 end

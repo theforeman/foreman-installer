@@ -1,8 +1,6 @@
 answers.delete('foreman_proxy::plugin::pulp')
 
 if answers['foreman_proxy_content'].is_a?(Hash)
-  answers['foreman_proxy_content']['pulpcore_mirror'] = true
-
   # Prior migrations add these so we need to ensure they are deleted
   # config/katello.migrations/200611220455-dont-proxy-pulp-yum-to-pulpcore-on-upgrades.rb
   # config/katello.migrations/200123161606-enable-pulpcore.rb

@@ -9,7 +9,7 @@
 #
 # See params.pp in each class for what options are available
 ---
-foreman: {}
+foreman: true
 foreman::cli: true
 foreman::cli::ansible: false
 foreman::cli::azure: false
@@ -57,7 +57,7 @@ foreman::plugin::statistics: false
 foreman::plugin::tasks: false
 foreman::plugin::templates: false
 foreman::plugin::webhooks: false
-foreman_proxy: {}
+foreman_proxy: true
 foreman_proxy::plugin::acd: false
 foreman_proxy::plugin::ansible: false
 foreman_proxy::plugin::chef: false
@@ -73,8 +73,4 @@ foreman_proxy::plugin::openscap: false
 foreman_proxy::plugin::remote_execution::ssh: false
 foreman_proxy::plugin::salt: false
 foreman_proxy::plugin::shellhooks: false
-puppet:
-  server: true
-  server_jvm_extra_args:
-    - "-Djruby.logger.class=com.puppetlabs.jruby_utils.jruby.Slf4jLogger"
-    - "-XX:ReservedCodeCacheSize=512m"
+puppet: true

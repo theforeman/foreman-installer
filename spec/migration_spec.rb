@@ -127,7 +127,7 @@ describe 'migrations' do
     context "foreman drop puppet from user_groups" do
       let(:scenario) do
         {
-          :answers    => {'foreman' => {'user_groups' => ['puppet']}},
+          :answers    => { 'foreman' => { 'user_groups' => ['puppet'] } },
           :config     => load_config_yaml("#{scenario_name}.yaml"),
           :migrations => config_path("#{scenario_name}.migrations"),
         }
@@ -137,7 +137,7 @@ describe 'migrations' do
 
       it 'changes scenario answers' do
         _, after = migrator
-        expect(after).to include({'foreman' => {'user_groups' => []}})
+        expect(after['foreman']['user_groups']).to eq([])
       end
     end
   end
