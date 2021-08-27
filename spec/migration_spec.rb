@@ -125,10 +125,9 @@ describe 'migrations' do
 
   %w[foreman katello].each do |scenario_name|
     context "foreman drop puppet from user_groups" do
-      let(:answers_after) { load_fixture_yaml('cleanup-foreman-user-groups', "#{scenario_name}-answers-after.yaml") }
       let(:scenario) do
         {
-          :answers    => load_fixture_yaml('cleanup-foreman-user-groups', "#{scenario_name}-answers-before.yaml"),
+          :answers    => {'foreman' => {'user_groups' => ['puppet']}},
           :config     => load_config_yaml("#{scenario_name}.yaml"),
           :migrations => config_path("#{scenario_name}.migrations"),
         }
@@ -138,7 +137,7 @@ describe 'migrations' do
 
       it 'changes scenario answers' do
         _, after = migrator
-        expect(after).to include answers_after
+        expect(after).to include({'foreman' => {'user_groups' => []}})
       end
     end
   end
