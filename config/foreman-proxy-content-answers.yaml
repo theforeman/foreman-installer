@@ -11,6 +11,7 @@
 ---
 certs:
   generate: false
+  ssl_build_dir: '/var/lib/foreman-installer/ssl-build'
 foreman_proxy_content:
   pulpcore_mirror: true
 foreman_proxy:
