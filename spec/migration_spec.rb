@@ -142,4 +142,38 @@ describe 'migrations' do
       end
     end
   end
+
+  context 'disable puppet if needed' do
+    %w[foreman katello].each do |scenario_name|
+      context "on #{scenario_name}" do
+        let(:answers) do
+          {
+            'foreman' => false,
+            'foreman::cli' => false,
+          }
+        end
+        let(:scenario_name) { scenario_name }
+        let(:config) { load_config_yaml("#{scenario_name}.yaml") }
+        let(:migrations) { config_path("#{scenario_name}.migrations") }
+        let(:migrator) { Kafo::Migrations.new(migrations).run(config, answers) }
+        subject(:migrated_answers) { migrator[1] }
+
+        it 'keeps foreman::cli disabled' do
+          expect(migrated_answers['foreman::cli']).to be false
+        end
+
+        it 'adds foreman::cli::puppet disabled' do
+          expect(migrated_answers['foreman::cli::puppet']).to be false
+        end
+
+        it 'keeps foreman disabled' do
+          expect(migrated_answers['foreman']).to be false
+        end
+
+        it 'adds foreman::plugin::puppet disabled' do
+          expect(migrated_answers['foreman::plugin::puppet']).to be false
+        end
+      end
+    end
+  end
 end
