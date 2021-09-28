@@ -1,1 +1,3 @@
-answers['foreman::cli'] ||= true
+unless answers.key?('foreman::cli')
+  answers['foreman::cli'] = true
+end
