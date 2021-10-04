@@ -1,0 +1,18 @@
+certs::generate: false
+
+foreman_proxy_content::pulpcore_mirror: true
+
+foreman_proxy::foreman_ssl_ca: /etc/foreman-proxy/foreman_ssl_ca.pem
+foreman_proxy::foreman_ssl_cert: /etc/foreman-proxy/foreman_ssl_cert.pem
+foreman_proxy::foreman_ssl_key: /etc/foreman-proxy/foreman_ssl_key.pem
+foreman_proxy::http: true
+foreman_proxy::manage_puppet_group: false
+foreman_proxy::ssl_ca: /etc/foreman-proxy/ssl_ca.pem
+foreman_proxy::ssl_cert: /etc/foreman-proxy/ssl_cert.pem
+foreman_proxy::ssl_key: /etc/foreman-proxy/ssl_key.pem
+foreman_proxy::ssl_port: 9090
+foreman_proxy::templates: true
+
+puppet::server_foreman_ssl_ca: /etc/pki/katello/puppet/puppet_client_ca.crt
+puppet::server_foreman_ssl_cert: /etc/pki/katello/puppet/puppet_client.crt
+puppet::server_foreman_ssl_key: /etc/pki/katello/puppet/puppet_client.key

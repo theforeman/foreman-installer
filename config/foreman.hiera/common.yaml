@@ -19,3 +19,9 @@ katello::globals::enable_file: "%{alias('foreman_proxy_content::enable_file')}"
 katello::globals::enable_docker: "%{alias('foreman_proxy_content::enable_docker')}"
 katello::globals::enable_deb: "%{alias('foreman_proxy_content::enable_deb')}"
 katello::globals::enable_ansible_collection: "%{alias('foreman_proxy_content::enable_ansible')}"
+
+puppet::server: true
+# The logger must be there. The ReservedCodeCacheSize helps with memory issues
+puppet::server_jvm_extra_args:
+  - "-Djruby.logger.class=com.puppetlabs.jruby_utils.jruby.Slf4jLogger"
+  - "-XX:ReservedCodeCacheSize=512m"

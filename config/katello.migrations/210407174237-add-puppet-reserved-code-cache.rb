@@ -12,8 +12,5 @@ if answers['puppet'].is_a?(Hash)
         answers['puppet']['server_jvm_extra_args'] += " #{reserved_code_cache_arg}"
       end
     end
-  else
-    # The logger is silently added by the module if it's undef
-    answers['puppet']['server_jvm_extra_args'] = ['-Djruby.logger.class=com.puppetlabs.jruby_utils.jruby.Slf4jLogger', reserved_code_cache_arg]
   end
 end
