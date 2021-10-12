@@ -226,10 +226,14 @@ file "#{BUILDDIR}/foreman-installer.8" => "#{BUILDDIR}/foreman-installer.8.ascii
   end
 end
 
+file "Puppetfile.lock" => "Puppetfile" do
+  sh "r10k puppetfile resolve"
+end
+
 directory "#{BUILDDIR}/modules"
-file "#{BUILDDIR}/modules" => BUILDDIR do |_t|
+file "#{BUILDDIR}/modules" => [BUILDDIR, "Puppetfile.lock"] do |_t|
   if Dir["modules/*"].empty?
-    sh "librarian-puppet install --verbose --path #{BUILDDIR}/modules"
+    sh "r10k puppetfile install --verbose --path #{BUILDDIR}/modules"
   else
     cp_r "modules/", BUILDDIR
   end
