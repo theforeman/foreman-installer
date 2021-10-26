@@ -17,6 +17,7 @@ foreman::plugin::acd: false
 foreman::plugin::azure: false
 foreman::plugin::column_view: false
 foreman::plugin::expire_hosts: false
+foreman::plugin::host_reports: false
 foreman::plugin::kubevirt: false
 foreman::plugin::leapp: false
 foreman::plugin::memcache: false
@@ -34,6 +35,7 @@ foreman_proxy::plugin::acd: false
 foreman_proxy::plugin::chef: false
 foreman_proxy::plugin::dhcp::remote_isc: false
 foreman_proxy::plugin::discovery: false
+foreman_proxy::plugin::reports: false
 foreman_proxy::plugin::monitoring: false
 foreman_proxy::plugin::salt: false
 foreman_proxy::plugin::shellhooks: false

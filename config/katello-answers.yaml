@@ -51,6 +51,7 @@ foreman::plugin::default_hostgroup: false
 foreman::plugin::discovery: false
 foreman::plugin::expire_hosts: false
 foreman::plugin::hooks: false
+foreman::plugin::host_reports: false
 foreman::plugin::kubevirt: false
 foreman::plugin::leapp: false
 foreman::plugin::memcache: false
@@ -86,6 +87,7 @@ foreman_proxy::plugin::dhcp::remote_isc: false
 foreman_proxy::plugin::discovery: false
 foreman_proxy::plugin::dns::infoblox: false
 foreman_proxy::plugin::monitoring: false
+foreman_proxy::plugin::reports: false
 foreman_proxy::plugin::openscap: false
 foreman_proxy::plugin::remote_execution::ssh: false
 foreman_proxy::plugin::salt: false
