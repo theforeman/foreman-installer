@@ -95,10 +95,9 @@ function check-server-cert-encoding () {
 }
 
 function check-expiration () {
-    DATE=$(date -u +"%b %-d %R:%S %Y")
     CERT_EXP=$(openssl x509 -noout -enddate -in $CERT_FILE | sed -e 's/notAfter=//' | awk '{$NF="";}1')
     CA_EXP=$(openssl x509 -noout -enddate -in $CA_BUNDLE_FILE | sed -e 's/notAfter=//' | awk '{$NF="";}1')
-    DATE_TODAY=$(date -d"${DATE}" +%Y%m%d%H%M%S)
+    DATE_TODAY=$(date +%Y%m%d%H%M%S)
     CERT_DATE=$(date -d"${CERT_EXP}" +%Y%m%d%H%M%S)
     CA_DATE=$(date -d"${CA_EXP}" +%Y%m%d%H%M%S)
     printf "Checking expiration of certificate: "
