@@ -13,9 +13,3 @@ foreman::config::apache::proxy_params:
   timeout: '900'
 
 katello::globals::enable_katello_agent: "%{alias('foreman_proxy_content::enable_katello_agent')}"
-
-katello::globals::enable_yum: "%{alias('foreman_proxy_content::enable_yum')}"
-katello::globals::enable_file: "%{alias('foreman_proxy_content::enable_file')}"
-katello::globals::enable_docker: "%{alias('foreman_proxy_content::enable_docker')}"
-katello::globals::enable_deb: "%{alias('foreman_proxy_content::enable_deb')}"
-katello::globals::enable_ansible_collection: "%{alias('foreman_proxy_content::enable_ansible')}"
