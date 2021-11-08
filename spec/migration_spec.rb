@@ -100,6 +100,44 @@ describe 'with all migrations' do
     end
   end
 
+  context 'the migration 20211108174119_disable_registration_without_templates' do
+    %w[foreman foreman-proxy-content katello].each do |scenario_name|
+      context "on #{scenario_name}" do
+        let(:scenario_name) { scenario_name }
+
+        context 'with registration, without templates' do
+          let(:answers) do
+            {
+              'foreman_proxy' => {
+                'registration' => true,
+                'templates' => false,
+              },
+            }
+          end
+
+          it 'disables registration' do
+            expect(migrated_answers['foreman_proxy']['registration']).to be false
+          end
+        end
+
+        context 'with registration, with templates' do
+          let(:answers) do
+            {
+              'foreman_proxy' => {
+                'registration' => true,
+                'templates' => true,
+              },
+            }
+          end
+
+          it 'keeps registration enabled' do
+            expect(migrated_answers['foreman_proxy']['registration']).to be true
+          end
+        end
+      end
+    end
+  end
+
   context 'the migration 181213211252-merged-installer' do
     let(:config) { load_fixture_yaml('merged-installer', "#{scenario_name}-before.yaml") }
 
