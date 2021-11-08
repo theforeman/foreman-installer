@@ -24,6 +24,7 @@ foreman_proxy:
   ssl_cert: /etc/foreman-proxy/ssl_cert.pem
   ssl_key: /etc/foreman-proxy/ssl_key.pem
   ssl_port: '9090'
+  registration: true
   templates: true
   puppet: false
   puppetca: false
