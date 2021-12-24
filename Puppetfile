@@ -1,4 +1,4 @@
-forge 'https://forgeapi.puppetlabs.com/'
+forge 'https://forgeapi-cdn.puppet.com/'
 
 # Dependencies
 # For Puppet 7 support
