@@ -82,7 +82,7 @@ FORGE
       theforeman-tftp (>= 3.0.0, < 8.0.0)
     theforeman-git (7.0.0)
       puppetlabs-stdlib (>= 4.13.0, < 8.0.0)
-    theforeman-pulpcore (5.2.0)
+    theforeman-pulpcore (5.2.1)
       puppet-extlib (>= 3.0.0, < 6.0.0)
       puppet-redis (>= 5.0.0, < 9.0.0)
       puppet-systemd (>= 2.2.0, < 4.0.0)
