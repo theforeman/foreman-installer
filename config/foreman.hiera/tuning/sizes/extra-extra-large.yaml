@@ -1,4 +1,8 @@
 ---
+apache::mod::event::serverlimit: 64
+apache::mod::event::maxrequestworkers: 1024
+apache::mod::event::maxrequestsperchild: 4000
+
 apache::mod::prefork::serverlimit: 1024
 apache::mod::prefork::maxclients: 1024
 apache::mod::prefork::maxrequestsperchild: 4000

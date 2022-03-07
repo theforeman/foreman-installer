@@ -1,4 +1,10 @@
 ---
+# EL7 uses an older version of httpd where the event MPM suffers from issues such as
+# https://bz.apache.org/bugzilla/show_bug.cgi?id=53555. The fixes were deemed not
+# suitable for a backport due to a large version gap. Since the event MPM is not
+# recommended for EL7, we continue to use the prefork MPM here.
+apache::mpm_module: 'prefork'
+
 redis::globals::scl: rh-redis5
 
 postgresql::globals::version: '12'
