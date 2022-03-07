@@ -1,4 +1,9 @@
 ---
+apache::mod::event::startservers: 2
+apache::mod::event::minsparethreads: 16
+apache::mod::event::maxsparethreads: 32
+apache::mod::event::threadsperchild: 16
+
 lookup_options:
   postgresql::server::config_entries:
     merge: hash
