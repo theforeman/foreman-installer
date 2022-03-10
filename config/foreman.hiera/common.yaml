@@ -1,5 +1,7 @@
 ---
 apache::default_vhost: false
+apache::default_mods: false
+
 dhcp::config_comment: |
   READ: This file was written the foreman-installer and not by the Foreman
   application. Any updates to subnets in the Foreman database are not
