@@ -52,7 +52,7 @@ def empty_db_in_postgresql(db)
 end
 
 def reset_candlepin
-  execute!('rm -f /var/lib/candlepin/.puppet-candlepin-cpdb*', false, true)
+  execute!('rm -f /var/lib/candlepin/.puppet-candlepin-*', false, true)
   empty_db_in_postgresql('candlepin')
 end
 
