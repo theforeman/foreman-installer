@@ -1,6 +1,7 @@
 foreman::cli: true
 foreman::cli::ansible: false
 foreman::cli::azure: false
+foreman::cli::google: false
 foreman::cli::katello: true
 foreman::cli::kubevirt: false
 foreman::cli::puppet: true
@@ -9,7 +10,6 @@ foreman::cli::ssh: false
 foreman::cli::virt_who_configure: false
 foreman::cli::webhooks: false
 foreman::compute::ec2: false
-foreman::compute::gce: false
 foreman::compute::libvirt: false
 foreman::compute::openstack: false
 foreman::compute::ovirt: false
@@ -21,6 +21,7 @@ foreman::plugin::dlm: false
 foreman::plugin::dhcp_browser: false
 foreman::plugin::expire_hosts: false
 foreman::plugin::git_templates: false
+foreman::plugin::google: false
 foreman::plugin::kubevirt: false
 foreman::plugin::leapp: false
 foreman::plugin::memcache: false

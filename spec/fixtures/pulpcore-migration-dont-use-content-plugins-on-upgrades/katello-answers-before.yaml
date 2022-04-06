@@ -4,7 +4,6 @@ foreman::cli::azure: false
 foreman::cli::kubevirt: false
 foreman::cli::virt_who_configure: false
 foreman::compute::ec2: false
-foreman::compute::gce: false
 foreman::compute::libvirt: false
 foreman::compute::openstack: false
 foreman::compute::ovirt: false

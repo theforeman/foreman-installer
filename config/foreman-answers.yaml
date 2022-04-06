@@ -14,6 +14,7 @@ foreman::cli: true
 foreman::cli::ansible: false
 foreman::cli::azure: false
 foreman::cli::discovery: false
+foreman::cli::google: false
 foreman::cli::kubevirt: false
 foreman::cli::openscap: false
 foreman::cli::puppet: true
@@ -23,7 +24,6 @@ foreman::cli::tasks: false
 foreman::cli::templates: false
 foreman::cli::webhooks: false
 foreman::compute::ec2: false
-foreman::compute::gce: false
 foreman::compute::libvirt: false
 foreman::compute::openstack: false
 foreman::compute::ovirt: false
@@ -40,6 +40,7 @@ foreman::plugin::discovery: false
 foreman::plugin::dlm: false
 foreman::plugin::expire_hosts: false
 foreman::plugin::git_templates: false
+foreman::plugin::google: false
 foreman::plugin::hooks: false
 foreman::plugin::host_extra_validator: false
 foreman::plugin::kubevirt: false
