@@ -73,7 +73,7 @@ foreman_proxy::plugin::reports: false
 foreman_proxy::plugin::monitoring: false
 foreman_proxy::plugin::omaha: false
 foreman_proxy::plugin::openscap: false
-foreman_proxy::plugin::remote_execution::ssh: false
+foreman_proxy::plugin::remote_execution::script: false
 foreman_proxy::plugin::salt: false
 foreman_proxy::plugin::shellhooks: false
 puppet:
