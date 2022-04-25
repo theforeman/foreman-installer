@@ -54,8 +54,8 @@ module KatelloCertsMessageHookContextExtension
      parameters, see <%= color("#{installer_command} --scenario #{scenario_name} --help", :info) %> and
      documentation for more info on setting up additional services):
 
-  #{installer_command} \\
-                    --scenario #{scenario_name} \\
+  #{installer_command}\\
+                    --scenario #{scenario_name}\\
                     --certs-tar-file                              "<%= color("#{certs_tar_file}", :info) %>"\\
                     --foreman-proxy-register-in-foreman           "true"\\
                     --foreman-proxy-foreman-base-url              "#{foreman_url}"\\
