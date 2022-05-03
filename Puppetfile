@@ -26,4 +26,4 @@ mod 'katello/certs',                 :git => 'https://github.com/theforeman/pupp
 mod 'katello/katello',               :git => 'https://github.com/theforeman/puppet-katello'
 
 # REX dependencies
-mod 'puppet/mosquitto',              '>= 1.0.0'
+mod 'puppet/mosquitto',              '>= 1.1.0'
