@@ -1,4 +1,4 @@
-forge 'https://forgeapi-cdn.puppet.com/'
+forge 'https://forgeapi.puppet.com/'
 
 mod 'puppetlabs/xinetd',               :git => 'https://github.com/puppetlabs/puppetlabs-xinetd', :commit => 'e742608dccdf42236144acf9f05e483b47c576f1'
 mod 'puppetlabs/postgresql',           '>= 7.0.0'

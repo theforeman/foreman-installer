@@ -1,5 +1,5 @@
 FORGE
-  remote: https://forgeapi-cdn.puppet.com/
+  remote: https://forgeapi.puppet.com/
   specs:
     katello-candlepin (12.2.0)
       puppet-extlib (>= 3.0.0, < 6.0.0)
