@@ -1,7 +1,7 @@
 forge 'https://forgeapi.puppet.com/'
 
 mod 'puppetlabs/xinetd',               :git => 'https://github.com/puppetlabs/puppetlabs-xinetd', :commit => 'e742608dccdf42236144acf9f05e483b47c576f1'
-mod 'puppetlabs/postgresql',           '>= 7.0.0'
+mod 'puppetlabs/postgresql',           '>= 7.0.0 < 8.0.0'
 mod 'theforeman/dhcp',                 '>= 8.1.0 < 8.2.0'
 mod 'theforeman/dns',                  '>= 9.2.0 < 9.3.0'
 mod 'theforeman/git',                  '>= 7.1.0 < 7.2.0'
