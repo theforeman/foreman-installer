@@ -43,7 +43,7 @@ module KatelloCertsMessageHookContextExtension
   If you do not have the #{proxy_name} registered to the #{main_instance_name} instance, then please do the following:
 
   1. yum -y localinstall http://#{fqdn}/pub/katello-ca-consumer-latest.noarch.rpm
-  2. subscription-manager register --org "<%= color('#{org}', :info) %>"
+  2. subscription-manager register --org "#{HighLine.color(org, :info)}"
 
   Once this is completed run the steps below to start the #{proxy_name} installation:
 
