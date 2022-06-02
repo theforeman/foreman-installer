@@ -37,6 +37,7 @@ foreman::plugin::column_view: false
 foreman::plugin::default_hostgroup: false
 foreman::plugin::dhcp_browser: false
 foreman::plugin::discovery: false
+foreman::plugin::dlm: false
 foreman::plugin::expire_hosts: false
 foreman::plugin::git_templates: false
 foreman::plugin::hooks: false
