@@ -64,6 +64,7 @@ foreman::plugin::remote_execution: true
 foreman::plugin::remote_execution::cockpit: false
 foreman::plugin::rh_cloud: false
 foreman::plugin::salt: false
+foreman::plugin::scc_manager: false
 foreman::plugin::setup: false
 foreman::plugin::snapshot_management: false
 foreman::plugin::statistics: false
