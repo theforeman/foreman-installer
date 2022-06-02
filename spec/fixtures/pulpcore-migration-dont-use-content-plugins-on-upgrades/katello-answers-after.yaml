@@ -36,6 +36,7 @@ foreman::plugin::statistics: false
 foreman::plugin::vault: false
 foreman::plugin::virt_who_configure: false
 foreman::plugin::webhooks: false
+foreman::plugin::wreckingball: false
 foreman_proxy::plugin::acd: false
 foreman_proxy::plugin::chef: false
 foreman_proxy::plugin::dhcp::remote_isc: false

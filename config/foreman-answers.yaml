@@ -63,6 +63,7 @@ foreman::plugin::tasks: false
 foreman::plugin::templates: false
 foreman::plugin::vault: false
 foreman::plugin::webhooks: false
+foreman::plugin::wreckingball: false
 foreman_proxy: {}
 foreman_proxy::plugin::acd: false
 foreman_proxy::plugin::ansible: false

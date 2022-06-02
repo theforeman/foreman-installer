@@ -75,6 +75,7 @@ foreman::plugin::templates: false
 foreman::plugin::vault: false
 foreman::plugin::virt_who_configure: false
 foreman::plugin::webhooks: false
+foreman::plugin::wreckingball: false
 foreman_proxy:
   foreman_ssl_ca: /etc/foreman-proxy/foreman_ssl_ca.pem
   foreman_ssl_cert: /etc/foreman-proxy/foreman_ssl_cert.pem
