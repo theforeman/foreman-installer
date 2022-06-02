@@ -27,6 +27,7 @@ foreman::plugin::monitoring: false
 foreman::plugin::puppet: false
 foreman::plugin::remote_execution: true
 foreman::plugin::remote_execution::cockpit: false
+foreman::plugin::rescue: false
 foreman::plugin::rh_cloud: false
 foreman::plugin::salt: false
 foreman::plugin::snapshot_management: false
