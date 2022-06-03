@@ -30,6 +30,7 @@ foreman::plugin::rh_cloud: false
 foreman::plugin::salt: false
 foreman::plugin::snapshot_management: false
 foreman::plugin::statistics: false
+foreman::plugin::vault: false
 foreman::plugin::virt_who_configure: false
 foreman::plugin::webhooks: false
 foreman_proxy::plugin::acd: false

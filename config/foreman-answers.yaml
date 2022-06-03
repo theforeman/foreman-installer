@@ -58,6 +58,7 @@ foreman::plugin::snapshot_management: false
 foreman::plugin::statistics: false
 foreman::plugin::tasks: false
 foreman::plugin::templates: false
+foreman::plugin::vault: false
 foreman::plugin::webhooks: false
 foreman_proxy: {}
 foreman_proxy::plugin::acd: false
