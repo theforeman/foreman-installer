@@ -2,11 +2,6 @@
 if facts.dig(:os, :selinux, :enabled)
   packages = []
 
-  if el7?
-    packages << 'rh-postgresql12-postgresql-server' if local_postgresql?
-    packages << 'rh-redis5-redis' if local_redis?
-  end
-
   packages << 'foreman-selinux' if foreman_server?
   packages << 'katello-selinux' if katello_enabled?
   packages << 'candlepin-selinux' if katello_enabled?
