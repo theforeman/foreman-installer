@@ -85,14 +85,6 @@ module HookContextExtension
     module_enabled?('foreman_proxy_content')
   end
 
-  def needs_postgresql_scl_upgrade?
-    !File.exist?('/var/opt/rh/rh-postgresql12/lib/pgsql/data') && File.exist?('/var/lib/pgsql/data')
-  end
-
-  def el7?
-    facts[:os][:release][:major] == '7' && facts[:os][:family] == 'RedHat'
-  end
-
   def log_and_say(level, message, do_say = true, do_log = true)
     style = case level
             when :error
