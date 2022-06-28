@@ -49,6 +49,7 @@ foreman::plugin::bootdisk: false
 foreman::plugin::chef: false
 foreman::plugin::column_view: false
 foreman::plugin::default_hostgroup: false
+foreman::plugin::dhcp_browser: false
 foreman::plugin::discovery: false
 foreman::plugin::dlm: false
 foreman::plugin::expire_hosts: false

@@ -18,6 +18,7 @@ foreman::plugin::acd: false
 foreman::plugin::azure: false
 foreman::plugin::column_view: false
 foreman::plugin::dlm: false
+foreman::plugin::dhcp_browser: false
 foreman::plugin::expire_hosts: false
 foreman::plugin::git_templates: false
 foreman::plugin::host_reports: false
