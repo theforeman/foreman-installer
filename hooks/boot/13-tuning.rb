@@ -1,7 +1,8 @@
 if has_custom_fact?('tuning')
-  # TODO: automatically get the tuning sizes - standard doesn't exist and only
-  # loads base. The rest maps to config/foreman.hiera/tuning/sizes/$size.yaml
-  TUNING_SIZES = ['default'] + ['medium', 'large', 'extra-large', 'extra-extra-large']
+  # Tuning sizes are based off of config/foreman.hiera/tuning/common.yaml
+  # Additional configuration and overrides of base configuration are mapped to
+  # config/foreman.hiera/tuning/sizes/$size.yaml
+  TUNING_SIZES = ['default', 'medium', 'large', 'extra-large', 'extra-extra-large', 'development'].freeze
   TUNING_FACT = 'tuning'.freeze
 
   app_option(

@@ -1,7 +1,8 @@
 if app_option?(:tuning)
   # A mapping of tuning profile to the required CPU cores and memory in GB
   TUNING_SIZES = {
-    'default' => { cpu_cores: 1, memory: 8 },
+    'development' => { cpu_cores: 1, memory: 6 },
+    'default' => { cpu_cores: 4, memory: 20 },
     'medium' => { cpu_cores: 8, memory: 32 },
     'large' => { cpu_cores: 16, memory: 64 },
     'extra-large' => { cpu_cores: 32, memory: 128 },
