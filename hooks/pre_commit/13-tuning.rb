@@ -19,7 +19,9 @@ if app_option?(:tuning)
     new_tuning = current_tuning
   end
 
-  unless app_value(:disable_system_checks)
+  if app_value(:disable_system_checks)
+    logger.warn 'Skipping system checks.'
+  else
     required = TUNING_SIZES[new_tuning]
     required_cores = required[:cpu_cores]
     required_memory = required[:memory]
