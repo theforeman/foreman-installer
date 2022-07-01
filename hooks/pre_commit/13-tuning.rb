@@ -20,34 +20,30 @@ if app_option?(:tuning)
     new_tuning = current_tuning
   end
 
-  if app_value(:disable_system_checks)
-    logger.warn 'Skipping system checks.'
-  else
-    required = TUNING_SIZES[new_tuning]
-    required_cores = required[:cpu_cores]
-    required_memory = required[:memory]
+  required = TUNING_SIZES[new_tuning]
+  required_cores = required[:cpu_cores]
+  required_memory = required[:memory]
 
-    # Check if it's actually 90% of the required. If a crash kernel is enabled
-    # then the reported total memory is lower than in reality.
-    if facts[:memory][:system][:total_bytes] < (required_memory * 1024 * 1024 * 1024 * 0.9)
-      if app_value(:tuning)
-        say "<%= color('Insufficient memory for tuning size', :bad) %>"
-        say "Tuning profile '#{new_tuning}' requires at least #{required_memory} GB of memory and #{required_cores} CPU cores"
-      else
-        say "The #{scenario_id} scenario requires at least #{required_memory} GB of memory and #{required_cores} CPU cores"
-      end
-      exit EXIT_INSUFFICIENT_MEMORY
+  # Check if it's actually 90% of the required. If a crash kernel is enabled
+  # then the reported total memory is lower than in reality.
+  if facts[:memory][:system][:total_bytes] < (required_memory * 1024 * 1024 * 1024 * 0.9)
+    if app_value(:tuning)
+      say "<%= color('Insufficient memory for tuning size', :bad) %>"
+      say "Tuning profile '#{new_tuning}' requires at least #{required_memory} GB of memory and #{required_cores} CPU cores"
+    else
+      say "The #{scenario_id} scenario requires at least #{required_memory} GB of memory and #{required_cores} CPU cores"
     end
+    exit EXIT_INSUFFICIENT_MEMORY
+  end
 
-    if facts[:processors][:count] < required_cores
-      if app_value(:tuning)
-        say "<%= color('Insufficient CPU cores for tuning size', :bad) %>"
-        say "Tuning profile '#{new_tuning}' requires at least #{required_memory} GB of memory and #{required_cores} CPU cores"
-      else
-        say "The #{scenario_id} scenario requires at least #{required_memory} GB of memory and #{required_cores} CPU cores"
-      end
-      exit EXIT_INSUFFICIENT_CPU_CORES
+  if facts[:processors][:count] < required_cores
+    if app_value(:tuning)
+      say "<%= color('Insufficient CPU cores for tuning size', :bad) %>"
+      say "Tuning profile '#{new_tuning}' requires at least #{required_memory} GB of memory and #{required_cores} CPU cores"
+    else
+      say "The #{scenario_id} scenario requires at least #{required_memory} GB of memory and #{required_cores} CPU cores"
     end
+    exit EXIT_INSUFFICIENT_CPU_CORES
   end
 
   if current_tuning != new_tuning
