@@ -16,15 +16,6 @@
 # changes before applying them, and test them in a non-production environment
 # first.
 #
-# Here are some examples of how you tune the Apache options if needed:
-#
-# apache::mod::prefork::startservers: 8
-# apache::mod::prefork::minspareservers: 5
-# apache::mod::prefork::maxspareservers: 20
-# apache::mod::prefork::serverlimit: 256
-# apache::mod::prefork::maxclients: 256
-# apache::mod::prefork::maxrequestsperchild: 4000
-#
 # Here are some examples of how you tune the PostgreSQL options if needed:
 #
 # postgresql::server::config_entries:
