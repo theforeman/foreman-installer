@@ -114,10 +114,6 @@ SCENARIOS.each do |scenario|
       'parser_cache_path' => "#{DATADIR}/foreman-installer/parser_cache/#{scenario}.yaml",
     }
 
-    if ['foreman-proxy-content', 'katello'].include?(scenario)
-      scenario_config_replacements['hook_dirs'] = "['#{DATADIR}/foreman-installer/katello/hooks']"
-    end
-
     scenario_config_replacements.each do |setting, value|
       sh format('sed -i "s#\(.*%s:\).*#\1 %s#" %s', setting, value, t.name)
     end
@@ -296,10 +292,6 @@ task :install => :build do
   mkdir_p "#{DATADIR}/foreman-installer"
   cp_r Dir.glob('{checks,hooks,VERSION,README.md,LICENSE}'), "#{DATADIR}/foreman-installer"
   cp_r "#{BUILDDIR}/config", "#{DATADIR}/foreman-installer"
-
-  if BUILD_KATELLO
-    cp_r 'katello', "#{DATADIR}/foreman-installer"
-  end
 
   mkdir_p "#{SYSCONFDIR}/foreman-installer/scenarios.d"
   SCENARIOS.each do |scenario|
