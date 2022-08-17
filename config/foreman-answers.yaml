@@ -18,6 +18,7 @@ foreman::cli::kubevirt: false
 foreman::cli::openscap: false
 foreman::cli::puppet: true
 foreman::cli::remote_execution: false
+foreman::cli::ssh: false
 foreman::cli::tasks: false
 foreman::cli::templates: false
 foreman::cli::webhooks: false

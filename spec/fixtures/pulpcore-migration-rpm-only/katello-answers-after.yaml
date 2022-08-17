@@ -5,6 +5,7 @@ foreman::cli::katello: true
 foreman::cli::kubevirt: false
 foreman::cli::puppet: true
 foreman::cli::remote_execution: true
+foreman::cli::ssh: false
 foreman::cli::virt_who_configure: false
 foreman::cli::webhooks: false
 foreman::compute::ec2: false
