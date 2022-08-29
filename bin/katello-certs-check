@@ -279,7 +279,7 @@ elif [[ $EXIT_CODE == "0" ]]; then
                                    --certs-tar  "~/\$${PROXY_VAR}-certs.tar" \\
                                    --server-cert "$(readlink -f $CERT_FILE)" \\
                                    --server-key "$(readlink -f $KEY_FILE)" \\
-                                   --server-ca-cert "$(readlink -f $CA_BUNDLE_FILE)" \\
+                                   --server-ca-cert "$(readlink -f $CA_BUNDLE_FILE)"
 
   To use them inside an EXISTING \$${PROXY_VAR}, run this command INSTEAD:
 
