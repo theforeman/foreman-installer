@@ -1,5 +1,6 @@
 forge 'https://forgeapi.puppet.com/'
 
+mod 'puppetlabs/apache',             :git => 'https://github.com/theforeman/puppetlabs-apache', :branch => '7.0-stable'
 mod 'puppetlabs/xinetd',             :git => 'https://github.com/puppetlabs/puppetlabs-xinetd', :commit => 'e742608dccdf42236144acf9f05e483b47c576f1'
 mod 'puppetlabs/postgresql',           '>= 7.0.0'
 mod 'theforeman/dhcp',                 '>= 8.1.0 < 8.2.0'
