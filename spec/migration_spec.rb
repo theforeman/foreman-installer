@@ -151,4 +151,25 @@ describe 'with all migrations' do
       end
     end
   end
+
+  context 'the migration 20220926102315_set_ansible_runner_repo_false_on_debian on foreman' do
+    let(:scenario_name) { 'foreman' }
+    let(:answers) do
+      {
+        'foreman_proxy::plugin::ansible' => {
+          'manage_runner_repo' => true,
+        },
+      }
+    end
+
+    specify 'on Debian' do
+      expect_any_instance_of(Kafo::MigrationContext).to receive(:facts).and_return({ os: { family: 'Debian' } })
+      expect(migrated_answers['foreman_proxy::plugin::ansible']).not_to include('manage_runner_repo')
+    end
+
+    specify 'on RedHat' do
+      expect_any_instance_of(Kafo::MigrationContext).to receive(:facts).and_return({ os: { family: 'RedHat' } })
+      expect(migrated_answers['foreman_proxy::plugin::ansible']).to include('manage_runner_repo')
+    end
+  end
 end
