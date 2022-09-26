@@ -112,7 +112,7 @@ GIT
 GIT
   remote: https://github.com/theforeman/puppetlabs-apache
   ref: 7.0-stable
-  sha: b65eeb3371c3c8a6d771c6384fb6f43bd3ce626e
+  sha: 5b20902ab9ef2878703c35d809179b83a7cc656c
   specs:
     puppetlabs-apache (7.0.0)
       puppetlabs-concat (>= 2.2.1, < 8.0.0)
