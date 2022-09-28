@@ -1,3 +1,6 @@
 ---
 postgresql::globals::manage_dnf_module: true
 postgresql::globals::version: "12"
+
+redis::dnf_module_stream: "6"
+redis::package_ensure: ">=6.0"
