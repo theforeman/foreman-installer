@@ -6,6 +6,9 @@ mod 'puppetlabs/apache',             '>= 8.3.0'
 # Ensure Debian 11 support
 mod 'puppetlabs/postgresql',         '>= 7.4.0'
 
+# Dnfmodule support for Redis 6+ support
+mod 'puppet/redis',                  '>= 8.5.0'
+
 # Dependencies
 mod 'theforeman/dhcp',               :git => 'https://github.com/theforeman/puppet-dhcp'
 mod 'theforeman/dns',                :git => 'https://github.com/theforeman/puppet-dns'
