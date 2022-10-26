@@ -1,7 +1,7 @@
 ---
-apache::mod::ssl::ssl_ciper: 'PROFILE=system'
+apache::mod::ssl::ssl_ciper: 'PROFILE=SYSTEM'
 # TODO: depends on https://github.com/puppetlabs/puppetlabs-apache/pull/2335
-apache::mod::ssl::ssl_proxy_ciper_suite: 'PROFILE=system'
+apache::mod::ssl::ssl_proxy_ciper_suite: 'PROFILE=SYSTEM'
 # EL8 doesn't have support for SSLv3 anymore and errors out on it. This
 # overrides security.yaml
 apache::mod::ssl::ssl_protocol:
