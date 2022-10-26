@@ -2,6 +2,10 @@
 apache::default_vhost: false
 apache::default_mods: false
 apache::mpm_module: 'event'
+apache::protocols:
+  - 'h2'
+  - 'h2c'
+  - 'http/1.1'
 
 dhcp::config_comment: |
   READ: This file was written the foreman-installer and not by the Foreman
