@@ -1,7 +1,9 @@
 forge 'https://forgeapi.puppet.com/'
 
+# Ensure Debian 11 support
+mod 'puppetlabs/postgresql',         '>= 7.4.0'
+
 # Dependencies
-mod 'puppetlabs/postgresql',         '>= 7.0.0'
 mod 'theforeman/dhcp',               :git => 'https://github.com/theforeman/puppet-dhcp'
 mod 'theforeman/dns',                :git => 'https://github.com/theforeman/puppet-dns'
 mod 'theforeman/git',                :git => 'https://github.com/theforeman/puppet-git'
