@@ -27,6 +27,3 @@ mod 'theforeman/puppet',             :git => 'https://github.com/theforeman/pupp
 mod 'katello/foreman_proxy_content', :git => 'https://github.com/theforeman/puppet-foreman_proxy_content'
 mod 'katello/certs',                 :git => 'https://github.com/theforeman/puppet-certs'
 mod 'katello/katello',               :git => 'https://github.com/theforeman/puppet-katello'
-
-# REX dependencies
-mod 'puppet/mosquitto',              '>= 1.1.0'
