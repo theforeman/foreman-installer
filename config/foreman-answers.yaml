@@ -32,7 +32,6 @@ foreman::plugin::acd: false
 foreman::plugin::ansible: false
 foreman::plugin::azure: false
 foreman::plugin::bootdisk: false
-foreman::plugin::chef: false
 foreman::plugin::column_view: false
 foreman::plugin::default_hostgroup: false
 foreman::plugin::dhcp_browser: false
@@ -67,7 +66,6 @@ foreman::plugin::wreckingball: false
 foreman_proxy: {}
 foreman_proxy::plugin::acd: false
 foreman_proxy::plugin::ansible: false
-foreman_proxy::plugin::chef: false
 foreman_proxy::plugin::dhcp::infoblox: false
 foreman_proxy::plugin::dhcp::remote_isc: false
 foreman_proxy::plugin::discovery: false
