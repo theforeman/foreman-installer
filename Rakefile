@@ -84,7 +84,7 @@ MANDIR = ENV['MANDIR'] || "#{DATAROOTDIR}/man"
 PKGDIR = ENV['PKGDIR'] || File.expand_path('pkg')
 
 if BUILD_KATELLO
-  SCENARIOS = ['foreman', 'foreman-proxy-content', 'katello'].freeze
+  SCENARIOS = ['foreman', 'foreman-proxy-content', 'katello', 'pulp'].freeze
   CERTS_SCENARIOS = ['foreman-proxy-certs'].freeze
 else
   SCENARIOS = ['foreman'].freeze
