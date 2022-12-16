@@ -1,7 +1,7 @@
 forge 'https://forgeapi.puppet.com/'
 
 # HTTP/2 and SSL support for settings in Hiera
-mod 'puppetlabs/apache',             '>= 8.3.0'
+mod 'puppetlabs/apache',             '~> 8.3'
 
 # Ensure Debian 11 support
 mod 'puppetlabs/postgresql',         '>= 7.4.0'
