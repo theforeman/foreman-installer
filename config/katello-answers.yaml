@@ -58,7 +58,6 @@ foreman::plugin::hooks: false
 foreman::plugin::kernel_care: false
 foreman::plugin::kubevirt: false
 foreman::plugin::leapp: false
-foreman::plugin::memcache: false
 foreman::plugin::monitoring: false
 foreman::plugin::netbox: false
 foreman::plugin::openscap: false

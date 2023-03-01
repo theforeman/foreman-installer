@@ -44,7 +44,6 @@ foreman::plugin::hooks: false
 foreman::plugin::host_extra_validator: false
 foreman::plugin::kubevirt: false
 foreman::plugin::leapp: false
-foreman::plugin::memcache: false
 foreman::plugin::monitoring: false
 foreman::plugin::netbox: false
 foreman::plugin::omaha: false
