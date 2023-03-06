@@ -18,7 +18,7 @@ mod 'theforeman/tftp',                 '>= 8.0.0 < 8.1.0'
 
 # Katello dependencies
 mod 'katello/candlepin',               '>= 13.2.0 < 13.3.0'
-mod 'theforeman/pulpcore',             '>= 7.1.0 < 7.2.0'
+mod 'theforeman/pulpcore',             '>= 7.2.0 < 7.3.0'
 mod 'katello/qpid',                    '>= 9.1.0 < 9.2.0'
 
 # Top-level modules
