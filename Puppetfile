@@ -23,7 +23,7 @@ mod 'katello/qpid',                    '>= 9.1.0 < 9.2.0'
 
 # Top-level modules
 mod 'theforeman/foreman',              '>= 22.2.0 < 22.3.0'
-mod 'theforeman/foreman_proxy',        '>= 24.1.0 < 24.2.0'
+mod 'theforeman/foreman_proxy',        '>= 24.2.0 < 24.3.0'
 mod 'theforeman/puppet',               '>= 16.5.0 < 16.6.0'
 
 # Top-level katello modules
