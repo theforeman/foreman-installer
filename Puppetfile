@@ -27,6 +27,6 @@ mod 'theforeman/foreman_proxy',        '>= 24.2.0 < 24.3.0'
 mod 'theforeman/puppet',               '>= 16.5.0 < 16.6.0'
 
 # Top-level katello modules
-mod 'katello/foreman_proxy_content',   '>= 22.2.0 < 22.3.0'
+mod 'katello/foreman_proxy_content',   '>= 23.0.0 < 23.1.0'
 mod 'katello/certs',                   '>= 16.0.0 < 16.1.0'
 mod 'katello/katello',                 '>= 22.1.1 < 22.2.0'
