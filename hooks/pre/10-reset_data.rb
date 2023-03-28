@@ -64,15 +64,10 @@ def pg_sql_statement(config, statement)
   pg_command_base(config, 'psql', "-d #{config[:database]} -t -c \"" + statement + '"')
 end
 
-# WARNING: deletes all the data from a database. No warnings. No confirmations.
+# WARNING: deletes all the data owned by the user. No warnings. No confirmations.
 def empty_database!(config)
-  generate_delete_statements = pg_sql_statement(config, %q(
-        select string_agg('drop table if exists \"' || tablename || '\" cascade;', '')
-        from pg_tables
-        where schemaname = 'public';
-      ))
-  delete_statements = `#{generate_delete_statements}`
-  execute!(pg_sql_statement(config, delete_statements), false, true) if delete_statements
+  delete_statement = 'DROP OWNED BY CURRENT_USER CASCADE;'
+  execute!(pg_sql_statement(config, delete_statement), false, true)
 end
 
 def clear_pulpcore_content(content_dir)
