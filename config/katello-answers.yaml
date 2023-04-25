@@ -60,6 +60,7 @@ foreman::plugin::leapp: false
 foreman::plugin::monitoring: false
 foreman::plugin::netbox: false
 foreman::plugin::openscap: false
+foreman::plugin::proxmox: false
 foreman::plugin::puppet: false
 foreman::plugin::puppetdb: false
 foreman::plugin::remote_execution: true
