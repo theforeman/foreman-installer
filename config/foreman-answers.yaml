@@ -48,6 +48,7 @@ foreman::plugin::netbox: false
 foreman::plugin::omaha: false
 foreman::plugin::openscap: false
 foreman::plugin::ovirt_provision: false
+foreman::plugin::proxmox: false
 foreman::plugin::puppet: true
 foreman::plugin::puppetdb: false
 foreman::plugin::remote_execution: false
