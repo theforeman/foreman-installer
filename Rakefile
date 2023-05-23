@@ -32,9 +32,7 @@ begin
     def mod(name, options = nil)
       if options.is_a?(Hash) && !options.include?(:ref)
         release = PuppetForge::Module.find(name.tr('/', '-')).current_release
-        version = Semverse::Version.new(release.version)
-        max = "#{version.major}.#{version.minor + 1}.0"
-        @new_content << ['mod', name, ">= #{version} < #{max}"]
+        @new_content << ['mod', name, "~> #{release.version}"]
       else
         @new_content << ['mod', name, options]
       end
