@@ -2,6 +2,7 @@ forge 'https://forgeapi.puppet.com/'
 
 # We're not ready for version 9
 mod 'puppetlabs/stdlib',               '< 9'
+mod 'puppetlabs/apt',                  '< 9.1.0'
 
 mod 'puppetlabs/apache',               '~> 8.3'
 mod 'puppetlabs/postgresql',           '>= 7.4.0'
