@@ -17,7 +17,7 @@ if module_enabled?('certs')
     stdout_stderr, success = execute_command(%(katello-certs-check -c "#{cert_file}" -k "#{key_file}" -b "#{ca_file}"), false, true)
 
     unless success
-      log_and_say(:error, stdout_stderr, true, false)
+      fail_and_exit(stdout_stderr)
     end
   end
 end
