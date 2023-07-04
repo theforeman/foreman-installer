@@ -1,5 +1,7 @@
 #!/usr/bin/env ruby
 require 'rubygems'
+require 'shellwords'
+require 'open3'
 require 'kafo'
 
 CONFIG_DIR = './katello_certs/config/'.freeze
@@ -26,6 +28,32 @@ Kafo::KafoConfigure.hooking.register_pre(:init) do
   organization ||= "Default Organization"
 
   org_param.value = organization
+end
+
+Kafo::KafoConfigure.hooking.register_pre(:boot) do
+  app_option(
+    '--certs-skip-check',
+    :flag,
+    "This option will cause skipping the certificates sanity check. Use with caution",
+    :default => false
+  )
+end
+
+Kafo::KafoConfigure.hooking.register_pre(:pre_commit) do
+  ca_file   = param('certs', 'server_ca_cert').value
+  cert_file = param('certs', 'server_cert').value
+  key_file  = param('certs', 'server_key').value
+
+  unless app_value(:certs_skip_check) || [cert_file, ca_file, key_file].all? { |v| v.to_s.empty? }
+    command = ['katello-certs-check', '-c', cert_file, '-k', key_file, '-b', ca_file]
+    logger.debug("Executing #{Shellwords.join(command)}")
+    stdout_stderr, success = Open3.capture2e(command)
+
+    unless success
+      say color(stdout_stderr, :bad)
+      exit(1)
+    end
+  end
 end
 
 @result = Kafo::KafoConfigure.run
