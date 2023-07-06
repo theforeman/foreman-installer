@@ -1,31 +1,17 @@
 require 'spec_helper'
 
-describe 'with all migrations' do
-  let(:config) { load_config_yaml("#{scenario_name}.yaml") }
-  let(:answers) { load_config_yaml("#{scenario_name}-answers.yaml") }
-  let(:migrations) { config_path("#{scenario_name}.migrations") }
-  let(:migrator) { Kafo::Migrations.new(migrations).run(config, answers) }
-  subject(:migrated_config) { migrator[0] }
-  subject(:migrated_answers) { migrator[1] }
+migration 'all migrations' do
+  scenarios %w[foreman foreman-proxy-content katello] do
+    it 'does not change the scenario config' do
+      expect(migrated_config).to eq load_config_yaml("#{scenario_name}.yaml")
+    end
 
-  context 'on the scenario' do
-    %w[foreman foreman-proxy-content katello].each do |scenario_name|
-      context scenario_name do
-        let(:scenario_name) { scenario_name }
-
-        it 'does not change the scenario config' do
-          expect(migrated_config).to eq load_config_yaml("#{scenario_name}.yaml")
-        end
-
-        it 'does not change the scenario answers' do
-          expect(migrated_answers).to eq load_config_yaml("#{scenario_name}-answers.yaml")
-        end
-      end
+    it 'does not change the scenario answers' do
+      expect(migrated_answers).to eq load_config_yaml("#{scenario_name}-answers.yaml")
     end
   end
 
-  context 'on katello' do
-    let(:scenario_name) { 'katello' }
+  scenarios %w[katello] do
     let(:answers) { load_fixture_yaml(fixture, "#{scenario_name}-answers-before.yaml") }
     let(:expected_answers) { load_fixture_yaml(fixture, "#{scenario_name}-answers-after.yaml") }
 
@@ -39,116 +25,101 @@ describe 'with all migrations' do
       end
     end
   end
+end
 
-  context 'the migration 20210625142707_dynamic_puppet_in_foreman_groups' do
-    let(:answers) do
-      {
-        'foreman' => {
-          'user_groups' => ['puppet'],
-        },
-      }
-    end
-
-    %w[foreman katello].each do |scenario_name|
-      context "on #{scenario_name}" do
-        let(:scenario_name) { scenario_name }
-
-        it 'removes puppet' do
-          expect(migrated_answers['foreman']['user_groups']).to eq []
-        end
-      end
-    end
+migration '20210625142707_dynamic_puppet_in_foreman_groups' do
+  let(:answers) do
+    {
+      'foreman' => {
+        'user_groups' => ['puppet'],
+      },
+    }
   end
 
-  context 'the migration 200818160950-remove_tuning_fact on foreman-proxy-content' do
-    let(:scenario_name) { 'foreman-proxy-content' }
+  scenarios %w[foreman katello] do
+    it 'removes puppet' do
+      expect(migrated_answers['foreman']['user_groups']).to eq []
+    end
+  end
+end
+
+migration '200818160950-remove_tuning_fact' do
+  scenarios %w[foreman-proxy-content] do
     let(:config) { super().merge(:facts => { 'tuning' => 'default' }) }
 
     it 'removes facts' do
       expect(migrated_config).not_to include(:facts)
     end
   end
+end
 
-  context 'the migration 20210929144850_disable_puppet_plugins_if_undesired' do
-    let(:answers) do
-      {
-        'foreman' => false,
-        'foreman::cli' => false,
-      }
+migration '20210929144850_disable_puppet_plugins_if_undesired' do
+  let(:answers) do
+    {
+      'foreman' => false,
+      'foreman::cli' => false,
+    }
+  end
+
+  scenarios %w[foreman katello] do
+    it 'keeps foreman::cli disabled' do
+      expect(migrated_answers['foreman::cli']).to be false
     end
 
-    %w[foreman katello].each do |scenario_name|
-      context "on #{scenario_name}" do
-        let(:scenario_name) { scenario_name }
+    it 'adds foreman::cli::puppet disabled' do
+      expect(migrated_answers['foreman::cli::puppet']).to be false
+    end
 
-        it 'keeps foreman::cli disabled' do
-          expect(migrated_answers['foreman::cli']).to be false
-        end
+    it 'keeps foreman disabled' do
+      expect(migrated_answers['foreman']).to be false
+    end
 
-        it 'adds foreman::cli::puppet disabled' do
-          expect(migrated_answers['foreman::cli::puppet']).to be false
-        end
+    it 'adds foreman::plugin::puppet disabled' do
+      expect(migrated_answers['foreman::plugin::puppet']).to be false
+    end
+  end
+end
 
-        it 'keeps foreman disabled' do
-          expect(migrated_answers['foreman']).to be false
-        end
+migration '20211108174119_disable_registration_without_templates' do
+  scenarios %w[foreman foreman-proxy-content katello] do
+    context 'with registration, without templates' do
+      let(:answers) do
+        {
+          'foreman_proxy' => {
+            'registration' => true,
+            'templates' => false,
+          },
+        }
+      end
 
-        it 'adds foreman::plugin::puppet disabled' do
-          expect(migrated_answers['foreman::plugin::puppet']).to be false
-        end
+      it 'disables registration' do
+        expect(migrated_answers['foreman_proxy']['registration']).to be false
+      end
+    end
+
+    context 'with registration, with templates' do
+      let(:answers) do
+        {
+          'foreman_proxy' => {
+            'registration' => true,
+            'templates' => true,
+          },
+        }
+      end
+
+      it 'keeps registration enabled' do
+        expect(migrated_answers['foreman_proxy']['registration']).to be true
       end
     end
   end
+end
 
-  context 'the migration 20211108174119_disable_registration_without_templates' do
-    %w[foreman foreman-proxy-content katello].each do |scenario_name|
-      context "on #{scenario_name}" do
-        let(:scenario_name) { scenario_name }
+migration '181213211252-merged-installer' do
+  let(:config) { load_fixture_yaml('merged-installer', "#{scenario_name}-before.yaml") }
 
-        context 'with registration, without templates' do
-          let(:answers) do
-            {
-              'foreman_proxy' => {
-                'registration' => true,
-                'templates' => false,
-              },
-            }
-          end
-
-          it 'disables registration' do
-            expect(migrated_answers['foreman_proxy']['registration']).to be false
-          end
-        end
-
-        context 'with registration, with templates' do
-          let(:answers) do
-            {
-              'foreman_proxy' => {
-                'registration' => true,
-                'templates' => true,
-              },
-            }
-          end
-
-          it 'keeps registration enabled' do
-            expect(migrated_answers['foreman_proxy']['registration']).to be true
-          end
-        end
-      end
-    end
-  end
-
-  context 'the migration 181213211252-merged-installer' do
-    let(:config) { load_fixture_yaml('merged-installer', "#{scenario_name}-before.yaml") }
-
-    %w[foreman-proxy-content katello].each do |scenario_name|
-      context "on #{scenario_name}" do
-        let(:scenario_name) { scenario_name }
-
-        it 'matches the scenario fixture' do
-          expect(migrated_config).to eq load_fixture_yaml('merged-installer', "#{scenario_name}-after.yaml")
-        end
-      end
+  scenarios %w[foreman-proxy-content katello] do
+    it 'matches the scenario fixture' do
+      expect(migrated_config).to eq load_fixture_yaml('merged-installer', "#{scenario_name}-after.yaml")
     end
   end
 end
