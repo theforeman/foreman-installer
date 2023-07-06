@@ -2,31 +2,32 @@ require 'spec_helper'
 require 'kafo/hook_context'
 require_relative '../hooks/boot/01-kafo-hook-extensions'
 
-describe 'HookContextExtension' do
-  let(:kafo) { instance_double('KafoConfigure') }
-  let(:logger) { instance_double('Logger') }
+describe HookContextExtension do
+  let(:kafo) { instance_double(Kafo::KafoConfigure) }
+  let(:logger) { instance_double(Kafo::Logger) }
   let(:context) { Kafo::HookContext.new(kafo, logger) }
 
   before do
     allow(context).to receive(:logger).and_return(logger)
   end
 
-  context 'ensure_packages' do
-    let(:state) { 'installed' }
+  describe '.ensure_packages' do
     subject { context.ensure_packages(packages, state) }
 
-    context 'no packages' do
+    let(:state) { 'installed' }
+
+    context 'with no packages' do
       let(:packages) { [] }
 
       it 'returns without performing any action' do
-        is_expected.to be_nil
+        expect(subject).to be_nil
       end
     end
 
     context 'with packages' do
       let(:stdout) { '  StdOut    ' }
       let(:stderr) { ' StdErr  ' }
-      let(:status) { instance_double('Process::Status', exitstatus: exitstatus) }
+      let(:status) { instance_double(Process::Status, exitstatus: exitstatus) }
       let(:exitstatus) { nil }
 
       before do
@@ -34,15 +35,15 @@ describe 'HookContextExtension' do
         allow(context).to receive(:apply_puppet_code).and_return([stdout, stderr, status])
       end
 
-      context 'single package' do
+      context 'with a single package' do
         let(:packages) { ['vim-enhanced'] }
 
         [0, 2].each do |code|
-          context "exit code #{code}" do
+          context "with exit code #{code}" do
             let(:exitstatus) { code }
 
             it 'calls Puppet successfully' do
-              is_expected.to be_nil
+              expect(subject).to be_nil
 
               expect(logger).to have_received(:info).with('Ensuring vim-enhanced to package state installed')
               expect(context).to have_received(:apply_puppet_code).with("package { ['vim-enhanced']: ensure => installed }")
@@ -50,7 +51,7 @@ describe 'HookContextExtension' do
           end
         end
 
-        context 'exit code 1' do
+        context 'with exit code 1' do
           let(:exitstatus) { 1 }
 
           before do
@@ -60,7 +61,7 @@ describe 'HookContextExtension' do
           end
 
           it 'calls Puppet, informs the user and exits' do
-            is_expected.to be_nil
+            expect(subject).to be_nil
 
             expect(context).to have_received(:log_and_say).with(:error, 'Failed to ensure vim-enhanced is installed')
             expect(context).to have_received(:log_and_say).with(:error, 'StdErr')
@@ -71,17 +72,17 @@ describe 'HookContextExtension' do
         end
       end
 
-      context 'multiple packages' do
+      context 'with multiple packages' do
         let(:packages) { ['vim-enhanced', 'emacs'] }
 
         before { allow(logger).to receive(:info) }
 
         [0, 2].each do |code|
-          context "exit code #{code}" do
+          context "with exit code #{code}" do
             let(:exitstatus) { code }
 
             it 'calls Puppet successfully' do
-              is_expected.to be_nil
+              expect(subject).to be_nil
 
               expect(logger).to have_received(:info).with('Ensuring vim-enhanced, emacs to package state installed')
               expect(context).to have_received(:apply_puppet_code).with("package { ['vim-enhanced', 'emacs']: ensure => installed }")
@@ -89,7 +90,7 @@ describe 'HookContextExtension' do
           end
         end
 
-        context 'exit code 1' do
+        context 'with exit code 1' do
           let(:exitstatus) { 1 }
 
           before do
@@ -99,7 +100,7 @@ describe 'HookContextExtension' do
           end
 
           it 'calls Puppet, informs the user and exits' do
-            is_expected.to be_nil
+            expect(subject).to be_nil
 
             expect(context).to have_received(:log_and_say).with(:error, 'Failed to ensure vim-enhanced, emacs are installed')
             expect(context).to have_received(:log_and_say).with(:error, 'StdErr')
@@ -111,7 +112,7 @@ describe 'HookContextExtension' do
       end
     end
 
-    context 'apply_puppet_code' do
+    describe '.apply_puppet_code' do
       subject { context.apply_puppet_code(code) }
 
       before do
@@ -123,20 +124,20 @@ describe 'HookContextExtension' do
         expect(Kafo::PuppetCommand).to have_received(:search_puppet_path).twice
       end
 
-      context 'empty code' do
+      context 'with empty code' do
         let(:code) { '' }
 
         specify do
-          is_expected.to eq('result')
+          expect(subject).to eq('result')
           expect(Open3).to have_received(:capture3).with(anything, 'echo "" | /bin/puppet apply --detailed-exitcodes', anything)
         end
       end
 
-      context 'some code' do
+      context 'with some code' do
         let(:code) { "package { 'vim-enhanced': ensure => installed }" }
 
         specify do
-          is_expected.to eq('result')
+          expect(subject).to eq('result')
           expect(Open3).to have_received(:capture3).with(anything, 'echo "package { \'vim-enhanced\': ensure => installed }" | /bin/puppet apply --detailed-exitcodes', anything)
         end
       end
