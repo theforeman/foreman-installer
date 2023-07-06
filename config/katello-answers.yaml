@@ -8,20 +8,21 @@
 # shows up in the interactive menu
 #
 # See params.pp in each class for what options are available
+
 ---
 certs:
   group: foreman
 foreman:
-  client_ssl_ca: /etc/foreman/proxy_ca.pem
-  client_ssl_cert: /etc/foreman/client_cert.pem
-  client_ssl_key: /etc/foreman/client_key.pem
+  client_ssl_ca: "/etc/foreman/proxy_ca.pem"
+  client_ssl_cert: "/etc/foreman/client_cert.pem"
+  client_ssl_key: "/etc/foreman/client_key.pem"
   initial_location: Default Location
   initial_organization: Default Organization
-  server_ssl_ca: /etc/pki/katello/certs/katello-default-ca.crt
-  server_ssl_cert: /etc/pki/katello/certs/katello-apache.crt
-  server_ssl_chain: /etc/pki/katello/certs/katello-server-ca.crt
+  server_ssl_ca: "/etc/pki/katello/certs/katello-default-ca.crt"
+  server_ssl_cert: "/etc/pki/katello/certs/katello-apache.crt"
+  server_ssl_chain: "/etc/pki/katello/certs/katello-server-ca.crt"
   server_ssl_crl: ""
-  server_ssl_key: /etc/pki/katello/private/katello-apache.key
+  server_ssl_key: "/etc/pki/katello/private/katello-apache.key"
 foreman::cli: true
 foreman::cli::ansible: false
 foreman::cli::azure: false
@@ -79,13 +80,13 @@ foreman::plugin::virt_who_configure: false
 foreman::plugin::webhooks: false
 foreman::plugin::wreckingball: false
 foreman_proxy:
-  foreman_ssl_ca: /etc/foreman-proxy/foreman_ssl_ca.pem
-  foreman_ssl_cert: /etc/foreman-proxy/foreman_ssl_cert.pem
-  foreman_ssl_key: /etc/foreman-proxy/foreman_ssl_key.pem
+  foreman_ssl_ca: "/etc/foreman-proxy/foreman_ssl_ca.pem"
+  foreman_ssl_cert: "/etc/foreman-proxy/foreman_ssl_cert.pem"
+  foreman_ssl_key: "/etc/foreman-proxy/foreman_ssl_key.pem"
   manage_puppet_group: false
-  ssl_ca: /etc/foreman-proxy/ssl_ca.pem
-  ssl_cert: /etc/foreman-proxy/ssl_cert.pem
-  ssl_key: /etc/foreman-proxy/ssl_key.pem
+  ssl_ca: "/etc/foreman-proxy/ssl_ca.pem"
+  ssl_cert: "/etc/foreman-proxy/ssl_cert.pem"
+  ssl_key: "/etc/foreman-proxy/ssl_key.pem"
   ssl_port: '9090'
   puppet: false
   puppetca: false
@@ -103,5 +104,9 @@ foreman_proxy::plugin::remote_execution::script: false
 foreman_proxy::plugin::salt: false
 foreman_proxy::plugin::shellhooks: false
 foreman_proxy_content: true
-katello: true
 puppet: false
+global: true
+application: true
+pulp: true
+candlepin: true
+qpid: true
