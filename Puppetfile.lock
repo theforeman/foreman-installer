@@ -99,7 +99,7 @@ FORGE
       puppet-systemd (>= 2.9.0, < 5.0.0)
       puppetlabs-concat (>= 4.1.0, < 8.0.0)
       puppetlabs-stdlib (>= 4.18.0, < 9.0.0)
-    theforeman-puppetserver_foreman (2.2.0)
+    theforeman-puppetserver_foreman (2.3.0)
       puppetlabs-stdlib (>= 4.18.0, < 9.0.0)
     theforeman-tftp (8.0.0)
       puppetlabs-stdlib (>= 4.13.1, < 9.0.0)
@@ -120,6 +120,6 @@ DEPENDENCIES
   theforeman-git (>= 7.2.0, < 7.3.0)
   theforeman-pulpcore (>= 7.2.0, < 7.3.0)
   theforeman-puppet (>= 16.5.0, < 16.6.0)
-  theforeman-puppetserver_foreman (>= 2.2.0, < 2.3.0)
+  theforeman-puppetserver_foreman (>= 2.3.0, < 2.4.0)
   theforeman-tftp (>= 8.0.0, < 8.1.0)
 

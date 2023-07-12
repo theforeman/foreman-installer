@@ -13,7 +13,7 @@ mod 'puppet/redis',                    '>= 8.5.0'
 mod 'theforeman/dhcp',                 '>= 8.2.0 < 8.3.0'
 mod 'theforeman/dns',                  '>= 9.5.1 < 9.6.0'
 mod 'theforeman/git',                  '>= 7.2.0 < 7.3.0'
-mod 'theforeman/puppetserver_foreman', '>= 2.2.0 < 2.3.0'
+mod 'theforeman/puppetserver_foreman', '>= 2.3.0 < 2.4.0'
 mod 'theforeman/tftp',                 '>= 8.0.0 < 8.1.0'
 
 # Katello dependencies
