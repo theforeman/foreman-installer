@@ -81,6 +81,9 @@ DATAROOTDIR = DATADIR = ENV['DATAROOTDIR'] || "#{PREFIX}/share"
 MANDIR = ENV['MANDIR'] || "#{DATAROOTDIR}/man"
 PKGDIR = ENV['PKGDIR'] || File.expand_path('pkg')
 
+desc 'Install the Puppet modules'
+task :modules => "#{BUILDDIR}/modules"
+
 if BUILD_KATELLO
   SCENARIOS = ['foreman', 'foreman-proxy-content', 'katello'].freeze
   CERTS_SCENARIOS = ['foreman-proxy-certs'].freeze
