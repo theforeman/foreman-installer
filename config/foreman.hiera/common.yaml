@@ -18,5 +18,3 @@ dhcp::config_comment: |
 foreman::config::apache::proxy_params:
   retry: '0'
   timeout: '900'
-
-katello::globals::enable_katello_agent: "%{alias('foreman_proxy_content::enable_katello_agent')}"
