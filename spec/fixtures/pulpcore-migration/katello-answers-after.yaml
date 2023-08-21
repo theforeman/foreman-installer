@@ -56,3 +56,4 @@ katello:
   use_pulp_2_for_docker: true
   use_pulp_2_for_file: true
   use_pulp_2_for_yum: true
+apache::mod::status: false

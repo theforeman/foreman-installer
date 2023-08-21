@@ -41,3 +41,4 @@ foreman_proxy::plugin::remote_execution::script: false
 foreman_proxy::plugin::salt: false
 foreman_proxy::plugin::shellhooks: false
 puppet: false
+apache::mod::status: false
