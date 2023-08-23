@@ -38,13 +38,35 @@ MSG
   end
 
   def failure_message
-    say "\n  <%= color('There were errors detected during install.', :bad) %>"
-    say "  Please address the errors and re-run the installer to ensure the system is properly configured."
-    say "  Failing to do so is likely to result in broken functionality."
+    message = 'There were errors detected during installation.'
+
+    if puppet_report&.failed_resources&.any?
+      say "\n"
+
+      puppet_report.failed_resources.each_with_index do |failed_resource, index|
+        say "Error #{index + 1}: #{failed_resource} failed. Logs:"
+        failed_resource.log_messages_by_source.each do |source, log_messages|
+          say "  #{source}"
+          log_messages.each do |log_message|
+            say "    #{log_message}"
+          end
+        end
+      end
+
+      message = if puppet_report.failed_resources.length == 1
+                  '1 error was detected during installation.'
+                else
+                  "#{puppet_report.failed_resources.length} errors were detected."
+                end
+    end
+
+    say "\n<%= color('#{message}', :bad) %>"
+    say "Please address the errors and re-run the installer to ensure the system is properly configured."
+    say "Failing to do so is likely to result in broken functionality."
   end
 
   def log_message(kafo)
-    say "\n  The full log is at <%= color('#{kafo.config.log_file}', :info) %>"
+    say "\nThe full log is at <%= color('#{kafo.config.log_file}', :info) %>"
   end
 end
 
