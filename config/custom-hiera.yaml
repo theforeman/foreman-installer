@@ -6,7 +6,7 @@
 # For example, to set 'TraceEnable Off' in Apache, a common requirement for
 # security auditors, add this to this file:
 #
-#   apache::trace_enable: Off
+#   apache::trace_enable: 'Off'
 #
 # Consult the full module documentation on http://forge.puppetlabs.com,
 # or the actual puppet classes themselves, to discover options to configure.
