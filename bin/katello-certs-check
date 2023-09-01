@@ -1,10 +1,9 @@
 #!/usr/bin/env bash
 
 # Define colors uses for status output
-RED=`tput setaf 1`
-GREEN=`tput setaf 2`
-YELLOW=`tput setaf 3`
-RESET=`tput sgr0`
+RED=$(tput setaf 1)
+GREEN=$(tput setaf 2)
+RESET=$(tput sgr0)
 
 CABUNDLE_MAX_ISSUERS=32
 
@@ -30,19 +29,19 @@ usage: $0 -t [${SERVER_TARGET}|${PROXY_TARGET}] -c CERT_FILE -k KEY_FILE -b CA_B
 HELP
 }
 
-while getopts "t:c:k:b:" opt; do
+while getopts "t:c:k:b:h:" opt; do
     case $opt in
         t)
-            TARGET=$(echo $OPTARG|tr '[:upper:]' '[:lower:]')
+            TARGET=$(echo "$OPTARG" | tr '[:upper:]' '[:lower:]')
             ;;
         c)
-            CERT_FILE="$(readlink -f $OPTARG)"
+            CERT_FILE="$(readlink -f "$OPTARG")"
             ;;
         k)
-            KEY_FILE="$(readlink -f $OPTARG)"
+            KEY_FILE="$(readlink -f "$OPTARG")"
             ;;
         b)
-            CA_BUNDLE_FILE="$(readlink -f $OPTARG)"
+            CA_BUNDLE_FILE="$(readlink -f "$OPTARG")"
             ;;
         h)
             usage
@@ -57,7 +56,7 @@ done
 
 EXIT_CODE=0
 
-if [ -z "$CERT_FILE" -o -z "$KEY_FILE" -o -z "$CA_BUNDLE_FILE" ]; then
+if [ -z "$CERT_FILE" ] || [ -z "$KEY_FILE" ] || [ -z "$CA_BUNDLE_FILE" ]; then
     echo 'One of the required parameters is missing.' >&2
     usage
     exit 1
@@ -67,7 +66,7 @@ function error () {
     echo -e "\n${RED}[FAIL]${RESET}\n"
     CURRENT_EXIT_CODE=$1
     EXIT_CODE=$((EXIT_CODE|CURRENT_EXIT_CODE))
-    echo -e $2 >&2
+    echo -e "$2" >&2
 }
 
 function success () {
@@ -76,18 +75,16 @@ function success () {
 
 function check-server-cert-encoding () {
     printf 'Checking server certificate encoding: '
-    openssl x509 -inform pem -in $CERT_FILE -noout -text &> /dev/null
-    if [[ $? == "0" ]]; then
+    if openssl x509 -inform pem -in "$CERT_FILE" -noout -text &> /dev/null ; then
         success
     else
-        openssl x509 -inform der -in $CERT_FILE -noout -text &> /dev/null
-        if [[ $? == "0" ]]; then
+        if openssl x509 -inform der -in "$CERT_FILE" -noout -text &> /dev/null ; then
             error 8 "The server certificate is in DER encoding, which is incompatible.\n\n"
             printf "Run the following command to convert the certificate to PEM encoding,\n"
             printf "then test it again.\n"
-            printf "# openssl x509 -in %s -outform pem -out %s.pem\n\n" $(basename $CERT_FILE) $(basename $CERT_FILE)
-            printf "When you run $(basename $0) again, use file\n"
-            printf "%s.pem for the server certificate.\n\n" $(basename $CERT_FILE)
+            printf "# openssl x509 -in %s -outform pem -out %s.pem\n\n" "$(basename "$CERT_FILE")" "$(basename "$CERT_FILE")"
+            printf "When you run %s again, use file\n" "$(basename "$0")"
+            printf "%s.pem for the server certificate.\n\n" "$(basename "$CERT_FILE")"
         else
             error 9 "The encoding of the server certificate is unknown."
         fi
@@ -95,8 +92,8 @@ function check-server-cert-encoding () {
 }
 
 function check-expiration () {
-    CERT_EXP=$(openssl x509 -noout -enddate -in $CERT_FILE | sed -e 's/notAfter=//' | awk '{$NF="";}1')
-    CA_EXP=$(openssl x509 -noout -enddate -in $CA_BUNDLE_FILE | sed -e 's/notAfter=//' | awk '{$NF="";}1')
+    CERT_EXP=$(openssl x509 -noout -enddate -in "$CERT_FILE" | sed -e 's/notAfter=//' | awk '{$NF="";}1')
+    CA_EXP=$(openssl x509 -noout -enddate -in "$CA_BUNDLE_FILE" | sed -e 's/notAfter=//' | awk '{$NF="";}1')
     DATE_TODAY=$(date -u +%Y%m%d%H%M%S)
     CERT_DATE=$(date -d"${CERT_EXP}" +%Y%m%d%H%M%S)
     CA_DATE=$(date -d"${CA_EXP}" +%Y%m%d%H%M%S)
@@ -116,18 +113,16 @@ function check-expiration () {
 
 function check-cert-ca-flag () {
     printf "Checking if server certificate has CA:TRUE flag "
-    openssl x509 -in $CERT_FILE -noout -text | grep -q CA:TRUE
-    if [[ $? -ne 0 ]]; then
-        success
-    else
+    if openssl x509 -in "$CERT_FILE" -noout -text | grep -q CA:TRUE ; then
         error 7 "The server certificate is marked as a CA and can not be used."
+    else
+        success
     fi
 }
 
 function check-passphrase () {
     printf "Checking for private key passphrase: "
-    CHECK=$(cat $KEY_FILE | grep ENCRYPTED)
-    if [[ $? == "0" ]]; then
+    if grep -q ENCRYPTED "$KEY_FILE" ; then
         error 2 "The $KEY_FILE contains a passphrase, remove the key's passphrase by doing:
         \nmv $KEY_FILE $KEY_FILE.old
         \nopenssl rsa -in $KEY_FILE.old -out $KEY_FILE"
@@ -139,8 +134,8 @@ function check-passphrase () {
 
 function check-priv-key () {
     printf "Checking to see if the private key matches the certificate: "
-    CERT_MOD=$(openssl x509 -noout -modulus -in $CERT_FILE)
-    KEY_MOD=$(openssl rsa -noout -modulus -in $KEY_FILE)
+    CERT_MOD=$(openssl x509 -noout -modulus -in "$CERT_FILE")
+    KEY_MOD=$(openssl rsa -noout -modulus -in "$KEY_FILE")
     if [[ "$CERT_MOD" != "$KEY_MOD" ]]; then
         error 2 "The $KEY_FILE does not match the $CERT_FILE"
     else
@@ -151,7 +146,7 @@ function check-priv-key () {
 function check-ca-bundle () {
     printf "Checking CA bundle against the certificate file: "
     ERROR_PATTERN="error [0-9]+ at"
-    CHECK=$(openssl verify -CAfile $CA_BUNDLE_FILE -purpose sslserver -verbose $CERT_FILE 2>&1)
+    CHECK=$(openssl verify -CAfile "$CA_BUNDLE_FILE" -purpose sslserver -verbose "$CERT_FILE" 2>&1)
     CHECK_STATUS=$?
 
     if [[ $CHECK_STATUS != "0" || $CHECK =~ $ERROR_PATTERN ]]; then
@@ -164,30 +159,28 @@ function check-ca-bundle () {
 
 function check-ca-bundle-size () {
     printf "Checking CA bundle size: "
-    CHECK=$(grep -c "^--*BEGIN" $CA_BUNDLE_FILE)
-    printf $CHECK
+    CHECK=$(grep -c "^--*BEGIN" "$CA_BUNDLE_FILE")
     if [[ $CHECK -lt $CABUNDLE_MAX_ISSUERS ]]; then
 		success
     else
-		CERTISSUER=$(openssl x509 -noout -in $CERT_FILE -issuer 2>&1)
+		CERTISSUER=$(openssl x509 -noout -in "$CERT_FILE" -issuer 2>&1)
 		error 10 "The CA bundle counts $CHECK issuers. Please trim your CA bundle and include only the certs relevant to your cert file"
-		echo $CERTISSUER
+		echo "$CERTISSUER"
 		echo
     fi
 }
 
 function check-cert-san () {
     printf "Checking Subject Alt Name on certificate "
-    DNS_LIST=$(openssl x509 -noout -text -in $CERT_FILE | grep DNS:)
+    DNS_LIST=$(openssl x509 -noout -text -in "$CERT_FILE" | grep DNS:)
     if [[ $? == "0" ]]; then
         success
         printf "Checking if any Subject Alt Name on certificate matches the Subject CN"
-        SUBJECT_CN=$(openssl x509 -in $CERT_FILE -noout -subject -nameopt multiline|grep commonName|cut -d '=' -f 2|tr -d ' ')
+        SUBJECT_CN=$(openssl x509 -in "$CERT_FILE" -noout -subject -nameopt multiline|grep commonName|cut -d '=' -f 2|tr -d ' ')
         for DNS in ${DNS_LIST}
           do
-          DNS_VALUE="$( echo ${DNS//DNS:/} | tr -d ',')"
-          if [ $SUBJECT_CN == $DNS_VALUE ]
-          then
+          DNS_VALUE="$( echo "${DNS//DNS:/}" | tr -d ',')"
+          if [[ $SUBJECT_CN == "$DNS_VALUE" ]] ; then
             success
             return
           fi
@@ -206,8 +199,7 @@ Explanation
 
 function check-cert-usage-key-encipherment () {
     printf "Checking Key Usage extension on certificate for Key Encipherment "
-    CHECK=$(openssl x509 -noout -text -in $CERT_FILE | grep -A1 'X509v3 Key Usage:' | grep 'Key Encipherment')
-    if [[ $? == "0" ]]; then
+    if openssl x509 -noout -text -in "$CERT_FILE" | grep -A1 'X509v3 Key Usage:' | grep 'Key Encipherment' ; then
         success
     else
         error 4 "The $CERT_FILE does not allow for the 'Key Encipherment' key usage."
@@ -217,23 +209,23 @@ function check-cert-usage-key-encipherment () {
 function check-shortname () {
     printf "Checking for use of shortname as CN"
 
-    SUBJECT_CN=$(openssl x509 -in $CERT_FILE -noout -subject -nameopt multiline|grep commonName|cut -d '=' -f 2|tr -d ' ')
+    SUBJECT_CN=$(openssl x509 -in "$CERT_FILE" -noout -subject -nameopt multiline|grep commonName|cut -d '=' -f 2|tr -d ' ')
     if [[ $SUBJECT_CN != *"."* ]]; then
-        error 1 "The $(basename $CERT_FILE) is using a shortname for Common Name (CN) and cannot be used with $PROJECT.\n"
+        error 1 "The $(basename "$CERT_FILE") is using a shortname for Common Name (CN) and cannot be used with $PROJECT.\n"
     fi
 
-    DNS_LIST=$(openssl x509 -noout -text -in $CERT_FILE | grep DNS:)
+    DNS_LIST=$(openssl x509 -noout -text -in "$CERT_FILE" | grep DNS:)
     if [[ $? == "0" ]]; then
         for DNS in ${DNS_LIST}
           do
-          DNS_VALUE="$( echo ${DNS//DNS:/} | tr -d ',')"
+          DNS_VALUE="$( echo "${DNS//DNS:/}" | tr -d ',')"
 
           if [[ $DNS_VALUE == *"."* ]]; then
             success
             return
           fi
         done
-        error 1 "The $(basename $CERT_FILE) is using only shortnames for Subject Alt Name and cannot be used with $PROJECT.\n"
+        error 1 "The $(basename "$CERT_FILE") is using only shortnames for Subject Alt Name and cannot be used with $PROJECT.\n"
     fi
 }
 
@@ -248,23 +240,23 @@ check-cert-san
 check-cert-usage-key-encipherment
 check-shortname
 
-if [[ $EXIT_CODE == "0" ]] && ([[ $TARGET == ${SERVER_TARGET} ]] || [[ -z "$TARGET" ]]) ; then
+if [[ $EXIT_CODE == "0" ]] && ([[ $TARGET == "${SERVER_TARGET}" ]] || [[ -z "$TARGET" ]]) ; then
     echo -e "${GREEN}Validation succeeded${RESET}\n"
     cat <<EOF
 
 To install the ${PROJECT} server with the custom certificates, run:
 
     ${INSTALLER} --scenario ${SERVER_SCENARIO} \\
-                      --certs-server-cert "$(readlink -f $CERT_FILE)" \\
-                      --certs-server-key "$(readlink -f $KEY_FILE)" \\
-                      --certs-server-ca-cert "$(readlink -f $CA_BUNDLE_FILE)"
+                      --certs-server-cert "$(readlink -f "$CERT_FILE")" \\
+                      --certs-server-key "$(readlink -f "$KEY_FILE")" \\
+                      --certs-server-ca-cert "$(readlink -f "$CA_BUNDLE_FILE")"
 
 To update the certificates on a currently running ${PROJECT} installation, run:
 
     ${INSTALLER} --scenario ${SERVER_SCENARIO} \\
-                      --certs-server-cert "$(readlink -f $CERT_FILE)" \\
-                      --certs-server-key "$(readlink -f $KEY_FILE)" \\
-                      --certs-server-ca-cert "$(readlink -f $CA_BUNDLE_FILE)" \\
+                      --certs-server-cert "$(readlink -f "$CERT_FILE")" \\
+                      --certs-server-key "$(readlink -f "$KEY_FILE")" \\
+                      --certs-server-ca-cert "$(readlink -f "$CA_BUNDLE_FILE")" \\
                       --certs-update-server --certs-update-server-ca
 
 To use them inside a NEW \$${PROXY_VAR}, rerun this command with -t ${PROXY_TARGET}
@@ -277,17 +269,17 @@ elif [[ $EXIT_CODE == "0" ]]; then
 
       ${CERTS_TOOL} --foreman-proxy-fqdn "\$${PROXY_VAR}" \\
                                    --certs-tar  "~/\$${PROXY_VAR}-certs.tar" \\
-                                   --server-cert "$(readlink -f $CERT_FILE)" \\
-                                   --server-key "$(readlink -f $KEY_FILE)" \\
-                                   --server-ca-cert "$(readlink -f $CA_BUNDLE_FILE)"
+                                   --server-cert "$(readlink -f "$CERT_FILE")" \\
+                                   --server-key "$(readlink -f "$KEY_FILE")" \\
+                                   --server-ca-cert "$(readlink -f "$CA_BUNDLE_FILE")"
 
   To use them inside an EXISTING \$${PROXY_VAR}, run this command INSTEAD:
 
       ${CERTS_TOOL} --foreman-proxy-fqdn "\$${PROXY_VAR}" \\
                                    --certs-tar  "~/\$${PROXY_VAR}-certs.tar" \\
-                                   --server-cert "$(readlink -f $CERT_FILE)" \\
-                                   --server-key "$(readlink -f $KEY_FILE)" \\
-                                   --server-ca-cert "$(readlink -f $CA_BUNDLE_FILE)" \\
+                                   --server-cert "$(readlink -f "$CERT_FILE")" \\
+                                   --server-key "$(readlink -f "$KEY_FILE")" \\
+                                   --server-ca-cert "$(readlink -f "$CA_BUNDLE_FILE")" \\
                                    --certs-update-server
 EOF
 else
