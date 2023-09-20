@@ -8,7 +8,7 @@ end
 
 migration_name = ARGV[0]
 directories = ARGV[1..-1]
-content = (STDIN.tty? || STDIN.closed?) ? nil : STDIN.read
+content = ($stdin.tty? || $stdin.closed?) ? nil : $stdin.read
 
 directories.each do |directory|
   unless File.directory?(directory)
