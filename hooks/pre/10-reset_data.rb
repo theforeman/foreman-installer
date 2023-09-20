@@ -61,7 +61,7 @@ def pg_command_base(config, command, args)
 end
 
 def pg_sql_statement(config, statement)
-  pg_command_base(config, 'psql', "-d #{config[:database]} -t -c \"" + statement + '"')
+  pg_command_base(config, 'psql', "-d #{config[:database]} -t -c \"#{statement}\"")
 end
 
 # WARNING: deletes all the data owned by the user. No warnings. No confirmations.
