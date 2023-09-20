@@ -25,4 +25,4 @@ if !File.exist?(new_config_file) && POSSIBLE_RECENT_CONFIG_PATHS.any? { |path| p
     File.open(new_config_file, "w+") do |file|
       file.write("---\n:foreman: {}\n")
     end
-  end
+end
