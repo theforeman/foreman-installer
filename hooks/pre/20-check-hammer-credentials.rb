@@ -21,7 +21,7 @@ new_config_file = File.join(NEW_HAMMER_CONFIG_PATH, NEW_HAMMER_CONFIG_FILE)
 # if there is foreman password or non-admin user set in any of the legacy configs
 # create empty hammer foreman config to prevent installer from creating new one
 if !File.exist?(new_config_file) && POSSIBLE_RECENT_CONFIG_PATHS.any? { |path| password_set?(path) }
-    FileUtils.mkdir_p(NEW_HAMMER_CONFIG_PATH)
+  FileUtils.mkdir_p(NEW_HAMMER_CONFIG_PATH)
     File.open(new_config_file, "w+") do |file|
       file.write("---\n:foreman: {}\n")
     end
