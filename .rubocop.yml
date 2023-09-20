@@ -1,11 +1,14 @@
+inherit_from: .rubocop_todo.yml
+
 AllCops:
-  TargetRubyVersion: 2.5
+  TargetRubyVersion: 2.7
+  NewCops: enable
   Exclude:
-    - '_build/**/*'
-    - 'pkg/**/*'
-    - 'Gemfile'
-    - 'Puppetfile'
-    - 'Rakefile'
+    - "_build/**/*"
+    - "pkg/**/*"
+    - "Gemfile"
+    - "Puppetfile"
+    - "Rakefile"
 
 Bundler/OrderedGems:
   Enabled: false
