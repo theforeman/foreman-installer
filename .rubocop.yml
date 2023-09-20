@@ -1,11 +1,56 @@
+require:
+  - rubocop-rake
+  - rubocop-rspec
+  - rubocop-performance
+
 AllCops:
-  TargetRubyVersion: 2.5
+  TargetRubyVersion: 2.7
+  NewCops: enable
   Exclude:
     - '_build/**/*'
     - 'pkg/**/*'
     - 'Gemfile'
     - 'Puppetfile'
     - 'Rakefile'
+
+Style/StringConcatenation:
+  Enabled: true
+
+Style/SlicingWithRange:
+  Enabled: false
+
+Performance/Casecmp:
+  Enabled: false
+
+Performance/CollectionLiteralInLoop:
+  Enabled: false
+
+Lint/DuplicateBranch:
+  Enabled: false
+  
+Lint/UnusedMethodArgument:
+  Enabled: false
+
+RSpec/NamedSubject:
+  Enabled: false
+
+RSpec/MultipleMemoizedHelpers:
+  Enabled: false
+
+RSpec/MultipleExpectations:
+  Enabled: false
+
+RSpec/NestedGroups:
+  Enabled: false
+
+RSpec/ExampleLength:
+  Enabled: false
+
+RSpec/ExpectInHook:
+  Enabled: false
+
+RSpec/DescribeClass:
+  Enabled: false
 
 Bundler/OrderedGems:
   Enabled: false
