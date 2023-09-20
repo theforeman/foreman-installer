@@ -15,11 +15,7 @@ Kafo::KafoConfigure.hooking.register_pre(:init) do
     data = YAML.load_file(LAST_SCENARIO_PATH)
     if data && data[:answer_file] && File.file?(data[:answer_file])
       scenario = YAML.load_file(data[:answer_file])
-      organization = begin
-                       scenario['foreman']['initial_organization']
-                     rescue StandardError
-                       nil
-                     end
+      organization = scenario&.dig('foreman', 'initial_organization')
     end
   end
 
