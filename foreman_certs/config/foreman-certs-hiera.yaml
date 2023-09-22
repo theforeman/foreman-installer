@@ -1,0 +1,11 @@
+---
+version: 5
+defaults:
+  datadir: hiera
+  data_hash: yaml_data
+hierarchy:
+  - name: "Built in"
+    paths:
+      - "defaults.yaml"
+  - name: "Kafo Answers"
+    path: "%{facts.kafo.scenario.answer_file}"
