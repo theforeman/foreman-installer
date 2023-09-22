@@ -1,0 +1,9 @@
+#!/usr/bin/env ruby
+require 'rubygems'
+require 'kafo'
+
+CONFIG_DIR = './foreman_certs/config/'.freeze
+LAST_SCENARIO_PATH = './config/last_scenario.yaml'.freeze
+
+@result = Kafo::KafoConfigure.run
+exit((@result.nil? || @result.exit_code == 2) ? 0 : @result.exit_code)

@@ -1,0 +1,6 @@
+certs:
+  generate: true
+  regenerate: true
+  deploy: false
+  group: foreman
+  ssl_build_dir: /home/ehelms/workspace/upstream/installer/foreman-installer/_ssl_build
