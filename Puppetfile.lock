@@ -1,12 +1,12 @@
 FORGE
   remote: https://forgeapi.puppet.com/
   specs:
-    katello-candlepin (14.1.1)
+    katello-candlepin (14.1.2)
       puppet-extlib (>= 3.0.0, < 7.0.0)
       puppetlabs-concat (>= 1.0.0, < 9.0.0)
       puppetlabs-postgresql (>= 6.5.0, < 10.0.0)
       puppetlabs-stdlib (>= 4.2.0, < 9.0.0)
-    katello-certs (16.0.2)
+    katello-certs (16.1.1)
       puppet-extlib (>= 3.0.0, < 7.0.0)
       puppetlabs-stdlib (>= 4.25.0, < 9.0.0)
     katello-foreman_proxy_content (25.0.0)
@@ -104,8 +104,8 @@ FORGE
       puppetlabs-stdlib (>= 4.13.1, < 9.0.0)
 
 DEPENDENCIES
-  katello-candlepin (~> 14.1.1)
-  katello-certs (~> 16.0.2)
+  katello-candlepin (~> 14.1.2)
+  katello-certs (~> 16.1.1)
   katello-foreman_proxy_content (~> 25.0.0)
   katello-katello (~> 24.0.0)
   katello-qpid (~> 10.0.0)
