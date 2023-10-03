@@ -11,7 +11,7 @@ MISSING = "Command 'facter' does not exist in system executable path
 
 Make sure the above command is installed and executable in your system. ".freeze
 
-ENV['PATH'] = ENV['PATH'].split(File::PATH_SEPARATOR).concat(['/opt/puppetlabs/bin']).join(File::PATH_SEPARATOR)
+ENV['PATH'] = ENV['PATH'].split(File::PATH_SEPARATOR).push('/opt/puppetlabs/bin').join(File::PATH_SEPARATOR)
 
 system("which facter > /dev/null 2>&1")
 error_exit(MISSING, 3) if $CHILD_STATUS.exitstatus == 1
