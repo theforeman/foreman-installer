@@ -17,7 +17,7 @@ upstream_tag_template: "{version}"
 
 actions:
   post-upstream-clone:
-    - "wget https://raw.githubusercontent.com/theforeman/foreman-packaging/rpm/develop/packages/foreman/foreman-installer/foreman-installer.spec -O foreman-installer.spec"
+    - "wget https://raw.githubusercontent.com/theforeman/foreman-packaging/rpm/3.8/packages/foreman/foreman-installer/foreman-installer.spec -O foreman-installer.spec"
   get-current-version:
     - "sed 's/-develop//' VERSION"
   create-archive:
@@ -34,7 +34,7 @@ jobs:
       centos-stream-8:
         additional_modules: "foreman:el8"
         additional_repos:
-          - http://koji.katello.org/releases/yum/foreman-nightly/el8/x86_64/
+          - http://koji.katello.org/releases/yum/foreman-3.8/el8/x86_64/
           - http://yum.puppet.com/puppet7/el/8/x86_64/
     module_hotfixes: true
 
