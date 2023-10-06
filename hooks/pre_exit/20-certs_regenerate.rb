@@ -1,6 +1,9 @@
 if module_enabled?('certs') && param('certs', 'regenerate').value == true
-  answers = kafo.config.answers
-  answers['certs']['regenerate'] = false
+  kafo.config.modules.each do |mod|
+    if mod.identifier == 'certs'
+      mod.params_hash['regenerate'] = false
+    end
+  end
 
-  kafo.config.store(answers)
+  kafo.send(:store_params)
 end
