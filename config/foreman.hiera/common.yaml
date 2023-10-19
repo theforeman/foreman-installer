@@ -6,6 +6,10 @@ apache::protocols:
   - 'h2'
   - 'h2c'
   - 'http/1.1'
+# Value 150 is below the httpd default and showing warnings
+# https://httpd.apache.org/docs/current/mod/mpm_common.html#maxrequestworkers
+# https://bugzilla.redhat.com/show_bug.cgi?id=2244370
+apache::mod::event::maxclients: false
 
 dhcp::config_comment: |
   READ: This file was written the foreman-installer and not by the Foreman
