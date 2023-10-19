@@ -8,7 +8,7 @@ mod 'puppetlabs/apt',                  '< 9.1.0'
 mod 'puppetlabs/apache',               '>= 8.3'
 
 # Ensure Debian 11 support
-mod 'puppetlabs/postgresql',           '>= 7.4.0'
+mod 'puppetlabs/postgresql',           '>= 7.4.0', '< 10'
 
 # Dnfmodule support for Redis 6+ support
 mod 'puppet/redis',                    '>= 8.5.0'
