@@ -28,5 +28,32 @@ Kafo::KafoConfigure.hooking.register_pre(:init) do
   org_param.value = organization
 end
 
+Kafo::KafoConfigure.hooking.register_pre_commit(:certs_check) do
+  ca_file   = param('certs', 'server_ca_cert').value
+  cert_file = param('certs', 'server_cert').value
+  key_file  = param('certs', 'server_key').value
+
+  unless app_value(:certs_skip_check) || [ca_file, cert_file, key_file].all?(&:nil?)
+    command = ['katello-certs-check', '-c', cert_file, '-k', key_file, '-b', ca_file]
+
+    logger.debug do
+      require 'shellwords'
+      "Executing #{Shellwords.escape(command)}"
+    end
+
+    begin
+      stdout_stderr, status = Open3.capture2e(command)
+    rescue Errno::ENOENT
+      say :error, 'katello-certs-check not found'
+      exit 1
+    end
+
+    unless status.success?
+      say :error, stdout_stderr
+      exit 1
+    end
+  end
+end
+
 @result = Kafo::KafoConfigure.run
 exit((@result.nil? || @result.exit_code == 2) ? 0 : @result.exit_code)
