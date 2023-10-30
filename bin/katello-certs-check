@@ -1,10 +1,9 @@
 #!/usr/bin/env bash
 
 # Define colors uses for status output
-RED=`tput setaf 1`
-GREEN=`tput setaf 2`
-YELLOW=`tput setaf 3`
-RESET=`tput sgr0`
+RED=$(tput setaf 1 2> /dev/null)
+GREEN=$(tput setaf 2 2> /dev/null)
+RESET=$(tput sgr0 2> /dev/null)
 
 CABUNDLE_MAX_ISSUERS=32
 
