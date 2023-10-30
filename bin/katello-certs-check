@@ -73,6 +73,13 @@ function success () {
     echo -e "\n${GREEN}[OK]${RESET}\n"
 }
 
+function check-files-exist() {
+    if [[ ! -f "$CA_BUNDLE_FILE" ]] || [[ ! -f "$CERT_FILE" ]] || [[ ! -f "$KEY_FILE" ]] ; then
+        echo "One of '${CERT_FILE}', '${KEY_FILE}' or '${CA_BUNDLE_FILE}' not found" >&2
+        exit 1
+    fi
+}
+
 function check-server-cert-encoding () {
     printf 'Checking server certificate encoding: '
     openssl x509 -inform pem -in $CERT_FILE -noout -text &> /dev/null
@@ -236,6 +243,7 @@ function check-shortname () {
     fi
 }
 
+check-files-exist
 check-server-cert-encoding
 check-expiration
 check-cert-ca-flag
