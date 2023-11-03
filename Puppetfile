@@ -31,7 +31,7 @@ mod 'katello/qpid',                    :git => 'https://github.com/theforeman/pu
 # Top-level modules
 mod 'theforeman/foreman',              :git => 'https://github.com/theforeman/puppet-foreman'
 mod 'theforeman/foreman_proxy',        :git => 'https://github.com/theforeman/puppet-foreman_proxy'
-mod 'theforeman/puppet',               :git => 'https://github.com/theforeman/puppet-puppet'
+mod 'theforeman/puppet',               :git => 'https://github.com/theforeman/puppet-puppet', :ref => 'privatetmp'
 
 # Top-level katello modules
 mod 'katello/foreman_proxy_content',   :git => 'https://github.com/theforeman/puppet-foreman_proxy_content'
