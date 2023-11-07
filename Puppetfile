@@ -1,9 +1,5 @@
 forge 'https://forgeapi.puppet.com/'
 
-# We're not ready for version 9
-mod 'puppetlabs/stdlib',               '< 9'
-mod 'puppetlabs/apt',                  '< 9.1.0'
-
 # HTTP/2 and SSL support for settings in Hiera
 mod 'puppetlabs/apache',               '>= 8.3'
 
