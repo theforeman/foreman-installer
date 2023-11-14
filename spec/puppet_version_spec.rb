@@ -1,7 +1,7 @@
 require 'json'
 require 'semantic_puppet'
 
-SUPPORTED_PUPPET_VERSIONS = ['7.9.0'].map { |v| SemanticPuppet::Version.parse(v) }
+SUPPORTED_PUPPET_VERSIONS = ['7.9.0', '8.0.0'].map { |v| SemanticPuppet::Version.parse(v) }
 
 describe 'Puppet module' do
   Dir.glob(File.join(__dir__, '../_build/modules/*/metadata.json')).each do |filename|
