@@ -42,7 +42,7 @@ Kafo::KafoConfigure.hooking.register_pre_commit(:certs_check) do
     end
 
     begin
-      stdout_stderr, status = Open3.capture2e(command)
+      stdout_stderr, status = Open3.capture2e(*command)
     rescue Errno::ENOENT
       say :error, 'katello-certs-check not found'
       exit 1
