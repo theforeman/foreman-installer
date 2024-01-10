@@ -11,6 +11,7 @@
 ---
 certs:
   group: foreman
+  ssl_build_dir: '/var/lib/foreman-installer/ssl-build'
 foreman:
   client_ssl_ca: /etc/foreman/proxy_ca.pem
   client_ssl_cert: /etc/foreman/client_cert.pem
