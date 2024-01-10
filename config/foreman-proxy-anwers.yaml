@@ -1,0 +1,36 @@
+# Format:
+# <classname>: false - don't include this class
+# <classname>: true - include and use the defaults
+# <classname>:
+#   <param>: <value> - include and override the default(s)
+#
+# Every support plugin/compute class is listed, so that it
+# shows up in the interactive menu
+#
+# See params.pp in each class for what options are available
+---
+foreman_proxy:
+  http: true
+  registration: true
+  templates: true
+foreman_proxy::plugin::acd: false
+foreman_proxy::plugin::ansible: false
+foreman_proxy::plugin::chef: false
+foreman_proxy::plugin::dhcp::infoblox: false
+foreman_proxy::plugin::dhcp::remote_isc: false
+foreman_proxy::plugin::discovery: false
+foreman_proxy::plugin::dns::infoblox: false
+foreman_proxy::plugin::dns::powerdns: false
+foreman_proxy::plugin::dynflow: false
+foreman_proxy::plugin::monitoring: false
+foreman_proxy::plugin::omaha: false
+foreman_proxy::plugin::openscap: false
+foreman_proxy::plugin::remote_execution::ssh: false
+foreman_proxy::plugin::reports: false
+foreman_proxy::plugin::salt: false
+foreman_proxy::plugin::shellhooks: false
+puppet:
+  server: true
+  server_jvm_extra_args:
+    - "-Djruby.logger.class=com.puppetlabs.jruby_utils.jruby.Slf4jLogger"
+    - "-XX:ReservedCodeCacheSize=512m"
