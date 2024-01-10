@@ -1,0 +1,12 @@
+---
+pulpcore: true
+pulpcore::cli: true
+pulpcore::repo: true
+pulpcore::plugin::ansible: false
+pulpcore::plugin::certguard: false
+pulpcore::plugin::container: false
+pulpcore::plugin::deb: false
+pulpcore::plugin::file: true
+pulpcore::plugin::ostree: false
+pulpcore::plugin::python: false
+pulpcore::plugin::rpm: true
