@@ -20,7 +20,7 @@ module MessageHookContextExtension
     say <<MSG
   * To install an additional Foreman proxy on separate machine continue by running:
 
-      foreman-proxy-certs-generate --foreman-proxy-fqdn "<%= color('$FOREMAN_PROXY', :info) %>" --certs-tar "<%= color('/root/$FOREMAN_PROXY-certs.tar', :info) %>"
+      foreman-proxy-certs-generate --foreman-proxy-fqdn "<%= color('$FOREMAN_PROXY', :info) %>" --certs-tar "<%= color('/root/$FOREMAN_PROXY-certs.tar.gz', :info) %>"
 MSG
   end
 
