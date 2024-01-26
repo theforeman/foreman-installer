@@ -129,9 +129,3 @@ Style/NumericPredicate:
 
 Layout/HeredocIndentation:
   Enabled: false
-
-Style/OptionalBooleanParameter:
-  Enabled: false
-
-Style/NegatedIf:
-  Enabled: false
