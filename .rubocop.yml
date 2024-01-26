@@ -176,3 +176,6 @@ Style/OptionalBooleanParameter:
 
 Style/NegatedIf:
   Enabled: false
+
+RSpec/ContextWording:
+  Enabled: false
