@@ -132,3 +132,6 @@ Layout/HeredocIndentation:
 
 Style/OptionalBooleanParameter:
   Enabled: false
+
+Style/NegatedIf:
+  Enabled: false
