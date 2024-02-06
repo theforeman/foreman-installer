@@ -16,20 +16,8 @@ directories.each do |directory|
     exit 2
   end
 
-  if File.basename(directory) == 'foreman.migrations'
-    # Used by the foreman scenario
-    format = '+%Y%m%d%H%M%S'
-    to_replace = '-'
-    glue = '_'
-  else
-    # Recommended format by kafo
-    format = '+%y%m%d%H%M%S'
-    to_replace = '-'
-    glue = '-'
-  end
-
-  timestamp = `TZ=UTC date #{format}`.strip
-  filename = File.join(directory, "#{timestamp}#{glue}#{migration_name.gsub(to_replace, glue)}.rb")
+  timestamp = `TZ=UTC date '+%Y%m%d%H%M%S'`.strip
+  filename = File.join(directory, "#{timestamp}#{glue}#{migration_name.gsub('-', '_')}.rb")
 
   File.open(filename, 'w') do |file|
     file.puts(content) if content
