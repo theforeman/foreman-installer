@@ -142,5 +142,34 @@ describe HookContextExtension do
         end
       end
     end
+
+    describe '.execute!' do
+      subject { context.execute!(command) }
+      let(:command) { 'uptime' }
+
+      before do
+        allow(context).to receive(:execute_command).and_return([command, true])
+      end
+
+      it 'executes a command' do
+        expect(subject).to be_nil
+        expect(context).to have_received(:execute_command).with(command, true, true)
+      end
+    end
+
+    describe '.execute_as!' do
+      subject { context.execute_as!(user, command) }
+      let(:command) { 'uptime' }
+      let(:user) { 'postgres' }
+
+      before do
+        allow(context).to receive(:execute!)
+      end
+
+      it 'executes a command' do
+        expect(subject).to be_nil
+        expect(context).to have_received(:execute!).with("runuser -l postgres -c 'uptime'", true, true)
+      end
+    end
   end
 end

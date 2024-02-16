@@ -115,6 +115,11 @@ module HookContextExtension
     end
   end
 
+  def execute_as!(user, command, do_say = true, do_log = true)
+    runuser_command = "runuser -l #{user} -c '#{command}'"
+    execute!(runuser_command, do_say, do_log)
+  end
+
   def execute(command, do_say, do_log)
     _stdout_stderr, status = execute_command(command, do_say, do_log)
     status
@@ -138,6 +143,19 @@ module HookContextExtension
 
   def remote_host?(hostname)
     !['localhost', '127.0.0.1', `hostname`.strip].include?(hostname)
+  end
+
+  def el8?
+    facts[:os][:release][:major] == '8' && facts[:os][:family] == 'RedHat'
+  end
+
+  def available_space(directory = nil)
+    directory = '/' if directory.nil?
+    mountpoints = facts[:mountpoints]
+    until (mountpoint = mountpoints[directory.to_sym])
+      directory = File.dirname(directory)
+    end
+    mountpoint[:available_bytes]
   end
 end
 
