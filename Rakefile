@@ -29,10 +29,12 @@ begin
       PuppetForge.host = url
     end
 
-    def mod(name, options = nil)
+    def mod(name, options = nil, max_version = nil)
       if options.is_a?(Hash) && !options.include?(:ref)
         release = PuppetForge::Module.find(name.tr('/', '-')).current_release
         @new_content << ['mod', name, "~> #{release.version}"]
+      elsif max_version
+        @new_content << ['mod', name, options, max_version]
       else
         @new_content << ['mod', name, options]
       end
@@ -41,13 +43,16 @@ begin
     def content
       max_length = @new_content.select { |type, _value| type == 'mod' }.map { |_type, value| value.length }.max
 
-      @new_content.each do |type, value, options|
+      @new_content.each do |type, value, options, max_version|
         if type == 'forge'
           yield "forge '#{value}'"
           yield ""
         elsif type == 'mod'
           if options.nil?
             yield "mod '#{value}'"
+          elsif max_version
+            padding = ' ' * (max_length - value.length)
+            yield "mod '#{value}', #{padding}'#{options}', '#{max_version}'"
           elsif options.is_a?(String)
             padding = ' ' * (max_length - value.length)
             yield "mod '#{value}', #{padding}'#{options}'"
