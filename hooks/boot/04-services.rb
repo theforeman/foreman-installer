@@ -9,8 +9,6 @@ module ServicesHookContextExtension
     'httpd.service', # Apache on Red Hat
     'postgresql*', # Used by Foreman/Dynflow and Pulpcore
     'pulpcore*',
-    'qdrouterd.service', # Used by Katello for katello-agent
-    'qpidd.service', # Used by Katello for katello-agent
     'smart_proxy_dynflow_core.service', # Used by Foreman Proxy
     'tomcat.service', # Candlepin
   ].freeze
