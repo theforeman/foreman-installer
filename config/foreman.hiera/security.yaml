@@ -1,2 +1,10 @@
 ---
 apache::trace_enable: 'Off'
+
+## DISABLE HTTP OPTIONS METHOD
+classes:
+  - apache::mod::security
+
+apache::mod::security::allowed_methods: 'GET HEAD POST PUT DELETE PATCH'
+apache::mod::security::content_types: 'application/x-www-form-urlencoded|multipart/form-data|text/xml|application/xml|application/x-amf|application/json|text/plain'
+apache::mod::security::activated_rules: '/usr/lib/modsecurity.d/base_rules/modsecurity_crs_30_http_policy.conf'
