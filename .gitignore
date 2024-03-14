@@ -34,3 +34,5 @@ config/foreman.migrations/.applied
 spec/fixtures/katello-certs-check/certs/*.csr
 spec/fixtures/katello-certs-check/ca.key
 spec/fixtures/katello-certs-check/certs/*.srl
+
+.xml
