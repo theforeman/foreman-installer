@@ -1,0 +1,9 @@
+#!/bin/sh
+
+TARGET="/opt/puppetlabs"
+
+if findmnt --target "$TARGET" --noheadings --output options | grep -q noexec ; then
+  echo "$TARGET is on mount with the noexec option." >&2
+  echo "Installation requires access to binaries which are stored under $TARGET and must therefore be mounted with exec." >&2
+  exit 2
+fi
