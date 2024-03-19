@@ -44,8 +44,12 @@ jobs:
   - job: tests
     trigger: pull_request
     targets:
-      - rhel-8
-      - rhel-9
+      rhel-9:
+        distros:
+          - centos-stream-9
+      rhel-8:
+        distros:
+          - centos-stream-8
 
 srpm_build_deps:
   - wget
