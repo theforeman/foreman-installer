@@ -9,7 +9,6 @@ module ServicesHookContextExtension
     'httpd.service', # Apache on Red Hat
     'postgresql*', # Used by Foreman/Dynflow and Pulpcore
     'pulpcore*',
-    'smart_proxy_dynflow_core.service', # Used by Foreman Proxy
     'tomcat.service', # Candlepin
   ].freeze
 
