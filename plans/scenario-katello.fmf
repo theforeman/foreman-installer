@@ -1,0 +1,10 @@
+summary: Verify katello scenarios
+prepare:
+  - name: foreman-installer-katello
+    how: install
+    package: foreman-installer-katello
+execute:
+  - how: tmt
+    script: foreman-installer --help --scenario katello --trace
+  - how: tmt
+    script: foreman-installer --help --scenario foreman-proxy-content --trace
