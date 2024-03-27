@@ -18,3 +18,6 @@ dhcp::config_comment: |
 foreman::config::apache::proxy_params:
   retry: '0'
   timeout: '900'
+
+# Match default in PostgreSQL 14+ sooner to phase out MD5
+postgresql::globals::password_encryption: 'scram-sha-256'
