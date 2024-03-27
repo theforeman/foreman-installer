@@ -1,0 +1,54 @@
+---
+stages:
+  - lint
+  - test
+  - installation-tests
+
+variables:
+  RUBY_VERSION: "2.7"
+  RUBY_IMAGE: "ruby:${RUBY_VERSION}"
+
+.common:
+  image: ${RUBY_IMAGE}
+  cache:
+    key: $CI_COMMIT_REF_SLUG
+    paths:
+      - vendor/ruby
+  before_script:
+    - bundle config set --local path 'vendor/ruby'
+    - bundle install -j $(nproc)
+
+lint:
+  extends: .common
+  stage: lint
+  script:
+    - bundle exec rubocop --format junit --out rubocop.xml --display-only-failed
+  artifacts:
+    when: always
+    paths:
+      - rubocop.xml
+    reports:
+      junit: rubocop.xml
+
+test:
+  extends: .common
+  stage: test
+  script:
+    - bundle exec rspec --format RspecJunitFormatter --out rspec.xml
+  artifacts:
+    when: always
+    paths:
+      - rspec.xml
+    reports:
+      junit: rspec.xml
+
+installation-tests:
+  extends: .common
+  stage: installation-tests
+  variables:
+    PREFIX: "${RUBY_VERSION}"
+  script:
+    - apt update && apt install -y asciidoc-base docbook-xsl --no-install-recommends
+    - bundle exec rake install --trace
+    - bundle exec rake installation_tests --trace
+...

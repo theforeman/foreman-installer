@@ -339,6 +339,14 @@ CLEAN.include [
   PKGDIR,
 ]
 
+task :installation_tests do
+  sh "bundle exec #{PREFIX}/sbin/foreman-installer --help --scenario foreman --trace"
+  sh "bundle exec #{PREFIX}/sbin/foreman-installer --help --scenario foreman-proxy-content --trace"
+  sh "bundle exec #{PREFIX}/sbin/foreman-installer --help --scenario katello --trace"
+  sh "bundle exec #{PREFIX}/sbin/foreman-proxy-certs-generate --help --trace"
+  sh "bundle exec #{PREFIX}/sbin/foreman-proxy-certs-generate --help | grep -q certs-update-server"
+end
+
 namespace :pkg do
   desc 'Generate package source tar.bz2'
   task :generate_source => [PKGDIR, "#{BUILDDIR}/modules"] do
