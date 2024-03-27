@@ -12,19 +12,15 @@ POSSIBLE_RECENT_CONFIG_PATHS = [
 def password_set?(path)
   if File.exist?(path)
     config = YAML.load_file(path)
-    return true if config[:foreman].is_a?(::Hash) && (config[:foreman][:username] != 'admin' || config[:foreman][:password])
+    return true if config[:foreman].is_a?(Hash) && (config[:foreman][:username] != 'admin' || config[:foreman][:password])
   end
   false
 end
 
 new_config_file = File.join(NEW_HAMMER_CONFIG_PATH, NEW_HAMMER_CONFIG_FILE)
-unless File.exist?(new_config_file)
-  # if there is foreman password or non-admin user set in any of the legacy configs
-  # create empty hammer foreman config to prevent installer from creating new one
-  if POSSIBLE_RECENT_CONFIG_PATHS.any? { |path| password_set?(path) }
-    FileUtils.mkdir_p(NEW_HAMMER_CONFIG_PATH)
-    File.open(new_config_file, "w+") do |file|
-      file.write("---\n:foreman: {}\n")
-    end
-  end
+# if there is foreman password or non-admin user set in any of the legacy configs
+# create empty hammer foreman config to prevent installer from creating new one
+if !File.exist?(new_config_file) && POSSIBLE_RECENT_CONFIG_PATHS.any? { |path| password_set?(path) }
+  FileUtils.mkdir_p(NEW_HAMMER_CONFIG_PATH)
+  File.write(new_config_file, "---\n:foreman: {}\n")
 end

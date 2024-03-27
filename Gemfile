@@ -14,7 +14,10 @@ gem 'rake'
 
 group :test do
   gem 'rspec'
-  gem 'rubocop', '~> 0.80.0'
+  gem 'rubocop', '~> 1.56.0'
+  gem 'rubocop-rake'
+  gem 'rubocop-rspec'
+  gem 'rubocop-performance'
 end
 
 group :development do
