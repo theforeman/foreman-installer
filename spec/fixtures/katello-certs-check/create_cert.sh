@@ -28,6 +28,16 @@ else
   echo "CA certificate bundle exists. Skipping."
 fi
 
+CA_BUNDLE=ca-bundle-with-trust-rules
+CA_CERT_WITH_TRUST_RULES=ca-with-trust-rules
+if [[ ! -f "$CERTS_DIR/$CA_BUNDLE.crt" ]]; then
+  echo "Generate CA bundle with trust rules"
+  openssl x509 -in $CERTS_DIR/$CA_CERT_NAME.crt -addtrust serverAuth -out $CERTS_DIR/$CA_CERT_WITH_TRUST_RULES.crt
+  cat $CERTS_DIR/$THIRDPARTY_CA_CERT_NAME.crt $CERTS_DIR/$CA_CERT_WITH_TRUST_RULES.crt > $CERTS_DIR/$CA_BUNDLE.crt
+else
+  echo "CA certificate bundle with trust rules exists. Skipping."
+fi
+
 CERT_NAME=foreman.example.com
 if [[ ! -f "$CERTS_DIR/$CERT_NAME.key" || ! -f "$CERTS_DIR/$CERT_NAME.crt" ]]; then
   echo "Generate server certificate"
