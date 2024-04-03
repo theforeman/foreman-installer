@@ -164,7 +164,7 @@ function check-ca-bundle () {
         error 4 "The $CA_BUNDLE_FILE does not verify the $CERT_FILE"
         echo -e "${CHECK/OK/}\n"
     else
-       success
+        success
     fi
 }
 
@@ -173,12 +173,24 @@ function check-ca-bundle-size () {
     CHECK=$(grep -c "^--*BEGIN" $CA_BUNDLE_FILE)
     printf $CHECK
     if [[ $CHECK -lt $CABUNDLE_MAX_ISSUERS ]]; then
-		success
+        success
     else
-		CERTISSUER=$(openssl x509 -noout -in $CERT_FILE -issuer 2>&1)
-		error 10 "The CA bundle counts $CHECK issuers. Please trim your CA bundle and include only the certs relevant to your cert file"
-		echo $CERTISSUER
-		echo
+        CERRTISSUER=$(openssl x509 -noout -in $CERT_FILE -issuer 2>&1)
+        error 10 "The CA bundle counts $CHECK issuers. Please trim your CA bundle and include only the certs relevant to your cert file"
+        echo $CERTISSUER
+        echo
+    fi
+}
+
+function check-ca-bundle-trust-rules () {
+    printf "Checking if CA bundle has trust rules: "
+    CHECK=$(grep 'BEGIN TRUSTED CERTIFICATE'  $CA_BUNDLE_FILE| wc -l)
+    printf $CHECK
+    if [[ $CHECK -lt 1 ]]; then
+        success
+    else
+        error 10 "The CA bundle contains $CHECK certificate(s) with trust rules. This may create problems for older systems to trust the bundle. Please, recreate the bundle using certificates without trust rules"
+        echo
     fi
 }
 
@@ -251,6 +263,7 @@ check-passphrase
 check-priv-key
 check-ca-bundle
 check-ca-bundle-size
+check-ca-bundle-trust-rules
 check-cert-san
 check-cert-usage-key-encipherment
 check-shortname

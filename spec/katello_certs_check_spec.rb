@@ -78,4 +78,17 @@ describe 'katello-certs-check' do
       expect(status.exitstatus).to eq 1
     end
   end
+
+  context 'with bundle containing trust rules' do
+    let(:key) { File.join(certs_directory, 'foreman.example.com.key') }
+    let(:cert) { File.join(certs_directory, 'foreman.example.com.crt') }
+    let(:ca) { File.join(certs_directory, 'ca-bundle-with-trust-rules.crt') }
+
+    it 'fails on bundle validation' do
+      command_with_certs = "#{command} -b #{ca} -k #{key} -c #{cert}"
+      _stdout, stderr, status = Open3.capture3(command_with_certs)
+      expect(stderr).to include 'The CA bundle contains 1 certificate(s) with trust rules. This may create problems for older systems to trust the bundle. Please, recreate the bundle using certificates without trust rules'
+      expect(status.exitstatus).to eq 10
+    end
+  end
 end
