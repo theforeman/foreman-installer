@@ -15,56 +15,6 @@ rescue LoadError
   puts 'Rubocop not loaded'
 end
 
-begin
-  require 'puppet_forge'
-  require 'semverse'
-
-  class FakePuppetfile
-    def initialize
-      @new_content = []
-    end
-
-    def forge(url)
-      @new_content << ['forge', url, nil]
-      PuppetForge.host = url
-    end
-
-    def mod(name, options = nil)
-      if options.is_a?(Hash) && !options.include?(:ref)
-        release = PuppetForge::Module.find(name.tr('/', '-')).current_release
-        @new_content << ['mod', name, "~> #{release.version}"]
-      else
-        @new_content << ['mod', name, options]
-      end
-    end
-
-    def content
-      max_length = @new_content.select { |type, _value| type == 'mod' }.map { |_type, value| value.length }.max
-
-      @new_content.each do |type, value, options|
-        if type == 'forge'
-          yield "forge '#{value}'"
-          yield ""
-        elsif type == 'mod'
-          if options.nil?
-            yield "mod '#{value}'"
-          elsif options.is_a?(String)
-            padding = ' ' * (max_length - value.length)
-            yield "mod '#{value}', #{padding}'#{options}'"
-          else
-            padding = ' ' * (max_length - value.length)
-            yield "mod '#{value}', #{padding}#{options.map { |k, v| ":#{k} => '#{v}'" }.join(', ')}"
-          end
-        end
-      end
-    end
-  end
-
-  pin_task = true
-rescue LoadError
-  pin_task = false
-end
-
 BUILD_KATELLO = !ENV.key?('EXCLUDE_KATELLO')
 
 BUILDDIR = File.expand_path(ENV['BUILDDIR'] || '_build')
@@ -363,13 +313,17 @@ namespace :pkg do
   end
 end
 
-if pin_task
+begin
+  require_relative 'util/fake_puppet_file'
+rescue LoadError
+  # Some dependency missing
+else
   desc 'Pin all the modules in Puppetfile to released versions instead of git branches'
   task :pin_modules do
     filename = 'Puppetfile'
 
     fake = FakePuppetfile.new
-    fake.instance_eval { instance_eval(File.read(filename), filename, 1) }
+    fake.instance_eval { eval(File.read(filename), filename, 1) }
 
     File.open(filename, 'w') do |file|
       fake.content do |line|
