@@ -11,12 +11,12 @@ class FakePuppetfile
     PuppetForge.host = url
   end
 
-  def mod(name, options = nil)
-    if options.is_a?(Hash) && !options.include?(:ref)
+  def mod(name, *version, **options)
+    if options.any? && !options.include?(:ref)
       release = PuppetForge::Module.find(name.tr('/', '-')).current_release
-      @new_content << ['mod', name, "~> #{release.version}"]
+      @new_content << ['mod', name, ["~> #{release.version}"]]
     else
-      @new_content << ['mod', name, options]
+      @new_content << ['mod', name, version]
     end
   end
 
@@ -28,11 +28,11 @@ class FakePuppetfile
         yield "forge '#{value}'"
         yield ""
       elsif type == 'mod'
-        if options.nil?
+        if options.empty?
           yield "mod '#{value}'"
-        elsif options.is_a?(String)
+        elsif options.is_a?(Array)
           padding = ' ' * (max_length - value.length)
-          yield "mod '#{value}', #{padding}'#{options}'"
+          yield "mod '#{value}', #{padding}#{options.map { |version| "'#{version}'" }.join(', ')}"
         else
           padding = ' ' * (max_length - value.length)
           yield "mod '#{value}', #{padding}#{options.map { |k, v| ":#{k} => '#{v}'" }.join(', ')}"

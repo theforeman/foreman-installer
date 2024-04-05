@@ -21,6 +21,14 @@ describe FakePuppetfile do
     expect { |b| fake.content(&b) }.to yield_with_args("mod 'theforeman/motd', '>= 1.2'")
   end
 
+  specify 'with a minimum and a maximum' do
+    expect(PuppetForge::Module).not_to receive(:find)
+
+    fake.instance_eval { mod 'theforeman/motd', '>= 1.2', '< 3' }
+
+    expect { |b| fake.content(&b) }.to yield_with_args("mod 'theforeman/motd', '>= 1.2', '< 3'")
+  end
+
   specify 'with a git url' do
     expect(PuppetForge::Module).to receive(:find)
       .with('theforeman-motd')
