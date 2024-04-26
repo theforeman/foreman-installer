@@ -115,7 +115,7 @@ DEPENDENCIES
   puppetlabs-vcsrepo (>= 5.2.0)
   theforeman-dhcp (~> 9.1.0)
   theforeman-dns (~> 10.2.0)
-  theforeman-foreman (~> 24.0.0)
+  theforeman-foreman (~> 24.1.0)
   theforeman-foreman_proxy (~> 25.2.0)
   theforeman-pulpcore (~> 9.0.0)
   theforeman-puppet (~> 19.0.0)
