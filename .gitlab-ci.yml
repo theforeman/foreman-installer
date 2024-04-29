@@ -22,7 +22,7 @@ lint:
   extends: .common
   stage: lint
   script:
-    - bundle exec rubocop --format junit --out rubocop.xml --display-only-failed
+    - bundle exec rubocop --format junit --out rubocop.xml --display-only-fail-level-offenses --fail-level=A
   artifacts:
     when: always
     paths:
