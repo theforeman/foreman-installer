@@ -12,6 +12,8 @@ gem 'facter', '>= 3.0', '!= 4.0.52'
 gem 'puppet-strings'
 gem 'rake'
 
+gem 'semverse', groups: [:development, :test]
+
 group :test do
   gem 'rspec'
   gem 'rspec_junit_formatter'
@@ -21,5 +23,4 @@ end
 group :development do
   # Dependencies for rake pin_modules
   gem 'puppet_forge'
-  gem 'semverse'
 end
