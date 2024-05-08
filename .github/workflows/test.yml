@@ -53,6 +53,12 @@ jobs:
         run: |
           bundle exec rake install PREFIX=./local --trace
           bundle exec rake installation_tests PREFIX=./local --trace
+      - name: Archive Puppetfile.lock
+        if: ${{ !cancelled() }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: Puppetfile-ruby-${{ matrix.ruby }}-puppet-${{ matrix.puppet }}.lock
+          path: Puppetfile.lock
 
   # A dummy job that you can mark as a required check instead of each individual test
   test-suite:
