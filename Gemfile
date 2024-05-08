@@ -12,6 +12,8 @@ gem 'facter', '>= 3.0', '!= 4.0.52'
 gem 'puppet-strings'
 gem 'rake'
 
+gem 'racc' if RUBY_VERSION >= '3.3'
+
 gem 'semverse', groups: [:development, :test]
 
 group :test do
