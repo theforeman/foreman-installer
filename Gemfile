@@ -6,8 +6,11 @@ gem 'rdoc', '< 6.4'
 
 gem 'kafo', '>= 7.3', '< 8'
 gem 'librarian-puppet', '>= 3.0'
-gem 'puppet', ENV.key?('PUPPET_VERSION') ? "~> #{ENV['PUPPET_VERSION']}" : '~> 7.0'
-gem 'facter', '>= 3.0', '!= 4.0.52'
+
+group :puppet do
+  gem 'puppet', ENV.key?('PUPPET_VERSION') ? "~> #{ENV['PUPPET_VERSION']}" : '~> 7.0'
+  gem 'facter', '>= 3.0', '!= 4.0.52'
+end
 
 gem 'puppet-strings'
 gem 'rake'
@@ -16,10 +19,13 @@ gem 'racc' if RUBY_VERSION >= '3.3'
 
 gem 'semverse', groups: [:development, :test]
 
+group :rubocop do
+  gem 'rubocop', '~> 0.80.0'
+end
+
 group :test do
   gem 'rspec'
   gem 'rspec_junit_formatter'
-  gem 'rubocop', '~> 0.80.0'
 end
 
 group :development do
