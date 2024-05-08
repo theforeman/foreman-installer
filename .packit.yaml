@@ -23,8 +23,8 @@ actions:
   create-archive:
     - bundle config set --local path vendor/bundle
     - bundle config set --local without development:test
-    - bundle install
-    - bundle exec rake pkg:generate_source
+    - bash -c "PUPPET_VERSION=8 bundle install"
+    - bash -c "PUPPET_VERSION=8 bundle exec rake pkg:generate_source"
     - bash -c "ls -1t pkg/*.tar.bz2 | head -n 1"
 
 jobs:
