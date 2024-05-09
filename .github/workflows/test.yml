@@ -26,17 +26,23 @@ jobs:
       matrix:
         include:
           - ruby: '2.7'
-            puppet: '7.0'
+            puppet: '7'
           - ruby: '3.0'
-            puppet: '7.0'
+            puppet: '7'
           - ruby: '3.2'
-            puppet: '8.0'
+            puppet: '8'
     env:
-      PUPPET_VERSION: ${{ matrix.puppet }}
+      BUNDLE_WITHOUT: puppet:rubocop
     steps:
       - uses: actions/checkout@v4
+      - name: Set up Puppet repositories
+        run: |
+          . /etc/os-release
+          wget "https://apt.puppet.com/puppet${{ matrix.puppet }}-release-${VERSION_CODENAME}.deb"
+          sudo apt install "${PWD}/puppet${{ matrix.puppet }}-release-${VERSION_CODENAME}.deb"
+          sudo apt update
       - name: Install system dependencies
-        run: sudo apt-get install -y --no-install-recommends asciidoc
+        run: sudo apt-get install -y --no-install-recommends asciidoc puppet-agent
       - name: Setup ruby
         uses: ruby/setup-ruby@v1
         with:
@@ -51,6 +57,7 @@ jobs:
         run: bundle exec rake spec
       - name: Test installer configuration
         run: |
+          . /etc/profile.d/puppet-agent.sh
           bundle exec rake install PREFIX=./local --trace
           bundle exec rake installation_tests PREFIX=./local --trace
       - name: Archive Puppetfile.lock
