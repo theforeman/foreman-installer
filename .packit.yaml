@@ -25,7 +25,6 @@ actions:
     - bundle config set --local without development:test
     - bundle install
     - bundle exec rake pkg:generate_source
-    - bash -c "ls -1t pkg/*.tar.bz2 | head -n 1"
 
 jobs:
   - job: copr_build
