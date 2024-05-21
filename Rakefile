@@ -323,7 +323,7 @@ else
     filename = 'Puppetfile'
 
     fake = FakePuppetfile.new
-    fake.instance_eval { eval(File.read(filename), filename, 1) }
+    fake.instance_eval { instance_eval(File.read(filename), filename, 1) }
 
     File.open(filename, 'w') do |file|
       fake.content do |line|
