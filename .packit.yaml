@@ -5,8 +5,8 @@ specfile_path: foreman-installer.spec
 
 # add or remove files that should be synced
 files_to_sync:
-    - foreman-installer.spec
-    - .packit.yaml
+  - foreman-installer.spec
+  - .packit.yaml
 
 # name in upstream package repository or registry (e.g. in PyPI)
 upstream_package_name: foreman-installer
@@ -40,6 +40,15 @@ jobs:
           - https://yum.theforeman.org/releases/nightly/el9/x86_64/
           - https://yum.puppet.com/puppet7/el/9/x86_64/
     module_hotfixes: true
+  - job: tests
+    trigger: pull_request
+    targets:
+      rhel-8-x86_64:
+        distros:
+          - centos-stream-8
+      rhel-9-x86_64:
+        distros:
+          - centos-stream-9
 
 srpm_build_deps:
   - wget
