@@ -7,6 +7,7 @@ stages:
 variables:
   RUBY_VERSION: "2.7"
   RUBY_IMAGE: "ruby:${RUBY_VERSION}"
+  PUPPET_VERSION: "7.0"
 
 .common:
   image: ${RUBY_IMAGE}
