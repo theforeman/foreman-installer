@@ -6,6 +6,8 @@ if module_enabled?('certs')
 
   def mark_for_update(cert_name, hostname = nil)
     path = File.join(*[SSL_BUILD_DIR, hostname, cert_name].compact)
+    return unless File.exist?(File.dirname(path))
+
     if app_value(:noop)
       puts "Marking certificate #{path} for update (noop)"
     else
