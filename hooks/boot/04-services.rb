@@ -24,7 +24,7 @@ module ServicesHookContextExtension
     raise "Can't stop all services" if services.empty?
 
     logger.debug('Getting running services')
-    stdout_str, stderr_str, status = Open3.capture3('systemctl', 'list-units', '--no-legend', '--type=service,socket', '--state=running', *services)
+    stdout_str, stderr_str, status = Open3.capture3('systemctl', 'list-units', '--no-legend', '--type=service,socket', '--state=activating,running', *services)
     fail_and_exit("Failed to get running services: #{stderr_str}", status.exitstatus) unless status.success?
     running = stdout_str.lines.map { |line| line.split.first }
     logger.debug("Found running services #{running.inspect}")

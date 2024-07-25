@@ -130,7 +130,7 @@ describe 'ForemanMaintainHookContextExtension' do
               expect(subject).to be_nil
 
               expect(logger).to have_received(:debug).with('Getting running services')
-              expect(Open3).to have_received(:capture3).with('systemctl', 'list-units', '--no-legend', '--type=service,socket', '--state=running', 'httpd.service')
+              expect(Open3).to have_received(:capture3).with('systemctl', 'list-units', '--no-legend', '--type=service,socket', '--state=activating,running', 'httpd.service')
               expect(logger).to have_received(:debug).with('Found running services []')
               expect(logger).not_to have_received(:debug).with('Stopping running services httpd.service')
               expect(Open3).not_to have_received(:capture2e).with('systemctl', 'stop', 'httpd.service')
@@ -153,7 +153,7 @@ describe 'ForemanMaintainHookContextExtension' do
                 expect(subject).to be_nil
 
                 expect(logger).to have_received(:debug).with('Getting running services')
-                expect(Open3).to have_received(:capture3).with('systemctl', 'list-units', '--no-legend', '--type=service,socket', '--state=running', 'httpd.service')
+                expect(Open3).to have_received(:capture3).with('systemctl', 'list-units', '--no-legend', '--type=service,socket', '--state=activating,running', 'httpd.service')
                 expect(logger).to have_received(:debug).with('Found running services ["httpd.service"]')
                 expect(logger).to have_received(:debug).with('Stopping running services httpd.service')
                 expect(Open3).to have_received(:capture2e).with('systemctl', 'stop', 'httpd.service')
@@ -175,7 +175,7 @@ describe 'ForemanMaintainHookContextExtension' do
             expect { subject }.to raise_error(RuntimeError, 'called fail_and_exit')
 
             expect(logger).to have_received(:debug).with('Getting running services')
-            expect(Open3).to have_received(:capture3).with('systemctl', 'list-units', '--no-legend', '--type=service,socket', '--state=running', 'httpd.service')
+            expect(Open3).to have_received(:capture3).with('systemctl', 'list-units', '--no-legend', '--type=service,socket', '--state=activating,running', 'httpd.service')
             expect(context).to have_received(:fail_and_exit).with('Failed to get running services: Failed StdErr', 1)
           end
         end
