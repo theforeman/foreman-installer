@@ -1,0 +1,7 @@
+#!/bin/sh
+
+if grep -q "ipv6.disable=1" /proc/cmdline ; then
+	echo "The kernel contains ipv6.disable=1 which is known to break installation and upgrade." >&2
+        echo "Remove and reboot before continuining." >&2
+	exit 2
+fi
