@@ -1,5 +1,6 @@
 require 'English'
 require 'open3'
+require 'shellwords'
 
 module HookContextExtension
   # FIXME: remove when #23332 is released
@@ -85,6 +86,12 @@ module HookContextExtension
     module_enabled?('foreman_proxy_content')
   end
 
+  def local_db_exists?(database)
+    db_existence_command = pg_sql_statement("SELECT 1 FROM pg_database WHERE datname = '#{database}';")
+    db_existence_output, = execute_preformatted_as('postgres', db_existence_command, false, true)
+    db_existence_output&.strip == '1'
+  end
+
   def log_and_say(level, message, do_say = true, do_log = true)
     style = case level
             when :error
@@ -164,13 +171,19 @@ module HookContextExtension
     execute!(runuser_command, do_say, do_log, extra_env)
   end
 
+  def execute_preformatted_as(user, command, do_say = true, do_log = true, extra_env = {})
+    runuser_command = ['runuser', '-l', user, '-c', command]
+    execute_command(runuser_command, do_say, do_log, extra_env)
+  end
+
   def execute(command, do_say, do_log, extra_env = {})
     _stdout_stderr, status = execute_command(command, do_say, do_log, extra_env)
     status
   end
 
   def execute_command(command, do_say, do_log, extra_env = {})
-    log_and_say(:debug, "Executing: #{command}", do_say, do_log)
+    display_command = command.is_a?(Array) ? Shellwords.join(command) : command
+    log_and_say(:debug, "Executing: #{display_command}", do_say, do_log)
 
     begin
       stdout_stderr, status = Open3.capture2e(*Kafo::PuppetCommand.format_command(command, extra_env))
