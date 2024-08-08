@@ -25,4 +25,5 @@ end
 group :development do
   # Dependencies for rake pin_modules
   gem 'puppet_forge'
+  gem 'minitar', '< 1.0.0'
 end
