@@ -11,7 +11,7 @@ migration '240814115647-disable-reverse-proxy-by-default' do
         }
       end
 
-      it 'changes the default to the puppet module' do
+      it 'removes the stored answer' do
         expect(migrated_answers['foreman_proxy_content']['reverse_proxy']).to eq(nil)
       end
     end
