@@ -21,3 +21,6 @@ foreman::config::apache::proxy_params:
 
 # Match default in PostgreSQL 14+ sooner to phase out MD5
 postgresql::globals::password_encryption: 'scram-sha-256'
+
+# Force fact upload to update OS facts
+foreman::register::force_fact_upload: true
