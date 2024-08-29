@@ -157,7 +157,7 @@ function check-priv-key () {
 function check-ca-bundle () {
     printf "Checking CA bundle against the certificate file: "
     ERROR_PATTERN="error [0-9]+ at"
-    CHECK=$(openssl verify -CAfile $CA_BUNDLE_FILE -purpose sslserver -verbose $CERT_FILE 2>&1)
+    CHECK=$(openssl verify -no-CApath -no-CAstore -CAfile $CA_BUNDLE_FILE -purpose sslserver -verbose $CERT_FILE 2>&1)
     CHECK_STATUS=$?
 
     if [[ $CHECK_STATUS != "0" || $CHECK =~ $ERROR_PATTERN ]]; then
