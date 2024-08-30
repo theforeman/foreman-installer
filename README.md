@@ -1,6 +1,6 @@
 # Overview
 
-A puppet-based installer that relies on scenarios to provide configuration and default scenario values.
+A [Kafo](https://github.com/theforeman/kafo)-based installer that relies on scenarios to provide configuration and default scenario values.
 Available scenarios are:
 
  * foreman
