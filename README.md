@@ -1,101 +1,17 @@
-# Puppet modules for managing Foreman
+# Overview
 
-Installs Foreman as a standalone application or using apache passenger.
+A puppet-based installer that relies on scenarios to provide configuration and default scenario values.
+Available scenarios are:
 
-Installs Foreman Proxy
-
-May install an example puppet master setup using passenger as well, including the tweaks required for foreman.
-
+ * foreman
+ * katello
+ * foreman-proxy-content
 
 # Installation
 
-## Stable release
-
-Releases of foreman-installer are made via RPM and deb packages and are
-published via the normal Foreman repositories.
+Releases of foreman-installer are made via RPM and deb packages and are published via the normal Foreman repositories.
 
 See the manual and quickstart guide available at [theforeman.org](http://theforeman.org/).
-
-## Using GIT
-
-git clone --recursive git://github.com/theforeman/foreman-installer.git -b develop
-
-# Requirements
-
-if you are using RHEL, EPEL repo must be enabled <http://fedoraproject.org/wiki/EPEL>
-
-if you are using Debian (or Ubuntu), see the additional notes in README.debian
-
-The Puppet Labs repositories may optionally be enabled for newer versions of Puppet
-than are available in base OS repos.
-
-# Setup
-
-Please review the "answers" or setup file: /etc/foreman-installer/scenarios.d/foreman-answers.yaml. This file allows
-you to override any of the default parameters (as specified in <module>/manifests/params.pp)
-
-Once you are fine with your answer file, install it with this command:
-
-    foreman-installer
-
-or if you prefer interactive mode
-
-    foreman-installer -i
-
-
-The answer file is a yaml format. For a module just using the defaults, simply put
-"modulename: true" to include, or false to exclude. For a module which you wish to
-override any defaults, it becomes a hash, with each overridden parameter as a key-value
-pair.
-
-A few sample files now follow:
-
-All-in-one installation:
-
-    ---
-    foreman: true
-    puppet:
-      server: true
-    foreman_proxy: true
-
-Just Foreman on its own:
-
-    ---
-    foreman: true
-    puppet: false
-    foreman_proxy: false
-
-Foreman and Foreman-Proxy:
-
-    ---
-    foreman: true
-    puppet: false
-    foreman_proxy: true
-
-Puppetmaster with Git and Proxy:
-
-    ---
-    foreman: false
-    puppet:
-      server: true
-      server_git_repo: true
-    foreman_proxy: true
-
-Foreman & proxy with a different username:
-
-    ---
-    foreman:
-      user: 'myforeman'
-    puppet: false
-    foreman_proxy:
-      user: 'myproxy'
-
-Extras
-------
-
-If you just want to include the relavant bits to run on your puppet master you may
-
-    include foreman::params, foreman::config::enc, foreman::config::reports
 
 # Contributing
 
@@ -104,12 +20,6 @@ If you just want to include the relavant bits to run on your puppet master you m
 * Send a pull request with a description of your changes
 
 See [CONTRIBUTING.md](/CONTRIBUTING.md) for more details.
-
-# Katello
-
-This repository also contains the tooling required to install Foreman Katello.
-
-See [KATELLO.md](/KATELLO.md) for details and specifics of that setup.
 
 # More info
 
