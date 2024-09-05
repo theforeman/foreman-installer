@@ -6,13 +6,13 @@ migration '20240715095211_normalize_dns_forwarders' do
       let(:answers) do
         {
           'foreman_proxy' => {
-            'forwarders' => ['192.0.2.1', '192.0.2.2'],
+            'dns_forwarders' => ['192.0.2.1', '192.0.2.2'],
           },
         }
       end
 
       it 'leaves the answers untouched' do
-        expect(migrated_answers['foreman_proxy']['forwarders']).to eq(['192.0.2.1', '192.0.2.2'])
+        expect(migrated_answers['foreman_proxy']['dns_forwarders']).to eq(['192.0.2.1', '192.0.2.2'])
       end
     end
 
@@ -20,13 +20,13 @@ migration '20240715095211_normalize_dns_forwarders' do
       let(:answers) do
         {
           'foreman_proxy' => {
-            'forwarders' => ['192.0.2.1; 192.0.2.2'],
+            'dns_forwarders' => ['192.0.2.1; 192.0.2.2'],
           },
         }
       end
 
-      it 'leaves the answers untouched' do
-        expect(migrated_answers['foreman_proxy']['forwarders']).to eq(['192.0.2.1', '192.0.2.2'])
+      it 'normalizes the answer' do
+        expect(migrated_answers['foreman_proxy']['dns_forwarders']).to eq(['192.0.2.1', '192.0.2.2'])
       end
     end
   end
