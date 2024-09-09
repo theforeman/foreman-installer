@@ -12,6 +12,10 @@ module PostgresqlUpgradeHookContextExtension
   def postgresql_upgrade(new_version)
     logger.notice("Performing upgrade of PostgreSQL to #{new_version}")
 
+    start_services(['postgresql'])
+    postgres_list_databases = `runuser -l postgres -c 'psql --list --tuples-only | grep -E "^\s+postgres"'`
+    (_name, _owner, _enconding, collate, ctype, _privileges) = postgres_list_databases.chomp.split('|').map(&:strip)
+
     stop_services
 
     logger.notice("Upgrading PostgreSQL packages")
@@ -35,7 +39,7 @@ module PostgresqlUpgradeHookContextExtension
     # see https://bugzilla.redhat.com/show_bug.cgi?id=1935301
     execute!("sed -i '/^data_directory/d' /var/lib/pgsql/data/postgresql.conf", false, true)
 
-    execute_as!('postgres', 'postgresql-setup --upgrade', false, true)
+    execute_as!('postgres', "PGSETUP_INITDB_OPTIONS=\"--lc-collate=#{collate} --lc-ctype=#{ctype} --locale=#{collate}\" postgresql-setup --upgrade", false, true)
 
     logger.notice("Analyzing the new PostgreSQL cluster")
 
