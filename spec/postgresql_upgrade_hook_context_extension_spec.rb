@@ -36,6 +36,7 @@ describe PostgresqlUpgradeHookContextExtension do
       allow(context).to receive(:ensure_packages)
       allow(context).to receive(:stop_services)
       allow(context).to receive(:start_services)
+      allow(context).to receive(:'`').with("runuser -l postgres -c 'psql --list --tuples-only | grep -E \"^\s+postgres\"'").and_return(' postgres  | postgres | UTF8     | en_US.UTF-8 | en_US.UTF-8 | ')
       allow(logger).to receive(:notice)
     end
 
@@ -57,7 +58,7 @@ describe PostgresqlUpgradeHookContextExtension do
 
     it 'runs postgresql-setup --upgrade' do
       expect(subject).to be_nil
-      expect(context).to have_received(:'execute!').with("runuser -l postgres -c 'postgresql-setup --upgrade'", false, true)
+      expect(context).to have_received(:'execute!').with("runuser -l postgres -c 'PGSETUP_INITDB_OPTIONS=\"--lc-collate=en_US.UTF-8 --lc-ctype=en_US.UTF-8 --locale=en_US.UTF-8\" postgresql-setup --upgrade'", false, true)
     end
 
     it 'runs vacuumdb --all --analyze-in-stages' do
