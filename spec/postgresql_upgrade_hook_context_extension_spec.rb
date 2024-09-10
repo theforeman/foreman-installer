@@ -31,6 +31,7 @@ describe PostgresqlUpgradeHookContextExtension do
     subject { context.postgresql_upgrade(13) }
 
     before do
+      allow(File).to receive(:read).with('/var/lib/pgsql/data/PG_VERSION').and_return('12')
       allow(context).to receive(:logger).and_return(logger)
       allow(context).to receive(:'execute!')
       allow(context).to receive(:ensure_packages)
