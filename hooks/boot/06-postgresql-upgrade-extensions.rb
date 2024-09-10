@@ -1,3 +1,5 @@
+require 'csv'
+
 module PostgresqlUpgradeHookContextExtension
   def needs_postgresql_upgrade?(new_version)
     File.read('/var/lib/pgsql/data/PG_VERSION').chomp.to_i < new_version.to_i
@@ -13,8 +15,9 @@ module PostgresqlUpgradeHookContextExtension
     logger.notice("Performing upgrade of PostgreSQL to #{new_version}")
 
     start_services(['postgresql'])
-    postgres_list_databases = `runuser -l postgres -c 'psql --list --tuples-only | grep -E "^\s+postgres"'`
-    (_name, _owner, _enconding, collate, ctype, _privileges) = postgres_list_databases.chomp.split('|').map(&:strip)
+    postgres_list = `runuser -l postgres -c 'psql --list --tuples-only --csv'`
+    postgres_databases = CSV.parse(postgres_list)
+    (_name, _owner, _enconding, collate, ctype, _privileges) = postgres_databases.find { |line| line.first == 'postgres' }
 
     stop_services
 
