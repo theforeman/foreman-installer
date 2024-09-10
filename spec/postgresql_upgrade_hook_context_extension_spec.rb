@@ -36,7 +36,23 @@ describe PostgresqlUpgradeHookContextExtension do
       allow(context).to receive(:ensure_packages)
       allow(context).to receive(:stop_services)
       allow(context).to receive(:start_services)
-      allow(context).to receive(:'`').with("runuser -l postgres -c 'psql --list --tuples-only | grep -E \"^\s+postgres\"'").and_return(' postgres  | postgres | UTF8     | en_US.UTF-8 | en_US.UTF-8 | ')
+      allow(context).to receive(:'`').with("runuser -l postgres -c 'psql --list --tuples-only --csv'")
+                                     .and_return(<<~PSQL
+        candlepin,postgres,UTF8,en_US.utf8,en_US.utf8,"=T/postgres
+        postgres=CTc/postgres
+        candlepin=CTc/postgres"
+        foreman,foreman,UTF8,en_US.utf8,en_US.utf8,"=T/foreman
+        foreman=CTc/foreman"
+        postgres,postgres,UTF8,en_US.UTF-8,en_US.UTF-8,
+        pulpcore,postgres,UTF8,en_US.utf8,en_US.utf8,"=T/postgres
+        postgres=CTc/postgres
+        pulp=CTc/postgres"
+        template0,postgres,UTF8,en_US.UTF-8,en_US.UTF-8,"=c/postgres
+        postgres=CTc/postgres"
+        template1,postgres,UTF8,en_US.UTF-8,en_US.UTF-8,"=c/postgres
+        postgres=CTc/postgres"
+      PSQL
+                                                )
       allow(logger).to receive(:notice)
     end
 
