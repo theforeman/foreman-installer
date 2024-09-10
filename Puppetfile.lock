@@ -26,7 +26,7 @@ FORGE
       theforeman-foreman (>= 17.0.0, < 26.0.0)
     puppet-extlib (7.2.0)
       puppetlabs-stdlib (>= 4.18.0, < 10.0.0)
-    puppet-mosquitto (2.1.0)
+    puppet-mosquitto (2.1.1)
       puppet-systemd (>= 3.1.0, < 8.0.0)
       puppetlabs-stdlib (>= 6.3.0, < 10.0.0)
     puppet-redis (11.0.0)
