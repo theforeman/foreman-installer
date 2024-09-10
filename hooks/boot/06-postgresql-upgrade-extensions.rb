@@ -2,9 +2,13 @@ require 'csv'
 
 module PostgresqlUpgradeHookContextExtension
   def needs_postgresql_upgrade?(new_version)
-    File.read('/var/lib/pgsql/data/PG_VERSION').chomp.to_i < new_version.to_i
+    current_version.to_i < new_version.to_i
   rescue Errno::ENOENT
     false
+  end
+
+  def current_version
+    File.read('/var/lib/pgsql/data/PG_VERSION').chomp
   end
 
   def os_needs_postgresql_upgrade?
@@ -14,6 +18,7 @@ module PostgresqlUpgradeHookContextExtension
   def postgresql_upgrade(new_version)
     logger.notice("Performing upgrade of PostgreSQL to #{new_version}")
 
+    execute!("dnf module switch-to postgresql:#{current_version} -y", false, true)
     start_services(['postgresql'])
     postgres_list = `runuser -l postgres -c 'psql --list --tuples-only --csv'`
     postgres_databases = CSV.parse(postgres_list)
