@@ -1,0 +1,9 @@
+---
+certs::generate: true
+certs::deploy: false
+certs::group: foreman
+certs::ssl_build_dir: /root/foreman-installer/_ssl_build
+certs::pki_dir: /root/foreman-installer/_pki
+
+certs::candlepin::hostname: localhost
+certs::candlepin::client_keypair_group: foreman

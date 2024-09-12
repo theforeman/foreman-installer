@@ -1,0 +1,25 @@
+---
+:answer_file: "./foreman_certs/config/foreman-certs-answers.yaml"
+:color_of_background: :dark
+:colors: true
+:custom: {}
+:description: Generate Foreman certificates
+:dont_save_answers: true
+:enabled: true
+:facts: {}
+:hiera_config: "./foreman_certs/config/foreman-certs-hiera.yaml"
+:hook_dirs: []
+:installer_dir: "./foreman_certs"
+:log_dir: "./_build/"
+:log_level: :debug
+:log_name: foreman-certs.log
+:low_priority_modules: []
+:mapping: {}
+:module_dirs: "./_build/modules"
+:name: foreman-certs
+:no_prefix: true
+:parser_cache_path: "./_build/parser_cache/foreman-certs.yaml"
+:skip_puppet_version_check: false
+:store_dir: ''
+:verbose: false
+:verbose_log_level: info

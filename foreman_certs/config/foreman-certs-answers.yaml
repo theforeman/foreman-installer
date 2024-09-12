@@ -1,0 +1,8 @@
+---
+certs: {}
+certs::generate:
+  apache: true
+  puppet: true
+  foreman: true
+  foreman_proxy: true
+  candlepin: true
