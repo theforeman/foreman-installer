@@ -1,0 +1,8 @@
+summary: Verify foreman scenario
+prepare:
+  - name: foreman-installer
+    how: install
+    package: foreman-installer
+execute:
+  - how: tmt
+    script: foreman-installer --help --scenario foreman --trace
