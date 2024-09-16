@@ -210,15 +210,9 @@ function check-cert-san () {
             return
           fi
         done
-        error
-        echo "The $CERT_FILE does not have a Subject Alt Name matching the Subject CN"
+        error 11 "The $CERT_FILE does not have a Subject Alt Name matching the Subject CN"
     else
-        error
-        cat <<Explanation
-$CERT_FILE does not contain a Subject Alt Name. Common Name is deprecated, use Subject Alt Name instead.
-See: https://tools.ietf.org/html/rfc2818#section-3.1
-
-Explanation
+        error 11 "The $CERT_FILE does not contain a Subject Alt Name. Common Name is deprecated, use Subject Alt Name instead. See: https://tools.ietf.org/html/rfc2818#section-3.1"
     fi
 }
 

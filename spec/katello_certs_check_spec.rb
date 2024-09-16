@@ -49,7 +49,19 @@ describe 'katello-certs-check' do
       command_with_certs = "#{command} -b #{ca} -k #{key} -c #{cert}"
       _stdout, stderr, status = Open3.capture3(command_with_certs)
       expect(stderr).to include 'does not verify'
-      expect(status.exitstatus).to eq 4
+      expect(status.exitstatus).to eq 15 # the code for invalid is 4, but the cert is also failing the SAN check, making it 15
+    end
+  end
+
+  context 'with invalid SAN server certificates' do
+    let(:key) { File.join(certs_directory, 'foreman-bad-san.example.com.key') }
+    let(:cert) { File.join(certs_directory, 'foreman-bad-san.example.com.crt') }
+
+    it 'fails if purpose is not sslserver' do
+      command_with_certs = "#{command} -b #{ca} -k #{key} -c #{cert}"
+      _stdout, stderr, status = Open3.capture3(command_with_certs)
+      expect(stderr).to include 'does not have a Subject Alt Name matching the Subject CN'
+      expect(status.exitstatus).to eq 11
     end
   end
 
