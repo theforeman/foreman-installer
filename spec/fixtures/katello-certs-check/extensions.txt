@@ -16,6 +16,7 @@ subjectAltName = @shortname_alt_names
 
 [alt_names]
 DNS.1 = foreman.example.com
+DNS.2 = foreman-ec384.example.com
 
 [wildcard_alt_names]
 DNS.1 = *.example.com
