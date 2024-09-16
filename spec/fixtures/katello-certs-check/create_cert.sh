@@ -38,6 +38,16 @@ else
   echo "CA certificate bundle with trust rules exists. Skipping."
 fi
 
+CERT_NAME=foreman-bad-san.example.com
+if [[ ! -f "$CERTS_DIR/$CERT_NAME.key" || ! -f "$CERTS_DIR/$CERT_NAME.crt" ]]; then
+  echo "Generate server certificate"
+  openssl genrsa -out $CERTS_DIR/$CERT_NAME.key 2048
+  openssl req -new -key $CERTS_DIR/$CERT_NAME.key -out $CERTS_DIR/$CERT_NAME.csr -subj "/CN=${CERT_NAME}"
+  openssl x509 -req -in $CERTS_DIR/$CERT_NAME.csr -CA $CERTS_DIR/$CA_CERT_NAME.crt -CAkey $CERTS_DIR/$CA_CERT_NAME.key -CAcreateserial -out $CERTS_DIR/$CERT_NAME.crt -days 3650 -sha256 -extfile extensions.txt -extensions extensions
+else
+  echo "Server certificate with bad SAN exists. Skipping."
+fi
+
 CERT_NAME=foreman.example.com
 if [[ ! -f "$CERTS_DIR/$CERT_NAME.key" || ! -f "$CERTS_DIR/$CERT_NAME.crt" ]]; then
   echo "Generate server certificate"
