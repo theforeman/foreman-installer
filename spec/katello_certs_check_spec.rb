@@ -36,7 +36,27 @@ describe 'katello-certs-check' do
     it 'with password on key' do
       command_with_certs = "#{command} -b #{ca} -k #{badkey} -c #{cert}"
       _stdout, stderr, status = Open3.capture3(command_with_certs)
-      expect(stderr).to eq "The #{badkey} contains a passphrase, remove the key's passphrase by doing: \nmv #{badkey} #{badkey}.old \nopenssl rsa -in #{badkey}.old -out #{badkey}\n"
+      expect(stderr).to eq "The #{badkey} contains a passphrase, remove the key's passphrase by doing: \nmv #{badkey} #{badkey}.old \nopenssl pkey -in #{badkey}.old -out #{badkey}\n"
+      expect(status.exitstatus).to eq 1
+    end
+  end
+
+  context 'with valid ECC certificates' do
+    let(:key) { File.join(certs_directory, 'foreman-ec384.example.com.key') }
+    let(:cert) { File.join(certs_directory, 'foreman-ec384.example.com.crt') }
+    let(:badkey) { File.join(directory, 'key_pass.key') }
+
+    it 'completes correctly' do
+      command_with_certs = "#{command} -b #{ca} -k #{key} -c #{cert}"
+      _stdout, stderr, status = Open3.capture3(command_with_certs)
+      expect(stderr).to eq ''
+      expect(status.exitstatus).to eq 0
+    end
+
+    it 'with password on key' do
+      command_with_certs = "#{command} -b #{ca} -k #{badkey} -c #{cert}"
+      _stdout, stderr, status = Open3.capture3(command_with_certs)
+      expect(stderr).to eq "The #{badkey} contains a passphrase, remove the key's passphrase by doing: \nmv #{badkey} #{badkey}.old \nopenssl pkey -in #{badkey}.old -out #{badkey}\n"
       expect(status.exitstatus).to eq 1
     end
   end

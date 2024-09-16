@@ -136,7 +136,7 @@ function check-passphrase () {
     if [[ $? == "0" ]]; then
         error 2 "The $KEY_FILE contains a passphrase, remove the key's passphrase by doing:
         \nmv $KEY_FILE $KEY_FILE.old
-        \nopenssl rsa -in $KEY_FILE.old -out $KEY_FILE"
+        \nopenssl pkey -in $KEY_FILE.old -out $KEY_FILE"
         exit 1
     else
         success
@@ -145,9 +145,9 @@ function check-passphrase () {
 
 function check-priv-key () {
     printf "Checking to see if the private key matches the certificate: "
-    CERT_MOD=$(openssl x509 -noout -modulus -in $CERT_FILE)
-    KEY_MOD=$(openssl rsa -noout -modulus -in $KEY_FILE)
-    if [[ "$CERT_MOD" != "$KEY_MOD" ]]; then
+    CERT_PUBKEY_SUM=$(openssl x509 -noout -pubkey -in $CERT_FILE | openssl sha512)
+    KEY_PUBKEY_SUM=$(openssl pkey -pubout -in $KEY_FILE | openssl sha512)
+    if [[ "$CERT_PUBKEY_SUM" != "$KEY_PUBKEY_SUM" ]]; then
         error 2 "The $KEY_FILE does not match the $CERT_FILE"
     else
         success
