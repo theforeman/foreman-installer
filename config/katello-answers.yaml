@@ -15,8 +15,6 @@ foreman:
   client_ssl_ca: /etc/foreman/proxy_ca.pem
   client_ssl_cert: /etc/foreman/client_cert.pem
   client_ssl_key: /etc/foreman/client_key.pem
-  initial_location: Default Location
-  initial_organization: Default Organization
   server_ssl_ca: /etc/pki/katello/certs/katello-default-ca.crt
   server_ssl_cert: /etc/pki/katello/certs/katello-apache.crt
   server_ssl_chain: /etc/pki/katello/certs/katello-server-ca.crt
