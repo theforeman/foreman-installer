@@ -71,9 +71,11 @@ rescue Exception => e
 end
 
 key = check("Reading private key '#{key_path}'") do
-  OpenSSL::PKey.read(File.read(key_path))
+  OpenSSL::PKey.read(File.read(key_path), '')
 rescue Exception => e
-  # TODO: check if there's a password?
+  if e.message.include?('bad decrypt')
+    raise FailedCheck, "Unable to parse private key '#{key_path}'. Likely contains a passphrase"
+  end
   raise FailedCheck, "Failed to read private key: #{e}"
 end
 
@@ -133,6 +135,15 @@ check('Verifying root is included in bundle has CA:TRUE') do
 
   unless basicConstraints.value == 'CA:TRUE'
     raise FailedCheck, "basicConstraints extension has value '#{basicConstraints.value}' instead of CA:TRUE"
+  end
+end
+
+check("Chain doesn't include sha1") do
+  chain.each do |certificate|
+    # TODO: is this really sha1?
+    if certificate.signature_algorithm.start_with?('sha1')
+      raise FailedCheck, "Certificate in chain with subject #{certificate.subject} is signed with SHA1"
+    end
   end
 end
 
