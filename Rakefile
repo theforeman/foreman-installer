@@ -35,7 +35,7 @@ desc 'Install the Puppet modules'
 task :modules => "#{BUILDDIR}/modules"
 
 if BUILD_KATELLO
-  SCENARIOS = ['foreman', 'foreman-proxy-content', 'katello'].freeze
+  SCENARIOS = ['foreman', 'foreman-proxy-content', 'katello', 'pulp'].freeze
   CERTS_SCENARIOS = ['foreman-proxy-certs'].freeze
 else
   SCENARIOS = ['foreman'].freeze
@@ -50,10 +50,11 @@ directory BUILDDIR
 directory PKGDIR
 directory "#{BUILDDIR}/parser_cache"
 file "#{BUILDDIR}/parser_cache" => BUILDDIR
+directory "#{BUILDDIR}/scenarios.d" => BUILDDIR
 
 SCENARIOS.each do |scenario|
   config = "config/#{scenario}.yaml"
-  file "#{BUILDDIR}/#{scenario}.yaml" => [config, BUILDDIR] do |t|
+  file "#{BUILDDIR}/scenarios.d/#{scenario}.yaml" => [config, "#{BUILDDIR}/scenarios.d"] do |t|
     cp t.prerequisites.first, t.name
 
     scenario_config_replacements = {
@@ -74,37 +75,34 @@ SCENARIOS.each do |scenario|
     end
   end
 
+  file "#{BUILDDIR}/scenarios.d/#{scenario}-answers.yaml" => ["config/#{scenario}-answers.yaml", "#{BUILDDIR}/scenarios.d"] do |t|
+    cp t.prerequisites.first, t.name
+  end
+
+  # Store migration scripts under DATADIR, symlinked back into SYSCONFDIR and keep .applied file in SYSCONFDIR
+  file "#{BUILDDIR}/config/#{scenario}.migrations" => ["config/#{scenario}.migrations", "#{BUILDDIR}/config"] do |t|
+    cp_r t.prerequisites.first, t.name
+  end
+
+  file "#{BUILDDIR}/config/#{scenario}.migrations/.applied" => "#{BUILDDIR}/config/#{scenario}.migrations" do |t|
+    ln_s "#{SYSCONFDIR}/foreman-installer/scenarios.d/#{scenario}-migrations-applied", t.name
+  end
+
+  file "#{BUILDDIR}/scenarios.d/#{scenario}.migrations" => "#{BUILDDIR}/scenarios.d" do |t|
+    ln_s "#{DATADIR}/foreman-installer/config/#{scenario}.migrations", t.name
+  end
+
+  # Generate an empty applied migrations file to ensure the symlink is preserved
+  file "#{BUILDDIR}/scenarios.d/#{scenario}-migrations-applied" => "#{BUILDDIR}/scenarios.d" do |t|
+    File.write(t.name, [].to_yaml)
+  end
+
   file "#{BUILDDIR}/parser_cache/#{scenario}.yaml" => [config, "#{BUILDDIR}/modules", "#{BUILDDIR}/parser_cache"] do |t|
     sh "#{exporter}/kafo-export-params -c #{t.prerequisites.first} -f parsercache --no-parser-cache -o #{t.name}"
   end
 
   file "#{BUILDDIR}/#{scenario}-options.asciidoc" => [config, "#{BUILDDIR}/parser_cache/#{scenario}.yaml"] do |t|
     sh "#{exporter}/kafo-export-params -c #{t.prerequisites.first} -f asciidoc -o #{t.name}"
-  end
-
-  # Store migration scripts under DATADIR, symlinked back into SYSCONFDIR and keep .applied file in SYSCONFDIR
-  directory "#{BUILDDIR}/#{scenario}.migrations"
-  file "#{BUILDDIR}/#{scenario}.migrations" => BUILDDIR do |t|
-    # These symlinks are broken until installation, so don't reference them in rake file tasks
-    ln_s "#{DATADIR}/foreman-installer/config/#{scenario}.migrations", "#{t.name}/#{scenario}.migrations"
-    ln_s "#{SYSCONFDIR}/foreman-installer/scenarios.d/#{scenario}-migrations-applied", "#{t.name}/.applied"
-  end
-
-  file "#{BUILDDIR}/config/#{scenario}.migrations" => ["config/#{scenario}.migrations", "#{BUILDDIR}/config"] do |t|
-    cp_r t.prerequisites.first, t.name
-  end
-
-  file "#{BUILDDIR}/config/#{scenario}.yaml" => ["config/#{scenario}.yaml", "#{BUILDDIR}/config"] do |t|
-    cp t.prerequisites.first, t.name
-  end
-
-  file "#{BUILDDIR}/config/#{scenario}-answers.yaml" => ["config/#{scenario}-answers.yaml", "#{BUILDDIR}/config"] do |t|
-    cp t.prerequisites.first, t.name
-  end
-
-  # Generate an empty applied migrations file to ensure the symlink is preserved
-  file "#{BUILDDIR}/#{scenario}-migrations-applied" => BUILDDIR do |t|
-    File.open(t.name, 'w') { |f| f.write([].to_yaml) }
   end
 end
 
@@ -219,11 +217,9 @@ namespace :build do
 
   task :scenarios => [SCENARIOS.map do |scenario|
     [
-      "#{BUILDDIR}/#{scenario}.yaml",
-      "#{BUILDDIR}/#{scenario}.migrations",
-      "#{BUILDDIR}/#{scenario}-migrations-applied",
-      "#{BUILDDIR}/config/#{scenario}.yaml",
-      "#{BUILDDIR}/config/#{scenario}-answers.yaml",
+      "#{BUILDDIR}/scenarios.d/#{scenario}.yaml",
+      "#{BUILDDIR}/scenarios.d/#{scenario}-answers.yaml",
+      "#{BUILDDIR}/scenarios.d/#{scenario}-migrations-applied",
       "#{BUILDDIR}/config/#{scenario}.migrations",
       "#{BUILDDIR}/parser_cache/#{scenario}.yaml",
     ]
@@ -241,17 +237,10 @@ task :build => ['build:base', 'build:scenarios', 'build:certs_scenarios']
 
 task :install => :build do
   mkdir_p "#{DATADIR}/foreman-installer"
-  cp_r Dir.glob('{checks,hooks,VERSION,README.md,LICENSE}'), "#{DATADIR}/foreman-installer"
+  cp_r Dir.glob('{checks,hooks,VERSION}'), "#{DATADIR}/foreman-installer"
   cp_r "#{BUILDDIR}/config", "#{DATADIR}/foreman-installer"
-
-  mkdir_p "#{SYSCONFDIR}/foreman-installer/scenarios.d"
-  SCENARIOS.each do |scenario|
-    cp "#{BUILDDIR}/#{scenario}.yaml", "#{SYSCONFDIR}/foreman-installer/scenarios.d/"
-    cp "config/#{scenario}-answers.yaml", "#{SYSCONFDIR}/foreman-installer/scenarios.d/#{scenario}-answers.yaml"
-    cp "#{BUILDDIR}/#{scenario}-migrations-applied", "#{SYSCONFDIR}/foreman-installer/scenarios.d/#{scenario}-migrations-applied"
-    copy_entry "#{BUILDDIR}/#{scenario}.migrations/#{scenario}.migrations", "#{SYSCONFDIR}/foreman-installer/scenarios.d/#{scenario}.migrations"
-    copy_entry "#{BUILDDIR}/#{scenario}.migrations/.applied", "#{DATADIR}/foreman-installer/config/#{scenario}.migrations/.applied"
-  end
+  cp_r "#{BUILDDIR}/modules", "#{DATADIR}/foreman-installer", :preserve => true
+  cp_r "#{BUILDDIR}/parser_cache", "#{DATADIR}/foreman-installer"
 
   if CERTS_SCENARIOS.any?
     mkdir_p "#{DATADIR}/foreman-installer/katello-certs/scenarios.d"
@@ -262,11 +251,9 @@ task :install => :build do
     cp "katello_certs/config/#{scenario}-answers.yaml", "#{DATADIR}/foreman-installer/katello-certs/scenarios.d/#{scenario}-answers.yaml"
   end
 
-  cp_r "#{BUILDDIR}/modules", "#{DATADIR}/foreman-installer", :preserve => true
-  cp_r "#{BUILDDIR}/parser_cache", "#{DATADIR}/foreman-installer"
-
   mkdir_p "#{SYSCONFDIR}/foreman-installer"
   cp "config/custom-hiera.yaml", "#{SYSCONFDIR}/foreman-installer"
+  cp_r "#{BUILDDIR}/scenarios.d", "#{SYSCONFDIR}/foreman-installer"
 
   mkdir_p SBINDIR
   install "#{BUILDDIR}/foreman-installer", "#{SBINDIR}/foreman-installer", :mode => 0o755, :verbose => true
