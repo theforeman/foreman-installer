@@ -1,5 +1,3 @@
-require 'csv'
-
 module PostgresqlUpgradeHookContextExtension
   def needs_postgresql_upgrade?(new_version)
     current_version.to_i < new_version.to_i
@@ -18,12 +16,6 @@ module PostgresqlUpgradeHookContextExtension
   def postgresql_upgrade(new_version)
     logger.notice("Performing upgrade of PostgreSQL to #{new_version}")
 
-    execute!("dnf module switch-to postgresql:#{current_version} -y", false, true)
-    start_services(['postgresql'])
-    postgres_list = `runuser -l postgres -c 'psql --list --tuples-only --csv'`
-    postgres_databases = CSV.parse(postgres_list)
-    (_name, _owner, _enconding, collate, ctype, _privileges) = postgres_databases.find { |line| line.first == 'postgres' }
-
     stop_services
 
     logger.notice("Upgrading PostgreSQL packages")
@@ -40,6 +32,20 @@ module PostgresqlUpgradeHookContextExtension
     ensure_packages(server_packages, 'latest')
 
     logger.notice("Migrating PostgreSQL data")
+
+    # We need to know the collation and ctype of the DB as postgresql-setup --upgrade
+    # doesn't detect those on its own: https://issues.redhat.com/browse/RHEL-58410
+    # dnf switch-to has already replaced the packages and the cluster is down
+    # We have to start the cluster in single-user mode with the old postgres binary
+    postgres_result = `echo "select datcollate,datctype from pg_database where datname='postgres';" | runuser -l postgres -c '/usr/lib64/pgsql/postgresql-#{current_version}/bin/postgres --single -D /var/lib/pgsql/data postgres'`
+    data = {}
+    postgres_result.each_line do |line|
+      line.match(/dat(collate|ctype)\s+=\s+(\S+)/) do |m|
+        data[m[1]] = m[2].delete('"')
+      end
+    end
+    collate = data['collate']
+    ctype = data['ctype']
 
     # puppetlabs-postgresql always sets data_directory in the config
     # see https://github.com/puppetlabs/puppetlabs-postgresql/issues/1576
