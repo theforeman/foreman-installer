@@ -152,7 +152,7 @@ describe HookContextExtension do
       end
 
       it 'executes a command' do
-        expect(subject).to be_nil
+        expect(subject).to eq(command)
         expect(context).to have_received(:execute_command).with(command, true, true)
       end
     end

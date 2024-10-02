@@ -113,6 +113,7 @@ module HookContextExtension
       log_and_say(:error, "#{command} failed! Check the output for error!", do_say, do_log)
       exit 1
     end
+    stdout_stderr
   end
 
   def execute_as!(user, command, do_say = true, do_log = true)
