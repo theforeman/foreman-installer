@@ -37,21 +37,16 @@ describe PostgresqlUpgradeHookContextExtension do
       allow(context).to receive(:ensure_packages)
       allow(context).to receive(:stop_services)
       allow(context).to receive(:start_services)
-      allow(context).to receive(:'`').with("runuser -l postgres -c 'psql --list --tuples-only --csv'")
+      allow(context).to receive(:'`').with("echo \"select datcollate,datctype from pg_database where datname='postgres';\" | runuser -l postgres -c '/usr/lib64/pgsql/postgresql-12/bin/postgres --single -D /var/lib/pgsql/data postgres'")
                                      .and_return(<<~PSQL
-        candlepin,postgres,UTF8,en_US.utf8,en_US.utf8,"=T/postgres
-        postgres=CTc/postgres
-        candlepin=CTc/postgres"
-        foreman,foreman,UTF8,en_US.utf8,en_US.utf8,"=T/foreman
-        foreman=CTc/foreman"
-        postgres,postgres,UTF8,en_US.UTF-8,en_US.UTF-8,
-        pulpcore,postgres,UTF8,en_US.utf8,en_US.utf8,"=T/postgres
-        postgres=CTc/postgres
-        pulp=CTc/postgres"
-        template0,postgres,UTF8,en_US.UTF-8,en_US.UTF-8,"=c/postgres
-        postgres=CTc/postgres"
-        template1,postgres,UTF8,en_US.UTF-8,en_US.UTF-8,"=c/postgres
-        postgres=CTc/postgres"
+        PostgreSQL stand-alone backend 12.18
+        backend> 	 1: datcollate	(typeid = 19, len = 64, typmod = -1, byval = f)
+        	 2: datctype	(typeid = 19, len = 64, typmod = -1, byval = f)
+        	----
+        	 1: datcollate = "en_US.UTF-8"	(typeid = 19, len = 64, typmod = -1, byval = f)
+        	 2: datctype = "en_US.UTF-8"	(typeid = 19, len = 64, typmod = -1, byval = f)
+        	----
+        backend>
       PSQL
                                                 )
       allow(logger).to receive(:notice)
