@@ -6,7 +6,7 @@ FORGE
       puppetlabs-concat (>= 1.0.0, < 10.0.0)
       puppetlabs-postgresql (>= 9.2.0, < 11.0.0)
       puppetlabs-stdlib (>= 9.0.0, < 10.0.0)
-    katello-certs (18.0.0)
+    katello-certs (18.0.1)
       puppet-extlib (>= 3.0.0, < 8.0.0)
       puppetlabs-stdlib (>= 4.25.0, < 10.0.0)
     katello-foreman_proxy_content (28.0.0)
@@ -99,7 +99,7 @@ FORGE
 
 DEPENDENCIES
   katello-candlepin (~> 16.0.0)
-  katello-certs (~> 18.0.0)
+  katello-certs (~> 18.0.1)
   katello-foreman_proxy_content (~> 28.0.0)
   katello-katello (~> 25.1.0)
   puppet-redis (>= 8.5.0)
