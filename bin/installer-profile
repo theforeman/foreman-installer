@@ -1,0 +1,24 @@
+#!/usr/bin/env ruby
+
+log = File.read(ARGV[0])
+
+tasks = log.split("\n").select do |line|
+  line.include?('Evaluated in')
+end
+
+profile = []
+
+#2021-04-27 01:13:35 [DEBUG ] [configure] /Stage[main]/Foreman/Foreman::Rake[apipie:cache:index]/Exec[foreman-rake-apipie:cache:index]: Evaluated in 86.60 seconds
+tasks.each do |task|
+  EVALTRACE = %r{.+/(?<resource>.+\]): Evaluated in (?<time>\d+\.\d+) seconds}
+
+  evaltrace = EVALTRACE.match(task)
+  next if evaltrace.nil?
+  profile << {:task => evaltrace[:resource], :time => evaltrace[:time].to_f}
+end
+
+profile.sort! { |a,b| b[:time] <=> a[:time] }
+
+profile[0...15].each do |task|
+  puts "#{task[:time]}:  #{task[:task]}"
+end
