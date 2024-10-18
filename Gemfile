@@ -4,7 +4,7 @@ source 'https://rubygems.org'
 # We don't want to list psych since that updates the bundled version
 gem 'rdoc', '< 6.4'
 
-gem 'kafo', '>= 7.3', '< 8'
+gem 'kafo', '>= 7.6', '< 8'
 gem 'librarian-puppet', '>= 3.0'
 gem 'puppet', ENV.key?('PUPPET_VERSION') ? "~> #{ENV['PUPPET_VERSION']}" : '~> 7.0'
 gem 'facter', '>= 3.0', '!= 4.0.52'
