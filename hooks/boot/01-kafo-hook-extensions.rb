@@ -101,8 +101,8 @@ module HookContextExtension
     Kafo::KafoConfigure.logger.send(level, message) if do_log
   end
 
-  def execute!(command, do_say = true, do_log = true)
-    stdout_stderr, status = execute_command(command, do_say, do_log)
+  def execute!(command, do_say = true, do_log = true, extra_env = {})
+    stdout_stderr, status = execute_command(command, do_say, do_log, extra_env)
 
     if stdout_stderr.nil?
       log_and_say(:error, "Command #{command} not found", do_say, do_log)
@@ -115,21 +115,21 @@ module HookContextExtension
     end
   end
 
-  def execute_as!(user, command, do_say = true, do_log = true)
+  def execute_as!(user, command, do_say = true, do_log = true, extra_env = {})
     runuser_command = "runuser -l #{user} -c '#{command}'"
-    execute!(runuser_command, do_say, do_log)
+    execute!(runuser_command, do_say, do_log, extra_env)
   end
 
-  def execute(command, do_say, do_log)
-    _stdout_stderr, status = execute_command(command, do_say, do_log)
+  def execute(command, do_say, do_log, extra_env = {})
+    _stdout_stderr, status = execute_command(command, do_say, do_log, extra_env)
     status
   end
 
-  def execute_command(command, do_say, do_log)
+  def execute_command(command, do_say, do_log, extra_env = {})
     log_and_say(:debug, "Executing: #{command}", do_say, do_log)
 
     begin
-      stdout_stderr, status = Open3.capture2e(*Kafo::PuppetCommand.format_command(command))
+      stdout_stderr, status = Open3.capture2e(*Kafo::PuppetCommand.format_command(command, extra_env))
     rescue Errno::ENOENT
       return [nil, false]
     end
