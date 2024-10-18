@@ -57,7 +57,11 @@ def reset_candlepin
 end
 
 def pg_command_base(config, command, args)
-  "PGPASSWORD='#{config[:password]}' #{command} -U #{config[:username]} -h #{config[:host]} -p #{config[:port]} #{args}"
+  "#{command} -U #{config[:username]} -h #{config[:host]} -p #{config[:port]} #{args}"
+end
+
+def pg_env(config)
+  { 'PGPASSWORD' => config[:password] }
 end
 
 def pg_sql_statement(config, statement)
@@ -67,7 +71,7 @@ end
 # WARNING: deletes all the data owned by the user. No warnings. No confirmations.
 def empty_database!(config)
   delete_statement = 'DROP OWNED BY CURRENT_USER CASCADE;'
-  execute!(pg_sql_statement(config, delete_statement), false, true)
+  execute!(pg_sql_statement(config, delete_statement), false, true, pg_env(config))
 end
 
 def clear_pulpcore_content(content_dir)
