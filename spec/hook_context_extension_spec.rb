@@ -153,7 +153,7 @@ describe HookContextExtension do
 
       it 'executes a command' do
         expect(subject).to be_nil
-        expect(context).to have_received(:execute_command).with(command, true, true)
+        expect(context).to have_received(:execute_command).with(command, true, true, {})
       end
     end
 
@@ -168,7 +168,7 @@ describe HookContextExtension do
 
       it 'executes a command' do
         expect(subject).to be_nil
-        expect(context).to have_received(:execute!).with("runuser -l postgres -c 'uptime'", true, true)
+        expect(context).to have_received(:execute!).with("runuser -l postgres -c 'uptime'", true, true, {})
       end
     end
   end

@@ -70,12 +70,12 @@ describe PostgresqlUpgradeHookContextExtension do
 
     it 'runs postgresql-setup --upgrade' do
       expect(subject).to be_nil
-      expect(context).to have_received(:'execute!').with("runuser -l postgres -c 'PGSETUP_INITDB_OPTIONS=\"--lc-collate=en_US.UTF-8 --lc-ctype=en_US.UTF-8 --locale=en_US.UTF-8\" postgresql-setup --upgrade'", false, true)
+      expect(context).to have_received(:'execute!').with("runuser -l postgres -c 'PGSETUP_INITDB_OPTIONS=\"--lc-collate=en_US.UTF-8 --lc-ctype=en_US.UTF-8 --locale=en_US.UTF-8\" postgresql-setup --upgrade'", false, true, {})
     end
 
     it 'runs vacuumdb --all --analyze-in-stages' do
       expect(subject).to be_nil
-      expect(context).to have_received(:'execute!').with("runuser -l postgres -c 'vacuumdb --all --analyze-in-stages'", false, true)
+      expect(context).to have_received(:'execute!').with("runuser -l postgres -c 'vacuumdb --all --analyze-in-stages'", false, true, {})
     end
   end
 end
