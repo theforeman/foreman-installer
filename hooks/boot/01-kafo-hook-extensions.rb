@@ -101,6 +101,50 @@ module HookContextExtension
     Kafo::KafoConfigure.logger.send(level, message) if do_log
   end
 
+  def load_db_config(db)
+    case db
+    when 'foreman'
+      module_name = 'foreman'
+      user_param = 'username'
+      db_param = 'database'
+      param_prefix = 'db_'
+    when 'candlepin'
+      module_name = 'katello'
+      user_param = 'user'
+      db_param = 'name'
+      param_prefix = 'candlepin_db_'
+    when 'pulpcore'
+      module_name = 'foreman_proxy_content'
+      user_param = 'user'
+      db_param = 'db_name'
+      param_prefix = 'pulpcore_postgresql_'
+    else
+      raise "installer module unknown for db: #{db}"
+    end
+
+    {
+      host: param_value(module_name, "#{param_prefix}host") || 'localhost',
+      port: param_value(module_name, "#{param_prefix}port") || 5432,
+      database: param_value(module_name, "#{param_prefix}#{db_param}") || db,
+      username: param_value(module_name, "#{param_prefix}#{user_param}"),
+      password: param_value(module_name, "#{param_prefix}password"),
+    }
+  end
+
+  def pg_env(config)
+    {
+      'PGHOST' => config.fetch(:host, 'localhost'),
+      'PGPORT' => config.fetch(:port, '5432').to_s,
+      'PGUSER' => config[:username],
+      'PGPASSWORD' => config[:password],
+      'PGDATABASE' => config[:database],
+    }
+  end
+
+  def pg_sql_statement(statement)
+    "psql -t -c \"#{statement}\""
+  end
+
   def execute!(command, do_say = true, do_log = true, extra_env = {})
     stdout_stderr, status = execute_command(command, do_say, do_log, extra_env)
 

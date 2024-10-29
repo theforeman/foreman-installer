@@ -10,36 +10,6 @@ def reset
   reset_pulpcore if pulpcore_enabled?
 end
 
-def load_db_config(db)
-  case db
-  when 'foreman'
-    module_name = 'foreman'
-    user_param = 'username'
-    db_param = 'database'
-    param_prefix = 'db_'
-  when 'candlepin'
-    module_name = 'katello'
-    user_param = 'user'
-    db_param = 'name'
-    param_prefix = 'candlepin_db_'
-  when 'pulpcore'
-    module_name = 'foreman_proxy_content'
-    user_param = 'user'
-    db_param = 'db_name'
-    param_prefix = 'pulpcore_postgresql_'
-  else
-    raise "installer module unknown for db: #{db}"
-  end
-
-  {
-    host: param_value(module_name, "#{param_prefix}host") || 'localhost',
-    port: param_value(module_name, "#{param_prefix}port") || 5432,
-    database: param_value(module_name, "#{param_prefix}#{db_param}") || db,
-    username: param_value(module_name, "#{param_prefix}#{user_param}"),
-    password: param_value(module_name, "#{param_prefix}password"),
-  }
-end
-
 def empty_db_in_postgresql(db)
   logger.notice "Dropping #{db} database!"
 
@@ -54,20 +24,6 @@ end
 def reset_candlepin
   execute!('rm -f /var/lib/candlepin/.puppet-candlepin-*', false, true)
   empty_db_in_postgresql('candlepin')
-end
-
-def pg_env(config)
-  {
-    'PGHOST' => config.fetch(:host, 'localhost'),
-    'PGPORT' => config.fetch(:port, '5432').to_s,
-    'PGUSER' => config[:username],
-    'PGPASSWORD' => config[:password],
-    'PGDATABASE' => config[:database],
-  }
-end
-
-def pg_sql_statement(statement)
-  "psql -t -c \"#{statement}\""
 end
 
 # WARNING: deletes all the data owned by the user. No warnings. No confirmations.
