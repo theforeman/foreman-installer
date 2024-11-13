@@ -157,6 +157,14 @@ module HookContextExtension
     end
     mountpoint[:available_bytes]
   end
+
+  def parse_java_version(output)
+    output&.match(/version "\d+\.(?<version>\d+)\.\d+/) do |java_match|
+      return unless (version = java_match[:version])
+
+      yield version.to_i
+    end
+  end
 end
 
 Kafo::HookContext.send(:include, HookContextExtension)

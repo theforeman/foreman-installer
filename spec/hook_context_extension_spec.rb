@@ -11,6 +11,22 @@ describe HookContextExtension do
     allow(context).to receive(:logger).and_return(logger)
   end
 
+  describe '.parse_java_version' do
+    context 'java-1.8.0-openjdk-headless' do
+      let(:output) do
+        <<~OUTPUT
+          openjdk version "1.8.0_362"
+          OpenJDK Runtime Environment (build 1.8.0_362-b08)
+          OpenJDK 64-Bit Server VM (build 25.362-b08, mixed mode)
+        OUTPUT
+      end
+
+      it do
+        expect { |block| context.parse_java_version(output, &block) }.to yield_with_args(8)
+      end
+    end
+  end
+
   describe '.ensure_packages' do
     subject { context.ensure_packages(packages, state) }
 
