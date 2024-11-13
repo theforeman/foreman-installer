@@ -159,8 +159,10 @@ module HookContextExtension
   end
 
   def parse_java_version(output)
-    output&.match(/version "\d+\.(?<version>\d+)\.\d+/) do |java_match|
+    output&.match(/version "(?<version>\d+\.\d+)\.\d+/) do |java_match|
       return unless (version = java_match[:version])
+
+      version = version.delete_prefix('1.') if version.start_with?('1.')
 
       yield version.to_i
     end

@@ -25,6 +25,48 @@ describe HookContextExtension do
         expect { |block| context.parse_java_version(output, &block) }.to yield_with_args(8)
       end
     end
+
+    context 'java-11-openjdk-headless' do
+      let(:output) do
+        <<~OUTPUT
+          openjdk version "11.0.20.1" 2023-08-24 LTS
+          OpenJDK Runtime Environment (Red_Hat-11.0.20.1.1-2) (build 11.0.20.1+1-LTS)
+          OpenJDK 64-Bit Server VM (Red_Hat-11.0.20.1.1-2) (build 11.0.20.1+1-LTS, mixed mode, sharing)
+        OUTPUT
+      end
+
+      it do
+        expect { |block| context.parse_java_version(output, &block) }.to yield_with_args(11)
+      end
+    end
+
+    context 'java-17-openjdk-headless' do
+      let(:output) do
+        <<~OUTPUT
+          openjdk version "17.0.11" 2024-04-16 LTS
+          OpenJDK Runtime Environment (Red_Hat-17.0.11.0.9-5) (build 17.0.11+9-LTS)
+          OpenJDK 64-Bit Server VM (Red_Hat-17.0.11.0.9-5) (build 17.0.11+9-LTS, mixed mode, sharing)
+        OUTPUT
+      end
+
+      it do
+        expect { |block| context.parse_java_version(output, &block) }.to yield_with_args(17)
+      end
+    end
+
+    context 'java-21-openjdk-headless' do
+      let(:output) do
+        <<~OUTPUT
+          openjdk version "21.0.4" 2024-07-16 LTS
+          OpenJDK Runtime Environment (Red_Hat-21.0.4.0.7-1) (build 21.0.4+7-LTS)
+          OpenJDK 64-Bit Server VM (Red_Hat-21.0.4.0.7-1) (build 21.0.4+7-LTS, mixed mode, sharing)
+        OUTPUT
+      end
+
+      it do
+        expect { |block| context.parse_java_version(output, &block) }.to yield_with_args(21)
+      end
+    end
   end
 
   describe '.ensure_packages' do
