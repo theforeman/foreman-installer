@@ -16,9 +16,9 @@ if File.exist?(sysconfig_file)
     logger.debug("Found Puppetserver #{puppetserver_match[:version]}")
     if puppetserver_match[:version] == '8'
       java_stdout_stderr, _status = execute_command("source #{sysconfig_file} ; $JAVA_BIN -version", false, true)
-      java_stdout_stderr&.match(/version "\d+\.(?<version>\d+)\.\d+/) do |java_match|
-        if java_match[:version] && java_match[:version].to_i < 11
-          logger.info "Detected Java #{java_match[:version]} which is too old for Puppetserver #{puppetserver_match[:version]}"
+      parse_java_version(java_stdout_stderr) do |java_version|
+        if java_version < 11
+          logger.info "Detected Java #{java_version} which is too old for Puppetserver #{puppetserver_match[:version]}"
           if app_value(:noop)
             logger.debug 'Would stop puppetserver.service'
           else
