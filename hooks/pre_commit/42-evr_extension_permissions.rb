@@ -7,6 +7,13 @@ config = load_db_config('foreman')
 # If postgres is the owner of the DB, then the permissions will not matter.
 return if config[:username] == 'postgres'
 
+evr_existence_command = pg_sql_statement("SELECT 1 FROM pg_extension WHERE extname = 'evr';")
+logger.debug "Checking if the evr extension exists via #{evr_existence_command}"
+evr_existence_output, = execute_command(evr_existence_command, false, true, pg_env(config))
+
+# If the evr extension does not exist, then we can skip this check.
+return if evr_existence_output&.strip != '1'
+
 check_evr_owner_sql = "SELECT CASE" \
                       " WHEN r.rolname = '#{config[:username]}' THEN 0" \
                       " ELSE 1" \
