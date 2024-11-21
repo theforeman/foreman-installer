@@ -30,11 +30,6 @@ jobs:
   - job: copr_build
     trigger: pull_request
     targets:
-      rhel-8:
-        additional_modules: "foreman:el8"
-        additional_repos:
-          - https://yum.theforeman.org/releases/nightly/el8/x86_64/
-          - https://yum.puppet.com/puppet7/el/8/x86_64/
       rhel-9:
         additional_repos:
           - https://yum.theforeman.org/releases/nightly/el9/x86_64/
