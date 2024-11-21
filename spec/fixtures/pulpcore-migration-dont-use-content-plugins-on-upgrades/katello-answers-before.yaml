@@ -18,6 +18,7 @@ foreman::plugin::memcache: false
 foreman::plugin::monitoring: false
 foreman::plugin::remote_execution::cockpit: false
 foreman::plugin::rh_cloud: false
+foreman::plugin::resource_quota: false
 foreman::plugin::salt: false
 foreman::plugin::snapshot_management: false
 foreman::plugin::virt_who_configure: false

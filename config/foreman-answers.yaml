@@ -54,6 +54,7 @@ foreman::plugin::puppetdb: false
 foreman::plugin::remote_execution: false
 foreman::plugin::remote_execution::cockpit: false
 foreman::plugin::rescue: false
+foreman::plugin::resource_quota: false
 foreman::plugin::salt: false
 foreman::plugin::snapshot_management: false
 foreman::plugin::statistics: false

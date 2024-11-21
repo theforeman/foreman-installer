@@ -67,6 +67,7 @@ foreman::plugin::puppetdb: false
 foreman::plugin::remote_execution: true
 foreman::plugin::remote_execution::cockpit: false
 foreman::plugin::rescue: false
+foreman::plugin::resource_quota: false
 foreman::plugin::rh_cloud: false
 foreman::plugin::salt: false
 foreman::plugin::scc_manager: false
