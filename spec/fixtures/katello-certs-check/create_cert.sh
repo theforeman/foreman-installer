@@ -38,6 +38,29 @@ else
   echo "CA certificate bundle with trust rules exists. Skipping."
 fi
 
+CA_SHA1_CERT_NAME=ca-sha1
+CA_SHA1_CERT_BUNDLE=ca-sha1-bundle
+if [[ ! -f "$CERTS_DIR/$CA_SHA1_CERT_NAME.key" || ! -f "$CERTS_DIR/$CA_SHA1_CERT_NAME.crt" || ! -f "$CERTS_DIR/$CA_SHA1_CERT_BUNDLE.crt" ]]; then
+  echo "Generate CA with sha1 signing algorithm"
+  openssl genrsa -out $CERTS_DIR/$CA_SHA1_CERT_NAME.key 2048
+  openssl req -new -key $CERTS_DIR/$CA_SHA1_CERT_NAME.key -sha1 -out $CERTS_DIR/$CA_SHA1_CERT_NAME.csr -subj "/CN=Test Self-Signed CA"
+  openssl x509 -req -in $CERTS_DIR/$CA_SHA1_CERT_NAME.csr -CA $CERTS_DIR/$CA_CERT_NAME.crt -CAkey $CERTS_DIR/$CA_CERT_NAME.key -CAcreateserial -out $CERTS_DIR/$CA_SHA1_CERT_NAME.crt -days 3650 -sha1
+
+  cat $CERTS_DIR/$CA_CERT_NAME.crt $CERTS_DIR/$CA_SHA1_CERT_NAME.crt > $CERTS_DIR/$CA_SHA1_CERT_BUNDLE.crt
+else
+  echo "CA certificate exists. Skipping."
+fi
+
+CERT_NAME=foreman-sha1.example.com
+if [[ ! -f "$CERTS_DIR/$CERT_NAME.key" || ! -f "$CERTS_DIR/$CERT_NAME.crt" ]]; then
+  echo "Generate server certificate"
+  openssl genrsa -out $CERTS_DIR/$CERT_NAME.key 2048
+  openssl req -new -key $CERTS_DIR/$CERT_NAME.key -out $CERTS_DIR/$CERT_NAME.csr -subj "/CN=foreman.example.com"
+  openssl x509 -req -in $CERTS_DIR/$CERT_NAME.csr -CA $CERTS_DIR/$CA_SHA1_CERT_NAME.crt -CAkey $CERTS_DIR/$CA_SHA1_CERT_NAME.key -CAcreateserial -out $CERTS_DIR/$CERT_NAME.crt -days 3650 -sha256 -extfile extensions.txt -extensions extensions
+else
+  echo "Server certificate with sha1 CA exists. Skipping."
+fi
+
 CERT_NAME=foreman-bad-san.example.com
 if [[ ! -f "$CERTS_DIR/$CERT_NAME.key" || ! -f "$CERTS_DIR/$CERT_NAME.crt" ]]; then
   echo "Generate server certificate"

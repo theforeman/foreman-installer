@@ -123,4 +123,30 @@ describe 'katello-certs-check' do
       expect(status.exitstatus).to eq 10
     end
   end
+
+  context 'with sha1 server CA certificate' do
+    let(:key) { File.join(certs_directory, 'foreman-sha1.example.com.key') }
+    let(:cert) { File.join(certs_directory, 'foreman-sha1.example.com.crt') }
+    let(:ca) { File.join(certs_directory, 'ca-sha1.crt') }
+
+    it 'fails' do
+      command_with_certs = "#{command} -b #{ca} -k #{key} -c #{cert}"
+      _stdout, stderr, status = Open3.capture3(command_with_certs)
+      expect(stderr).to include "The file '#{ca}' contains a certificate signed with sha1 and will break installation. Update the server CA certificate and its chain with one signed by sha256 or stronger."
+      expect(status.exitstatus).to eq 4
+    end
+  end
+
+  context 'with sha1 server CA certificate bundle' do
+    let(:key) { File.join(certs_directory, 'foreman-sha1.example.com.key') }
+    let(:cert) { File.join(certs_directory, 'foreman-sha1.example.com.crt') }
+    let(:ca) { File.join(certs_directory, 'ca-sha1-bundle.crt') }
+
+    it 'fails' do
+      command_with_certs = "#{command} -b #{ca} -k #{key} -c #{cert}"
+      _stdout, stderr, status = Open3.capture3(command_with_certs)
+      expect(stderr).to include "The file '#{ca}' contains a certificate signed with sha1 and will break installation. Update the server CA certificate and its chain with one signed by sha256 or stronger."
+      expect(status.exitstatus).to eq 4
+    end
+  end
 end

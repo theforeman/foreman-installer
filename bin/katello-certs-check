@@ -249,6 +249,16 @@ function check-shortname () {
     fi
 }
 
+function check-ca-signing-algorithm () {
+    printf "Checking CA signing algorithm for sha1: "
+    CHECK=$(openssl crl2pkcs7 -nocrl -certfile "$CA_BUNDLE_FILE" | openssl pkcs7 -print | grep algorithm | grep -q 'sha1WithRSAEncryption')
+    if [[ $? == "0" ]]; then
+        error 4 "The file '$CA_BUNDLE_FILE' contains a certificate signed with sha1 and will break installation. Update the server CA certificate and its chain with one signed by sha256 or stronger."
+    else
+        success
+    fi
+}
+
 check-files-exist
 check-server-cert-encoding
 check-expiration
@@ -261,6 +271,7 @@ check-ca-bundle-trust-rules
 check-cert-san
 check-cert-usage-key-encipherment
 check-shortname
+check-ca-signing-algorithm
 
 if [[ $EXIT_CODE == "0" ]] && ([[ $TARGET == ${SERVER_TARGET} ]] || [[ -z "$TARGET" ]]) ; then
     echo -e "${GREEN}Validation succeeded${RESET}\n"
