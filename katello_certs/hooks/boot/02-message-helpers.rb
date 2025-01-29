@@ -30,7 +30,6 @@ module KatelloCertsMessageHookContextExtension
     foreman_proxy_fqdn = kafo.param('foreman_proxy_certs', 'foreman_proxy_fqdn').value
     foreman_oauth_key = read_cache_data("oauth_consumer_key")
     foreman_oauth_secret = read_cache_data("oauth_consumer_secret")
-    org = kafo.param('certs', 'org').value.tr(' ', '_')
 
     certs_tar_file = File.join('/root', File.basename(certs_tar))
     foreman_url = "https://#{fqdn}"
@@ -40,17 +39,11 @@ module KatelloCertsMessageHookContextExtension
 
   To finish the installation, follow these steps:
 
-  If you do not have the #{proxy_name} registered to the #{main_instance_name} instance, then please do the following:
-
-  1. yum -y localinstall http://#{fqdn}/pub/katello-ca-consumer-latest.noarch.rpm
-  2. subscription-manager register --org "#{HighLine.color(org, :info)}"
-
-  Once this is completed run the steps below to start the #{proxy_name} installation:
-
-  1. Ensure that the #{installer_package} package is installed on the system.
-  2. Copy the following file <%= color("#{certs_tar}", :info) %> to the system <%= color("#{foreman_proxy_fqdn}", :info) %> at the following location <%= color("#{certs_tar_file}", :info) %>
+  1. Register the #{proxy_name} to the #{main_instance_name} instance.
+  2. Ensure that the #{installer_package} package is installed on the system.
+  3. Copy the following file <%= color("#{certs_tar}", :info) %> to the system <%= color("#{foreman_proxy_fqdn}", :info) %> at the following location <%= color("#{certs_tar_file}", :info) %>
   scp <%= color("#{certs_tar}", :info) %> root@<%= color("#{foreman_proxy_fqdn}", :info) %>:<%= color("#{certs_tar_file}", :info) %>
-  3. Run the following commands on the #{proxy_name} (possibly with the customized
+  4. Run the following commands on the #{proxy_name} (possibly with the customized
      parameters, see <%= color("#{installer_command} --scenario #{scenario_name} --help", :info) %> and
      documentation for more info on setting up additional services):
 
