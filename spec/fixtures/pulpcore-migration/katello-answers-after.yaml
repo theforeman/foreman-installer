@@ -6,6 +6,7 @@ foreman::cli::katello: true
 foreman::cli::kubevirt: false
 foreman::cli::puppet: true
 foreman::cli::remote_execution: true
+foreman::cli::resource_quota: false
 foreman::cli::rh_cloud: false
 foreman::cli::ssh: false
 foreman::cli::virt_who_configure: false
