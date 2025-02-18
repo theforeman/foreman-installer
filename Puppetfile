@@ -1,37 +1,19 @@
 forge 'https://forgeapi.puppet.com/'
 
-# HTTP/2 and SSL support for settings in Hiera
 mod 'puppetlabs/apache',               '>= 8.3'
-
-# SCRAM password support
 mod 'puppetlabs/postgresql',           '>= 10.1'
-
-# Dnfmodule support for Redis 6+ support
 mod 'puppet/redis',                    '>= 8.5.0'
-
-# Soft dependency of theforeman/puppet
-# https://github.com/theforeman/puppet-puppet/#git-repo-support
 mod 'puppetlabs/vcsrepo',              '>= 5.2.0'
-
-# Soft dependency of theforeman/foreman
-mod 'theforeman/iop_advisor_engine',   :git => 'https://github.com/theforeman/puppet-iop_advisor_engine'
-
-# Dependencies
-mod 'theforeman/dhcp',                 :git => 'https://github.com/theforeman/puppet-dhcp'
-mod 'theforeman/dns',                  :git => 'https://github.com/theforeman/puppet-dns'
-mod 'theforeman/puppetserver_foreman', :git => 'https://github.com/theforeman/puppet-puppetserver_foreman'
-mod 'theforeman/tftp',                 :git => 'https://github.com/theforeman/puppet-tftp'
-
-# Katello dependencies
-mod 'katello/candlepin',               :git => 'https://github.com/theforeman/puppet-candlepin'
-mod 'theforeman/pulpcore',             :git => 'https://github.com/theforeman/puppet-pulpcore'
-
-# Top-level modules
-mod 'theforeman/foreman',              :git => 'https://github.com/theforeman/puppet-foreman'
-mod 'theforeman/foreman_proxy',        :git => 'https://github.com/theforeman/puppet-foreman_proxy'
-mod 'theforeman/puppet',               :git => 'https://github.com/theforeman/puppet-puppet'
-
-# Top-level katello modules
-mod 'katello/foreman_proxy_content',   :git => 'https://github.com/theforeman/puppet-foreman_proxy_content'
-mod 'katello/certs',                   :git => 'https://github.com/theforeman/puppet-certs'
-mod 'katello/katello',                 :git => 'https://github.com/theforeman/puppet-katello'
+mod 'theforeman/iop_advisor_engine',   '~> 0.1.0'
+mod 'theforeman/dhcp',                 '~> 9.2.0'
+mod 'theforeman/dns',                  '~> 11.0.1'
+mod 'theforeman/puppetserver_foreman', '~> 4.1.0'
+mod 'theforeman/tftp',                 '~> 9.1.0'
+mod 'katello/candlepin',               '~> 16.1.0'
+mod 'theforeman/pulpcore',             '~> 12.0.0'
+mod 'theforeman/foreman',              '~> 26.1.0'
+mod 'theforeman/foreman_proxy',        '~> 28.0.0'
+mod 'theforeman/puppet',               '~> 20.1.0'
+mod 'katello/foreman_proxy_content',   '~> 31.0.0'
+mod 'katello/certs',                   '~> 20.0.1'
+mod 'katello/katello',                 '~> 26.0.0'
