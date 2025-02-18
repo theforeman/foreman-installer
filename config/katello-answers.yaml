@@ -25,6 +25,7 @@ foreman:
 foreman::cli: true
 foreman::cli::ansible: false
 foreman::cli::azure: false
+foreman::cli::bootdisk: false
 foreman::cli::discovery: false
 foreman::cli::google: false
 foreman::cli::katello: true
