@@ -34,4 +34,4 @@ mod 'theforeman/puppet',               :git => 'https://github.com/theforeman/pu
 # Top-level katello modules
 mod 'katello/foreman_proxy_content',   :git => 'https://github.com/theforeman/puppet-foreman_proxy_content'
 mod 'katello/certs',                   :git => 'https://github.com/theforeman/puppet-certs'
-mod 'katello/katello',                 :git => 'https://github.com/theforeman/puppet-katello'
+mod 'katello/katello',                 :git => 'https://github.com/theforeman/puppet-katello', branch: 'frankenstein'
