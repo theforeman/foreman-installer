@@ -14,7 +14,7 @@ if app_option?(:tuning)
   EXIT_INSUFFICIENT_MEMORY = 103
 
   current_tuning = get_custom_fact(TUNING_FACT)
-  if module_enabled?('foreman')
+  if module_enabled?('foreman') || module_enabled?('katello')
     new_tuning = app_value(:tuning)
   else
     new_tuning = current_tuning
