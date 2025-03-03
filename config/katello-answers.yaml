@@ -10,7 +10,7 @@
 # See params.pp in each class for what options are available
 ---
 certs:
-  group: foreman
+  group: root
 foreman_proxy:
   foreman_ssl_ca: /etc/foreman-proxy/foreman_ssl_ca.pem
   foreman_ssl_cert: /etc/foreman-proxy/foreman_ssl_cert.pem
