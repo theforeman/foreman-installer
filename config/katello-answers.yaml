@@ -9,8 +9,8 @@
 #
 # See params.pp in each class for what options are available
 ---
-certs:
-  group: root
+certs::deploy:
+  foreman_proxy: true
 foreman_proxy:
   foreman_ssl_ca: /etc/foreman-proxy/foreman_ssl_ca.pem
   foreman_ssl_cert: /etc/foreman-proxy/foreman_ssl_cert.pem
@@ -36,5 +36,4 @@ foreman_proxy::plugin::openscap: false
 foreman_proxy::plugin::remote_execution::script: false
 foreman_proxy::plugin::salt: false
 foreman_proxy::plugin::shellhooks: false
-katello: true
 puppet: false
