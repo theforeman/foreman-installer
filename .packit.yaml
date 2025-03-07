@@ -17,7 +17,7 @@ upstream_tag_template: "{version}"
 
 actions:
   post-upstream-clone:
-    - "wget https://raw.githubusercontent.com/theforeman/foreman-packaging/rpm/develop/packages/foreman/foreman-installer/foreman-installer.spec -O foreman-installer.spec"
+    - "wget https://raw.githubusercontent.com/evgeni/foreman-packaging/ansible-installer/packages/foreman/foreman-installer/foreman-installer.spec -O foreman-installer.spec"
   get-current-version:
     - "sed 's/-develop//' VERSION"
   create-archive:
