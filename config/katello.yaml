@@ -17,7 +17,6 @@
   tuning: 'default'
 
 :order:
-  - certs
   - katello
   - foreman_proxy
   - puppet
