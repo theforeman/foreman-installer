@@ -19,6 +19,7 @@
 :no_prefix: true
 :order:
 - certs
+- certs::generate
 :parser_cache_path: "./_build/parser_cache/foreman-certs.yaml"
 :skip_puppet_version_check: false
 :store_dir: ''
