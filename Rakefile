@@ -144,7 +144,6 @@ end
 file "#{BUILDDIR}/foreman-proxy-certs-generate" => 'bin/foreman-proxy-certs-generate' do |t|
   cp t.prerequisites[0], t.name
   sh format('sed -i "s#^.*\(CONFIG_DIR = \).*#\1%s#" %s', "'#{DATADIR}/foreman-installer/katello-certs/scenarios.d/'", t.name)
-  sh format('sed -i "s#^.*\(LAST_SCENARIO_PATH = \).*#\1%s#" %s', "'#{SYSCONFDIR}/foreman-installer/scenarios.d/last_scenario.yaml'", t.name)
 end
 
 file "#{BUILDDIR}/katello-certs-check" => 'bin/katello-certs-check' do |t|
