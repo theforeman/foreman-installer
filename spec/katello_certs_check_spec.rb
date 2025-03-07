@@ -119,7 +119,7 @@ describe 'katello-certs-check' do
     it 'fails on bundle validation' do
       command_with_certs = "#{command} -b #{ca} -k #{key} -c #{cert}"
       _stdout, stderr, status = Open3.capture3(command_with_certs)
-      expect(stderr).to include 'The CA bundle contains 1 certificate(s) with trust rules. This may create problems for older systems to trust the bundle. Please, recreate the bundle using certificates without trust rules'
+      expect(stderr).to include 'The CA bundle contains 1 certificate(s) with trust rules. This will create problems for older systems. Please, recreate the bundle using certificates without trust rules.'
       expect(status.exitstatus).to eq 10
     end
   end
