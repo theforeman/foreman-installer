@@ -189,7 +189,7 @@ function check-ca-bundle-trust-rules () {
     if [[ $CHECK -lt 1 ]]; then
         success
     else
-        error 10 "The CA bundle contains $CHECK certificate(s) with trust rules. This may create problems for older systems to trust the bundle. Please, recreate the bundle using certificates without trust rules"
+        error 10 "The CA bundle contains $CHECK certificate(s) with trust rules. This will create problems for older systems. Please, recreate the bundle using certificates without trust rules."
         echo
     fi
 }
