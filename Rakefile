@@ -37,9 +37,11 @@ task :modules => "#{BUILDDIR}/modules"
 if BUILD_KATELLO
   SCENARIOS = ['foreman', 'foreman-proxy-content', 'katello'].freeze
   CERTS_SCENARIOS = ['foreman-proxy-certs'].freeze
+  NEW_CERTS_SCENARIOS = ['foreman-certs'].freeze
 else
   SCENARIOS = ['foreman'].freeze
   CERTS_SCENARIOS = [].freeze
+  NEW_CERTS_SCENARIOS = [].freeze
 end
 
 exporter_dirs = ENV['PATH'].split(':').push('/usr/bin', ENV['KAFO_EXPORTER'])
@@ -136,6 +138,33 @@ CERTS_SCENARIOS.each do |scenario|
   end
 end
 
+NEW_CERTS_SCENARIOS.each do |scenario|
+  config = "foreman_certs/config/#{scenario}.yaml"
+  file "#{BUILDDIR}/#{scenario}.yaml" => [config, BUILDDIR] do |t|
+    cp t.prerequisites.first, t.name
+
+    scenario_config_replacements = {
+      'answer_file' => "#{DATADIR}/foreman-installer/foreman-certs/scenarios.d/#{scenario}-answers.yaml",
+      'installer_dir' => "#{DATADIR}/foreman-installer/foreman-certs",
+      'log_dir' => "#{LOGDIR}/foreman-installer",
+      'module_dirs' => "#{DATADIR}/foreman-installer/modules",
+      'parser_cache_path' => "#{DATADIR}/foreman-installer/parser_cache/#{scenario}.yaml",
+    }
+
+    scenario_config_replacements.each do |setting, value|
+      sh format('sed -i "s#\(.*%s:\).*#\1 %s#" %s', setting, value, t.name)
+    end
+  end
+
+  file "#{BUILDDIR}/parser_cache/#{scenario}.yaml" => [config, "#{BUILDDIR}/modules", "#{BUILDDIR}/parser_cache"] do |t|
+    sh "#{exporter}/kafo-export-params -c #{t.prerequisites.first} -f parsercache --no-parser-cache -o #{t.name}"
+  end
+
+  file "#{BUILDDIR}/#{scenario}-options.asciidoc" => [config, "#{BUILDDIR}/parser_cache/#{scenario}.yaml"] do |t|
+    sh "#{exporter}/kafo-export-params -c #{t.prerequisites.first} -f asciidoc -o #{t.name}"
+  end
+end
+
 file "#{BUILDDIR}/foreman-installer" => 'bin/foreman-installer' do |t|
   cp t.prerequisites[0], t.name
   sh format('sed -i "s#\(^.*CONFIG_DIR = \).*#CONFIG_DIR = %s#" %s', "'#{SYSCONFDIR}/foreman-installer/scenarios.d/'", t.name)
@@ -145,6 +174,11 @@ file "#{BUILDDIR}/foreman-proxy-certs-generate" => 'bin/foreman-proxy-certs-gene
   cp t.prerequisites[0], t.name
   sh format('sed -i "s#^.*\(CONFIG_DIR = \).*#\1%s#" %s', "'#{DATADIR}/foreman-installer/katello-certs/scenarios.d/'", t.name)
   sh format('sed -i "s#^.*\(LAST_SCENARIO_PATH = \).*#\1%s#" %s', "'#{SYSCONFDIR}/foreman-installer/scenarios.d/last_scenario.yaml'", t.name)
+end
+
+file "#{BUILDDIR}/foreman-certs" => 'bin/foreman-certs' do |t|
+  cp t.prerequisites[0], t.name
+  sh format('sed -i "s#^.*\(CONFIG_DIR = \).*#\1%s#" %s', "'#{DATADIR}/foreman-installer/foreman-certs/scenarios.d/'", t.name)
 end
 
 file "#{BUILDDIR}/katello-certs-check" => 'bin/katello-certs-check' do |t|
@@ -212,6 +246,7 @@ namespace :build do
 
   if BUILD_KATELLO
     task :base => [
+      "#{BUILDDIR}/foreman-certs",
       "#{BUILDDIR}/foreman-proxy-certs-generate",
       "#{BUILDDIR}/katello-certs-check",
     ]
@@ -235,9 +270,16 @@ namespace :build do
       "#{BUILDDIR}/parser_cache/#{scenario}.yaml",
     ]
   end].flatten
+
+  task :new_certs_scenarios => [NEW_CERTS_SCENARIOS.map do |scenario|
+    [
+      "#{BUILDDIR}/#{scenario}.yaml",
+      "#{BUILDDIR}/parser_cache/#{scenario}.yaml",
+    ]
+  end].flatten
 end
 
-task :build => ['build:base', 'build:scenarios', 'build:certs_scenarios']
+task :build => ['build:base', 'build:scenarios', 'build:certs_scenarios', 'build:new_certs_scenarios']
 
 task :install => :build do
   mkdir_p "#{DATADIR}/foreman-installer"
@@ -262,6 +304,14 @@ task :install => :build do
     cp "katello_certs/config/#{scenario}-answers.yaml", "#{DATADIR}/foreman-installer/katello-certs/scenarios.d/#{scenario}-answers.yaml"
   end
 
+  if NEW_CERTS_SCENARIOS.any?
+    mkdir_p "#{DATADIR}/foreman-installer/foreman-certs/scenarios.d"
+  end
+  NEW_CERTS_SCENARIOS.each do |scenario|
+    cp "#{BUILDDIR}/#{scenario}.yaml", "#{DATADIR}/foreman-installer/foreman-certs/scenarios.d/#{scenario}.yaml"
+    cp "foreman_certs/config/#{scenario}-answers.yaml", "#{DATADIR}/foreman-installer/foreman-certs/scenarios.d/#{scenario}-answers.yaml"
+  end
+
   cp_r "#{BUILDDIR}/modules", "#{DATADIR}/foreman-installer", :preserve => true
   cp_r "#{BUILDDIR}/parser_cache", "#{DATADIR}/foreman-installer"
 
@@ -272,6 +322,7 @@ task :install => :build do
   install "#{BUILDDIR}/foreman-installer", "#{SBINDIR}/foreman-installer", :mode => 0o755, :verbose => true
 
   if BUILD_KATELLO
+    install "#{BUILDDIR}/foreman-certs", "#{SBINDIR}/foreman-certs", :mode => 0o755, :verbose => true
     install "#{BUILDDIR}/foreman-proxy-certs-generate", "#{SBINDIR}/foreman-proxy-certs-generate", :mode => 0o755, :verbose => true
     install "#{BUILDDIR}/katello-certs-check", "#{SBINDIR}/katello-certs-check", :mode => 0o755, :verbose => true
   end
