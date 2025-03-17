@@ -28,7 +28,6 @@ foreman::cli::webhooks: false
 foreman::compute::ec2: false
 foreman::compute::libvirt: false
 foreman::compute::openstack: false
-foreman::compute::ovirt: false
 foreman::compute::vmware: false
 foreman::plugin::acd: false
 foreman::plugin::ansible: false
@@ -49,7 +48,6 @@ foreman::plugin::monitoring: false
 foreman::plugin::netbox: false
 foreman::plugin::omaha: false
 foreman::plugin::openscap: false
-foreman::plugin::ovirt_provision: false
 foreman::plugin::proxmox: false
 foreman::plugin::puppet: true
 foreman::plugin::puppetdb: false
