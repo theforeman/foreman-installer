@@ -12,7 +12,7 @@ if [0, 2].include? @kafo.exit_code
   end
 
   if devel_scenario?
-    dev_server_success_message(@kafo)
+    dev_server_success_message
     dev_new_install_message(@kafo) if new_install?
   end
 

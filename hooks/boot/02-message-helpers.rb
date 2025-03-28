@@ -7,13 +7,10 @@ module MessageHookContextExtension
     say "  * <%= color('Foreman', :info) %> is running at <%= color('#{kafo.param('foreman', 'foreman_url').value}', :info) %>"
   end
 
-  def dev_server_success_message(kafo)
+  def dev_server_success_message
     say "  * To run the <%= color('Katello', :info) %> dev server log in using SSH"
     say "  * Run `cd foreman && bundle exec foreman start`"
     say "  * The server is running at <%= color('https://#{`hostname -f`}', :info) %>"
-    if kafo.param('katello_devel', 'webpack_dev_server').value
-      say "  * On Firefox you need to accept the certificate at <%= color('https://#{`hostname -f`}:3808', :info) %>"
-    end
   end
 
   def certs_generate_command_message
