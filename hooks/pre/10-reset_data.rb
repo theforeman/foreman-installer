@@ -17,7 +17,7 @@ def empty_db_in_postgresql(db)
   if remote_host?(config[:host])
     empty_database!(config)
   else
-    execute!("runuser -l postgres -c 'dropdb #{config[:database]}'", false, true)
+    execute!("runuser -l postgres -c 'dropdb --if-exists #{config[:database]}'", false, true)
   end
 end
 
