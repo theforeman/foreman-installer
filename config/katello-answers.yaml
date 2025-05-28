@@ -9,78 +9,8 @@
 #
 # See params.pp in each class for what options are available
 ---
-certs:
-  group: foreman
-foreman:
-  client_ssl_ca: /etc/foreman/proxy_ca.pem
-  client_ssl_cert: /etc/foreman/client_cert.pem
-  client_ssl_key: /etc/foreman/client_key.pem
-  initial_location: Default Location
-  initial_organization: Default Organization
-  server_ssl_ca: /etc/pki/katello/certs/katello-default-ca.crt
-  server_ssl_cert: /etc/pki/katello/certs/katello-apache.crt
-  server_ssl_chain: /etc/pki/katello/certs/katello-server-ca.crt
-  server_ssl_crl: ""
-  server_ssl_key: /etc/pki/katello/private/katello-apache.key
-foreman::cli: true
-foreman::cli::ansible: false
-foreman::cli::azure: false
-foreman::cli::bootdisk: false
-foreman::cli::discovery: false
-foreman::cli::google: false
-foreman::cli::katello: true
-foreman::cli::kubevirt: false
-foreman::cli::openscap: false
-foreman::cli::puppet: false
-foreman::cli::remote_execution: true
-foreman::cli::resource_quota: false
-foreman::cli::rh_cloud: false
-foreman::cli::ssh: false
-foreman::cli::tasks: false
-foreman::cli::templates: false
-foreman::cli::virt_who_configure: false
-foreman::cli::webhooks: false
-foreman::compute::ec2: false
-foreman::compute::libvirt: false
-foreman::compute::openstack: false
-foreman::compute::ovirt: false
-foreman::compute::vmware: false
-foreman::plugin::acd: false
-foreman::plugin::ansible: false
-foreman::plugin::azure: false
-foreman::plugin::bootdisk: false
-foreman::plugin::default_hostgroup: false
-foreman::plugin::dhcp_browser: false
-foreman::plugin::discovery: false
-foreman::plugin::dlm: false
-foreman::plugin::expire_hosts: false
-foreman::plugin::git_templates: false
-foreman::plugin::google: false
-foreman::plugin::hdm: false
-foreman::plugin::kernel_care: false
-foreman::plugin::kubevirt: false
-foreman::plugin::leapp: false
-foreman::plugin::monitoring: false
-foreman::plugin::netbox: false
-foreman::plugin::openscap: false
-foreman::plugin::proxmox: false
-foreman::plugin::puppet: false
-foreman::plugin::puppetdb: false
-foreman::plugin::remote_execution: true
-foreman::plugin::remote_execution::cockpit: false
-foreman::plugin::rescue: false
-foreman::plugin::resource_quota: false
-foreman::plugin::rh_cloud: false
-foreman::plugin::salt: false
-foreman::plugin::scc_manager: false
-foreman::plugin::snapshot_management: false
-foreman::plugin::statistics: false
-foreman::plugin::tasks: true
-foreman::plugin::templates: false
-foreman::plugin::vault: false
-foreman::plugin::virt_who_configure: false
-foreman::plugin::webhooks: false
-foreman::plugin::wreckingball: false
+certs::deploy:
+  foreman_proxy: true
 foreman_proxy:
   foreman_ssl_ca: /etc/foreman-proxy/foreman_ssl_ca.pem
   foreman_ssl_cert: /etc/foreman-proxy/foreman_ssl_cert.pem
@@ -106,7 +36,4 @@ foreman_proxy::plugin::openscap: false
 foreman_proxy::plugin::remote_execution::script: false
 foreman_proxy::plugin::salt: false
 foreman_proxy::plugin::shellhooks: false
-foreman_proxy_content: true
-katello: true
 puppet: false
-apache::mod::status: false
