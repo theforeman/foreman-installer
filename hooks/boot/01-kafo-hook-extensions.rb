@@ -87,9 +87,9 @@ module HookContextExtension
   end
 
   def local_db_exists?(database)
-    db_existence_command = pg_sql_statement("SELECT 1 FROM pg_database WHERE datname = '#{database}';")
+    db_existence_command = pg_sql_statement("SELECT 'local_db_exists' FROM pg_database WHERE datname = '#{database}';")
     db_existence_output, = execute_preformatted_as('postgres', db_existence_command, false, true)
-    db_existence_output&.strip == '1'
+    db_existence_output&.include?('local_db_exists')
   end
 
   def log_and_say(level, message, do_say = true, do_log = true)
