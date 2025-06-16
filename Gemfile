@@ -1,23 +1,15 @@
 source 'https://rubygems.org'
 
-# rdoc 6.4 pulls in psych 4 and Puppet is incompatible with that.
-# We don't want to list psych since that updates the bundled version
-gem 'rdoc', '< 6.4'
-
 gem 'kafo', '>= 7.6', '< 8'
 gem 'librarian-puppet', '>= 3.0'
-gem 'puppet', ENV.key?('PUPPET_VERSION') ? "~> #{ENV['PUPPET_VERSION']}" : '~> 7.0'
-gem 'facter', '>= 3.0', '!= 4.0.52'
-
-gem 'puppet-strings'
+gem 'openvox', "~> #{ENV.fetch('PUPPET_VERSION', '8.0')}"
+gem 'openvox-strings'
 gem 'rake'
 
 if RUBY_VERSION >= '3.4'
-  gem 'base64'
-  gem 'getoptlong'
+  # https://github.com/OpenVoxProject/puppet/issues/90
   gem 'syslog'
 end
-gem 'racc' if RUBY_VERSION >= '3.3'
 
 gem 'semverse', groups: [:development, :test]
 
