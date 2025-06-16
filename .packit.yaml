@@ -33,13 +33,14 @@ jobs:
       rhel-9:
         additional_repos:
           - https://yum.theforeman.org/releases/nightly/el9/x86_64/
-          - https://yum.puppet.com/puppet7/el/9/x86_64/
+          - https://yum.voxpupuli.org/openvox8/el/9/x86_64/
     module_hotfixes: true
 
 srpm_build_deps:
-  - wget
-  - make
   - gcc
+  - libyaml
+  - make
   - ruby
   - ruby-devel
   - rubygem-bundler
+  - wget

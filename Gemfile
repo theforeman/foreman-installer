@@ -6,20 +6,18 @@ gem 'rdoc', '< 6.4'
 
 gem 'kafo', '>= 7.6', '< 8'
 gem 'librarian-puppet', '>= 3.0'
-gem 'puppet', ENV.key?('PUPPET_VERSION') ? "~> #{ENV['PUPPET_VERSION']}" : '~> 8.0'
-gem 'facter', '~> 4.1'
 
-gem 'puppet-strings'
+gem 'openvox', "~> #{ENV.fetch('PUPPET_VERSION', '8.0')}"
+gem 'openvox-strings'
+
 gem 'rake'
 
 if RUBY_VERSION >= '3.4'
-  gem 'base64'
-  gem 'getoptlong'
+  # https://github.com/OpenVoxProject/puppet/issues/90
   gem 'syslog'
   # can be removed when we release https://github.com/theforeman/kafo/pull/387 & https://github.com/theforeman/kafo_wizards/pull/13
   gem 'abbrev'
 end
-gem 'racc' if RUBY_VERSION >= '3.3'
 
 gem 'semverse', groups: [:development, :test]
 
