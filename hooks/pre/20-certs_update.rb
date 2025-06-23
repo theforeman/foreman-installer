@@ -22,7 +22,7 @@ if module_enabled?('certs')
     hostname = param('certs', 'node_fqdn').value
   end
 
-  if app_value(:certs_update_server)
+  if app_value(:certs_update_server) || app_value(:certs_reset)
     mark_for_update("#{hostname}-apache", hostname)
     mark_for_update("#{hostname}-foreman-proxy", hostname)
   end
