@@ -28,7 +28,9 @@ end
 
 # WARNING: deletes all the data owned by the user. No warnings. No confirmations.
 def empty_database!(config)
+  drop_evr_statement = 'DROP EXTENSION IF EXISTS evr CASCADE;'
   delete_statement = 'DROP OWNED BY CURRENT_USER CASCADE;'
+  execute!(pg_sql_statement(drop_evr_statement), false, true, pg_env(config))
   execute!(pg_sql_statement(delete_statement), false, true, pg_env(config))
 end
 
