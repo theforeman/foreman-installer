@@ -24,3 +24,5 @@ postgresql::globals::password_encryption: 'scram-sha-256'
 
 # Force fact upload to update OS facts
 foreman::register::force_fact_upload: true
+
+redis::timeout: 60
