@@ -109,3 +109,4 @@ foreman_proxy_content: true
 katello: true
 puppet: false
 apache::mod::status: false
+iop: false

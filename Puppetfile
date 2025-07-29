@@ -16,9 +16,6 @@ mod 'puppetlabs/vcsrepo',              '>= 5.2.0'
 # https://github.com/southalc/podman/pull/100
 mod 'puppet/systemd', '< 8'
 
-# Soft dependency of theforeman/foreman
-mod 'theforeman/iop_advisor_engine',   :git => 'https://github.com/theforeman/puppet-iop_advisor_engine'
-
 # Dependencies
 mod 'theforeman/dhcp',                 :git => 'https://github.com/theforeman/puppet-dhcp'
 mod 'theforeman/dns',                  :git => 'https://github.com/theforeman/puppet-dns'
@@ -38,3 +35,8 @@ mod 'theforeman/puppet',               :git => 'https://github.com/theforeman/pu
 mod 'katello/foreman_proxy_content',   :git => 'https://github.com/theforeman/puppet-foreman_proxy_content'
 mod 'katello/certs',                   :git => 'https://github.com/theforeman/puppet-certs'
 mod 'katello/katello',                 :git => 'https://github.com/theforeman/puppet-katello'
+
+# Top-level iop
+mod 'theforeman/iop',                  :git => 'https://github.com/theforeman/puppet-iop'
+# Needed until https://github.com/southalc/podman/pull/106 is available in a release
+mod 'southalc/podman',                 :git => 'https://github.com/ehelms/puppet-podman', :branch => 'remove-trailing-newline'
