@@ -35,6 +35,7 @@ foreman::cli::puppet: false
 foreman::cli::remote_execution: true
 foreman::cli::resource_quota: false
 foreman::cli::rh_cloud: false
+foreman::cli::scc_manager: false
 foreman::cli::ssh: false
 foreman::cli::tasks: false
 foreman::cli::templates: false
