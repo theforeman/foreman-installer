@@ -18,4 +18,6 @@ mod 'katello/foreman_proxy_content',   '~> 31.2.0'
 mod 'katello/certs',                   '~> 21.1.0'
 mod 'katello/katello',                 '~> 26.2.0'
 mod 'theforeman/iop',                  '~> 0.1.0'
-mod 'southalc/podman',                 '~> 0.7.9'
+
+# Needed until https://github.com/southalc/podman/pull/106 is available in a release
+mod 'southalc/podman',                 :git => 'https://github.com/ehelms/puppet-podman', :branch => 'remove-trailing-newline'
