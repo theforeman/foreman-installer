@@ -38,5 +38,3 @@ mod 'katello/katello',                 :git => 'https://github.com/theforeman/pu
 
 # Top-level iop
 mod 'theforeman/iop',                  :git => 'https://github.com/theforeman/puppet-iop'
-# Needed until https://github.com/southalc/podman/pull/106 is available in a release
-mod 'southalc/podman',                 :git => 'https://github.com/ehelms/puppet-podman', :branch => 'remove-trailing-newline'
