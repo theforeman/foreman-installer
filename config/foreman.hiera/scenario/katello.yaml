@@ -1,2 +1,19 @@
 ---
 puppet::server::foreman::katello: true
+
+iop_container_tag: 'foreman-3.16'
+
+iop::core_kafka::image: 'quay.io/strimzi/kafka:latest-kafka-3.7.1'
+iop::core_engine::image: 'quay.io/iop/insights-engine:%{iop_container_tag}'
+iop::core_gateway::image: 'quay.io/iop/gateway:%{iop_container_tag}'
+iop::core_host_inventory::image: 'quay.io/iop/host-inventory:%{iop_container_tag}'
+iop::core_host_inventory_frontend::image: 'quay.io/iop/host-inventory-frontend:%{iop_container_tag}'
+iop::core_ingress::image: 'quay.io/iop/ingress:%{iop_container_tag}'
+iop::core_puptoo::image: 'quay.io/iop/puptoo:%{iop_container_tag}'
+iop::core_yuptoo::image: 'quay.io/iop/yuptoo:%{iop_container_tag}'
+iop::service_advisor::image: 'quay.io/iop/advisor-backend:%{iop_container_tag}'
+iop::service_advisor_frontend::image: 'quay.io/iop/advisor-frontend:%{iop_container_tag}'
+iop::service_remediations::image: 'quay.io/iop/remediations:%{iop_container_tag}'
+iop::service_vmaas::image: 'quay.io/iop/vmaas:%{iop_container_tag}'
+iop::service_vulnerability::image: 'quay.io/iop/vulnerability-engine:%{iop_container_tag}'
+iop::service_vulnerability_frontend::image: 'quay.io/iop/vulnerability-frontend:%{iop_container_tag}'
