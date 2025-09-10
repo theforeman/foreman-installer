@@ -82,7 +82,7 @@ FORGE
       theforeman-dns (>= 11.0.0, < 12.0.0)
       theforeman-foreman (>= 19.0.0, < 28.0.0)
       theforeman-tftp (>= 3.0.0, < 11.0.0)
-    theforeman-iop (0.3.0)
+    theforeman-iop (0.4.0)
       katello-certs (>= 21.0.0, < 22.0.0)
       puppet-extlib (>= 3.0.0, < 8.0.0)
       puppetlabs-stdlib (>= 9.0.0, < 10.0.0)
@@ -114,10 +114,10 @@ FORGE
 
 GIT
   remote: https://github.com/southalc/podman
-  ref: 0.7.11
-  sha: 0d8e99576c52cce373bca973f21eccb6babdb527
+  ref: 0.7.13
+  sha: fc62cc93d293ac86c2963153f64ef2355b73f7f4
   specs:
-    southalc-podman (0.7.11)
+    southalc-podman (0.7.13)
       puppet-systemd (>= 7.0.0, <= 9.0.0)
       puppetlabs-concat (>= 2.1.0, <= 10.0.0)
       puppetlabs-inifile (>= 4.2.0, <= 7.0.0)
@@ -140,7 +140,7 @@ DEPENDENCIES
   theforeman-dns (~> 11.1.0)
   theforeman-foreman (~> 27.1.0)
   theforeman-foreman_proxy (~> 28.2.0)
-  theforeman-iop (~> 0.3.0)
+  theforeman-iop (~> 0.4.0)
   theforeman-pulpcore (~> 13.1.0)
   theforeman-puppet (~> 21.1.0)
   theforeman-puppetserver_foreman (~> 4.2.2)
