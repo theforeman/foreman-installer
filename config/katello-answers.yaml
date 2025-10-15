@@ -46,7 +46,6 @@ foreman::compute::ec2: false
 foreman::compute::libvirt: false
 foreman::compute::openstack: false
 foreman::compute::vmware: false
-foreman::plugin::acd: false
 foreman::plugin::ansible: false
 foreman::plugin::azure: false
 foreman::plugin::bootdisk: false
@@ -93,7 +92,6 @@ foreman_proxy:
   ssl_port: '9090'
   puppet: false
   puppetca: false
-foreman_proxy::plugin::acd: false
 foreman_proxy::plugin::ansible: false
 foreman_proxy::plugin::dhcp::infoblox: false
 foreman_proxy::plugin::dhcp::remote_isc: false
