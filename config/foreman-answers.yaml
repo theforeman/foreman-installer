@@ -30,7 +30,6 @@ foreman::compute::ec2: false
 foreman::compute::libvirt: false
 foreman::compute::openstack: false
 foreman::compute::vmware: false
-foreman::plugin::acd: false
 foreman::plugin::ansible: false
 foreman::plugin::azure: false
 foreman::plugin::bootdisk: false
@@ -66,7 +65,6 @@ foreman::plugin::vault: false
 foreman::plugin::webhooks: false
 foreman::plugin::wreckingball: false
 foreman_proxy: {}
-foreman_proxy::plugin::acd: false
 foreman_proxy::plugin::ansible: false
 foreman_proxy::plugin::dhcp::infoblox: false
 foreman_proxy::plugin::dhcp::remote_isc: false

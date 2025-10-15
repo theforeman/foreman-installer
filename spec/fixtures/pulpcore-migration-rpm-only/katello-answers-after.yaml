@@ -18,7 +18,6 @@ foreman::compute::ec2: false
 foreman::compute::libvirt: false
 foreman::compute::openstack: false
 foreman::compute::vmware: false
-foreman::plugin::acd: false
 foreman::plugin::azure: false
 foreman::plugin::dlm: false
 foreman::plugin::dhcp_browser: false
@@ -47,7 +46,6 @@ foreman::plugin::vault: false
 foreman::plugin::virt_who_configure: false
 foreman::plugin::webhooks: false
 foreman::plugin::wreckingball: false
-foreman_proxy::plugin::acd: false
 foreman_proxy::plugin::dhcp::remote_isc: false
 foreman_proxy::plugin::discovery: false
 foreman_proxy::plugin::dns::powerdns: false
