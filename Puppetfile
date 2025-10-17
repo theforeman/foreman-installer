@@ -13,9 +13,6 @@ mod 'puppet/redis',                    '>= 8.5.0'
 # https://github.com/theforeman/puppet-puppet/#git-repo-support
 mod 'puppetlabs/vcsrepo',              '>= 5.2.0'
 
-# https://github.com/southalc/podman/pull/100
-mod 'puppet/systemd', '< 8'
-
 # Dependencies
 mod 'theforeman/dhcp',                 :git => 'https://github.com/theforeman/puppet-dhcp'
 mod 'theforeman/dns',                  :git => 'https://github.com/theforeman/puppet-dns'
