@@ -26,7 +26,7 @@ gem 'semverse', groups: [:development, :test]
 group :test do
   gem 'rspec'
   gem 'rspec_junit_formatter'
-  gem 'rubocop', '~> 0.80.0'
+  gem 'rubocop', '~> 1.81.0'
 end
 
 group :development do
