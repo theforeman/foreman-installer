@@ -16,6 +16,8 @@ jobs:
   rubocop:
     name: Rubocop
     uses: theforeman/actions/.github/workflows/rubocop.yml@v0
+    with:
+      ruby: '3.2'
 
   test:
     name: "Ruby ${{ matrix.ruby }} / Puppet ${{ matrix.puppet }}"
@@ -24,13 +26,12 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        include:
-          - ruby: '2.7'
-            puppet: '7.0'
-          - ruby: '3.0'
-            puppet: '7.0'
-          - ruby: '3.2'
-            puppet: '8.0'
+        ruby:
+          - '3.4'
+          - '3.3'
+          - '3.2'
+        puppet:
+          - '8.0'
     env:
       PUPPET_VERSION: ${{ matrix.puppet }}
     steps:
