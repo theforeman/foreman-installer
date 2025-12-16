@@ -63,6 +63,7 @@ foreman::plugin::kubevirt: false
 foreman::plugin::leapp: false
 foreman::plugin::monitoring: false
 foreman::plugin::netbox: false
+foreman::plugin::openbolt: false
 foreman::plugin::openscap: false
 foreman::plugin::ovirt: false
 foreman::plugin::proxmox: false
@@ -104,6 +105,7 @@ foreman_proxy::plugin::dns::powerdns: false
 foreman_proxy::plugin::dns::route53: false
 foreman_proxy::plugin::hdm: false
 foreman_proxy::plugin::monitoring: false
+foreman_proxy::plugin::openbolt: false
 foreman_proxy::plugin::openscap: false
 foreman_proxy::plugin::remote_execution::script: false
 foreman_proxy::plugin::salt: false
