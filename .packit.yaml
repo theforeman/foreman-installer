@@ -38,6 +38,7 @@ jobs:
 
 srpm_build_deps:
   - gcc
+  - libffi-devel
   - libyaml
   - make
   - ruby
