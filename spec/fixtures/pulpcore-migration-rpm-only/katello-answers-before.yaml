@@ -15,6 +15,7 @@ foreman::plugin::kubevirt: false
 foreman::plugin::leapp: false
 foreman::plugin::memcache: false
 foreman::plugin::monitoring: false
+foreman::plugin::opentofu: false
 foreman::plugin::remote_execution::cockpit: false
 foreman::plugin::resource_quota: false
 foreman::plugin::rh_cloud: false
