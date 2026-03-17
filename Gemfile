@@ -4,7 +4,7 @@ source 'https://rubygems.org'
 # We don't want to list psych since that updates the bundled version
 gem 'rdoc', '< 6.4'
 
-gem 'kafo', '>= 7.6', '< 8'
+gem 'kafo', '>= 7.7', '< 8'
 gem 'librarian-puppet', '>= 3.0'
 
 gem 'openvox', "~> #{ENV.fetch('PUPPET_VERSION', '8.0')}"
