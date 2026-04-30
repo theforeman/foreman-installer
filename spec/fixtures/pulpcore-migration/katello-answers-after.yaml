@@ -61,6 +61,8 @@ foreman_proxy_content:
   proxy_pulp_isos_to_pulpcore: false
   proxy_pulp_yum_to_pulpcore: false
   proxy_pulp_deb_to_pulpcore: false
+  pulpcore_api_control_socket_path: /run/pulpcore-api/gunicorn.ctl
+  pulpcore_content_control_socket_path: /run/pulpcore-content/gunicorn.ctl
 katello:
   use_pulp_2_for_docker: true
   use_pulp_2_for_file: true
