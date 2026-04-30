@@ -14,6 +14,8 @@ certs:
 foreman_proxy_content:
   pulpcore_mirror: true
   puppet: false
+  pulpcore_api_control_socket_path: /run/pulpcore-api/gunicorn.ctl
+  pulpcore_content_control_socket_path: /run/pulpcore-content/gunicorn.ctl
 foreman_proxy:
   foreman_ssl_ca: /etc/foreman-proxy/foreman_ssl_ca.pem
   foreman_ssl_cert: /etc/foreman-proxy/foreman_ssl_cert.pem
