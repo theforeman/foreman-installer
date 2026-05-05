@@ -109,7 +109,10 @@ foreman_proxy::plugin::openscap: false
 foreman_proxy::plugin::remote_execution::script: false
 foreman_proxy::plugin::salt: false
 foreman_proxy::plugin::shellhooks: false
-foreman_proxy_content: true
+foreman_proxy_content:
+  puppet: false
+  pulpcore_api_control_socket_path: /run/pulpcore-api/gunicorn.ctl
+  pulpcore_content_control_socket_path: /run/pulpcore-content/gunicorn.ctl
 katello: true
 puppet: false
 apache::mod::status: false
