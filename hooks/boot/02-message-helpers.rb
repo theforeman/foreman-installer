@@ -8,14 +8,16 @@ module MessageHookContextExtension
   end
 
   def dev_server_success_message
-    say "  * To run the <%= color('Katello', :info) %> dev server log in using SSH"
-    say "  * Run `cd foreman && bundle exec foreman start`"
-    say "  * The server is running at <%= color('https://#{`hostname -f`}', :info) %>"
+    say "  * To start the <%= color('Katello', :info) %> dev server:"
+    say "    - Log in using SSH"
+    say "    - Run `cd foreman && bundle exec foreman start`"
+    say "  * The server will be running at <%= color('https://#{`hostname -f`}', :info) %>"
   end
 
   def certs_generate_command_message
     say <<MSG
-  * To install an additional Foreman proxy on separate machine continue by running:
+  * To install an additional Foreman proxy on a separate machine, first generate an installer command by running:
+
 
       foreman-proxy-certs-generate --foreman-proxy-fqdn "<%= color('$FOREMAN_PROXY', :info) %>" --certs-tar "<%= color('/root/$FOREMAN_PROXY-certs.tar.gz', :info) %>"
 MSG
@@ -59,11 +61,11 @@ MSG
 
     say "\n<%= color('#{message}', :bad) %>"
     say "Please address the errors and re-run the installer to ensure the system is properly configured."
-    say "Failing to do so is likely to result in broken functionality."
+    say "Failure to do so will likely cause installation or runtime failures."
   end
 
   def log_message(kafo)
-    say "\nThe full log is at <%= color('#{kafo.config.log_file}', :info) %>"
+    say "\nThe full log is available at <%= color('#{kafo.config.log_file}', :info) %>"
   end
 end
 
