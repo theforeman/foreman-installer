@@ -12,7 +12,6 @@ foreman::cli::rh_cloud: false
 foreman::cli::salt: false
 foreman::cli::scc_manager: false
 foreman::cli::ssh: false
-foreman::cli::virt_who_configure: false
 foreman::cli::webhooks: false
 foreman::compute::ec2: false
 foreman::compute::libvirt: false
