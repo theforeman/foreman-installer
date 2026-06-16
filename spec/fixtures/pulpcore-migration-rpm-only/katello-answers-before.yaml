@@ -2,7 +2,6 @@ foreman::cli: true
 foreman::cli::ansible: false
 foreman::cli::azure: false
 foreman::cli::kubevirt: false
-foreman::cli::virt_who_configure: false
 foreman::compute::ec2: false
 foreman::compute::gce: false
 foreman::compute::libvirt: false
