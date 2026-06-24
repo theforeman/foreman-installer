@@ -259,7 +259,61 @@ function check-ca-signing-algorithm () {
     fi
 }
 
+function check-pem-content () {
+    local FILE=$1
+    local TYPE=$2
+
+    printf "Checking ${TYPE} for non-PEM content: "
+
+    if awk '
+        BEGIN {
+            in_cert = 0
+            bad = 0
+        }
+
+        /^-----BEGIN (TRUSTED )?CERTIFICATE-----$/ {
+            if (in_cert) {
+                bad = 1
+            }
+            in_cert = 1
+            next
+        }
+
+        /^-----END (TRUSTED )?CERTIFICATE-----$/ {
+            if (!in_cert) {
+                bad = 1
+            }
+            in_cert = 0
+            next
+        }
+
+        /^[[:space:]]*$/ {
+            next
+        }
+
+        {
+            if (!in_cert) {
+                bad = 1
+            }
+        }
+
+        END {
+            if (in_cert) {
+                bad = 1
+            }
+            exit bad
+        }
+    ' "$FILE"
+    then
+        success
+    else
+        error 12 "The ${TYPE} '$FILE' contains content outside PEM CERTIFICATE blocks. Only PEM CERTIFICATE blocks are allowed."
+    fi
+}
+
 check-files-exist
+check-pem-content "$CERT_FILE" "certificate file"
+check-pem-content "$CA_BUNDLE_FILE" "CA bundle"
 check-server-cert-encoding
 check-expiration
 check-cert-ca-flag

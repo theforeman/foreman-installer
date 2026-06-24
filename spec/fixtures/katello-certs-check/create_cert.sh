@@ -120,3 +120,17 @@ if [[ ! -f "$CERTS_DIR/$CERT_NAME.key" || ! -f "$CERTS_DIR/$CERT_NAME.crt" ]]; t
 else
   echo "Shortname server certificate exists. Skipping."
 fi
+
+CA_BUNDLE_BAG_ATTRIBUTES=ca-bundle-bag-attributes
+if [[ ! -f "$CERTS_DIR/$CA_BUNDLE_BAG_ATTRIBUTES.crt" ]]; then
+  echo "Generate CA bundle with PKCS#12 metadata between certificates"
+  sed -n '1,19p' $CERTS_DIR/$CA_BUNDLE.crt > $CERTS_DIR/$CA_BUNDLE_BAG_ATTRIBUTES.crt
+  cat >> $CERTS_DIR/$CA_BUNDLE_BAG_ATTRIBUTES.crt <<'EOF'
+Bag Attributes: <Empty Attributes>
+subject=DC=example, CN=Test CA
+issuer=CN=Test CA
+EOF
+  sed -n '20,$p' $CERTS_DIR/$CA_BUNDLE.crt >> $CERTS_DIR/$CA_BUNDLE_BAG_ATTRIBUTES.crt
+else
+  echo "CA bundle with PKCS#12 metadata exists. Skipping."
+fi
