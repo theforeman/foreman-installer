@@ -35,3 +35,6 @@ mod 'katello/katello',                 :git => 'https://github.com/theforeman/pu
 
 # Top-level iop
 mod 'theforeman/iop',                  :git => 'https://github.com/theforeman/puppet-iop'
+
+# Pending Forge release with puppetlabs-concat upper bound fix (southalc/podman#127)
+mod 'southalc/podman',                 :git => 'https://github.com/southalc/podman'
