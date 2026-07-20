@@ -25,10 +25,6 @@ jobs:
       fail-fast: false
       matrix:
         include:
-          - ruby: '2.7'
-            puppet: '7.0'
-          - ruby: '3.0'
-            puppet: '7.0'
           - ruby: '3.2'
             puppet: '8.0'
     env:
