@@ -1,5 +1,6 @@
 require 'spec_helper'
 require 'open3'
+require 'tmpdir'
 
 # certs/ca were generated with https://github.com/iNecas/ownca
 # badkey passphrase is 'foreman'
@@ -95,6 +96,22 @@ describe 'katello-certs-check' do
       expect(stderr).to eq ''
       expect(stdout).to include 'Checking CA bundle size: 2'
       expect(status.exitstatus).to eq 0
+    end
+
+    it 'does not expand wildcard SANs as filesystem globs' do
+      command_with_certs = "#{command} -b #{ca} -k #{key} -c #{cert}"
+      cert_details = `openssl x509 -noout -text -in #{cert}`
+
+      Dir.mktmpdir do |tmpdir|
+        File.write(File.join(tmpdir, 'one.example.com'), '')
+        File.write(File.join(tmpdir, 'two.example.com'), '')
+
+        _stdout, stderr, status = Open3.capture3(command_with_certs, chdir: tmpdir)
+
+        expect(cert_details).to include 'DNS:*.example.com'
+        expect(stderr).to eq ''
+        expect(status.exitstatus).to eq 0
+      end
     end
   end
 
