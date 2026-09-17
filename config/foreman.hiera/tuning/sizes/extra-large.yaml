@@ -2,6 +2,8 @@
 apache::mod::event::serverlimit: 64
 apache::mod::event::maxrequestworkers: 1024
 
+foreman::registration_admission_max: 800
+
 candlepin::java_opts: "-Xms1024m -Xmx8192m"
 
 postgresql::server::config_entries:
