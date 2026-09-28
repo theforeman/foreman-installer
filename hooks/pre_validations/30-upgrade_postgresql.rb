@@ -1,3 +1,3 @@
 if local_postgresql? && os_needs_postgresql_upgrade?
-  check_postgresql_storage
+  check_postgresql_storage(16)
 end

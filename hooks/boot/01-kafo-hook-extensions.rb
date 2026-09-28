@@ -202,8 +202,12 @@ module HookContextExtension
     !['localhost', '127.0.0.1', `hostname`.strip].include?(hostname)
   end
 
-  def el8?
-    facts[:os][:release][:major] == '8' && facts[:os][:family] == 'RedHat'
+  def el9?
+    facts[:os][:release][:major] == '9' && facts[:os][:family] == 'RedHat'
+  end
+
+  def el10?
+    facts[:os][:release][:major] == '10' && facts[:os][:family] == 'RedHat'
   end
 
   def available_space(directory = nil)
