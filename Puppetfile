@@ -6,8 +6,8 @@ mod 'puppetlabs/apache',               '>= 8.3'
 # SCRAM password support
 mod 'puppetlabs/postgresql',           '>= 10.1'
 
-# Dnfmodule support for Redis 6+ support
-mod 'puppet/redis',                    '>= 8.5.0'
+# Redis DNF module support and Valkey on EL10
+mod 'puppet/redis',                    '>= 12.1.0'
 
 # Soft dependency of theforeman/puppet
 # https://github.com/theforeman/puppet-puppet/#git-repo-support
