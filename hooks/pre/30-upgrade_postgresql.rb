@@ -1,3 +1,7 @@
 if local_postgresql? && os_needs_postgresql_upgrade?
-  postgresql_upgrade(16)
+  if app_value(:noop)
+    logger.notice("Would upgrade PostgreSQL from #{current_version} to 16 (noop)")
+  else
+    postgresql_upgrade(16)
+  end
 end
