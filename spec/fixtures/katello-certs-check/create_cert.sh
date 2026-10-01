@@ -120,3 +120,39 @@ if [[ ! -f "$CERTS_DIR/$CERT_NAME.key" || ! -f "$CERTS_DIR/$CERT_NAME.crt" ]]; t
 else
   echo "Shortname server certificate exists. Skipping."
 fi
+
+CA_BUNDLE_BAG_ATTRIBUTES=ca-bundle-bag-attributes
+if [[ ! -f "$CERTS_DIR/$CA_BUNDLE_BAG_ATTRIBUTES.crt" ]]; then
+  echo "Generate CA bundle with PKCS#12 metadata between certificates"
+  sed -n '1,19p' $CERTS_DIR/$CA_BUNDLE.crt > $CERTS_DIR/$CA_BUNDLE_BAG_ATTRIBUTES.crt
+  cat >> $CERTS_DIR/$CA_BUNDLE_BAG_ATTRIBUTES.crt <<'EOF'
+Bag Attributes: <Empty Attributes>
+subject=DC=example, CN=Test CA
+issuer=CN=Test CA
+EOF
+  sed -n '20,$p' $CERTS_DIR/$CA_BUNDLE.crt >> $CERTS_DIR/$CA_BUNDLE_BAG_ATTRIBUTES.crt
+else
+  echo "CA bundle with PKCS#12 metadata exists. Skipping."
+fi
+
+CA_BUNDLE_COMMENT_LINES=ca-bundle-comment-lines
+if [[ ! -f "$CERTS_DIR/$CA_BUNDLE_COMMENT_LINES.crt" ]]; then
+  echo "Generate CA bundle with hash-prefixed comment line before first certificate"
+  cat > $CERTS_DIR/$CA_BUNDLE_COMMENT_LINES.crt <<'EOF'
+# RETRAITE AC Intermédiaire TLS
+EOF
+  cat $CERTS_DIR/$CA_BUNDLE.crt >> $CERTS_DIR/$CA_BUNDLE_COMMENT_LINES.crt
+else
+  echo "CA bundle with comment lines exists. Skipping."
+fi
+
+SERVER_CERT_COMMENT_LINES=foreman.example.com-comment-lines
+if [[ ! -f "$CERTS_DIR/$SERVER_CERT_COMMENT_LINES.crt" ]]; then
+  echo "Generate server certificate with hash-prefixed comment line before PEM block"
+  cat > $CERTS_DIR/$SERVER_CERT_COMMENT_LINES.crt <<'EOF'
+# RETRAITE AC Intermédiaire TLS
+EOF
+  cat $CERTS_DIR/foreman.example.com.crt >> $CERTS_DIR/$SERVER_CERT_COMMENT_LINES.crt
+else
+  echo "Server certificate with comment lines exists. Skipping."
+fi

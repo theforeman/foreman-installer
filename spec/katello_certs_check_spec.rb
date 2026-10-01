@@ -166,4 +166,31 @@ describe 'katello-certs-check' do
       expect(status.exitstatus).to eq 4
     end
   end
+
+  context 'with PKCS#12 metadata in CA bundle' do
+    let(:key) { File.join(certs_directory, 'foreman.example.com.key') }
+    let(:cert) { File.join(certs_directory, 'foreman.example.com.crt') }
+    let(:ca) { File.join(certs_directory, 'ca-bundle-bag-attributes.crt') }
+
+    it 'fails on non-PEM content' do
+      command_with_certs = "#{command} -b #{ca} -k #{key} -c #{cert}"
+      _stdout, stderr, status = Open3.capture3(command_with_certs)
+      expect(stderr).to include "The CA bundle '#{ca}' contains content outside PEM CERTIFICATE blocks. Only PEM CERTIFICATE blocks are allowed."
+      expect(status.exitstatus).to eq 12
+    end
+  end
+
+  context 'with comment lines in certificate files' do
+    let(:key) { File.join(certs_directory, 'foreman.example.com.key') }
+    let(:cert) { File.join(certs_directory, 'foreman.example.com-comment-lines.crt') }
+    let(:ca) { File.join(certs_directory, 'ca-bundle-comment-lines.crt') }
+
+    it 'fails on hash-prefixed label RETRAITE AC Intermédiaire TLS' do
+      command_with_certs = "#{command} -b #{ca} -k #{key} -c #{cert}"
+      _stdout, stderr, status = Open3.capture3(command_with_certs)
+      expect(stderr).to include "The certificate file '#{cert}' contains content outside PEM CERTIFICATE blocks. Only PEM CERTIFICATE blocks are allowed."
+      expect(stderr).to include "The CA bundle '#{ca}' contains content outside PEM CERTIFICATE blocks. Only PEM CERTIFICATE blocks are allowed."
+      expect(status.exitstatus).to eq 12
+    end
+  end
 end
