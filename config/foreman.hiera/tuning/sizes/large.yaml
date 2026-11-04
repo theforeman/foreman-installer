@@ -2,6 +2,8 @@
 apache::mod::event::serverlimit: 64
 apache::mod::event::maxrequestworkers: 1024
 
+foreman::registration_admission_max: 600
+
 postgresql::server::config_entries:
   max_connections: 1000
   shared_buffers: 8GB
