@@ -1,0 +1,6 @@
+---
+foreman::foreman_service_puma_workers: 2
+
+foreman_proxy_content::pulpcore_worker_count: 2
+pulpcore::content_service_worker_count: 2
+pulpcore::api_service_worker_count: 2
