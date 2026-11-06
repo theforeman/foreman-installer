@@ -1,4 +1,2 @@
 ---
-postgresql::globals::manage_dnf_module: false
-postgresql::globals::version: "16"
 redis::provider: valkey
