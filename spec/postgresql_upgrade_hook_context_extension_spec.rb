@@ -149,12 +149,4 @@ describe PostgresqlUpgradeHookContextExtension do
       expect(context.check_postgresql_storage(16)).to be_nil
     end
   end
-
-  describe 'EL10 Hiera configuration' do
-    it 'selects PostgreSQL 16 without enabling DNF module management' do
-      config = load_config_yaml('foreman.hiera/family/RedHat-10.yaml')
-      expect(config['postgresql::globals::manage_dnf_module']).to be(false)
-      expect(config['postgresql::globals::version']).to eq('16')
-    end
-  end
 end

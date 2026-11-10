@@ -3,8 +3,8 @@ forge 'https://forgeapi.puppet.com/'
 # HTTP/2 and SSL support for settings in Hiera
 mod 'puppetlabs/apache',               '>= 8.3'
 
-# SCRAM password support
-mod 'puppetlabs/postgresql',           '>= 10.1'
+# EL 10 support
+mod 'puppetlabs/postgresql',           '>= 10.6.2'
 
 # Redis DNF module support and Valkey on EL10
 mod 'puppet/redis',                    '>= 12.1.0'
